@@ -14,11 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-import os
-
 import numpy as np
-
-from sys import platform as _platform
 
 try:
 
@@ -28,7 +24,7 @@ except:
 
     raise Exception('The astropy module must be installed. Try pip install astropy')
 
-import hydroData as hd
+from bemio.data import bem as hd
 
 class AqwaOutput(object):
     '''

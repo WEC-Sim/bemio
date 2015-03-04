@@ -15,7 +15,7 @@ limitations under the License.
 """
 
 import numpy as np
-import hydroData as hd
+from bemio.data import bem as hd
 from os import system as _sys
 from sys import platform as _platform
 

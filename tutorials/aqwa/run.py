@@ -3,14 +3,14 @@ Created on Thu Jan 15 10:42:54 2015
 
 @author: mlawson
 """
-import aqwaio as aio
-import hydroData as hd
+from bemio.io import aqwa as aio
+from bemio.data import bem as hd
 import matplotlib.pyplot as plt
 plt.close('all')
 plt.interactive(True)
 
 # Load AQWA output data file
-aq = aio.AqwaOutput(outFile='./data/aqwa-example-data.lis')
+aq = aio.AqwaOutput(outFile='./data/aqwa_example_data.lis')
 
 # Plot diag components of added mass and damping
 componentsToPlot = [[0,0],[1,1],[2,2]]

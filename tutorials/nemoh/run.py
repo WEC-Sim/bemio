@@ -4,8 +4,8 @@ Created on Mon Nov 10 11:54:47 2014
 
 @author: mlawson
 """
-import nemohio as nio
-import meshio as mio
+from bemio.io import nemoh as nio
+from bemio.io import mesh as mio
 
 mesh = mio.readVtp('/Users/mlawson/Applications/nemoh/matlabRoutines/nonsymmetrical-osx/NonSymmetrical.vtp')
 nemoh = nio.Nemoh(simDir='/Users/mlawson/Applications/nemoh/matlabRoutines/nonsymmetrical-py')

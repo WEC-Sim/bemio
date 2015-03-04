@@ -6,14 +6,14 @@ Created on Mon Nov 17 23:51:21 2014
 This is an example of how to use the wamitio module
 """
 
-import wamitio as wio
-import hydroData as hd
+from bemio.io import wamit as wio
+from bemio.data import bem as hd
 import matplotlib.pyplot as plt
 plt.close('all')
 plt.interactive(True)
 
 # Load the data
-w = wio.WamitOutput(outFile='./oswec.out')
+w = wio.WamitOutput(outFile='./data/oswec.out')
 
 # Plot selected components of hydrodynamic coefficinets and excitation force
 # Note that python uses zero indexing
