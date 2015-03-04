@@ -10,7 +10,7 @@ plt.close('all')
 plt.interactive(True)
 
 # Load AQWA output data file
-aq = aio.AqwaOutput(outFile='./aqwa-example-data.lis')
+aq = aio.AqwaOutput(outFile='./data/aqwa-example-data.lis')
 
 # Plot diag components of added mass and damping
 componentsToPlot = [[0,0],[1,1],[2,2]]
