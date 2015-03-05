@@ -204,7 +204,7 @@ class WamitOutput(object):
         # Load data into the hydrodata strucuture          
         for i in xrange(nBodies):       
             self.data[i] = hd.HydrodynamicData() 
-            self.data[i].name = name[i]
+            self.data[i].name = name[i][0:-4]
             self.data[i].g = gravity
             self.data[i].waterDepth = waterDepth
             self.data[i].rho = self.density            
