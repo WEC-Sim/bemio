@@ -350,7 +350,7 @@ def writeHdf5(data,outFile):
             w.attrs['units'] = 'rad/s'                
             w.attrs['description'] = 'Wave frequencies'                
             
-            k = f.create_dataset('body' + str(key) + '/body/k',data=data[key].k)
+            k = f.create_dataset('body' + str(key) + '/hydro/k',data=data[key].k)
             k.attrs['units'] = ''
             k.attrs['description'] = 'Hydrostatic stiffness matrix'  
             
@@ -426,7 +426,7 @@ def writeHdf5(data,outFile):
             rho.attrs['units'] = 'kg/m^3'
             rho.attrs['description'] = 'Water density'
             
-            name = f.create_dataset('body' + str(key) + '/sim/name',data=data[key].name)
+            name = f.create_dataset('body' + str(key) + '/sim/body',data=data[key].name)
             name.attrs['description'] = 'Body name'
             
         print 'Wrote HDF5 data to ' + outFile
