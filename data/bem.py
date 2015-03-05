@@ -28,6 +28,8 @@ import matplotlib.pyplot as plt
 
 import pickle
 
+from scipy import interpolate.interp1d as interp1d
+
 
 class ViscousDamping(object):
     '''
@@ -93,14 +95,20 @@ class HydrodynamicExcitation(object):
 class IRF(object):
     '''
     Object that contains the IRF data
+
+    Variables:
+    dt -- timestep for the IRF calculation
+    t_end -- end time for the IRF calculation
+    t_series -- time series for the IRF calculation
+    L -- impulse response function
+    K -- time derivavitative of the impulse response function
     '''
 
-    def __init__(self,shape):
-        
-        self.dt = 0.1       # dt for IRF calculation
-        self.endT = 100        # end time for IRF calculation
-        self.tSeries = np.linspace(0,self.endT,np.ceil(self.endT/self.dt)) # IRF timeseries
-        self.irf = np.zeros( [shape[0], shape[1], np.size(self.tSeries)] )
+    def __init__(self,dt, t_end=100, dw=0.01):
+        self.t = None
+        self.w = None
+        self.L = None
+        self.K = None
 
 
 class HydrodynamicData(object):
@@ -150,15 +158,15 @@ class HydrodynamicData(object):
         self.waterDepth     = None                          
         self.bodyN          = None                      
         self.name           = None
-        self.irf            = None
 
         self.am             = HydrodynamicCoefficients()    
         self.rd             = HydrodynamicCoefficients()  
         self.ex             = HydrodynamicExcitation()   
         self.vDamping       = ViscousDamping()
+        self.irf            = IRF()
                      
     
-    def calcIRF(self):
+    def calcIRF(self, dt=0.01, t_end=100, dw=0.01):
         '''
         Calculate the IRF. See WAMITv7 manual section 13-8
 
@@ -170,18 +178,35 @@ class HydrodynamicData(object):
         This function populates the irf variable
         '''
 
-        rd = self.rd.all
-        w = self.w
-        shapeRd = np.shape(rd)
+        pass
+        # self.irf.t = np.linspace(0,t_end,np.ceil(t_end/dt))
+        # self.irf.w = np.linspece(0,self.w[-1],np.ceil(self.w[-1]/dw))
+        # self.irf.L = np.zeros(np.shape(self.am.inf)[0],np.shape(self.am.inf)[1],np.size(self.t))
+        # self.irf.K = np.zeros(np.shape(self.am.inf)[0],np.shape(self.am.inf)[1],np.size(self.t))
 
-        self.irf = IRF(shapeRd)
+        # rd_interp = zeros(np.shape(self.rd.all[0],self.rd.all[1],np.size(self.irf.w))
 
-        for tInd, t in enumerate(self.irf.tSeries):
-            for i in xrange(shapeRd[0]):
-                for j in xrange(shapeRd[1]):
-                    tmp = rd[i,j,:]*np.cos(w*t)*2.*np.pi
-                    self.irf.irf[i,j,tInd] = np.trapz(tmp,w)
 
+        # shapeRd = np.shape(rd)
+
+        # # Interpolate the radiation damping matrix
+        # for i in xrange(shape[0]):
+        #     for j in xrange(shape[0]):
+        #         f = interp1d(self.w,self.rd.all(i,j,:))
+        #         rd_interp(i,j,:) = f(self.irf.w_series)
+
+        # # Calculate the IRF
+        # for tInd, t in enumerate(self.irf.tSeries):
+        #     for i in xrange(shapeRd[0]):
+        #         for j in xrange(shapeRd[1]):
+
+        #             # Radiation damping calculation method
+        #             tmp = 2./np.pi*rd[i,j,:]*np.sin(w*t)
+        #             self.irf.L[i,j,tInd] = np.trapz(y=tmp,x=w)
+        #             tmp = 2./np.pi*rd[i,j,:]*np.cos(w*t)
+        #             self.irf.K[i,j,tInd] = np.trapz(y=tmp,x=w)
+
+    
     def plotIRF(self,components):
         '''
         Function to plot the IRF
@@ -205,13 +230,16 @@ class HydrodynamicData(object):
             x = comp[0]
             y = comp[1]
             t = self.irf.tSeries
-            irf = self.irf.irf[x,y,:]
+            irfRd = self.irf.irfRd[x,y,:]
+            irfAm = self.irf.irfAm[x,y,:]
 
             ax[i].set_ylabel('comp ' + str(x) + ',' + str(y))
 
-            ax[i].plot(t,irf)
+            ax[i].plot(t,irfRd,label='Radiation damping method')
+            ax[i].plot(t,irfAm,label='Added mass method')
                   
         ax[0].set_title('IRF for ' + str(self.name))
+        ax[0].legend()
         ax[i].set_xlabel('Wave frequency (rad/s)')
         
 
@@ -336,10 +364,7 @@ def writeHdf5(data,outFile):
     except:
 
         raise Exception('The h5py module must be installed to used the writeHdf5 functionality.')
-        
 
-    keyList = []
-    dupCount = 2 # duplicate name counting variable
 
     with h5py.File(outFile, "w") as f:       
 

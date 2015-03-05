@@ -108,7 +108,7 @@ class WamitOutput(object):
                     if 'Volumes (VOLX,VOLY,VOLZ):' in wamitOut[i+j]:
 
                         temp = wamitOut[i+j].split()
-                        volDisp[bodCount] = np.array([temp[-3],temp[-2],temp[-1]]).astype(float)
+                        volDisp[bodCount] = float(temp[-1])
                         
                     if 'Center of Buoyancy (Xb,Yb,Zb):' in wamitOut[i+j]:
 
@@ -210,17 +210,17 @@ class WamitOutput(object):
             self.data[i].rho = self.density            
             self.data[i].nBodies = nBodies
             self.data[i].bodyN = i
-            self.data[i].cg = cg[i]
+            self.data[i].cg = pos[i]
             self.data[i].cb = cb[i]
             self.data[i].k = k[i]*self.data[i].rho*self.data[i].g
             self.data[i].pos = pos[i]
             self.data[i].volDisp = volDisp[i]
             
-            self.data[i].am.infFreq = amInf[6*i:6+6*i,:]
-            self.data[i].am.infFreq = self.data[i].am.infFreq*self.density
+            self.data[i].am.inf = amInf[6*i:6+6*i,:]
+            self.data[i].am.inf = self.data[i].am.inf*self.density
 
-            self.data[i].am.zeroFreq = amZero[6*i:6+6*i,:]
-            self.data[i].am.zeroFreq = self.data[i].am.zeroFreq*self.density
+            self.data[i].am.zero = amZero[6*i:6+6*i,:]
+            self.data[i].am.zero = self.data[i].am.zero*self.density
             
             self.data[i].T = T
             self.data[i].w = 2.0*np.pi/self.data[i].T
