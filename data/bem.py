@@ -112,7 +112,8 @@ class HydrodynamicData(object):
     g -- gravity
     files -- Python dictionary of files associated with the
     simulation
-    nBodies -- Number of bodies in simulation
+    nBodies -- Total number of bodies in simulation
+    bodyN -- Body number of the rigid body in the simulation
     cg -- Center of gravity
     cb -- Center of buoyancy
     volDisp -- Volume displacement
@@ -336,55 +337,59 @@ def writeHdf5(data,outFile):
 
         raise Exception('The h5py module must be installed to used the writeHdf5 functionality.')
         
-        
-        
+
+    keyList = []
+    dupCount = 2 # duplicate name counting variable
+
     with h5py.File(outFile, "w") as f:       
 
         for key, key in enumerate(data.keys()):
 
-            T = f.create_dataset('body' + str(key) + '/sim/T',data=data[key].T)
-            T.attrs['units'] = 's'
-            T.attrs['description'] = 'Wave periods'
-            
-            w = f.create_dataset('body' + str(key) + '/sim/w',data=data[key].w)
-            w.attrs['units'] = 'rad/s'                
-            w.attrs['description'] = 'Wave frequencies'                
-            
-            k = f.create_dataset('body' + str(key) + '/hydro/k',data=data[key].k)
-            k.attrs['units'] = ''
-            k.attrs['description'] = 'Hydrostatic stiffness matrix'  
-            
-            
-            cg = f.create_dataset('body' + str(key) + '/body/cg',data=data[key].cg)
+            # Body properities
+            cg = f.create_dataset('body' + str(key) + '/properties/cg',data=data[key].cg)
             cg.attrs['units'] = 'm'
             cg.attrs['description'] = 'Center of gravity'  
 
-            cb = f.create_dataset('body' + str(key) + '/body/cb',data=data[key].cb)
+            cb = f.create_dataset('body' + str(key) + '/properties/cb',data=data[key].cb)
             cb.attrs['units'] = 'm'
-            cb.attrs['description'] = 'Center of buoyancy'  
+            cb.attrs['description'] = 'Center of buoyancy' 
+
+            vol = f.create_dataset('body' + str(key) + '/properties/dispVol',data=data[key].volDisp)
+            vol.attrs['units'] = 'm^3'
+            vol.attrs['description'] = 'Displaced volume'
+
+            name = f.create_dataset('body' + str(key) + '/properties/name',data=data[key].name)
+            name.attrs['description'] = 'Name of rigid body'
+
+            num = f.create_dataset('body' + str(key) + '/properties/bodyNumber',data=data[key].bodyN)
+            num.attrs['description'] = 'Number of rigid body from the BEM simulation'
             
-            exMag = f.create_dataset('body' + str(key) + '/hydro/ex/mag',data=data[key].ex.mag)
+            k = f.create_dataset('body' + str(key) + '/hydro_coeffs/k',data=data[key].k)
+            k.attrs['units'] = ''
+            k.attrs['description'] = 'Hydrostatic stiffness matrix'  
+
+            exMag = f.create_dataset('body' + str(key) + '/hydro_coeffs/ex/mag',data=data[key].ex.mag)
             exMag.attrs['units'] = ''
             exMag.attrs['description'] = 'Magnitude of excitation force'  
             
-            exPhase = f.create_dataset('body' + str(key) + '/hydro/ex/phase',data=data[key].ex.phase)
+            exPhase = f.create_dataset('body' + str(key) + '/hydro_coeffs/ex/phase',data=data[key].ex.phase)
             exPhase.attrs['units'] = 'rad'
             exPhase.attrs['description'] = 'Phase angle of exctiation force'  
             
-            exRe = f.create_dataset('body' + str(key) + '/hydro/ex/re',data=data[key].ex.re)
+            exRe = f.create_dataset('body' + str(key) + '/hydro_coeffs/ex/re',data=data[key].ex.re)
             exRe.attrs['units'] = ''
             exRe.attrs['description'] = 'Real component of excitation force'  
 
-            exIm = f.create_dataset('body' + str(key) + '/hydro/ex/im',data=data[key].ex.im)
+            exIm = f.create_dataset('body' + str(key) + '/hydro_coeffs/ex/im',data=data[key].ex.im)
             exIm.attrs['units'] = ''
             exIm.attrs['description'] = 'Imaginary component of excitation force'  
 
             # Write added mass information                
-            amInf = f.create_dataset('body' + str(key) + '/hydro/am/inf',data=data[key].am.infFreq)
+            amInf = f.create_dataset('body' + str(key) + '/hydro_coeffs/am/inf',data=data[key].am.infFreq)
             amInf.attrs['units for translational degrees of freedom'] = 'kg'
             amInf.attrs['description'] = 'Infinite frequency added mass'
             
-            am = f.create_dataset('body' + str(key) + '/hydro/am/all',data=data[key].am.all)
+            am = f.create_dataset('body' + str(key) + '/hydro_coeffs/am/all',data=data[key].am.all)
             am.attrs['units for translational degrees of freedom'] = 'kg'                
             am.attrs['units for rotational degrees of freedom'] = 'kg-m^2'
             am.attrs['description'] = 'Added mass. Frequency is the thrid dimension of the data structure.'
@@ -393,70 +398,44 @@ def writeHdf5(data,outFile):
             
                 for n in xrange(np.shape(data[key].am.all)[1]):
 
-                    amComp = f.create_dataset('body' + str(key) + '/hydro/am/comps/' + str(m) + ',' + str(n),data=data[key].am.all[m,n,:])
+                    amComp = f.create_dataset('body' + str(key) + '/hydro_coeffs/am/comps/comp_' + str(m) + '_' + str(n),data=data[key].am.all[m,n,:])
                     amComp.attrs['units'] = ''
                     amComp.attrs['description'] = 'Added mass components as a function of frequency'
 
-                    radComp = f.create_dataset('body' + str(key) + '/hydro/rd/comps/' + str(m) + ',' + str(n),data=data[key].rd.all[m,n,:])
+                    radComp = f.create_dataset('body' + str(key) + '/hydro_coeffs/rd/comps/' + str(m) + '_' + str(n),data=data[key].rd.all[m,n,:])
                     radComp.attrs['units'] = ''
                     radComp.attrs['description'] = 'Radiation damping components as a function of frequency'
             
-            rad = f.create_dataset('body' + str(key) + '/hydro/rd/all',data=data[key].rd.all)
+            rad = f.create_dataset('body' + str(key) + '/hydro_coeffs/rd/all',data=data[key].rd.all)
             rad.attrs['units'] = ''
             rad.attrs['description'] = 'Radiation damping. Frequency is the thrid dimension of the data structure.'
-            
-            wDepth = f.create_dataset('body' + str(key) + '/sim/wDepth',data=data[key].waterDepth)
-            wDepth.attrs['units'] = 'm'
-            wDepth.attrs['description'] = 'Water depth'
 
-            waveHead = f.create_dataset('body' + str(key) + '/sim/wDir',data=data[key].waveDir)
-            waveHead.attrs['units'] = 'rad'
-            waveHead.attrs['description'] = 'Wave direction'
-            
-            vol = f.create_dataset('body' + str(key) + '/body/dispVol',data=data[key].volDisp)
-            vol.attrs['units'] = 'm^3'
-            vol.attrs['description'] = 'Displaced volume'
+        # Simulation parameters
+        g = f.create_dataset('simulation_parameters/g',data=data[key].g)
+        g.attrs['units'] = 'm/s^2'
+        g.attrs['description'] = 'Gravitational acceleration'
+        
+        rho = f.create_dataset('simulation_parameters/rho',data=data[key].rho)
+        rho.attrs['units'] = 'kg/m^3'
+        rho.attrs['description'] = 'Water density'
 
-            
-            g = f.create_dataset('body' + str(key) + '/sim/g',data=data[key].g)
-            g.attrs['units'] = 'm/s^2'
-            g.attrs['description'] = 'Gravitational acceleration'
-            
-            rho = f.create_dataset('body' + str(key) + '/sim/rho',data=data[key].rho)
-            rho.attrs['units'] = 'kg/m^3'
-            rho.attrs['description'] = 'Water density'
-            
-            name = f.create_dataset('body' + str(key) + '/sim/body',data=data[key].name)
-            name.attrs['description'] = 'Body name'
+        T = f.create_dataset('simulation_parameters/T',data=data[key].T)
+        T.attrs['units'] = 's'
+        T.attrs['description'] = 'Wave periods'
+        
+        w = f.create_dataset('simulation_parameters/w',data=data[key].w)
+        w.attrs['units'] = 'rad/s'                
+        w.attrs['description'] = 'Wave frequencies'
+
+        wDepth = f.create_dataset('simulation_parameters/wDepth',data=data[key].waterDepth)
+        wDepth.attrs['units'] = 'm'
+        wDepth.attrs['description'] = 'Water depth'
+
+        waveHead = f.create_dataset('simulation_parameters/wDir',data=data[key].waveDir)
+        waveHead.attrs['units'] = 'rad'
+        waveHead.attrs['description'] = 'Wave direction'
             
         print 'Wrote HDF5 data to ' + outFile
-
-
-def writeWecSimHydroData(data,outFile):
-
-    for i in range(np.size(data.keys())):
-
-        import scipy.io as sio
-        curData = data[i]
-        out = {}
-        out['waterDepth'] = curData.waterDepth
-        out['waveHeading'] = curData.waveDir
-        out['vol'] = curData.volDisp
-        out['cg'] = curData.cg
-        out['period'] = curData.T[::-1]
-        out['linearHyroRestCoef'] = curData.k
-        out['fAddedMassZero'] = curData.am.infFreq
-        out['fAddedMass'] = curData.am.all[:,:,::-1]
-        out['fDamping'] = curData.rd.all[:,:,::-1]
-        out['fExtRe'] = curData.ex.re[::-1,:].transpose()
-        out['fExtIm'] = curData.ex.im[::-1,:].transpose()
-        out['fExtMag'] = curData.ex.mag[::-1,:].transpose()
-        out['fExtPhase'] = curData.ex.phase[::-1,:].transpose()
-            
-        outFileName = outFile[0:-4] + '-body' + str(i) +'.mat'
-        sio.savemat(outFileName,out)
-
-        print 'Wrote MATLAB output for WEC-Sim to ' + outFileName
 
 
 def generateFileNames(outFile):
@@ -472,11 +451,9 @@ def generateFileNames(outFile):
 
     (path,file) = os.path.split(outFile)
  
-
     files = {}
     files['out'] = os.path.join(path,file)
     files['hdf5'] = os.path.join(path,file[0:-4] + '.h5')
     files['pickle'] = os.path.join(path,file[0:-4] + '.p')
-    files['wecSim'] = os.path.join(path,file[0:-4] + '.mat')
 
     return files
