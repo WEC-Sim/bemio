@@ -41,4 +41,6 @@ nosetests.xml
 # Other stuff
 *.ps
 .idea
+*.h5
+*.p
 *#

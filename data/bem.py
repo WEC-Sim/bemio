@@ -26,9 +26,20 @@ import os
 
 import matplotlib.pyplot as plt
 
-from sys import platform as _platform
-
 import pickle
+
+class ViscousDamping(object):
+    '''
+    This data contains data that defines the viscous damping 
+    properities of rigid bodies
+
+    Variables:
+    cd -- drag coefficients for the 6 degrees of freedom
+    a -- characteristic area for the 6 degrees of freedom
+    '''
+    def __init__(self):
+        self.cd = np.zeros(6)
+        self.a  = np.zeros(6)
 
 class HydrodynamicCoefficients(object):
     '''
@@ -71,7 +82,21 @@ class HydrodynamicExcitation(object):
         self.im             = np.array([])
         self.mag            = np.array([])
         self.phase          = np.array([])
+
+
+class IRF(object):
+    '''
+    Object that contains the IRF data
+    '''
+
+    def __init__(self,shape):
         
+        self.dt = 0.1       # dt for IRF calculation
+        self.endT = 100        # end time for IRF calculation
+        self.tSeries = np.linspace(0,self.endT,np.ceil(self.endT/self.dt)) # IRF timeseries
+        self.irf = np.zeros( [shape[0], shape[1], np.size(self.tSeries)] )
+
+
 class HydrodynamicData(object):
     ''''
     Sturcuture for storing data from WAMIT, AQWA and Nemoh.
@@ -101,25 +126,88 @@ class HydrodynamicData(object):
 
     def __init__(self):
         self.rho            = 1000.
-        self.g              = 9.81      
+        self.g              = 9.81
+        self.waveDir        = 0.
+        self.nBodies        = 0     
+                          
         self.files          = {}
-        self.nBodies        = 0                             
-        self.bodyN          = None
         self.cg             = {}                            
         self.cb             = {}                            
         self.volDisp        = {}                            
         self.T              = {}                            
         self.w              = {}                            
-        self.am             = HydrodynamicCoefficients()    
-        self.rd             = HydrodynamicCoefficients()    
         self.wpArea         = {}                            
         self.buoyForce      = {}                            
         self.k              = {}                            
-        self.ex             = HydrodynamicExcitation()      
+           
         self.waterDepth     = None                          
-        self.waveDir        = 0                             
-        self.name           = None                          
+        self.bodyN          = None                      
+        self.name           = None
+        self.irf            = None
+
+        self.am             = HydrodynamicCoefficients()    
+        self.rd             = HydrodynamicCoefficients()  
+        self.ex             = HydrodynamicExcitation()   
+        self.vDamping       = ViscousDamping()
+                     
+    
+    def calcIRF(self):
+        '''
+        Calculate the IRF. See WAMITv7 manual section 13-8
+
+        Inputs:
+        rd - radiation damping
+        w - list of frequencies
+
+        Outputs:
+        This function populates the irf variable
+        '''
+
+        rd = self.rd.all
+        w = self.w
+        shapeRd = np.shape(rd)
+
+        self.irf = IRF(shapeRd)
+
+        for tInd, t in enumerate(self.irf.tSeries):
+            for i in xrange(shapeRd[0]):
+                for j in xrange(shapeRd[1]):
+                    tmp = rd[i,j,:]*np.cos(w*t)
+                    self.irf.irf[i,j,tInd] = np.trapz(tmp,w)
+
+    def plotIRF(self,components):
+        '''
+        Function to plot the IRF
+
+        Inputs:
+        components -- A list of components to plot. E.g [[0,0],[1,1],[2,2]]
         
+        Outputs:
+        None -- A plot is displayed. The plt.show() command may need to be used
+        depending on your python env settings
+        '''  
+        
+        f, ax = plt.subplots(np.shape(components)[0], sharex=True, figsize=(8,10))
+        
+        # Frame 0 - added mass
+        
+        
+        # Plot added mass and damping
+        for i,comp in enumerate(components):
+            
+            x = comp[0]
+            y = comp[1]
+            t = self.irf.tSeries
+            irf = self.irf.irf[x,y,:]
+
+            ax[i].set_ylabel('comp ' + str(x) + ',' + str(y))
+
+            ax[i].plot(t,irf)
+                  
+        ax[0].set_title('IRF for ' + str(self.name))
+        ax[i].set_xlabel('Wave frequency (rad/s)')
+        
+
     def plotAddedMassAndDamping(self,components):
         '''
         Function to plot the added mass and raditation damping coefficinets
@@ -136,7 +224,7 @@ class HydrodynamicData(object):
         
         # Frame 0 - added mass
         ax[0].plot()
-        ax[0].set_title('Hydrodynamic coefficients for body ' + str(self.name))    
+        ax[0].set_title('Hydrodynamic coefficients for ' + str(self.name))    
         ax[0].set_ylabel('Added mass')
         
         # Frame 1 - radiation damping
@@ -176,7 +264,7 @@ class HydrodynamicData(object):
         # Frame 0 - magnitude
         ax[0].plot()
         ax[0].set_ylabel('Ex force - mag')
-        ax[0].set_title('Excitation force for body ' + str(self.name))    
+        ax[0].set_title('Excitation force for ' + str(self.name))    
 
         # Frame 1 - phase
         ax[1].plot()        
@@ -206,6 +294,7 @@ class HydrodynamicData(object):
             ax[3].plot(w,im,'x-',label='Component (' + str(m) + ')')
 
             ax[0].legend(loc=0)
+
 
 def writePickle(data,outFile):
     '''
