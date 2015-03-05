@@ -28,7 +28,7 @@ import matplotlib.pyplot as plt
 
 import pickle
 
-from scipy import interpolate.interp1d as interp1d
+from scipy import interpolate
 
 
 class ViscousDamping(object):
@@ -104,7 +104,7 @@ class IRF(object):
     K -- time derivavitative of the impulse response function
     '''
 
-    def __init__(self,dt, t_end=100, dw=0.01):
+    def __init__(self):
         self.t = None
         self.w = None
         self.L = None
@@ -178,35 +178,39 @@ class HydrodynamicData(object):
         This function populates the irf variable
         '''
 
-        pass
-        # self.irf.t = np.linspace(0,t_end,np.ceil(t_end/dt))
-        # self.irf.w = np.linspece(0,self.w[-1],np.ceil(self.w[-1]/dw))
-        # self.irf.L = np.zeros(np.shape(self.am.inf)[0],np.shape(self.am.inf)[1],np.size(self.t))
-        # self.irf.K = np.zeros(np.shape(self.am.inf)[0],np.shape(self.am.inf)[1],np.size(self.t))
+        self.irf.t = np.linspace(0,t_end,np.ceil(t_end/dt))
+        self.irf.w = np.linspace(0,self.w[-1],np.ceil(self.w[-1]/dw))
 
-        # rd_interp = zeros(np.shape(self.rd.all[0],self.rd.all[1],np.size(self.irf.w))
+        self.irf.L = np.zeros( [ np.shape(self.am.inf)[0],np.shape(self.am.inf)[1],np.size(self.irf.t) ] )
+        self.irf.K = np.zeros( [ np.shape(self.am.inf)[0],np.shape(self.am.inf)[1],np.size(self.irf.t) ] )
+
+        rd_interp = np.zeros( [ np.shape(self.rd.all)[0], np.shape(self.rd.all)[1], np.size(self.irf.w) ])
+
+        shape_rd = np.shape(self.rd.all)
+
+        # Interpolate the radiation damping matrix
+        for i in xrange(shape_rd[0]):
+
+            for j in xrange(shape_rd[0]):
+
+                f = interpolate.interp1d(self.w, self.rd.all[i,j,:])
+                rd_interp[i,j,:] = f(self.irf.w)
 
 
-        # shapeRd = np.shape(rd)
+        # Calculate the IRF
+        for t_ind, t in enumerate(self.irf.t):
 
-        # # Interpolate the radiation damping matrix
-        # for i in xrange(shape[0]):
-        #     for j in xrange(shape[0]):
-        #         f = interp1d(self.w,self.rd.all(i,j,:))
-        #         rd_interp(i,j,:) = f(self.irf.w_series)
+            for i in xrange(shape_rd[0]):
 
-        # # Calculate the IRF
-        # for tInd, t in enumerate(self.irf.tSeries):
-        #     for i in xrange(shapeRd[0]):
-        #         for j in xrange(shapeRd[1]):
+                for j in xrange(shape_rd[1]):
 
-        #             # Radiation damping calculation method
-        #             tmp = 2./np.pi*rd[i,j,:]*np.sin(w*t)
-        #             self.irf.L[i,j,tInd] = np.trapz(y=tmp,x=w)
-        #             tmp = 2./np.pi*rd[i,j,:]*np.cos(w*t)
-        #             self.irf.K[i,j,tInd] = np.trapz(y=tmp,x=w)
+                    # Radiation damping calculation method
+                    tmpL = 2./np.pi*rd_interp[i,j,:]*np.sin(self.irf.w*self.irf.t)
+                    tmpK = 2./np.pi*rd_interp[i,j,:]*np.cos(self.irf.w*self.irf.t)
+                    self.irf.K[i,j,t_ind] = np.trapz(y=tmpK,x=self.irf.w)
+                    self.irf.L[i,j,t_ind] = np.trapz(y=tmpL,x=self.irf.w)
 
-    
+
     def plotIRF(self,components):
         '''
         Function to plot the IRF
@@ -220,10 +224,7 @@ class HydrodynamicData(object):
         '''  
         
         f, ax = plt.subplots(np.shape(components)[0], sharex=True, figsize=(8,10))
-        
-        # Frame 0 - added mass
-        
-        
+                
         # Plot added mass and damping
         for i,comp in enumerate(components):
             
