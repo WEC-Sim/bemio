@@ -98,12 +98,15 @@ class WamitOutput(object):
             # Read the body positions
             if "Total panels:" in line:
 
-                for j in xrange(20): # look for position within the next 20 lines - will only work for wamit files of about 5 bodies
+                for j in xrange(100): # look for position within the next 20 lines - will only work for wamit files of about 5 bodies
 
                     if 'XBODY =' in wamitOut[i+j]:
+                        '''
+                        Note that this is the XBOD YBOD ZBOD defined in the wamit .out file, not the cg as defined in the wamit file
+                        '''
 
                         temp = wamitOut[i+j].split()
-                        pos[bodCount] = np.array([temp[2],temp[5],temp[8]]).astype(float)
+                        cg[bodCount] = np.array([temp[2],temp[5],temp[8]]).astype(float)
                         
                     if 'Volumes (VOLX,VOLY,VOLZ):' in wamitOut[i+j]:
 
@@ -133,12 +136,6 @@ class WamitOutput(object):
                         temp[4,5] = np.float(temp2[2])
                         
                         k[bodCount] = temp
-                        
-                    if 'Center of Gravity  (Xg,Yg,Zg):' in wamitOut[i+j]:
-                            
-                        temp = wamitOut[i+j].split()
-                        cg[bodCount] = np.array([temp[-3],temp[-2],temp[-1]]).astype(float)                                                
-                        del temp
                         
                         
                 bodCount += 1      
@@ -210,7 +207,7 @@ class WamitOutput(object):
             self.data[i].rho = self.density            
             self.data[i].nBodies = nBodies
             self.data[i].bodyN = i
-            self.data[i].cg = pos[i]
+            self.data[i].cg = cg[i] 
             self.data[i].cb = cb[i]
             self.data[i].k = k[i]*self.data[i].rho*self.data[i].g
             self.data[i].pos = pos[i]
