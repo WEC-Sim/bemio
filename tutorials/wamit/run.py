@@ -15,8 +15,9 @@ plt.interactive(True)
 # Load the data
 w = wio.WamitOutput(outFile='./data/oswec.out')
 
+irfComps = [[0,0],[1,1]]
 w.data[0].calcIRF()
-w.data[0].plotIRF([[0,0],[1,1]])
+w.data[0].plotIRF(irfComps)
 
 # Plot selected components of hydrodynamic coefficinets and excitation force
 # Note that python uses zero indexing

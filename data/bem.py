@@ -28,6 +28,7 @@ import matplotlib.pyplot as plt
 
 import pickle
 
+
 class ViscousDamping(object):
     '''
     This data contains data that defines the viscous damping 
@@ -38,8 +39,10 @@ class ViscousDamping(object):
     a -- characteristic area for the 6 degrees of freedom
     '''
     def __init__(self):
+
         self.cd = np.zeros(6)
         self.a  = np.zeros(6)
+
 
 class HydrodynamicCoefficients(object):
     '''
@@ -55,10 +58,12 @@ class HydrodynamicCoefficients(object):
     zero -- Zero frequency added mass. 6 x (6 OR 6*nbodies) np.array()
     '''
     def __init__(self):
+
         self.all            = np.array([])
         self.inf            = np.array([])
         self.zero           = np.array([])
     
+
 class HydrodynamicExcitation(object):
     '''
     Data class that contains hydrodynamic excitation coefficinets.
@@ -78,6 +83,7 @@ class HydrodynamicExcitation(object):
 
     '''
     def __init__(self):
+
         self.re             = np.array([])
         self.im             = np.array([])
         self.mag            = np.array([])
@@ -172,7 +178,7 @@ class HydrodynamicData(object):
         for tInd, t in enumerate(self.irf.tSeries):
             for i in xrange(shapeRd[0]):
                 for j in xrange(shapeRd[1]):
-                    tmp = rd[i,j,:]*np.cos(w*t)
+                    tmp = rd[i,j,:]*np.cos(w*t)*2.*np.pi
                     self.irf.irf[i,j,tInd] = np.trapz(tmp,w)
 
     def plotIRF(self,components):
@@ -311,6 +317,7 @@ def writePickle(data,outFile):
     
     print 'Wrote pickle data to ' + outFile
 
+
 def writeHdf5(data,outFile):
     '''
     Writes hydrodynamic data to a HDF5 file structure.
@@ -424,6 +431,7 @@ def writeHdf5(data,outFile):
             
         print 'Wrote HDF5 data to ' + outFile
 
+
 def writeWecSimHydroData(data,outFile):
 
     for i in range(np.size(data.keys())):
@@ -449,6 +457,7 @@ def writeWecSimHydroData(data,outFile):
         sio.savemat(outFileName,out)
 
         print 'Wrote MATLAB output for WEC-Sim to ' + outFileName
+
 
 def generateFileNames(outFile):
     '''
