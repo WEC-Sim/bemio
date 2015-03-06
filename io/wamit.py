@@ -210,7 +210,6 @@ class WamitOutput(object):
             self.data[i].cg = cg[i] 
             self.data[i].cb = cb[i]
             self.data[i].k = k[i]*self.data[i].rho*self.data[i].g
-            self.data[i].pos = pos[i]
             self.data[i].volDisp = volDisp[i]
             
             self.data[i].am.inf = amInf[6*i:6+6*i,:]

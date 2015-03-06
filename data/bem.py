@@ -179,7 +179,7 @@ class HydrodynamicData(object):
         '''
 
         self.irf.t = np.linspace(0,t_end,np.ceil(t_end/dt))
-        self.irf.w = np.linspace(0,self.w[-1],np.ceil(self.w[-1]/dw))
+        self.irf.w = np.linspace(self.w[0],self.w[-1],np.ceil(self.w[-1]/dw))
 
         self.irf.L = np.zeros( [ np.shape(self.am.inf)[0],np.shape(self.am.inf)[1],np.size(self.irf.t) ] )
         self.irf.K = np.zeros( [ np.shape(self.am.inf)[0],np.shape(self.am.inf)[1],np.size(self.irf.t) ] )
@@ -193,7 +193,7 @@ class HydrodynamicData(object):
 
             for j in xrange(shape_rd[0]):
 
-                f = interpolate.interp1d(self.w, self.rd.all[i,j,:])
+                f = interpolate.interp1d(x=self.w, y=self.rd.all[i,j,:])
                 rd_interp[i,j,:] = f(self.irf.w)
 
 
@@ -205,8 +205,8 @@ class HydrodynamicData(object):
                 for j in xrange(shape_rd[1]):
 
                     # Radiation damping calculation method
-                    tmpL = 2./np.pi*rd_interp[i,j,:]*np.sin(self.irf.w*self.irf.t)
-                    tmpK = 2./np.pi*rd_interp[i,j,:]*np.cos(self.irf.w*self.irf.t)
+                    tmpL = 2./np.pi*rd_interp[i,j,:]*np.sin(self.irf.w*t)
+                    tmpK = 2./np.pi*rd_interp[i,j,:]*np.cos(self.irf.w*t)
                     self.irf.K[i,j,t_ind] = np.trapz(y=tmpK,x=self.irf.w)
                     self.irf.L[i,j,t_ind] = np.trapz(y=tmpL,x=self.irf.w)
 
