@@ -59,7 +59,7 @@ class WamitOutput(object):
         name = {}    
         volDisp = {}
         k = {}
-        pos = {}
+
         
         for i, line in enumerate(wamitOut):
 
@@ -98,7 +98,7 @@ class WamitOutput(object):
             # Read the body positions
             if "Total panels:" in line:
 
-                for j in xrange(100): # look for position within the next 20 lines - will only work for wamit files of about 5 bodies
+                for j in xrange(20): # look for position within the next 20 lines - will only work for wamit files of about 5 bodies
 
                     if 'XBODY =' in wamitOut[i+j]:
                         '''

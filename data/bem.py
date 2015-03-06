@@ -203,7 +203,7 @@ class HydrodynamicData(object):
             for i in xrange(shape_rd[0]):
 
                 for j in xrange(shape_rd[1]):
-
+                    print t
                     # Radiation damping calculation method
                     tmpL = 2./np.pi*rd_interp[i,j,:]*np.sin(self.irf.w*t)
                     tmpK = 2./np.pi*rd_interp[i,j,:]*np.cos(self.irf.w*t)
@@ -231,13 +231,13 @@ class HydrodynamicData(object):
             x = comp[0]
             y = comp[1]
             t = self.irf.tSeries
-            irfRd = self.irf.irfRd[x,y,:]
-            irfAm = self.irf.irfAm[x,y,:]
+            L = self.irf.L[x,y,:]
+            K = self.irf.K[x,y,:]
 
             ax[i].set_ylabel('comp ' + str(x) + ',' + str(y))
 
-            ax[i].plot(t,irfRd,label='Radiation damping method')
-            ax[i].plot(t,irfAm,label='Added mass method')
+            ax[i].plot(t,L,label='L')
+            ax[i].plot(t,K,label='K ddt(L)')
                   
         ax[0].set_title('IRF for ' + str(self.name))
         ax[0].legend()
@@ -411,7 +411,7 @@ def writeHdf5(data,outFile):
             exIm.attrs['description'] = 'Imaginary component of excitation force'  
 
             # Write added mass information                
-            amInf = f.create_dataset('body' + str(key) + '/hydro_coeffs/am/inf',data=data[key].am.infFreq)
+            amInf = f.create_dataset('body' + str(key) + '/hydro_coeffs/am/inf',data=data[key].am.inf)
             amInf.attrs['units for translational degrees of freedom'] = 'kg'
             amInf.attrs['description'] = 'Infinite frequency added mass'
             
