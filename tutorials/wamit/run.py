@@ -13,20 +13,14 @@ plt.close('all')
 plt.interactive(True)
 
 # Load the data
-w = wio.WamitOutput(outFile='./data/oswec.out')
+w = wio.WamitOutput(outFile='./data/wec3.out')
 
-irfComps = [[0,0],[1,1]]
-w.data[0].calcIRF()
-w.data[0].plotIRF(irfComps)
+# Calculate IRF and plot
+for i in xrange(3):
+	w.data[i].calcIRF(t_end=100., dt = 0.1, dw=0.05)
+	w.data[i].plotIRF([[0,0],[2,2]]	)
+	w.data[i].plotAddedMassAndDamping([[0,0],[2,2]])
 
-# Plot selected components of hydrodynamic coefficinets and excitation force
-# Note that python uses zero indexing
-comps = [[0,0],[1,1],[2,2]]
-w.data[0].plotAddedMassAndDamping(comps)
-w.data[1].plotAddedMassAndDamping(comps)
-w.data[2].plotAddedMassAndDamping(comps)
-w.data[0].plotExcitation([0])
-
-# Save the data in HDF5 format
+# Save the data in HDF5 and pickle format
 hd.writeHdf5(w.data,w.files['hdf5'])
 hd.writePickle(w.data,w.files['pickle'])

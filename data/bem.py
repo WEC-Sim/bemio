@@ -30,6 +30,8 @@ import pickle
 
 from scipy import interpolate
 
+from progressbar import ProgressBar, ETA, Bar, ReverseBar, Percentage
+
 
 class ViscousDamping(object):
     '''
@@ -198,17 +200,21 @@ class HydrodynamicData(object):
 
 
         # Calculate the IRF
+        pbar = ProgressBar(widgets=['Calculating IRF for ' + self.name + ':',Percentage(), Bar()], maxval=np.size(self.irf.t)*shape_rd[0]*shape_rd[1]).start()
+        count = 1
         for t_ind, t in enumerate(self.irf.t):
 
             for i in xrange(shape_rd[0]):
 
                 for j in xrange(shape_rd[1]):
-                    print t
                     # Radiation damping calculation method
                     tmpL = 2./np.pi*rd_interp[i,j,:]*np.sin(self.irf.w*t)
                     tmpK = 2./np.pi*rd_interp[i,j,:]*np.cos(self.irf.w*t)
                     self.irf.K[i,j,t_ind] = np.trapz(y=tmpK,x=self.irf.w)
                     self.irf.L[i,j,t_ind] = np.trapz(y=tmpL,x=self.irf.w)
+                    pbar.update(count)
+                    count += 1
+        pbar.finish()
 
 
     def plotIRF(self,components):
@@ -230,7 +236,7 @@ class HydrodynamicData(object):
             
             x = comp[0]
             y = comp[1]
-            t = self.irf.tSeries
+            t = self.irf.t
             L = self.irf.L[x,y,:]
             K = self.irf.K[x,y,:]
 
@@ -241,7 +247,7 @@ class HydrodynamicData(object):
                   
         ax[0].set_title('IRF for ' + str(self.name))
         ax[0].legend()
-        ax[i].set_xlabel('Wave frequency (rad/s)')
+        ax[i].set_xlabel('Time (s)')
         
 
     def plotAddedMassAndDamping(self,components):
@@ -390,6 +396,42 @@ def writeHdf5(data,outFile):
             num = f.create_dataset('body' + str(key) + '/properties/bodyNumber',data=data[key].bodyN)
             num.attrs['description'] = 'Number of rigid body from the BEM simulation'
             
+            # Hydro coeffs
+            try:
+
+                irfK = f.create_dataset('body' + str(key) + '/hydro_coeffs/irf/K',data=data[key].irf.K)
+                irfK.attrs['units'] = ''
+                irfK.attrs['description'] = 'Impulse response function' 
+
+                irfT = f.create_dataset('body' + str(key) + '/hydro_coeffs/irf/t',data=data[key].irf.t)
+                irfT.attrs['units'] = 'seconds'
+                irfT.attrs['description'] = 'Time vector for the impulse response function' 
+
+                irfW = f.create_dataset('body' + str(key) + '/hydro_coeffs/irf/w',data=data[key].irf.w)
+                irfW.attrs['units'] = 'seconds'
+                irfW.attrs['description'] = 'Interpolated frequencies used to compute the impulse response function' 
+
+                irfL = f.create_dataset('body' + str(key) + '/hydro_coeffs/irf/L',data=data[key].irf.L)
+                irfL.attrs['units'] = ''
+                irfL.attrs['description'] = 'Time derivatitive of the impulse response functiuon' 
+
+                for m in xrange(np.shape(data[key].am.all)[0]):
+            
+                    for n in xrange(np.shape(data[key].am.all)[1]):
+
+                        irfLComp = f.create_dataset('body' + str(key) + '/hydro_coeffs/irf/comps/L/comp_' + str(m) + '_' + str(n),data=data[key].irf.L[m,n,:])
+                        irfLComp.attrs['units'] = ''
+                        irfLComp.attrs['description'] = 'Components of the IRF'
+
+                        irfKComp = f.create_dataset('body' + str(key) + '/hydro_coeffs/irf/comps/K/comp_' + str(m) + '_' + str(n),data=data[key].irf.K[m,n,:])
+                        irfKComp.attrs['units'] = ''
+                        irfKComp.attrs['description'] = 'Components of the ddt(IRF): K'
+
+
+            except:
+
+                print 'IRF functions for ' + data[key].name + ' were not written because they were not calculated. Use the calcIRF function to calculate the IRF.'
+
             k = f.create_dataset('body' + str(key) + '/hydro_coeffs/k',data=data[key].k)
             k.attrs['units'] = ''
             k.attrs['description'] = 'Hydrostatic stiffness matrix'  
