@@ -15,9 +15,13 @@ limitations under the License.
 """
 
 import numpy as np
+
 from bemio.data import bem as hd
+
 from os import system as _sys
+
 from sys import platform as _platform
+
 
 class WamitOutput(object):
     '''
@@ -36,11 +40,11 @@ class WamitOutput(object):
         self.density = 1000.
 
         self.data = {}
-        self._readOutFile()
+        self._read()
 
 
     
-    def _readOutFile(self):
+    def _read(self):
         '''
         Function to read WAMIT output file into the class
         Inputs: None

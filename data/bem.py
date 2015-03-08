@@ -30,7 +30,7 @@ import pickle
 
 from scipy import interpolate
 
-from progressbar import ProgressBar, ETA, Bar, ReverseBar, Percentage
+from progressbar import ProgressBar, Bar, Percentage
 
 
 class ViscousDamping(object):
@@ -168,7 +168,7 @@ class HydrodynamicData(object):
         self.irf            = IRF()
                      
     
-    def calcIRF(self, dt=0.01, t_end=100, dw=0.01):
+    def calcIRF(self, t_end=100, n_t n_w=200):
         '''
         Calculate the IRF. See WAMITv7 manual section 13-8
 
@@ -180,8 +180,8 @@ class HydrodynamicData(object):
         This function populates the irf variable
         '''
 
-        self.irf.t = np.linspace(0,t_end,np.ceil(t_end/dt))
-        self.irf.w = np.linspace(self.w[0],self.w[-1],np.ceil(self.w[-1]/dw))
+        self.irf.t = np.linspace(0,t_end,n_t)
+        self.irf.w = np.linspace(np.min(self.w),np.max(self.w),n_w)
 
         self.irf.L = np.zeros( [ np.shape(self.am.inf)[0],np.shape(self.am.inf)[1],np.size(self.irf.t) ] )
         self.irf.K = np.zeros( [ np.shape(self.am.inf)[0],np.shape(self.am.inf)[1],np.size(self.irf.t) ] )
@@ -191,13 +191,31 @@ class HydrodynamicData(object):
         shape_rd = np.shape(self.rd.all)
 
         # Interpolate the radiation damping matrix
+        flip = False
+
+        if self.w[0] > self.w[1]:
+
+            wTmp = np.flipud(self.w)
+            flip = True
+
+        else:
+
+            wTmp = self.w
+
+
         for i in xrange(shape_rd[0]):
 
             for j in xrange(shape_rd[0]):
 
-                f = interpolate.interp1d(x=self.w, y=self.rd.all[i,j,:])
-                rd_interp[i,j,:] = f(self.irf.w)
+                if flip is True:
 
+                    rdTmp = np.flipud(self.rd.all[i,j,:])
+
+                else:
+                    rdTmp = self.rd.all[i,j,:]
+
+                f = interpolate.interp1d(x=wTmp, y=rdTmp)
+                rd_interp[i,j,:] = f(self.irf.w) 
 
         # Calculate the IRF
         pbar = ProgressBar(widgets=['Calculating IRF for ' + self.name + ':',Percentage(), Bar()], maxval=np.size(self.irf.t)*shape_rd[0]*shape_rd[1]).start()
@@ -214,6 +232,7 @@ class HydrodynamicData(object):
                     self.irf.L[i,j,t_ind] = np.trapz(y=tmpL,x=self.irf.w)
                     pbar.update(count)
                     count += 1
+                    
         pbar.finish()
 
 
@@ -506,7 +525,7 @@ def writeHdf5(data,outFile):
         print 'Wrote HDF5 data to ' + outFile
 
 
-def generateFileNames(outFile):
+def generateFileNames(out_file):
     '''
     Function to generate filenames needed by hydroData module
 
@@ -516,8 +535,8 @@ def generateFileNames(outFile):
     Outputs:
     files -- a dictionary of file generateFileNames
     '''
-
-    (path,file) = os.path.split(outFile)
+    out_file = os.path.abspath(out_file)
+    (path,file) = os.path.split(out_file)
  
     files = {}
     files['out'] = os.path.join(path,file)

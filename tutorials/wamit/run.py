@@ -16,7 +16,7 @@ plt.interactive(True)
 w = wio.WamitOutput(outFile='./data/wec3.out')
 
 # Calculate IRF and plot
-for i in xrange(3):
+for i in xrange(w.data[0].nBodies):
 	w.data[i].calcIRF(t_end=100., dt = 0.1, dw=0.05)
 	w.data[i].plotIRF([[0,0],[2,2]]	)
 	w.data[i].plotAddedMassAndDamping([[0,0],[2,2]])
