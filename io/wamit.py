@@ -12,6 +12,8 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+Author: Michael Lawson
 """
 
 import numpy as np
@@ -33,9 +35,9 @@ class WamitOutput(object):
     Outputs:
         None
     '''
-    def __init__(self,outFile):
+    def __init__(self,out_file):
 
-        self.files = hd.generateFileNames(outFile)
+        self.files = hd.generateFileNames(out_file)
         
         self.density = 1000.
 

@@ -84,8 +84,8 @@ class HydrodynamicExcitation(object):
 
     phase -- Phase angle of hydrodynamic excitation 
     6 x numFrequencies np.array(). Should be in radians
-
     '''
+
     def __init__(self):
 
         self.re             = np.array([])
@@ -168,13 +168,11 @@ class HydrodynamicData(object):
         self.irf            = IRF()
                      
     
-    def calcIRF(self, t_end=100, n_t n_w=200):
+    def calcIRF(self, t_end=100, n_t = 200, n_w=200):
         '''
         Calculate the IRF. See WAMITv7 manual section 13-8
 
         Inputs:
-        rd - radiation damping
-        w - list of frequencies
 
         Outputs:
         This function populates the irf variable
@@ -232,7 +230,7 @@ class HydrodynamicData(object):
                     self.irf.L[i,j,t_ind] = np.trapz(y=tmpL,x=self.irf.w)
                     pbar.update(count)
                     count += 1
-                    
+
         pbar.finish()
 
 

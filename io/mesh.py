@@ -27,12 +27,18 @@ meshes. A few simple improvements (i.e. if tests) to the writing functions can f
 Author: Michael Lawson
 """
 import numpy as np
+
 import os
+
 from sys import platform as _platform
+
 try:
+
     import vtk
     from vtk.util.numpy_support import vtk_to_numpy
+
 except:
+
     raise Exception('The VTK Python module is required to use this module.')
 
 
@@ -42,6 +48,7 @@ class PanelMesh(object):
     '''
     
     def __init__(self,meshFileName):
+
         self.meshFileName = meshFileName
         self.faces = []
         self.points = []
@@ -49,8 +56,10 @@ class PanelMesh(object):
         self.numPoints = None
         
         if os.path.isfile(meshFileName) is False:
+
             raise Exception('The file ' + meshFileName + ' does not exist')
         
+
     def writeVtp(self,outputFile=None):
         '''
         Function to write VTK Poly data file with the mesh data
@@ -62,6 +71,7 @@ class PanelMesh(object):
         Function action:
             A vtp file is written with the name of the outputFile
         '''
+
         mesh    = vtk.vtkPolyData()
         points  = vtk.vtkPoints()
         polys   = vtk.vtkCellArray()
@@ -99,6 +109,7 @@ class PanelMesh(object):
             A Nemoh mesh file is written with the name of the outputFile
             
         '''
+
         if outputFile is None:
             with open(self.meshFileName[:-3]+'nemoMesh.dat','w') as fid:
                 self._writeNemoh(fid)
@@ -108,6 +119,7 @@ class PanelMesh(object):
         self.nemohMeshOutFile = outputFile
                 
     def _writeNemoh(self,fid):
+
         fid.write('2 0') # This should not be hardcoded
         fid.write('\n')
         for i in xrange(self.numPoints):
@@ -135,6 +147,7 @@ class PanelMesh(object):
             A WAMIT mesh file is written with the name of the outputFile
             
         '''
+
         if outputFile is None:
             with open(self.meshFileName[:-3]+'gdf','w') as fid:
                 self._writeGdf(fid)
@@ -146,6 +159,7 @@ class PanelMesh(object):
         print 'Wrote gdf file to ' + str(outputFile)
                 
     def _writeGdf(self,fid):
+
         fid.write('Mesh file written by meshio.py')
         fid.write('\n')
         fid.write('1 9.80665       ULEN GRAV')
@@ -172,14 +186,19 @@ class PanelMesh(object):
         To use this function make a symbolic link to the paraview.app folder
         on your system to ~/bin. Or alternatively change this function
         '''
+
         fileName = self.meshFileName[:-3] + 'vis-temp.vtp'
         if _platform == 'darwin':
+
             self.writeVtp(outputFile=fileName)
             try:
+
                 os.system('open ~/bin/paraview ' + fileName + ' &')
             except:
+
                 raise Exception('~/bin/paraview not found')
         else:
+
             print 'paraview() function only supported for osx'
 
 def readGdf(fileName):
@@ -191,7 +210,9 @@ def readGdf(fileName):
     Outputs:
         meshData: panelMesh object containing the mesh data
     '''
+
     with open(fileName,'r') as fid:
+
         lines = fid.readlines()
         
     meshData = PanelMesh(fileName)
@@ -205,11 +226,14 @@ def readGdf(fileName):
     meshData.numPoints = meshData.numFaces * 4
     meshData.points = np.array([temp.split() for temp in lines[4:]]).astype(np.float)
 
-    meshData.pointsString = [str(temp).replace(",",'').replace('\r','') for temp in lines[4:]] # Output string for Nemoh mesh fil
+    meshData.pointsString = [str(temp).replace(","      ,'').replace('\r','') for temp in lines[4:]] # Output string for Nemoh mesh fil
+
     for panelNum,i in enumerate(np.arange(4,4+meshData.numPoints,4)):
+
         meshData.faces.append(np.array([i-4,i-3,i-2,i-1]))
         
     return meshData
+
 
 def readStl(fileName):
     '''
@@ -220,6 +244,7 @@ def readStl(fileName):
     Outputs:
         meshData: panelMesh object containing the mesh data
     '''
+
     reader = vtk.vtkSTLReader()
     reader.SetFileName(fileName)
     reader.Update()
@@ -245,6 +270,7 @@ def readVtp(fileName):
     Outputs:
         meshData: panelMesh object containing the mesh data
     '''
+
     reader = vtk.vtkXMLPolyDataReader()
     reader.SetFileName(fileName)
     reader.Update()
@@ -268,6 +294,7 @@ def readVtp(fileName):
     
     return meshData
     
+
 def readNemoh(fileName):
     '''
     Function to read nemoh meshes
@@ -277,7 +304,9 @@ def readNemoh(fileName):
     Outputs:
         meshData: panelMesh object containing the mesh data
     '''
+
     with open(fileName,'r') as fid:
+
         lines = fid.readlines()
     temp = np.array([np.array(str(lines[i]).split()).astype(float) for i in range(1,np.size(lines))])
     count = 0
@@ -285,10 +314,12 @@ def readNemoh(fileName):
     meshData = PanelMesh(fileName)
     
     while temp[count,0] != 0.:
+
         meshData.points.append(temp[count,1:])
         count += 1
     count += 1
     while sum(temp[count,:]) != 0.:
+
         meshData.faces.append(temp[count,:])
         count += 1
     meshData.points = np.array(meshData.points)
@@ -308,8 +339,11 @@ def mkVtkIdList(it):
         vil: vtk id list
     '''
     vil = vtk.vtkIdList()
+
     for i in it:
+
         vil.InsertNextId(int(i))
+        
     return vil
 
  
