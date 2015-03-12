@@ -89,11 +89,25 @@ class NemohOutput   (object):
 
             if i == 0:
 
-                w = amrdProc[key].field(0)
+                w = np.array(amrdProc[key].field(0))
+
+            am[key] = 
+
+
+
+
+
+
+
+
+
 
         self.data[0] = hd.HydrodynamicData()
-        self.data[0].w = np.array(w)
+        self.data[0].w = w
         self.data[0].T = 2.*np.pi/w
+
+
+
 
 
 

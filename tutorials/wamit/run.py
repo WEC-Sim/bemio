@@ -17,9 +17,7 @@ w = wio.WamitOutput(out_file='./data/wec3.out')
 
 # Calculate IRF and plot
 for i in xrange(w.data[0].nBodies):
-	w.data[i].calcIRF(t_end=100., n_t = 101, n_w=100)
-	w.data[i].plotIRF([[0,0],[2,2]]	)
-	w.data[i].plotAddedMassAndDamping([[0,0],[2,2]])
+	w.data[i].calcIRF(t_end=100., n_t = 1001, n_w=1001)
 
 # Save the data in HDF5 and pickle format
 hd.writeHdf5(w.data,w.files['hdf5'])

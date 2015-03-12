@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import os
 
 def run_test_case(test):

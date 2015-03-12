@@ -187,6 +187,7 @@ class HydrodynamicData(object):
         rd_interp = np.zeros( [ np.shape(self.rd.all)[0], np.shape(self.rd.all)[1], np.size(self.irf.w) ])
 
         shape_rd = np.shape(self.rd.all)
+        print shape_rd
 
         # Interpolate the radiation damping matrix
         flip = False
@@ -203,7 +204,7 @@ class HydrodynamicData(object):
 
         for i in xrange(shape_rd[0]):
 
-            for j in xrange(shape_rd[0]):
+            for j in xrange(shape_rd[1]):
 
                 if flip is True:
 
