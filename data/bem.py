@@ -168,7 +168,7 @@ class HydrodynamicData(object):
         self.irf            = IRF()
                      
     
-    def calcIRF(self, t_end=100, n_t = 200, n_w=200):
+    def calcIRF(self, t_end=100, n_t = 10001, n_w=1001):
         '''
         Calculate the IRF. See WAMITv7 manual section 13-8
 
@@ -187,9 +187,8 @@ class HydrodynamicData(object):
         rd_interp = np.zeros( [ np.shape(self.rd.all)[0], np.shape(self.rd.all)[1], np.size(self.irf.w) ])
 
         shape_rd = np.shape(self.rd.all)
-        print shape_rd
 
-        # Interpolate the radiation damping matrix
+        # Interpolate the radiation damping matrix for the IRF calculation
         flip = False
 
         if self.w[0] > self.w[1]:
@@ -200,7 +199,6 @@ class HydrodynamicData(object):
         else:
 
             wTmp = self.w
-
 
         for i in xrange(shape_rd[0]):
 
@@ -233,6 +231,9 @@ class HydrodynamicData(object):
                     count += 1
 
         pbar.finish()
+
+    def calcSS(self, some_var = 0.0):
+        
 
 
     def plotIRF(self,components):
