@@ -2,6 +2,9 @@
 *.py[cod]
 *.sublime-project
 *.sublime-workspace
+*.h5
+*.p
+*.swp
 
 # C extensions
 *.so
@@ -41,6 +44,5 @@ nosetests.xml
 # Other stuff
 *.ps
 .idea
-*.h5
-*.p
 *#
+*h5

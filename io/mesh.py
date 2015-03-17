@@ -222,7 +222,7 @@ def readGdf(fileName):
     meshData.gravity = float(lines[1].split()[1])
     meshData.isx = float(lines[2].split()[0])
     meshData.isy = float(lines[2].split()[1])
-    meshData.numFaces = int(lines[3])
+    meshData.numFaces = int(lines[3].split()[0])
     meshData.numPoints = meshData.numFaces * 4
     meshData.points = np.array([temp.split() for temp in lines[4:]]).astype(np.float)
 

@@ -35,11 +35,12 @@ class WamitOutput(object):
     Outputs:
         None
     '''
-    def __init__(self,out_file):
+    def __init__(self, out_file, density=1000., gravity=9.81):
 
         self.files = hd.generateFileNames(out_file)
         
-        self.density = 1000.
+        self.rho = density
+        self.g = gravity
 
         self.data = {}
         self._read()
@@ -68,11 +69,6 @@ class WamitOutput(object):
 
         
         for i, line in enumerate(wamitOut):
-
-            # Read gravity and density
-            if 'Gravity:' in line:
-                gravity = wamitOut[i].split()[1]
-                gravity = np.float(gravity)
             
             if 'Water depth:' in line:
                 waterDepth = wamitOut[i].split()[2]
@@ -204,37 +200,38 @@ class WamitOutput(object):
         T = np.array(T).astype(float)
 
 
-        # Load data into the hydrodata strucuture          
+        # Load data into the hydrodata strucuture
+        print 'Dimensionalized WAMIT Hydrodynamic coefficients with g = ' + str(self.g) + ' and rho = ' + str(self.rho)    
         for i in xrange(nBodies):       
             self.data[i] = hd.HydrodynamicData() 
             self.data[i].name = name[i][0:-4]
-            self.data[i].g = gravity
+            self.data[i].g = self.g
             self.data[i].waterDepth = waterDepth
-            self.data[i].rho = self.density            
+            self.data[i].rho = self.rho            
             self.data[i].nBodies = nBodies
             self.data[i].bodyN = i
             self.data[i].cg = cg[i] 
             self.data[i].cb = cb[i]
-            self.data[i].k = k[i]*self.data[i].rho*self.data[i].g
+            self.data[i].k = k[i]*self.rho*self.g
             self.data[i].volDisp = volDisp[i]
             
             self.data[i].am.inf = amInf[6*i:6+6*i,:]
-            self.data[i].am.inf = self.data[i].am.inf*self.density
+            self.data[i].am.inf = self.data[i].am.inf*self.rho
 
             self.data[i].am.zero = amZero[6*i:6+6*i,:]
-            self.data[i].am.zero = self.data[i].am.zero*self.density
+            self.data[i].am.zero = self.data[i].am.zero*self.rho
             
             self.data[i].T = T
             self.data[i].w = 2.0*np.pi/self.data[i].T
 
             self.data[i].am.all = amAll[6*i:6+6*i,:,:]
-            self.data[i].am.all = self.data[i].am.all*self.density
+            self.data[i].am.all = self.data[i].am.all*self.rho
             
             self.data[i].rd.all = radAll[6*i:6+6*i,:,:]
             for j in xrange(np.shape(self.data[i].rd.all)[2]):
-                self.data[i].rd.all[:,:,j] = self.data[i].rd.all[:,:,j]*self.density*self.data[i].w[j]
+                self.data[i].rd.all[:,:,j] = self.data[i].rd.all[:,:,j]*self.rho*self.data[i].w[j]
                 
-            self.data[i].ex.mag = exAll[:,6*i:6+6*i]*self.data[i].rho*self.data[i].g
+            self.data[i].ex.mag = exAll[:,6*i:6+6*i]*self.rho*self.g
             self.data[i].ex.phase = np.deg2rad(phaseAll[:,6*i:6+6*i])
             self.data[i].ex.re = self.data[i].ex.mag*np.cos(self.data[i].ex.phase)
             self.data[i].ex.im = self.data[i].ex.mag*np.sin(self.data[i].ex.phase)

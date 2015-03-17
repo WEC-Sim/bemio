@@ -233,9 +233,8 @@ class HydrodynamicData(object):
         pbar.finish()
 
     def calcSS(self, some_var = 0.0):
+        pass
         
-
-
     def plotIRF(self,components):
         '''
         Function to plot the IRF
