@@ -137,6 +137,7 @@ class AqwaOutput(object):
                 self.data[bodNum].am.zeroFreq = self.data[bodNum].am.all[:,:,0]
 
                 self.data[bodNum].nW = np.size(self.data[bodNum].w)
+                self.data[bodNum].bodyN = bodNum
 
                 bodNum += 1
 
