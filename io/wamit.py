@@ -46,7 +46,6 @@ class WamitOutput(object):
         self._read()
 
 
-    
     def _read(self):
         '''
         Function to read WAMIT output file into the class
