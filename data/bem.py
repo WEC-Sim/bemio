@@ -32,7 +32,14 @@ from scipy import interpolate
 
 from progressbar import ProgressBar, Bar, Percentage
 
+class Raw(object):
+    '''
+    Empty class to store raw data from the bemio.io objects
+    '''
+    def __init__(self):
+        pass
 
+        
 class ViscousDamping(object):
     '''
     This data contains data that defines the viscous damping 
@@ -107,10 +114,10 @@ class IRF(object):
     '''
 
     def __init__(self):
-        self.t = None
-        self.w = None
-        self.L = None
-        self.K = None
+        self.t = np.array([])
+        self.w = np.array([])
+        self.L = np.array([])
+        self.K = np.array([])
 
 
 class HydrodynamicData(object):
@@ -122,53 +129,56 @@ class HydrodynamicData(object):
     g -- gravity
     files -- Python dictionary of files associated with the
     simulation
-    nBodies -- Total number of bodies in simulation
-    bodyN -- Body number of the rigid body in the simulation
+    num_bodies -- Total number of bodies in simulation
+    body_num -- Body number of the rigid body in the simulation
     cg -- Center of gravity
     cb -- Center of buoyancy
-    volDisp -- Volume displacement
+    disp_vol -- Volume displacement
     T -- Wave periods of simulations (e.g. [1, 2, 3, 4, 5,])
     w -- Wave freqencies of simulations 
     am -- Added mass coefficients of HydrodynamicCoefficients type
     rd -- Radiation damping coefficients of HydrodynamicCoefficients
     type
-    wpArea -- Water plane area          
-    buoyForce -- Buoyancy force at equilibrium
+    wp_area -- Water plane area          
+    buoy_force -- Buoyancy force at equilibrium
     k -- Hydrostatic stiffness matrix
     ex -- Excitation coeffs of HydrodynamicExcitation type
-    waterDepth -- Water depth
-    waveDir -- Wave direction 
+    water_depth -- Water depth
+    wave_dir -- Wave direction 
     name -- Name of the body in the simulation
     '''
 
     def __init__(self):
         self.rho            = 1000.
         self.g              = 9.81
-        self.waveDir        = 0.
-        self.nBodies        = 0     
+        self.wave_dir       = 0.
+        self.num_bodies     = 0     
                           
-        self.files          = {}
         self.cg             = {}                            
         self.cb             = {}                            
-        self.volDisp        = {}                            
+        self.disp_vol       = {}                            
         self.T              = {}                            
         self.w              = {}                            
-        self.wpArea         = {}                            
-        self.buoyForce      = {}                            
+        self.wp_area        = {}                            
+        self.buoy_force     = {}                            
         self.k              = {}                            
            
-        self.waterDepth     = None                          
-        self.bodyN          = None                      
-        self.name           = None
+        self.water_depth     = 999                          
+        self.body_num        = 999                      
+        self.name            = 'not_defined'
+
+        self.bem_code        = 'not_defined'
+        self.bem_raw_data    = 'not_defined'
 
         self.am             = HydrodynamicCoefficients()    
         self.rd             = HydrodynamicCoefficients()  
         self.ex             = HydrodynamicExcitation()   
-        self.vDamping       = ViscousDamping()
+        self.viscous_damping= ViscousDamping()
         self.irf            = IRF()
+
                      
     
-    def calcIRF(self, t_end=100, n_t = 10001, n_w=1001):
+    def calc_irf(self, t_end=100, n_t = 1001, n_w=201):
         '''
         Calculate the IRF. See WAMITv7 manual section 13-8
 
@@ -215,7 +225,7 @@ class HydrodynamicData(object):
                 rd_interp[i,j,:] = f(self.irf.w) 
 
         # Calculate the IRF
-        pbar = ProgressBar(widgets=['Calculating IRF for ' + self.name + ':',Percentage(), Bar()], maxval=np.size(self.irf.t)*shape_rd[0]*shape_rd[1]).start()
+        pbar = ProgressBar(widgets=['Calculating IRF for ' + self.name + ' with n_freq=' + str(n_w) + ', t_end=' + str(t_end) + ' n_timesteps= ' + str(n_t) + ':',Percentage(), Bar()], maxval=np.size(self.irf.t)*shape_rd[0]*shape_rd[1]).start()
         count = 1
         for t_ind, t in enumerate(self.irf.t):
 
@@ -232,10 +242,10 @@ class HydrodynamicData(object):
 
         pbar.finish()
 
-    def calcSS(self, some_var = 0.0):
+    def calc_ss(self, some_var = 0.0):
         pass
         
-    def plotIRF(self,components):
+    def plot_irf(self,components):
         '''
         Function to plot the IRF
 
@@ -268,7 +278,7 @@ class HydrodynamicData(object):
         ax[i].set_xlabel('Time (s)')
         
 
-    def plotAddedMassAndDamping(self,components):
+    def plot_am_rd(self,components):
         '''
         Function to plot the added mass and raditation damping coefficinets
 
@@ -307,7 +317,7 @@ class HydrodynamicData(object):
         # Show legend on frame 0
         ax[0].legend(loc=0)
 
-    def plotExcitation(self,components):
+    def plot_excitation(self,components):
         '''
         Function to plot wave excitation coefficients
         
@@ -356,7 +366,7 @@ class HydrodynamicData(object):
             ax[0].legend(loc=0)
 
 
-def writePickle(data,outFile):
+def write_pickle(data,outFile):
     '''
     Writes hydrodynamic data to a pickle file.
     
@@ -372,7 +382,7 @@ def writePickle(data,outFile):
     print 'Wrote pickle data to ' + outFile
 
 
-def writeHdf5(data,outFile):
+def write_hdf5(data,outFile):
     '''
     Writes hydrodynamic data to a HDF5 file structure.
     
@@ -388,7 +398,7 @@ def writeHdf5(data,outFile):
 
     except:
 
-        raise Exception('The h5py module must be installed to used the writeHdf5 functionality.')
+        raise Exception('The h5py module must be installed to used the write_hdf5 functionality.')
 
 
     with h5py.File(outFile, "w") as f:       
@@ -404,14 +414,14 @@ def writeHdf5(data,outFile):
             cb.attrs['units'] = 'm'
             cb.attrs['description'] = 'Center of buoyancy' 
 
-            vol = f.create_dataset('body' + str(key) + '/properties/dispVol',data=data[key].volDisp)
+            vol = f.create_dataset('body' + str(key) + '/properties/dispVol',data=data[key].disp_vol)
             vol.attrs['units'] = 'm^3'
             vol.attrs['description'] = 'Displaced volume'
 
             name = f.create_dataset('body' + str(key) + '/properties/name',data=data[key].name)
             name.attrs['description'] = 'Name of rigid body'
 
-            num = f.create_dataset('body' + str(key) + '/properties/bodyNumber',data=data[key].bodyN)
+            num = f.create_dataset('body' + str(key) + '/properties/body_numumber',data=data[key].body_num)
             num.attrs['description'] = 'Number of rigid body from the BEM simulation'
             
             # Hydro coeffs
@@ -444,11 +454,9 @@ def writeHdf5(data,outFile):
                         irfKComp = f.create_dataset('body' + str(key) + '/hydro_coeffs/irf/comps/K/comp_' + str(m) + '_' + str(n),data=data[key].irf.K[m,n,:])
                         irfKComp.attrs['units'] = ''
                         irfKComp.attrs['description'] = 'Components of the ddt(IRF): K'
-
-
             except:
 
-                print 'IRF functions for ' + data[key].name + ' were not written because they were not calculated. Use the calcIRF function to calculate the IRF.'
+                print 'IRF functions for ' + data[key].name + ' were not written because they were not calculated. Use the calc_irf function to calculate the IRF.'
 
             k = f.create_dataset('body' + str(key) + '/hydro_coeffs/k',data=data[key].k)
             k.attrs['units'] = ''
@@ -513,18 +521,24 @@ def writeHdf5(data,outFile):
         w.attrs['units'] = 'rad/s'                
         w.attrs['description'] = 'Wave frequencies'
 
-        wDepth = f.create_dataset('simulation_parameters/wDepth',data=data[key].waterDepth)
+        wDepth = f.create_dataset('simulation_parameters/wDepth',data=data[key].water_depth)
         wDepth.attrs['units'] = 'm'
         wDepth.attrs['description'] = 'Water depth'
 
-        waveHead = f.create_dataset('simulation_parameters/wDir',data=data[key].waveDir)
+        waveHead = f.create_dataset('simulation_parameters/wDir',data=data[key].wave_dir)
         waveHead.attrs['units'] = 'rad'
         waveHead.attrs['description'] = 'Wave direction'
-            
+
+        rawOut = f.create_dataset('bem_raw/data',data=data[key].bem_raw_data)
+        rawOut.attrs['description'] = 'Raw output from BEM code'
+
+        code = f.create_dataset('bem_raw/code   ',data=data[key].bem_code)
+        code.attrs['description'] = 'BEM code'
+
         print 'Wrote HDF5 data to ' + outFile
 
 
-def generateFileNames(out_file):
+def generate_file_names(out_file):
     '''
     Function to generate filenames needed by hydroData module
 
@@ -532,7 +546,7 @@ def generateFileNames(out_file):
     outFile -- Name of hydrodynamic data file
 
     Outputs:
-    files -- a dictionary of file generateFileNames
+    files -- a dictionary of file generate_file_names
     '''
     out_file = os.path.abspath(out_file)
     (path,file) = os.path.split(out_file)

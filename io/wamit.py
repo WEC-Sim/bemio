@@ -37,7 +37,7 @@ class WamitOutput(object):
     '''
     def __init__(self, out_file, density=1000., gravity=9.81):
 
-        self.files = hd.generateFileNames(out_file)
+        self.files = hd.generate_file_names(out_file)
         
         self.rho = density
         self.g = gravity
@@ -54,33 +54,34 @@ class WamitOutput(object):
         '''
         with open(self.files['out'],'r') as fid:
 
-            wamitOut = fid.readlines()
+            raw = fid.readlines()
    
-        nBodies = 0 # Total number of bodies
+        code = 'WAMIT'
+        num_bodies = 0 # Total number of bodies
         bodCount = 0 # Counter for bodies
         freqCount = 0
         T = []
         cg = {}
         cb = {}
         name = {}    
-        volDisp = {}
+        disp_vol = {}
         k = {}
 
         
-        for i, line in enumerate(wamitOut):
+        for i, line in enumerate(raw):
             
             if 'Water depth:' in line:
-                waterDepth = wamitOut[i].split()[2]
+                water_depth = raw[i].split()[2]
                 try:
-                    waterDepth = np.float(waterDepth)
+                    water_depth = np.float(water_depth)
                 except:
                     pass 
 
             # If there is one body in the WAMIT run
             if "Input from Geometric Data File:" in line:
 
-                nBodies = 1
-                name[0] = wamitOut[i].split()[-1]
+                num_bodies = 1
+                name[0] = raw[i].split()[-1]
 
 
             
@@ -89,10 +90,10 @@ class WamitOutput(object):
 
                 for j in xrange(20): # look for bodies within the next 20 lines
 
-                    if "N=" in wamitOut[i+j]:
+                    if "N=" in raw[i+j]:
 
-                        nBodies += 1
-                        name[nBodies-1] = wamitOut[i+j].split()[-1]
+                        num_bodies += 1
+                        name[num_bodies-1] = raw[i+j].split()[-1]
 
 
 
@@ -101,38 +102,38 @@ class WamitOutput(object):
 
                 for j in xrange(15): # look for position within the next 15 lines - will only work for wamit files of about 5 bodies
 
-                    if 'XBODY =' in wamitOut[i+j]:
+                    if 'XBODY =' in raw[i+j]:
                         '''
                         Note that this is the XBOD YBOD ZBOD defined in the wamit .out file, not the cg as defined in the wamit file
                         '''
 
-                        temp = wamitOut[i+j].split()
+                        temp = raw[i+j].split()
                         cg[bodCount] = np.array([temp[2],temp[5],temp[8]]).astype(float)
                         
-                    if 'Volumes (VOLX,VOLY,VOLZ):' in wamitOut[i+j]:
+                    if 'Volumes (VOLX,VOLY,VOLZ):' in raw[i+j]:
 
-                        temp = wamitOut[i+j].split()
-                        volDisp[bodCount] = float(temp[-1])
+                        temp = raw[i+j].split()
+                        disp_vol[bodCount] = float(temp[-1])
                         
-                    if 'Center of Buoyancy (Xb,Yb,Zb):' in wamitOut[i+j]:
+                    if 'Center of Buoyancy (Xb,Yb,Zb):' in raw[i+j]:
 
-                        temp = wamitOut[i+j].split()
+                        temp = raw[i+j].split()
                         cb[bodCount] = np.array([temp[-3],temp[-2],temp[-1]]).astype(float)
                         
-                    if 'C(3,3),C(3,4),C(3,5):' in wamitOut[i+j]:
+                    if 'C(3,3),C(3,4),C(3,5):' in raw[i+j]:
 
                         temp = np.zeros([6,6])
-                        temp2 = wamitOut[i+j].split()
+                        temp2 = raw[i+j].split()
                         temp[2,2] = np.float(temp2[1])
                         temp[2,3] = np.float(temp2[2])
                         temp[2,4] = np.float(temp2[3])
                         
-                        temp2 = wamitOut[i+j+1].split()
+                        temp2 = raw[i+j+1].split()
                         temp[3,3] = np.float(temp2[1])
                         temp[3,4] = np.float(temp2[2])
                         temp[3,5] = np.float(temp2[3])
                         
-                        temp2 = wamitOut[i+j+2].split()
+                        temp2 = raw[i+j+2].split()
                         temp[4,4] = np.float(temp2[1])
                         temp[4,5] = np.float(temp2[2])
                         
@@ -146,39 +147,39 @@ class WamitOutput(object):
             # Inf freq added mass
             if "Wave period = zero" in line:
                 
-                amInf  = wamitOut[i+7:i+7+(6*nBodies)**2]
+                amInf  = raw[i+7:i+7+(6*num_bodies)**2]
                 amInf = np.array([amInf[temp].split()[2] for temp in xrange(np.size(amInf))]).astype(float)
-                amInf = amInf.reshape(6*nBodies,6*nBodies)
+                amInf = amInf.reshape(6*num_bodies,6*num_bodies)
 
 
                 
             # Zero freq added mass
             if "Wave period = infinite" in line:
                 
-                amZero = wamitOut[i+7:i+7+(6*nBodies)**2]
+                amZero = raw[i+7:i+7+(6*num_bodies)**2]
                 amZero = np.array([amZero[temp].split()[2] for temp in xrange(np.size(amZero))]).astype(float)
-                amZero = amZero.reshape(6*nBodies,6*nBodies)
+                amZero = amZero.reshape(6*num_bodies,6*num_bodies)
 
             # Added mass, damping, and excitation
             if "Wave period (sec)" in line:
                 
-                T.append(wamitOut[i].split()[4])
+                T.append(raw[i].split()[4])
                 
-                am = wamitOut[i+7:i+7+(6*nBodies)**2]
+                am = raw[i+7:i+7+(6*num_bodies)**2]
                 am = np.array([am[temp].split()[2] for temp in xrange(np.size(am))]).astype(float)
-                am = am.reshape(6*nBodies,6*nBodies,1)
+                am = am.reshape(6*num_bodies,6*num_bodies,1)
                 
-                rad = wamitOut[i+7:i+7+(6*nBodies)**2]
+                rad = raw[i+7:i+7+(6*num_bodies)**2]
                 rad = np.array([rad[temp].split()[3] for temp in xrange(np.size(rad))]).astype(float)
-                rad = rad.reshape(6*nBodies,6*nBodies,1)
+                rad = rad.reshape(6*num_bodies,6*num_bodies,1)
                 
-                ex = wamitOut[i+17+(6*nBodies)**2:i+17+(6*nBodies)**2+6*nBodies]
+                ex = raw[i+17+(6*num_bodies)**2:i+17+(6*num_bodies)**2+6*num_bodies]
                 ex = np.array([ex[temp].split()[1] for temp in xrange(np.size(ex))]).astype(float)
-                ex = ex.reshape(1,6*nBodies)  
+                ex = ex.reshape(1,6*num_bodies)  
                 
-                phase = wamitOut[i+17+(6*nBodies)**2:i+17+(6*nBodies)**2+6*nBodies]
+                phase = raw[i+17+(6*num_bodies)**2:i+17+(6*num_bodies)**2+6*num_bodies]
                 phase = np.array([phase[temp].split()[2] for temp in xrange(np.size(phase))]).astype(float)
-                phase = phase.reshape(1,6*nBodies)  
+                phase = phase.reshape(1,6*num_bodies)  
 
                 if freqCount is 0:
 
@@ -201,18 +202,18 @@ class WamitOutput(object):
 
         # Load data into the hydrodata strucuture
         print 'Dimensionalized WAMIT Hydrodynamic coefficients with g = ' + str(self.g) + ' and rho = ' + str(self.rho)    
-        for i in xrange(nBodies):       
+        for i in xrange(num_bodies):       
             self.data[i] = hd.HydrodynamicData() 
             self.data[i].name = name[i][0:-4]
             self.data[i].g = self.g
-            self.data[i].waterDepth = waterDepth
+            self.data[i].water_depth = water_depth
             self.data[i].rho = self.rho            
-            self.data[i].nBodies = nBodies
-            self.data[i].bodyN = i
+            self.data[i].num_bodies = num_bodies
+            self.data[i].body_num = i
             self.data[i].cg = cg[i] 
             self.data[i].cb = cb[i]
             self.data[i].k = k[i]*self.rho*self.g
-            self.data[i].volDisp = volDisp[i]
+            self.data[i].disp_vol = disp_vol[i]
             
             self.data[i].am.inf = amInf[6*i:6+6*i,:]
             self.data[i].am.inf = self.data[i].am.inf*self.rho
@@ -234,6 +235,9 @@ class WamitOutput(object):
             self.data[i].ex.phase = np.deg2rad(phaseAll[:,6*i:6+6*i])
             self.data[i].ex.re = self.data[i].ex.mag*np.cos(self.data[i].ex.phase)
             self.data[i].ex.im = self.data[i].ex.mag*np.sin(self.data[i].ex.phase)
+
+            self.data[i].bem_raw_data = raw
+            self.data[i].bem_code = code
 
 
 def clean(directory='.'):
