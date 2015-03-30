@@ -13,14 +13,11 @@ plt.interactive(True)
 aq = aio.AqwaOutput(outFile='./data/aqwa_example_data.lis')
 
 # Plot diag components of added mass and damping
-componentsToPlot = [[0,0],[1,1],[2,2]]
-aq.data[0].plotAddedMassAndDamping(componentsToPlot)
-aq.data[1].plotAddedMassAndDamping(componentsToPlot)
-aq.data[2].plotAddedMassAndDamping(componentsToPlot)
-
-# Write hydrodynamic data for WEC-Sim
-# hd.writeWecSimHydroData(aq.data) # Not currently working in hydroData
+comps_to_plot = [[0,0],[1,1],[2,2]]
+aq.data[0].plot_am_rd(comps_to_plot)
+aq.data[1].plot_am_rd(comps_to_plot)
+aq.data[2].plot_am_rd(comps_to_plot)
 
 # Write hydrodynamic data to HDF5 file format
-hd.writeHdf5(aq.data,aq.files['hdf5'])
-hd.writePickle(aq.data,aq.files['pickle'])
+hd.write_hdf5(aq.data,aq.files['hdf5'])
+hd.write_pickle(aq.data,aq.files['pickle'])

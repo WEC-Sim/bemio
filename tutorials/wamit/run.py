@@ -13,9 +13,9 @@ from bemio.data import bem as hd
 w = wio.WamitOutput(out_file='./data/rm3_new.out')
 
 # Calculate IRF and plot
-for i in xrange(w.data[0].nBodies):
-	w.data[i].calcIRF()
+for i in xrange(w.data[0].num_bodies):
+	w.data[i].calc_irf()
 
 
 # Save the data in HDF5 and pickle format
-hd.writeHdf5(w.data,w.files['hdf5'])
+hd.write_hdf5(w.data,w.files['hdf5'])
