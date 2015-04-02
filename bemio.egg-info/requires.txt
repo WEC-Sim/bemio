@@ -1,5 +1,0 @@
-progressbar2
-
-[dev]
-
-[test]
