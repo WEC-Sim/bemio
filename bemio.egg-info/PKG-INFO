@@ -1,0 +1,15 @@
+Metadata-Version: 1.1
+Name: bemio
+Version: 1.0a0
+Summary: bemio
+Home-page: https://github.com/WEC-Sim/bemio
+Author: Michael Lawson
+Author-email: michael.lawson@nrel.gov
+License: Apache 2.0
+Description: Boundary Element Method Input/Output
+Keywords: bemio
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Wave Energy Research Community
+Classifier: License ::Apache 2.0
+Classifier: Programming Language :: Python :: 2.7
