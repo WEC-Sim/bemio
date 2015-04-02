@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>io Documentation &mdash; bemio v1.0a0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     'v1.0a0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="bemio v1.0a0 documentation" href="index.html" />
+    <link rel="prev" title="data_structures Documentation" href="data_structures_doc.html" /> 
+  </head>
+  <body>
+
+<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
+<a href="index.html"><img src="_static/logo.png" border="0" alt="py4sci"/></a>
+</div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="data_structures_doc.html" title="data_structures Documentation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">home</a>|&nbsp;</li>
+        <li><a href="search.html">search</a>|&nbsp;</li>
+ 
+      </ul>
+    </div>
+
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><tt class="docutils literal"><span class="pre">io</span></tt> Documentation</a><ul>
+<li><a class="reference internal" href="#module-bemio.io.wamit">WamitOutput</a></li>
+<li><a class="reference internal" href="#module-bemio.io.nemoh">NemohOutput</a></li>
+<li><a class="reference internal" href="#module-bemio.io.aqwa">AqwaOutput</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="data_structures_doc.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">data_structures</span></tt> Documentation</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/io_doc.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="io-documentation">
+<span id="io"></span><h1><tt class="docutils literal"><span class="pre">io</span></tt> Documentation<a class="headerlink" href="#io-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-bemio.io.wamit">
+<span id="wamitoutput"></span><span id="wamit-output"></span><h2>WamitOutput<a class="headerlink" href="#module-bemio.io.wamit" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="bemio.io.wamit.WamitOutput">
+<em class="property">class </em><tt class="descclassname">bemio.io.wamit.</tt><tt class="descname">WamitOutput</tt><big>(</big><em>out_file</em>, <em>density=1000.0</em>, <em>gravity=9.81</em><big>)</big><a class="reference internal" href="_modules/bemio/io/wamit.html#WamitOutput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bemio.io.wamit.WamitOutput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to read and interact with WAMIT simulation data</p>
+<p><strong>Inputs:</strong></p>
+<ul class="simple">
+<li>out_file: Absolute or relative loaction and name of the WAMIT .out file</li>
+<li>density: fluid denisty (default:1000.)</li>
+</ul>
+</dd></dl>
+
+</div>
+<div class="section" id="module-bemio.io.nemoh">
+<span id="nemohoutput"></span><span id="nemoh-output"></span><h2>NemohOutput<a class="headerlink" href="#module-bemio.io.nemoh" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="bemio.io.nemoh.NemohOutput">
+<em class="property">class </em><tt class="descclassname">bemio.io.nemoh.</tt><tt class="descname">NemohOutput</tt><big>(</big><em>sim_dir='./'</em>, <em>cal_file='Nemoh.cal'</em>, <em>results_dir='Results'</em>, <em>mesh_dir='Mesh'</em><big>)</big><a class="reference internal" href="_modules/bemio/io/nemoh.html#NemohOutput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bemio.io.nemoh.NemohOutput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class that is used to read Nemoh results.</p>
+<p>Inputs:
+results_dir &#8211; the directory with the Nemoh results files (e.g. CA.dat)</p>
+<dl class="method">
+<dt id="bemio.io.nemoh.NemohOutput.read_hydrostatics">
+<tt class="descname">read_hydrostatics</tt><big>(</big><em>body_num</em>, <em>file</em><big>)</big><a class="reference internal" href="_modules/bemio/io/nemoh.html#NemohOutput.read_hydrostatics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bemio.io.nemoh.NemohOutput.read_hydrostatics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to read hydrostatics.dat nemoh file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="bemio.io.nemoh.NemohOutput.read_kh">
+<tt class="descname">read_kh</tt><big>(</big><em>body_num</em>, <em>file</em><big>)</big><a class="reference internal" href="_modules/bemio/io/nemoh.html#NemohOutput.read_kh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bemio.io.nemoh.NemohOutput.read_kh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fucntion to read HK.dat</p>
+<p>This function is not neccisary for such a simple function, but we may
+need to make it more complicated in the future, so i&#8217;m leaving it as
+a function - mjl 25March2015</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-bemio.io.aqwa">
+<span id="aqwaoutput"></span><span id="aqwa-output"></span><h2>AqwaOutput<a class="headerlink" href="#module-bemio.io.aqwa" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="bemio.io.aqwa.AqwaOutput">
+<em class="property">class </em><tt class="descclassname">bemio.io.aqwa.</tt><tt class="descname">AqwaOutput</tt><big>(</big><em>out_file</em><big>)</big><a class="reference internal" href="_modules/bemio/io/aqwa.html#AqwaOutput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bemio.io.aqwa.AqwaOutput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to read and interact with AQWA simulation data
+Inputs:
+out_file: name of the AQWA output file
+Outputs:
+None</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="data_structures_doc.html" title="data_structures Documentation"
+             >previous</a> |</li>
+        <li><a href="index.html">home</a>|&nbsp;</li>
+        <li><a href="search.html">search</a>|&nbsp;</li>
+ 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, National Renewable Energy Laboratory.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

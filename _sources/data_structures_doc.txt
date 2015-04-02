@@ -1,0 +1,17 @@
+.. _data_structures_doc:
+
+``data_structures`` Documentation
+=================================
+
+.. _data_structures:
+
+Data Structures
+---------------
+
+.. _bem_hydrodynamic_data:
+
+HydrodynamicData
+~~~~~~~~~~~~~~~~~~~~~
+.. automodule:: bemio.data_structures.bem
+.. autoclass:: HydrodynamicData
+	:members:

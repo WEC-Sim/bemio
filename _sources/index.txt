@@ -1,0 +1,45 @@
+.. _bemio_doc:
+
+`bemio` Documentation and Users Guide
+=====================================
+
+Contents
+--------
+.. toctree::
+   :maxdepth: 2
+   
+   getting_started.rst
+   api.rst
+   tutorials.rst
+   data_structures_doc.rst
+   io_doc.rst
+
+.. _introduction:
+
+Introduction
+------------
+The hydrodynamic coefficients that describe the radiation damping, added mass, wave diffraction force, and wave excitation force (referred to as 'hydrodynamic data' in this document) on floating bodies are typically determined using frequency domain boundary element method (BEM) hydrodynamics codes such as `NEMOH <http://lheea.ec-nantes.fr/doku.php/emo/nemoh/start>`_, `WAMIT <http://www.wamit.com/>`_, and `AQWA <http://www.ansys.com/Products/Other+Products/ANSYS+AQWA>`_. `bemio` provides a method to read the output data from these codes and to save the BEM simulation data in a standard hydrodynamic data format (SHDF) that uses `Hierarchical Data Format 5 (HDF5) <http://www.hdfgroup.org/HDF5/>`_. In addition, `bemio` provides the functionality to calculate the impulse response functions IIRFs) and state space coefficients that represent the IRFs.
+
+.. _motivation_for_devel:
+
+Motivation for Development
+--------------------------
+There were two main motivations for developing `bemio`:
+
+#. `bemio` and the standard bemio hydrodynamic data format were developed to support the WEC-Sim (Wave Energy Converter Simulator) project. During development and use of WEC-Sim, it became apparent WEC-Sim needed the ability to use hydrodynamic data from any BEM code and to allow users to input custom hydrodynamic data. Developing a standard hydrodynamic data input format for the code makes it easy for BEM data readers for different codes to be written and also provides a simple way for users to modify or specify custom hydrodynamic data.
+#. Is is difficult to analyze, visualize, and compare hydrodynamic data, especially if the data is from different sources, Creating a standard significantly decreases the difficulty of these tasks.
+
+.. _developers:
+Developers
+----------
+* Michael Lawson, National Renewable Energy Laboratory
+* Carlos Michelen, Sandia National Laboratories
+* Yi-Hsiang Yu, National Renewable Energy Laboratory
+
+
+Indices and tables
+------------------
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
