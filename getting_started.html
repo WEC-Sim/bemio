@@ -8,7 +8,7 @@
     
     <title>Getting started &mdash; bemio v1.0a0 documentation</title>
     
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,79 +25,36 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="bemio v1.0a0 documentation" href="index.html" />
     <link rel="next" title="API" href="api.html" />
-    <link rel="prev" title="bemio Documentation and Users Guide" href="index.html" /> 
+    <link rel="prev" title="bemio Documentation and Users Guide" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
   </head>
-  <body>
-
-<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
-<a href="index.html"><img src="_static/logo.png" border="0" alt="py4sci"/></a>
-</div>
-
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="api.html" title="API"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="index.html" title="bemio Documentation and Users Guide"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">home</a>|&nbsp;</li>
-        <li><a href="search.html">search</a>|&nbsp;</li>
- 
+        <li class="nav-item nav-item-0"><a href="index.html">bemio v1.0a0 documentation</a> &raquo;</li> 
       </ul>
-    </div>
-
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Getting started</a><ul>
-<li><a class="reference internal" href="#downloading">Downloading</a></li>
-<li><a class="reference internal" href="#installing">Installing</a><ul>
-<li><a class="reference internal" href="#simple-instillation-instructions-windows">Simple Instillation Instructions - Windows</a></li>
-<li><a class="reference internal" href="#simple-instillation-instructions-osx-and-linux">Simple Instillation Instructions - OSX and Linux</a></li>
-<li><a class="reference internal" href="#developer-instillation-instructions">Developer Instillation Instructions</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter"><cite>bemio</cite> Documentation and Users Guide</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="api.html"
-                        title="next chapter">API</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/getting_started.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="getting-started">
 <span id="id1"></span><h1>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
@@ -150,7 +107,7 @@
 <div class="highlight-python"><div class="highlight"><pre>python setup.py install
 </pre></div>
 </div>
-<p class="last">This installs the <cite>bemio</cite> files to your <a class="reference external" href="https://docs.python.org/2/using/cmdline.html#environment-variables">$PYTHONPATH</a> allowing you to run the code. Note that if you do not have administrative privileges on your system you will need to run the <tt class="docutils literal"><span class="pre">setup.py</span></tt> script from a <a class="reference external" href="https://technet.microsoft.com/en-us/library/cc947813%28v=ws.10%29.aspx">Command Prompt with administrative rights</a>.</p>
+<p class="last">This installs the <cite>bemio</cite> files to your <a class="reference external" href="https://docs.python.org/2/using/cmdline.html#environment-variables">$PYTHONPATH</a> allowing you to run the code. Note that if you do not have administrative privileges on your system you will need to run the <code class="docutils literal"><span class="pre">setup.py</span></code> script from a <a class="reference external" href="https://technet.microsoft.com/en-us/library/cc947813%28v=ws.10%29.aspx">Command Prompt with administrative rights</a>.</p>
 </dd>
 <dt>Step 5: Test the instillation</dt>
 <dd><p class="first">Test the <cite>bemio</cite> by moving running the command inside the $BEMIO_SOURCE folder:</p>
@@ -202,7 +159,7 @@
 <dt>Step 3: Install <cite>bemio</cite></dt>
 <dd>Add the $BEMIO_SOURCE folder to your <a class="reference external" href="https://docs.python.org/2/using/cmdline.html#environment-variables">PYTHONPATH</a> environment variable.</dd>
 <dt>Step 4: Test the instillation</dt>
-<dd><p class="first">Run the <tt class="docutils literal"><span class="pre">bemio_test.py</span></tt> script inside the $BEMIO_SOURCE folder:</p>
+<dd><p class="first">Run the <code class="docutils literal"><span class="pre">bemio_test.py</span></code> script inside the $BEMIO_SOURCE folder:</p>
 <div class="highlight-python"><div class="highlight"><pre>python bemio_test.py
 </pre></div>
 </div>
@@ -217,28 +174,66 @@
           </div>
         </div>
       </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Getting started</a><ul>
+<li><a class="reference internal" href="#downloading">Downloading</a></li>
+<li><a class="reference internal" href="#installing">Installing</a><ul>
+<li><a class="reference internal" href="#simple-instillation-instructions-windows">Simple Instillation Instructions - Windows</a></li>
+<li><a class="reference internal" href="#simple-instillation-instructions-osx-and-linux">Simple Instillation Instructions - OSX and Linux</a></li>
+<li><a class="reference internal" href="#developer-instillation-instructions">Developer Instillation Instructions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter"><cite>bemio</cite> Documentation and Users Guide</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="api.html"
+                        title="next chapter">API</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/getting_started.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="api.html" title="API"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="bemio Documentation and Users Guide"
-             >previous</a> |</li>
-        <li><a href="index.html">home</a>|&nbsp;</li>
-        <li><a href="search.html">search</a>|&nbsp;</li>
- 
-      </ul>
-    </div>
     <div class="footer">
-        &copy; Copyright 2015, National Renewable Energy Laboratory.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      &copy;2015, National Renewable Energy Laboratory.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.3</a>
+      
+      |
+      <a href="_sources/getting_started.txt"
+          rel="nofollow">Page source</a></li>
     </div>
+
+    
+
+    
   </body>
 </html>

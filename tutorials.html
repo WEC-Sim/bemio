@@ -8,7 +8,7 @@
     
     <title>Tutorials &mdash; bemio v1.0a0 documentation</title>
     
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -24,84 +24,41 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="bemio v1.0a0 documentation" href="index.html" />
-    <link rel="next" title="data_structures Documentation" href="data_structures_doc.html" />
-    <link rel="prev" title="API" href="api.html" /> 
+    <link rel="next" title="bemio Module Documentation" href="module_doc.html" />
+    <link rel="prev" title="API" href="api.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
   </head>
-  <body>
-
-<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
-<a href="index.html"><img src="_static/logo.png" border="0" alt="py4sci"/></a>
-</div>
-
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="data_structures_doc.html" title="data_structures Documentation"
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="module_doc.html" title="bemio Module Documentation"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="api.html" title="API"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">home</a>|&nbsp;</li>
-        <li><a href="search.html">search</a>|&nbsp;</li>
- 
+        <li class="nav-item nav-item-0"><a href="index.html">bemio v1.0a0 documentation</a> &raquo;</li> 
       </ul>
-    </div>
-
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Tutorials</a><ul>
-<li><a class="reference internal" href="#tutorial-data-files">Tutorial Data Files</a></li>
-<li><a class="reference internal" href="#wamit">WAMIT</a><ul>
-<li><a class="reference internal" href="#viewing-the-shdf-file">Viewing the SHDF File</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#nemoh">NEMOH</a></li>
-<li><a class="reference internal" href="#aqwa">AQWA</a></li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="api.html"
-                        title="previous chapter">API</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="data_structures_doc.html"
-                        title="next chapter"><tt class="docutils literal"><span class="pre">data_structures</span></tt> Documentation</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/tutorials.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="tutorials">
 <span id="id1"></span><h1>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this headline">¶</a></h1>
-<p>This section provides tutorials that show how to use <a class="reference internal" href="api.html#api"><em>API</em></a> to read, process, and save NEMOH, WAMIT, and AQWA simulation data. Specifically, the tutorials show how to:</p>
+<p>This section provides tutorials that show how to use <a class="reference internal" href="api.html#api"><span>API</span></a> to read, process, and save NEMOH, WAMIT, and AQWA simulation data. Specifically, the tutorials show how to:</p>
 <blockquote>
 <div><ol class="arabic simple">
 <li>Create custom programs that read BEM simulation data</li>
@@ -114,19 +71,19 @@
 <p><cite>bemio</cite> was developed so that users interact with the API in the same way regardless of the type of BEM data that is being read and processed. As such, we will present a thorough description of how to process WAMIT data in the &#8216;WAMIT&#8217;_ tutorial, and abbreviated versions of the NEMOH and AQWA tutorials.</p>
 <div class="section" id="tutorial-data-files">
 <span id="data-files"></span><h2>Tutorial Data Files<a class="headerlink" href="#tutorial-data-files" title="Permalink to this headline">¶</a></h2>
-<p>Tutorial files are distributed with the <cite>bemio</cite> code and can be found in the <tt class="docutils literal"><span class="pre">$BEMIO_SOURCE/tutorials</span></tt> folder. This location will be refereed to as <tt class="docutils literal"><span class="pre">$BEMIO_TUTORIALS</span></tt>.</p>
+<p>Tutorial files are distributed with the <cite>bemio</cite> code and can be found in the <code class="docutils literal"><span class="pre">$BEMIO_SOURCE/tutorials</span></code> folder. This location will be refereed to as <code class="docutils literal"><span class="pre">$BEMIO_TUTORIALS</span></code>.</p>
 </div>
 <div class="section" id="wamit">
 <span id="wamit-tut"></span><h2>WAMIT<a class="headerlink" href="#wamit" title="Permalink to this headline">¶</a></h2>
-<p>WAMIT tutorial files can be found in the <tt class="docutils literal"><span class="pre">$BEMIO_TUTORIALS/wamit</span></tt> folder. As shown below, the folder contains a <tt class="docutils literal"><span class="pre">data</span></tt> folder and a <tt class="docutils literal"><span class="pre">run.py</span></tt> folder as shown below.</p>
+<p>WAMIT tutorial files can be found in the <code class="docutils literal"><span class="pre">$BEMIO_TUTORIALS/wamit</span></code> folder. As shown below, the folder contains a <code class="docutils literal"><span class="pre">data</span></code> folder and a <code class="docutils literal"><span class="pre">run.py</span></code> folder as shown below.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/wamit_tut_dir.png"><img alt="_images/wamit_tut_dir.png" src="_images/wamit_tut_dir.png" style="width: 400pt;" /></a>
 </div>
-<p>The data folder contains several example WAMIT output files. In this tutorial we will use the <tt class="docutils literal"><span class="pre">wec3.out</span></tt> example data. This file contains WAMIT simulation from a floating three-body oscillating flap device shown below. This device geometry was used in the Wave Energy Converter Code Comparison (WEC3) project [1] and described by Babarit et al. [2] (FIX CITATIONs).</p>
+<p>The data folder contains several example WAMIT output files. In this tutorial we will use the <code class="docutils literal"><span class="pre">wec3.out</span></code> example data. This file contains WAMIT simulation from a floating three-body oscillating flap device shown below. This device geometry was used in the Wave Energy Converter Code Comparison (WEC3) project [1] and described by Babarit et al. [2] (FIX CITATIONs).</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/wec3_device.png"><img alt="_images/wec3_device.png" src="_images/wec3_device.png" style="width: 400pt;" /></a>
 </div>
-<p>The <tt class="docutils literal"><span class="pre">run.py</span></tt> file contains a custom written script that uses the <cite>bemio</cite> <a class="reference internal" href="api.html#api"><em>API</em></a> to read the <tt class="docutils literal"><span class="pre">wec3.out</span></tt> file, plot hydrodynamic coefficients, and save the data in the SHDF.</p>
+<p>The <code class="docutils literal"><span class="pre">run.py</span></code> file contains a custom written script that uses the <cite>bemio</cite> <a class="reference internal" href="api.html#api"><span>API</span></a> to read the <code class="docutils literal"><span class="pre">wec3.out</span></code> file, plot hydrodynamic coefficients, and save the data in the SHDF.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c">#! /usr/bin/python</span>
 
 
@@ -190,7 +147,7 @@
 </div>
 <div class="section" id="viewing-the-shdf-file">
 <h3>Viewing the SHDF File<a class="headerlink" href="#viewing-the-shdf-file" title="Permalink to this headline">¶</a></h3>
-<p>The SHDF file containing the WAMIT data was written to <tt class="docutils literal"><span class="pre">$BEMIO_TUTORIALS/wamit/data/wec3.h5</span></tt> and can be viewed using <a class="reference external" href="http://www.hdfgroup.org/products/java/hdfview/">HDFVIEW</a> as shown below. <a class="reference external" href="http://www.hdfgroup.org/products/java/hdfview/">HDFVIEW</a> allows the different data to be viewed and simple line plots to be made. For example, the image below shows the added mass matrix (<tt class="docutils literal"><span class="pre">wamit_data_obj.data[0].am.all</span></tt>) with a shape of 6 x 6*num_bodies x num_frequencies, the body name from the WAMTI file (<tt class="docutils literal"><span class="pre">wamit_data_obj.data[0].name</span></tt>), the body center of gravity from the WAMIT file (<tt class="docutils literal"><span class="pre">wamit_data_obj.data[0].cg</span></tt>). Also shown is the 1,1 (surge) component of the added mass matrix, which is stored in the SHDF file in the <tt class="docutils literal"><span class="pre">bodyN/added_mass/comps/comp_1_1</span></tt> file. <a class="reference external" href="http://www.hdfgroup.org/products/java/hdfview/">HDFVIEW</a> was used to plot this added mass component.</p>
+<p>The SHDF file containing the WAMIT data was written to <code class="docutils literal"><span class="pre">$BEMIO_TUTORIALS/wamit/data/wec3.h5</span></code> and can be viewed using <a class="reference external" href="http://www.hdfgroup.org/products/java/hdfview/">HDFVIEW</a> as shown below. <a class="reference external" href="http://www.hdfgroup.org/products/java/hdfview/">HDFVIEW</a> allows the different data to be viewed and simple line plots to be made. For example, the image below shows the added mass matrix (<code class="docutils literal"><span class="pre">wamit_data_obj.data[0].am.all</span></code>) with a shape of 6 x 6*num_bodies x num_frequencies, the body name from the WAMTI file (<code class="docutils literal"><span class="pre">wamit_data_obj.data[0].name</span></code>), the body center of gravity from the WAMIT file (<code class="docutils literal"><span class="pre">wamit_data_obj.data[0].cg</span></code>). Also shown is the 1,1 (surge) component of the added mass matrix, which is stored in the SHDF file in the <code class="docutils literal"><span class="pre">bodyN/added_mass/comps/comp_1_1</span></code> file. <a class="reference external" href="http://www.hdfgroup.org/products/java/hdfview/">HDFVIEW</a> was used to plot this added mass component.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/wamit_tut_shdf.png"><img alt="_images/wamit_tut_shdf.png" src="_images/wamit_tut_shdf.png" style="width: 550pt;" /></a>
 </div>
@@ -208,28 +165,66 @@
           </div>
         </div>
       </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Tutorials</a><ul>
+<li><a class="reference internal" href="#tutorial-data-files">Tutorial Data Files</a></li>
+<li><a class="reference internal" href="#wamit">WAMIT</a><ul>
+<li><a class="reference internal" href="#viewing-the-shdf-file">Viewing the SHDF File</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#nemoh">NEMOH</a></li>
+<li><a class="reference internal" href="#aqwa">AQWA</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="api.html"
+                        title="previous chapter">API</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="module_doc.html"
+                        title="next chapter">bemio Module Documentation</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/tutorials.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="data_structures_doc.html" title="data_structures Documentation"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="api.html" title="API"
-             >previous</a> |</li>
-        <li><a href="index.html">home</a>|&nbsp;</li>
-        <li><a href="search.html">search</a>|&nbsp;</li>
- 
-      </ul>
-    </div>
     <div class="footer">
-        &copy; Copyright 2015, National Renewable Energy Laboratory.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      &copy;2015, National Renewable Energy Laboratory.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.3</a>
+      
+      |
+      <a href="_sources/tutorials.txt"
+          rel="nofollow">Page source</a></li>
     </div>
+
+    
+
+    
   </body>
 </html>

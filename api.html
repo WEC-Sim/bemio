@@ -8,7 +8,7 @@
     
     <title>API &mdash; bemio v1.0a0 documentation</title>
     
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,75 +25,36 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="bemio v1.0a0 documentation" href="index.html" />
     <link rel="next" title="Tutorials" href="tutorials.html" />
-    <link rel="prev" title="Getting started" href="getting_started.html" /> 
+    <link rel="prev" title="Getting started" href="getting_started.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
   </head>
-  <body>
-
-<div style="background-color: white; text-align: left; padding: 10px 10px 15px 15px">
-<a href="index.html"><img src="_static/logo.png" border="0" alt="py4sci"/></a>
-</div>
-
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="tutorials.html" title="Tutorials"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="getting_started.html" title="Getting started"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">home</a>|&nbsp;</li>
-        <li><a href="search.html">search</a>|&nbsp;</li>
- 
+        <li class="nav-item nav-item-0"><a href="index.html">bemio v1.0a0 documentation</a> &raquo;</li> 
       </ul>
-    </div>
-
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">API</a><ul>
-<li><a class="reference internal" href="#loading-data">Loading Data</a></li>
-<li><a class="reference internal" href="#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
-<li><a class="reference internal" href="#writing-the-data-to-the-shdf">Writing the Data to the SHDF</a></li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="getting_started.html"
-                        title="previous chapter">Getting started</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="tutorials.html"
-                        title="next chapter">Tutorials</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/api.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="api">
 <span id="id1"></span><h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
@@ -103,12 +64,12 @@
 <p>Users can load data by interacting with the following with the following <cite>bemio</cite> modules</p>
 <blockquote>
 <div><ul class="simple">
-<li><tt class="xref py py-mod docutils literal"><span class="pre">bemio.io.nemoh</span></tt></li>
-<li><tt class="xref py py-mod docutils literal"><span class="pre">bemio.io.wamit</span></tt></li>
-<li><tt class="xref py py-mod docutils literal"><span class="pre">bemio.io.aqwa</span></tt></li>
+<li><a class="reference internal" href="module_doc.html#module-bemio.io.nemoh" title="bemio.io.nemoh"><code class="xref py py-mod docutils literal"><span class="pre">bemio.io.nemoh</span></code></a></li>
+<li><a class="reference internal" href="module_doc.html#module-bemio.io.wamit" title="bemio.io.wamit"><code class="xref py py-mod docutils literal"><span class="pre">bemio.io.wamit</span></code></a></li>
+<li><a class="reference internal" href="module_doc.html#module-bemio.io.aqwa" title="bemio.io.aqwa"><code class="xref py py-mod docutils literal"><span class="pre">bemio.io.aqwa</span></code></a></li>
 </ul>
 </div></blockquote>
-<p>The python code below shows how a user would interact with the modules in the Python 2.7 environment in order to read NEMOH, WAMIT, and AQWA data. Notice that the <tt class="xref py py-mod docutils literal"><span class="pre">bemio.io</span></tt> objects are used to create data objects that contain the hydrodynamic data from the data files produced by the hydrodynamic simulation codes:</p>
+<p>The python code below shows how a user would interact with the modules in the Python 2.7 environment in order to read NEMOH, WAMIT, and AQWA data. Notice that the <code class="xref py py-mod docutils literal"><span class="pre">bemio.io</span></code> objects are used to create data objects that contain the hydrodynamic data from the data files produced by the hydrodynamic simulation codes:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">bemio.io</span> <span class="kn">import</span> <span class="n">nemoh</span>  <span class="c"># Import NEMOH module</span>
 <span class="kn">from</span> <span class="nn">bemio.io</span> <span class="kn">import</span> <span class="n">wanit</span>  <span class="c"># Import WAMIT module</span>
 <span class="kn">from</span> <span class="nn">bemio.io</span> <span class="kn">import</span> <span class="n">aqwa</span>   <span class="c"># Import AQWA module</span>
@@ -126,7 +87,7 @@
 </div>
 <div class="section" id="calculating-impulse-response-functions-and-sate-space-coefficients">
 <span id="irf-and-ss"></span><h2>Calculating Impulse Response Functions and Sate Space Coefficients<a class="headerlink" href="#calculating-impulse-response-functions-and-sate-space-coefficients" title="Permalink to this headline">¶</a></h2>
-<p>Once the data is loaded into the data objects, functions in the <tt class="xref py py-mod docutils literal"><span class="pre">bemio.io</span></tt>  modules can be used to calculate the impulse response function and state space hydrodynamic coefficients from the hydrodynamic data. The code below demonstrates how to use the <tt class="xref py py-meth docutils literal"><span class="pre">calc_irf()</span></tt> and <tt class="xref py py-meth docutils literal"><span class="pre">calc_ss()</span></tt> functions to calculate and store the impulse response functions for the NEMOH data object. The calculation procedure would be the same for the <tt class="docutils literal"><span class="pre">wamit_data_obj</span></tt> and <tt class="docutils literal"><span class="pre">aqwa_data_obj</span></tt> data objects:</p>
+<p>Once the data is loaded into the data objects, functions in the <code class="xref py py-mod docutils literal"><span class="pre">bemio.io</span></code>  modules can be used to calculate the impulse response function and state space hydrodynamic coefficients from the hydrodynamic data. The code below demonstrates how to use the <code class="xref py py-meth docutils literal"><span class="pre">calc_irf()</span></code> and <code class="xref py py-meth docutils literal"><span class="pre">calc_ss()</span></code> functions to calculate and store the impulse response functions for the NEMOH data object. The calculation procedure would be the same for the <code class="docutils literal"><span class="pre">wamit_data_obj</span></code> and <code class="docutils literal"><span class="pre">aqwa_data_obj</span></code> data objects:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># Calculate the impulse response functions</span>
 <span class="n">nemoh_data_obj</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">calc_irf</span><span class="p">(</span><span class="n">t_end</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">n_t</span> <span class="o">=</span> <span class="mi">1001</span><span class="p">,</span> <span class="n">n_w</span><span class="o">=</span><span class="mi">1001</span><span class="p">)</span>
 
@@ -139,7 +100,7 @@
 <span id="standard-data-format"></span><h2>Writing the Data to the SHDF<a class="headerlink" href="#writing-the-data-to-the-shdf" title="Permalink to this headline">¶</a></h2>
 <p>As previously discussed, the SHDF provides a consistent format to store BEM simulation data from NEMOH, WAMT, AQWA, and user defined hydrodynamic data. The SHDF uses the <a class="reference external" href="http://www.hdfgroup.org/HDF5/">Hierarchical Data Format 5 (HDF5)</a>, a data structure that is similar to a computers file system, to store complex data in a robust and clear fashion. HDF5 files can be easily viewed and modified with <a class="reference external" href="http://www.hdfgroup.org/products/java/hdfview/">HDF5VIEW</a>.</p>
 <p><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim">WEC-Sim</a> uses the SHDF as an input file for hydrodynamic data used in wave energy converter simulations.</p>
-<p>Once data is loaded read into a data object, the <tt class="xref py py-meth docutils literal"><span class="pre">write_hdf5()</span></tt> function can be used to write the data to a SHDF file:</p>
+<p>Once data is loaded read into a data object, the <code class="xref py py-meth docutils literal"><span class="pre">write_hdf5()</span></code> function can be used to write the data to a SHDF file:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># Import the bem module</span>
 <span class="kn">import</span> <span class="nn">bemio.data_structures.bem</span> <span class="kn">as</span> <span class="nn">bem</span>
 
@@ -154,12 +115,12 @@
 <p>As shown in the figure above above, the SHDF contains three top levels:</p>
 <blockquote>
 <div><dl class="docutils">
-<dt><tt class="docutils literal"><span class="pre">bem_data</span></tt>:</dt>
+<dt><code class="docutils literal"><span class="pre">bem_data</span></code>:</dt>
 <dd>This folder contains the raw and unprocessed output data files from the BEM code</dd>
-<dt><tt class="docutils literal"><span class="pre">bodyN</span></tt>:</dt>
-<dd>The folders named <tt class="docutils literal"><span class="pre">body1</span></tt>, <tt class="docutils literal"><span class="pre">body2</span></tt>, ... <tt class="docutils literal"><span class="pre">bodyN</span></tt> contain the processed data for that body. In the case above there are two bodies, corresponding to the two bodies of the two body point absorber. Notice that the folders beneath each <tt class="docutils literal"><span class="pre">bodyN</span></tt> folder contains the hydrodynamic data for that body.</dd>
-<dt><tt class="docutils literal"><span class="pre">simulatino_parameters</span></tt>:</dt>
-<dd>This data structure contains simulation parameters from the BEM simulation that are independent of the body number. For example, the <tt class="docutils literal"><span class="pre">water_depth</span></tt> variable contains the water depth used during the BEM simulation</dd>
+<dt><code class="docutils literal"><span class="pre">bodyN</span></code>:</dt>
+<dd>The folders named <code class="docutils literal"><span class="pre">body1</span></code>, <code class="docutils literal"><span class="pre">body2</span></code>, ... <code class="docutils literal"><span class="pre">bodyN</span></code> contain the processed data for that body. In the case above there are two bodies, corresponding to the two bodies of the two body point absorber. Notice that the folders beneath each <code class="docutils literal"><span class="pre">bodyN</span></code> folder contains the hydrodynamic data for that body.</dd>
+<dt><code class="docutils literal"><span class="pre">simulatino_parameters</span></code>:</dt>
+<dd>This data structure contains simulation parameters from the BEM simulation that are independent of the body number. For example, the <code class="docutils literal"><span class="pre">water_depth</span></code> variable contains the water depth used during the BEM simulation</dd>
 </dl>
 </div></blockquote>
 <p>It goes without saying the the SHDF only contains information that is contained within the BEM simulation output files and SHDF files are generated by the <cite>bemio</cite>. It is also possible to manually create SHDF files for use as input to the WEC-Sim code, although this procedure is not described in this Users Guide.</p>
@@ -170,28 +131,62 @@
           </div>
         </div>
       </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">API</a><ul>
+<li><a class="reference internal" href="#loading-data">Loading Data</a></li>
+<li><a class="reference internal" href="#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
+<li><a class="reference internal" href="#writing-the-data-to-the-shdf">Writing the Data to the SHDF</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="getting_started.html"
+                        title="previous chapter">Getting started</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="tutorials.html"
+                        title="next chapter">Tutorials</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/api.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="tutorials.html" title="Tutorials"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="getting_started.html" title="Getting started"
-             >previous</a> |</li>
-        <li><a href="index.html">home</a>|&nbsp;</li>
-        <li><a href="search.html">search</a>|&nbsp;</li>
- 
-      </ul>
-    </div>
     <div class="footer">
-        &copy; Copyright 2015, National Renewable Energy Laboratory.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+      &copy;2015, National Renewable Energy Laboratory.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.3</a>
+      
+      |
+      <a href="_sources/api.txt"
+          rel="nofollow">Page source</a></li>
     </div>
+
+    
+
+    
   </body>
 </html>

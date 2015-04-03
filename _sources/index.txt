@@ -11,14 +11,13 @@ Contents
    getting_started.rst
    api.rst
    tutorials.rst
-   data_structures_doc.rst
-   io_doc.rst
+   module_doc.rst
 
 .. _introduction:
 
 Introduction
 ------------
-The hydrodynamic coefficients that describe the radiation damping, added mass, wave diffraction force, and wave excitation force (referred to as 'hydrodynamic data' in this document) on floating bodies are typically determined using frequency domain boundary element method (BEM) hydrodynamics codes such as `NEMOH <http://lheea.ec-nantes.fr/doku.php/emo/nemoh/start>`_, `WAMIT <http://www.wamit.com/>`_, and `AQWA <http://www.ansys.com/Products/Other+Products/ANSYS+AQWA>`_. `bemio` provides a method to read the output data from these codes and to save the BEM simulation data in a standard hydrodynamic data format (SHDF) that uses `Hierarchical Data Format 5 (HDF5) <http://www.hdfgroup.org/HDF5/>`_. In addition, `bemio` provides the functionality to calculate the impulse response functions IIRFs) and state space coefficients that represent the IRFs.
+The hydrodynamic coefficients (or data) that describe the radiation damping, added mass, wave diffraction force, and wave excitation force on floating bodies are widely used in multi body dynamics simulations of wave energy converters, ships, offshore platforms, and other floating structures to model hydrodynamic forces. These hydrodynamics coefficients are typically determined using frequency domain boundary element method (BEM) hydrodynamics codes such as `NEMOH <http://lheea.ec-nantes.fr/doku.php/emo/nemoh/start>`_, `WAMIT <http://www.wamit.com/>`_, and `AQWA <http://www.ansys.com/Products/Other+Products/ANSYS+AQWA>`_. `bemio` is a post-processing tool to reads the output data from these codes, process the data, visiuilaize the data, and save the data. `bemio` saves the data in Standard Hydrodynamic Data Format (SHDF) that uses `Hierarchical Data Format 5 (HDF5) <http://www.hdfgroup.org/HDF5/>`_. In addition, `bemio` provides the functionality to calculate the impulse response functions IIRFs) and state space coefficients that represent the IRFs.
 
 .. _motivation_for_devel:
 

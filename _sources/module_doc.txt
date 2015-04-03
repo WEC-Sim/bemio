@@ -1,7 +1,25 @@
+.. _module_doc:
+
+bemio Module Documentation
+==========================
+
+.. _data_structures:
+
+data_structures
+---------------
+
+.. _bem_hydrodynamic_data:
+
+HydrodynamicData
+~~~~~~~~~~~~~~~~~~~~~
+.. automodule:: bemio.data_structures.bem
+.. autoclass:: HydrodynamicData
+	:members:
+
 .. _io:
 
-``io`` Documentation
-====================
+io (Input/Output)
+-----------------
 
 .. _wamit_output:
 
