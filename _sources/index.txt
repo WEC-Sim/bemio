@@ -3,16 +3,6 @@
 `bemio` Documentation and Users Guide
 =====================================
 
-Contents
---------
-.. toctree::
-   :maxdepth: 2
-   
-   getting_started.rst
-   api.rst
-   tutorials.rst
-   module_doc.rst
-
 .. _introduction:
 
 Introduction
@@ -34,6 +24,16 @@ Developers
 * Michael Lawson, National Renewable Energy Laboratory
 * Carlos Michelen, Sandia National Laboratories
 * Yi-Hsiang Yu, National Renewable Energy Laboratory
+
+Contents
+--------
+.. toctree::
+   :maxdepth: 2
+   
+   getting_started.rst
+   api.rst
+   tutorials.rst
+   module_doc.rst
 
 
 Indices and tables

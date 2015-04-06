@@ -123,6 +123,26 @@
             
   <div class="section" id="bemio-documentation-and-users-guide">
 <span id="bemio-doc"></span><h1><cite>bemio</cite> Documentation and Users Guide<a class="headerlink" href="#bemio-documentation-and-users-guide" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<span id="id1"></span><h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The hydrodynamic coefficients (or data) that describe the radiation damping, added mass, wave diffraction force, and wave excitation force on floating bodies are widely used in multi body dynamics simulations of wave energy converters, ships, offshore platforms, and other floating structures to model hydrodynamic forces. These hydrodynamics coefficients are typically determined using frequency domain boundary element method (BEM) hydrodynamics codes such as <a class="reference external" href="http://lheea.ec-nantes.fr/doku.php/emo/nemoh/start">NEMOH</a>, <a class="reference external" href="http://www.wamit.com/">WAMIT</a>, and <a class="reference external" href="http://www.ansys.com/Products/Other+Products/ANSYS+AQWA">AQWA</a>. <cite>bemio</cite> is a post-processing tool to reads the output data from these codes, process the data, visiuilaize the data, and save the data. <cite>bemio</cite> saves the data in Standard Hydrodynamic Data Format (SHDF) that uses <a class="reference external" href="http://www.hdfgroup.org/HDF5/">Hierarchical Data Format 5 (HDF5)</a>. In addition, <cite>bemio</cite> provides the functionality to calculate the impulse response functions IIRFs) and state space coefficients that represent the IRFs.</p>
+</div>
+<div class="section" id="motivation-for-development">
+<span id="motivation-for-devel"></span><h2>Motivation for Development<a class="headerlink" href="#motivation-for-development" title="Permalink to this headline">¶</a></h2>
+<p>There were two main motivations for developing <cite>bemio</cite>:</p>
+<ol class="arabic simple">
+<li><cite>bemio</cite> and the standard bemio hydrodynamic data format were developed to support the WEC-Sim (Wave Energy Converter Simulator) project. During development and use of WEC-Sim, it became apparent WEC-Sim needed the ability to use hydrodynamic data from any BEM code and to allow users to input custom hydrodynamic data. Developing a standard hydrodynamic data input format for the code makes it easy for BEM data readers for different codes to be written and also provides a simple way for users to modify or specify custom hydrodynamic data.</li>
+<li>Is is difficult to analyze, visualize, and compare hydrodynamic data, especially if the data is from different sources, Creating a standard significantly decreases the difficulty of these tasks.</li>
+</ol>
+</div>
+<div class="section" id="id2">
+<h2>Developers<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Michael Lawson, National Renewable Energy Laboratory</li>
+<li>Carlos Michelen, Sandia National Laboratories</li>
+<li>Yi-Hsiang Yu, National Renewable Energy Laboratory</li>
+</ul>
+</div>
 <div class="section" id="contents">
 <h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
@@ -152,26 +172,6 @@
 </li>
 </ul>
 </div>
-</div>
-<div class="section" id="introduction">
-<span id="id1"></span><h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>The hydrodynamic coefficients (or data) that describe the radiation damping, added mass, wave diffraction force, and wave excitation force on floating bodies are widely used in multi body dynamics simulations of wave energy converters, ships, offshore platforms, and other floating structures to model hydrodynamic forces. These hydrodynamics coefficients are typically determined using frequency domain boundary element method (BEM) hydrodynamics codes such as <a class="reference external" href="http://lheea.ec-nantes.fr/doku.php/emo/nemoh/start">NEMOH</a>, <a class="reference external" href="http://www.wamit.com/">WAMIT</a>, and <a class="reference external" href="http://www.ansys.com/Products/Other+Products/ANSYS+AQWA">AQWA</a>. <cite>bemio</cite> is a post-processing tool to reads the output data from these codes, process the data, visiuilaize the data, and save the data. <cite>bemio</cite> saves the data in Standard Hydrodynamic Data Format (SHDF) that uses <a class="reference external" href="http://www.hdfgroup.org/HDF5/">Hierarchical Data Format 5 (HDF5)</a>. In addition, <cite>bemio</cite> provides the functionality to calculate the impulse response functions IIRFs) and state space coefficients that represent the IRFs.</p>
-</div>
-<div class="section" id="motivation-for-development">
-<span id="motivation-for-devel"></span><h2>Motivation for Development<a class="headerlink" href="#motivation-for-development" title="Permalink to this headline">¶</a></h2>
-<p>There were two main motivations for developing <cite>bemio</cite>:</p>
-<ol class="arabic simple">
-<li><cite>bemio</cite> and the standard bemio hydrodynamic data format were developed to support the WEC-Sim (Wave Energy Converter Simulator) project. During development and use of WEC-Sim, it became apparent WEC-Sim needed the ability to use hydrodynamic data from any BEM code and to allow users to input custom hydrodynamic data. Developing a standard hydrodynamic data input format for the code makes it easy for BEM data readers for different codes to be written and also provides a simple way for users to modify or specify custom hydrodynamic data.</li>
-<li>Is is difficult to analyze, visualize, and compare hydrodynamic data, especially if the data is from different sources, Creating a standard significantly decreases the difficulty of these tasks.</li>
-</ol>
-</div>
-<div class="section" id="id2">
-<h2>Developers<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Michael Lawson, National Renewable Energy Laboratory</li>
-<li>Carlos Michelen, Sandia National Laboratories</li>
-<li>Yi-Hsiang Yu, National Renewable Energy Laboratory</li>
-</ul>
 </div>
 <div class="section" id="indices-and-tables">
 <h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
