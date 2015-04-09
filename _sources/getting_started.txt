@@ -21,7 +21,7 @@ Python 2.7.x
 
 These packages can easily be installed using `Python Package Index (pip) <https://pypi.python.org/pypi/pip>`_, which comes packaged with most python distributions. If you have Python 2.7.x installed on your system, chances are you already have pip installed. The required Python packages can be installed using the following pip commands from the command line::
 	
-	pip install 'package name'
+	pip install <package name>
 
 HDFView
 -----------
