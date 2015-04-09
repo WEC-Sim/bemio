@@ -73,7 +73,7 @@ Step 4: Install `bemio`
 Step 5: Test the instillation
 	Test the `bemio` by moving running the command inside the $BEMIO_SOURCE folder::
 
-		python bemio_test.py
+		python test.py
 
 	The WAMIT, AQWA, and NEMOH test cases should run successfully and you should get a success messages for each test case.
 
