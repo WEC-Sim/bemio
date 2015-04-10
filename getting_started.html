@@ -66,9 +66,10 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Getting started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#software-requirements">Software Requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">Downloading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#installing">Installing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-python-and-the-required-dependencies">Installing Python and the Required Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-hdfview">Installing HDFView</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#downloading-bemio">Downloading bemio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-bemio">Installing <cite>bemio</cite></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
@@ -126,12 +127,25 @@
             
   <div class="section" id="getting-started">
 <span id="id1"></span><h1>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="software-requirements">
-<span id="downloading"></span><h2>Software Requirements<a class="headerlink" href="#software-requirements" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="python-2-7-x">
-<h3>Python 2.7.x<a class="headerlink" href="#python-2-7-x" title="Permalink to this headline">¶</a></h3>
-<p><a class="reference external" href="https://www.python.org/downloads/">Python 2.7.x</a> must be installed on your system to use <cite>bemio</cite>. In addition, the following Python packages are required:</p>
+<div class="section" id="installing-python-and-the-required-dependencies">
+<span id="downloading"></span><h2>Installing Python and the Required Dependencies<a class="headerlink" href="#installing-python-and-the-required-dependencies" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="for-python-beginners">
+<h3>For Python Beginners<a class="headerlink" href="#for-python-beginners" title="Permalink to this headline">¶</a></h3>
+<p>It can be a pain to install Python, NumPy, SciPy, Matplotlib. h5py and other dependencies that are needed to run bemio. If you&#8217;re new to python, the easiest approach is to start by installing one of the science and engineering oriented Python distributions:</p>
 <ul class="simple">
+<li><a class="reference external" href="http://continuum.io/downloads">Anaconda</a> (Linux, Mac, Windows)</li>
+<li><a class="reference external" href="https://code.google.com/p/pythonxy/">PythonXY</a> (Windows)</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you are using Anaconda, PythonXY or another non-Python.org distribution, you may need to install one of the packages identified in the <span class="target" id="for-experienced-python-users">For Experienced Python Users</span> section. If you need to do so, you should instead install any needed modules via your distribution&#8217;s own pacakge manager.</p>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>For Experienced Python Users<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>Install <a class="reference external" href="https://www.python.org/downloads/">Python 2.7.x</a> and the following Python packages using pip or another instillation method:</p>
+<blockquote>
+<div><ul class="simple">
 <li>matplotlib</li>
 <li>numpy</li>
 <li>scipy</li>
@@ -139,93 +153,67 @@
 <li>astropy</li>
 <li>h5py</li>
 </ul>
-<p>These packages can easily be installed using <a class="reference external" href="https://pypi.python.org/pypi/pip">Python Package Index (pip)</a>, which comes packaged with most python distributions. If you have Python 2.7.x installed on your system, chances are you already have pip installed. The required Python packages can be installed using the following pip commands from the command line:</p>
-<div class="highlight-python"><div class="highlight"><pre>pip install &lt;package name&gt;
-</pre></div>
+</div></blockquote>
 </div>
 </div>
-<div class="section" id="hdfview">
-<h3>HDFView<a class="headerlink" href="#hdfview" title="Permalink to this headline">¶</a></h3>
-<p>Although not required, <cite>bemio</cite> users will benefit from installing <a class="reference external" href="http://www.hdfgroup.org/products/java/hdfview/">HDFVIEW</a>. <span class="target" id="id4">HDFVIEW</span>  allows <cite>bemio</cite> users to view and interact with the standardized bemio hydrodynamic data files.</p>
+<div class="section" id="installing-hdfview">
+<h2>Installing HDFView<a class="headerlink" href="#installing-hdfview" title="Permalink to this headline">¶</a></h2>
+<p>Although not required, <cite>bemio</cite> users will benefit from installing <a class="reference external" href="http://www.hdfgroup.org/products/java/hdfview/">HDFVIEW</a>. <span class="target" id="id3">HDFVIEW</span>  allows <cite>bemio</cite> users to view and interact with the standardized bemio hydrodynamic data files.</p>
 </div>
-</div>
-<div class="section" id="id5">
-<h2>Downloading<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
-<p>The code is distributed through the <a class="reference external" href="https://github.com/WEC-Sim/bemio">bemio GitHub webpage</a>. There are three ways to obtain the code:</p>
-<blockquote>
-<div><ul>
-<li><p class="first">Archive download: The easiest way to obtain a copy of <cite>bemio</cite> is to download archive <a class="reference external" href="https://github.com/WEC-Sim/bemio/releases/tag/v1.0a0">bemio-1.0a0 archive</a>.</p>
-</li>
-<li><p class="first">Clone with Git: <cite>bemio</cite> can also be obtained by cloning the repository with Git:</p>
+<div class="section" id="downloading-bemio">
+<h2>Downloading bemio<a class="headerlink" href="#downloading-bemio" title="Permalink to this headline">¶</a></h2>
+<p>The code is distributed through GitHub. There are three ways to obtain the code:</p>
+<div class="section" id="clone-with-git-recommended-bemio-for-users">
+<h3>Clone with Git (Recommended <cite>bemio</cite> for Users)<a class="headerlink" href="#clone-with-git-recommended-bemio-for-users" title="Permalink to this headline">¶</a></h3>
+<p><cite>bemio</cite> can also be obtained by cloning the repository with Git:</p>
 <div class="highlight-python"><div class="highlight"><pre>git clone https://github.com/WEC-Sim/bemio.git
 </pre></div>
 </div>
-</li>
-<li><p class="first">Fork with Git: If you are planning to contribute to the <cite>bemio</cite> code base, please follow the <a class="reference external" href="https://help.github.com/articles/fork-a-repo/">forking instructions provided by GitHub</a>. If you implement an improvement you would like included in the <cite>bemio</cite> code base please make a <a class="reference external" href="https://help.github.com/articles/using-pull-requests/">pull request</a> so that your improvement can be merged into the code base.</p>
-</li>
+<p>This method is recommended for most users because it makes it easy to update your local version of <cite>bemio</cite> to the latest version using Git using the following command executed from within the <cite>bemio</cite> source folder:</p>
+<div class="highlight-python"><div class="highlight"><pre>git pull
+</pre></div>
+</div>
+</div>
+<div class="section" id="fork-with-git-recommended-for-bemio-developers">
+<h3>Fork with Git (Recommended for <cite>bemio</cite> Developers)<a class="headerlink" href="#fork-with-git-recommended-for-bemio-developers" title="Permalink to this headline">¶</a></h3>
+<p>If you are planning to contribute to the <cite>bemio</cite> code base, please follow the <a class="reference external" href="https://help.github.com/articles/fork-a-repo/">forking instructions provided by GitHub</a>. If you implement an improvement you would like included in the <cite>bemio</cite> code base please make a <a class="reference external" href="https://help.github.com/articles/using-pull-requests/">pull request</a> so that your improvement can be merged into the code base.</p>
+</div>
+<div class="section" id="download-code-archive">
+<h3>Download code archive<a class="headerlink" href="#download-code-archive" title="Permalink to this headline">¶</a></h3>
+<p>The easiest way to obtain a copy of <cite>bemio</cite> is to download the code archive:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/WEC-Sim/bemio/releases/tag/v1.0a0">bemio-1.0</a>.</li>
 </ul>
-</div></blockquote>
+<p>If you chose this method you will have to re-download the code in order to receive code updates.</p>
 </div>
-<div class="section" id="installing">
-<span id="id6"></span><h2>Installing<a class="headerlink" href="#installing" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="installing-bemio">
+<span id="installing"></span><h2>Installing <cite>bemio</cite><a class="headerlink" href="#installing-bemio" title="Permalink to this headline">¶</a></h2>
 <p><cite>bemio</cite> is written in Python 2.7 and is compatible with OSX, Windows, and Linux operating systems. This section provides instructions on how to install <cite>bemio</cite> and test that you installation is working correctly. Simple instillation instructions are provided for users who simply want to run <cite>bemio</cite> and developer Instillation Instructions are provided for users who would like to develop and contribute to the <cite>bemio</cite> code base.</p>
-<div class="section" id="simple-instillation-instructions-windows">
-<span id="simple-install-win"></span><h3>Simple Instillation Instructions - Windows<a class="headerlink" href="#simple-instillation-instructions-windows" title="Permalink to this headline">¶</a></h3>
-<dl class="docutils">
-<dt>Step 1: Install Python</dt>
-<dd>Download and install the <a class="reference external" href="https://store.continuum.io/cshop/anaconda/">Anaconda Python 2.7 distribution</a>. Anaconda comes packaged with the required python modules, with the exception of the <cite>progressbar2</cite> python package. This package will is installed with the <cite>bemio</cite> distribution. When Anaconda Python is successfully installed, you will be able to launch Python from a <a class="reference external" href="http://windows.microsoft.com/en-us/windows-vista/open-a-command-prompt-window">Windows Command Prompt</a>. Test that python was correctly by opening a command prompt and try launching Python.</dd>
-</dl>
-<div class="figure align-center">
-<a class="reference internal image-reference" href="_images/win_python_launch.png"><img alt="_images/win_python_launch.png" src="_images/win_python_launch.png" style="width: 375pt;" /></a>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In this section the location of the <cite>bemio</cite> source folder is refereed to as <code class="docutils literal"><span class="pre">$BEMIO_SOURCE</span></code></p>
 </div>
+<div class="section" id="simple-installation-instructions">
+<span id="simple-install"></span><h3>Simple Installation Instructions<a class="headerlink" href="#simple-installation-instructions" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
+<dt>Step 1: Install Python 2.7.x</dt>
+<dd>Install Python 2.7.x as described in the <a class="reference internal" href="#for-python-beginners">For Python Beginners</a> section</dd>
 <dt>Step 2: Download <cite>bemio</cite></dt>
-<dd>Download the <a class="reference external" href="https://github.com/WEC-Sim/bemio/releases/tag/v1.0a0">bemio-1.0a0-archive</a>.</dd>
-<dt>Step 3: Extract the bemio <cite>bemio</cite> from the archive</dt>
-<dd>Extract <cite>bemio</cite> from the archive and move the source code folder to the desired location. This folder will be referred to as $BEMIO_SOURCE from here on.</dd>
-<dt>Step 4: Install <cite>bemio</cite></dt>
-<dd><p class="first">Open a Windows Command Prompt and navigate to the $BEMIO_SOURCE folder. Once inside the $BEMIO_SOURCE folder execute the following command from the Command Prompt:</p>
+<dd>Download <cite>bemio</cite> as described in the <a class="reference internal" href="#downloading-bemio">Downloading bemio</a> section</dd>
+<dt>Step 3: Install <cite>bemio</cite></dt>
+<dd><p class="first">Open a command window (Windows) or shell (OSX and LInux) and navigate to <code class="docutils literal"><span class="pre">$BEMIO_SOURCE</span></code>. Once inside the <code class="docutils literal"><span class="pre">$BEMIO_SOURCE</span></code> folder execute the following command:</p>
 <div class="highlight-python"><div class="highlight"><pre>python setup.py install
 </pre></div>
 </div>
-<p class="last">This installs the <cite>bemio</cite> files to your <a class="reference external" href="https://docs.python.org/2/using/cmdline.html#environment-variables">$PYTHONPATH</a> allowing you to run the code. Note that if you do not have administrative privileges on your system you will need to run the <code class="docutils literal"><span class="pre">setup.py</span></code> script from a <a class="reference external" href="https://technet.microsoft.com/en-us/library/cc947813%28v=ws.10%29.aspx">Command Prompt with administrative rights</a>.</p>
+<p class="last">This installs the <cite>bemio</cite> files to your <a class="reference external" href="https://docs.python.org/2/using/cmdline.html#environment-variables">$PYTHONPATH</a>. Note the above command must be run with administrative privileges on most systems.</p>
 </dd>
-<dt>Step 5: Test the instillation</dt>
-<dd><p class="first">Test the <cite>bemio</cite> by moving running the command inside the $BEMIO_SOURCE folder:</p>
+<dt>Step 4: Test the instillation</dt>
+<dd><p class="first">Test the <cite>bemio</cite> by running the following command from a command prompt inside the <code class="docutils literal"><span class="pre">$BEMIO_SOURCE</span></code> folder:</p>
 <div class="highlight-python"><div class="highlight"><pre>python test.py
 </pre></div>
 </div>
-<p class="last">The WAMIT, AQWA, and NEMOH test cases should run successfully and you should get a success messages for each test case.</p>
-</dd>
-</dl>
-</div>
-<div class="section" id="simple-instillation-instructions-osx-and-linux">
-<span id="simple-install-osx-linux"></span><h3>Simple Instillation Instructions - OSX and Linux<a class="headerlink" href="#simple-instillation-instructions-osx-and-linux" title="Permalink to this headline">¶</a></h3>
-<dl class="docutils">
-<dt>Step 1: Install Python</dt>
-<dd>Download and install the <a class="reference external" href="https://store.continuum.io/cshop/anaconda/">Anaconda Python 2.7 distribution</a>. Anaconda comes packaged with the required python modules, with the exception of the <cite>progressbar2</cite> python package. This package will is installed with the <cite>bemio</cite> distribution. When Anaconda Python is successfully installed, you will be able to launch Python from a terminal command prompt. Test that python was correctly by opening a terminal and try launching Python.</dd>
-</dl>
-<div class="figure align-center">
-<a class="reference internal image-reference" href="_images/osx_python_launch.png"><img alt="_images/osx_python_launch.png" src="_images/osx_python_launch.png" style="width: 400pt;" /></a>
-</div>
-<dl class="docutils">
-<dt>Step 2: Download <cite>bemio</cite></dt>
-<dd>Download the <a class="reference external" href="https://github.com/WEC-Sim/bemio/releases/tag/v1.0a0">bemio-1.0a0-archive</a>.</dd>
-<dt>Step 3: Extract the bemio <cite>bemio</cite> from the archive</dt>
-<dd>Extract <cite>bemio</cite> from the archive and move the source code folder to the desired location. This folder will be referred to as $BEMIO_SOURCE from here on.</dd>
-<dt>Step 4: Install <cite>bemio</cite></dt>
-<dd><p class="first">Open terminal window and navigate to the $BEMIO_SOURCE folder. Once inside the $BEMIO_SOURCE folder execute the following command from the Command Prompt:</p>
-<div class="highlight-python"><div class="highlight"><pre>sudo python setup.py install
-</pre></div>
-</div>
-<p class="last">This installs the <cite>bemio</cite> files to your <a class="reference external" href="https://docs.python.org/2/using/cmdline.html#environment-variables">$PYTHONPATH</a> allowing you to run the code.</p>
-</dd>
-<dt>Step 5: Test the instillation</dt>
-<dd><p class="first">Test the <cite>bemio</cite> by moving running the command inside the $BEMIO_SOURCE folder:</p>
-<div class="highlight-python"><div class="highlight"><pre>python bemio_test.py
-</pre></div>
-</div>
-<p class="last">The WAMIT, AQWA, and NEMOH test cases should run successfully and you should get a success messages for each test case.</p>
+<p class="last">If the  WAMIT, AQWA, and NEMOH tutorial cases (located in <code class="docutils literal"><span class="pre">$BEMIO_SOURCE/tutorials</span></code>)  run successfully, you will receive get a success messages for each case.</p>
 </dd>
 </dl>
 </div>
@@ -233,18 +221,18 @@
 <span id="developer-install"></span><h3>Developer Instillation Instructions<a class="headerlink" href="#developer-instillation-instructions" title="Permalink to this headline">¶</a></h3>
 <p>These instructions assume the user has a advanced level of Python knowledge. These instillation instructions should also be followed for users who do not have administrative rights on their system.</p>
 <dl class="docutils">
-<dt>Step 1: Install Python</dt>
-<dd>Install Python 2.7.x and the Python modules identified in the <a class="reference internal" href="#installing">Installing</a> section.</dd>
+<dt>Step 1: Install Python 2.7.x</dt>
+<dd>Install Python 2.7.x and the Python modules identified in the <a class="reference internal" href="#for-experienced-python-users">For Experienced Python Users</a> section.</dd>
 <dt>Step 2: Download <cite>bemio</cite></dt>
-<dd>Download, clone, or fork <cite>bemio</cite> as described in the <a class="reference internal" href="#downloading">Downloading</a> section. The top level of the <cite>bemio</cite> source code will be referred to as $BEMIO_SOURCE</dd>
+<dd>Clone or fork <cite>bemio</cite> as described in the <a class="reference internal" href="#downloading-bemio">Downloading bemio</a> section.</dd>
 <dt>Step 3: Install <cite>bemio</cite></dt>
-<dd>Add the $BEMIO_SOURCE folder to your <a class="reference external" href="https://docs.python.org/2/using/cmdline.html#environment-variables">PYTHONPATH</a> environment variable.</dd>
+<dd>Add the <code class="docutils literal"><span class="pre">$BEMIO_SOURCE</span></code> folder to your <a class="reference external" href="https://docs.python.org/2/using/cmdline.html#environment-variables">PYTHONPATH</a> environment variable.</dd>
 <dt>Step 4: Test the instillation</dt>
-<dd><p class="first">Run the <code class="docutils literal"><span class="pre">bemio_test.py</span></code> script inside the $BEMIO_SOURCE folder:</p>
-<div class="highlight-python"><div class="highlight"><pre>python bemio_test.py
+<dd><p class="first">Test the <cite>bemio</cite> by running the following command from a command prompt inside the <code class="docutils literal"><span class="pre">$BEMIO_SOURCE</span></code> folder:</p>
+<div class="highlight-python"><div class="highlight"><pre>python test.py
 </pre></div>
 </div>
-<p class="last">The WAMIT, AQWA, and NEMOH test cases should run successfully and you should get a success messages for each test case.</p>
+<p class="last">If the  WAMIT, AQWA, and NEMOH tutorial cases (located in <code class="docutils literal"><span class="pre">$BEMIO_SOURCE/tutorials</span></code>)  run successfully, you will receive get a success messages for each case.</p>
 </dd>
 </dl>
 </div>

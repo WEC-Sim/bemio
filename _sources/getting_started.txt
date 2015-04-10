@@ -1,114 +1,100 @@
 .. _getting_started:
 
-***************
 Getting started
 ***************
 
 .. _downloading:
 
-Software Requirements
-======================
-Python 2.7.x
-----------------
-`Python 2.7.x <https://www.python.org/downloads/>`_ must be installed on your system to use `bemio`. In addition, the following Python packages are required:
+Installing Python and the Required Dependencies
+================================================
+For Python Beginners
+----------------------
+It can be a pain to install Python, NumPy, SciPy, Matplotlib. h5py and other dependencies that are needed to run bemio. If you're new to python, the easiest approach is to start by installing one of the science and engineering oriented Python distributions:
 
-* matplotlib
-* numpy
-* scipy
-* progressbar2
-* astropy
-* h5py
+* `Anaconda <http://continuum.io/downloads>`_ (Linux, Mac, Windows)
+* `PythonXY <https://code.google.com/p/pythonxy/>`_ (Windows)
 
-These packages can easily be installed using `Python Package Index (pip) <https://pypi.python.org/pypi/pip>`_, which comes packaged with most python distributions. If you have Python 2.7.x installed on your system, chances are you already have pip installed. The required Python packages can be installed using the following pip commands from the command line::
+.. Note::
+
+	If you are using Anaconda, PythonXY or another non-Python.org distribution, you may need to install one of the packages identified in the _`For Experienced Python Users` section. If you need to do so, you should instead install any needed modules via your distribution's own pacakge manager.
+
+
+For Experienced Python Users
+-----------------------------------------
+Install `Python 2.7.x <https://www.python.org/downloads/>`_ and the following Python packages using pip or another instillation method:
 	
-	pip install <package name>
+	* matplotlib
+	* numpy
+	* scipy
+	* progressbar2
+	* astropy
+	* h5py
 
-HDFView
------------
+Installing HDFView
+=======================
 Although not required, `bemio` users will benefit from installing `HDFVIEW <http://www.hdfgroup.org/products/java/hdfview/>`_. _`HDFVIEW`  allows `bemio` users to view and interact with the standardized bemio hydrodynamic data files.
 
-Downloading
-=================
-The code is distributed through the `bemio GitHub webpage <https://github.com/WEC-Sim/bemio>`_. There are three ways to obtain the code:
+Downloading bemio
+====================
+The code is distributed through GitHub. There are three ways to obtain the code:
 
-	* Archive download: The easiest way to obtain a copy of `bemio` is to download archive `bemio-1.0a0 archive <https://github.com/WEC-Sim/bemio/releases/tag/v1.0a0>`_.
+Clone with Git (Recommended `bemio` for Users)
+------------------------------------------------
+`bemio` can also be obtained by cloning the repository with Git::
 
-	* Clone with Git: `bemio` can also be obtained by cloning the repository with Git::
+	git clone https://github.com/WEC-Sim/bemio.git
 
-		git clone https://github.com/WEC-Sim/bemio.git
+This method is recommended for most users because it makes it easy to update your local version of `bemio` to the latest version using Git using the following command executed from within the `bemio` source folder::
 
-	* Fork with Git: If you are planning to contribute to the `bemio` code base, please follow the `forking instructions provided by GitHub <https://help.github.com/articles/fork-a-repo/>`_. If you implement an improvement you would like included in the `bemio` code base please make a `pull request <https://help.github.com/articles/using-pull-requests/>`_ so that your improvement can be merged into the code base.
+	git pull
+
+Fork with Git (Recommended for `bemio` Developers)
+----------------------------------------------
+If you are planning to contribute to the `bemio` code base, please follow the `forking instructions provided by GitHub <https://help.github.com/articles/fork-a-repo/>`_. If you implement an improvement you would like included in the `bemio` code base please make a `pull request <https://help.github.com/articles/using-pull-requests/>`_ so that your improvement can be merged into the code base.
+
+Download code archive
+------------------------
+The easiest way to obtain a copy of `bemio` is to download the code archive:
+
+* `bemio-1.0 <https://github.com/WEC-Sim/bemio/releases/tag/v1.0a0>`_. 
+
+If you chose this method you will have to re-download the code in order to receive code updates.
 
 .. _installing:
 
-Installing
-==========
+Installing `bemio`
+==================
 `bemio` is written in Python 2.7 and is compatible with OSX, Windows, and Linux operating systems. This section provides instructions on how to install `bemio` and test that you installation is working correctly. Simple instillation instructions are provided for users who simply want to run `bemio` and developer Instillation Instructions are provided for users who would like to develop and contribute to the `bemio` code base.
 
-.. _simple_install_win:
+.. Note::
+	
+	In this section the location of the `bemio` source folder is refereed to as ``$BEMIO_SOURCE``
 
-Simple Instillation Instructions - Windows
-------------------------------------------
+.. _simple_install:
 
-Step 1: Install Python
-	Download and install the `Anaconda Python 2.7 distribution <https://store.continuum.io/cshop/anaconda/>`_. Anaconda comes packaged with the required python modules, with the exception of the `progressbar2` python package. This package will is installed with the `bemio` distribution. When Anaconda Python is successfully installed, you will be able to launch Python from a `Windows Command Prompt <http://windows.microsoft.com/en-us/windows-vista/open-a-command-prompt-window>`_. Test that python was correctly by opening a command prompt and try launching Python.
+Simple Installation Instructions 
+--------------------------------
 
-.. figure::  _static/win_python_launch.png
-   :align:   center
-   :width: 375pt
+Step 1: Install Python 2.7.x
+	Install Python 2.7.x as described in the `For Python Beginners`_ section
 
 Step 2: Download `bemio`
-	Download the `bemio-1.0a0-archive <https://github.com/WEC-Sim/bemio/releases/tag/v1.0a0>`_.
+	Download `bemio` as described in the `Downloading bemio`_ section
 
-Step 3: Extract the bemio `bemio` from the archive
-	Extract `bemio` from the archive and move the source code folder to the desired location. This folder will be referred to as $BEMIO_SOURCE from here on.
-
-Step 4: Install `bemio`
-	Open a Windows Command Prompt and navigate to the $BEMIO_SOURCE folder. Once inside the $BEMIO_SOURCE folder execute the following command from the Command Prompt::
+Step 3: Install `bemio`
+	Open a command window (Windows) or shell (OSX and LInux) and navigate to ``$BEMIO_SOURCE``. Once inside the ``$BEMIO_SOURCE`` folder execute the following command::
 
 		python setup.py install
 
-	This installs the `bemio` files to your `$PYTHONPATH <https://docs.python.org/2/using/cmdline.html#environment-variables>`_ allowing you to run the code. Note that if you do not have administrative privileges on your system you will need to run the ``setup.py`` script from a `Command Prompt with administrative rights <https://technet.microsoft.com/en-us/library/cc947813%28v=ws.10%29.aspx>`_.
+	This installs the `bemio` files to your `$PYTHONPATH <https://docs.python.org/2/using/cmdline.html#environment-variables>`_. Note the above command must be run with administrative privileges on most systems.
 
-Step 5: Test the instillation
-	Test the `bemio` by moving running the command inside the $BEMIO_SOURCE folder::
+Step 4: Test the instillation
+	Test the `bemio` by running the following command from a command prompt inside the ``$BEMIO_SOURCE`` folder::
 
 		python test.py
 
-	The WAMIT, AQWA, and NEMOH test cases should run successfully and you should get a success messages for each test case.
+	If the  WAMIT, AQWA, and NEMOH tutorial cases (located in ``$BEMIO_SOURCE/tutorials``)  run successfully, you will receive get a success messages for each case.
 
-.. _simple_install_osx_linux:
-
-Simple Instillation Instructions - OSX and Linux
-------------------------------------------------
-
-Step 1: Install Python
-	Download and install the `Anaconda Python 2.7 distribution <https://store.continuum.io/cshop/anaconda/>`_. Anaconda comes packaged with the required python modules, with the exception of the `progressbar2` python package. This package will is installed with the `bemio` distribution. When Anaconda Python is successfully installed, you will be able to launch Python from a terminal command prompt. Test that python was correctly by opening a terminal and try launching Python.
-
-.. figure::  _static/osx_python_launch.png
-   :align:   center
-   :width: 400pt
-
-Step 2: Download `bemio`
-	Download the `bemio-1.0a0-archive <https://github.com/WEC-Sim/bemio/releases/tag/v1.0a0>`_.
-
-Step 3: Extract the bemio `bemio` from the archive
-	Extract `bemio` from the archive and move the source code folder to the desired location. This folder will be referred to as $BEMIO_SOURCE from here on. 
-
-Step 4: Install `bemio`
-	Open terminal window and navigate to the $BEMIO_SOURCE folder. Once inside the $BEMIO_SOURCE folder execute the following command from the Command Prompt::
-
-		sudo python setup.py install
-
-	This installs the `bemio` files to your `$PYTHONPATH <https://docs.python.org/2/using/cmdline.html#environment-variables>`_ allowing you to run the code.
-
-Step 5: Test the instillation
-	Test the `bemio` by moving running the command inside the $BEMIO_SOURCE folder::
-
-		python bemio_test.py
-
-	The WAMIT, AQWA, and NEMOH test cases should run successfully and you should get a success messages for each test case.
-	
 
 .. _developer_install:
 
@@ -117,19 +103,18 @@ Developer Instillation Instructions
 
 These instructions assume the user has a advanced level of Python knowledge. These instillation instructions should also be followed for users who do not have administrative rights on their system.
 
-Step 1: Install Python
-	Install Python 2.7.x and the Python modules identified in the `Installing`_ section.
+Step 1: Install Python 2.7.x
+	Install Python 2.7.x and the Python modules identified in the `For Experienced Python Users`_ section.
 
 Step 2: Download `bemio`
-	Download, clone, or fork `bemio` as described in the `Downloading`_ section. The top level of the `bemio` source code will be referred to as $BEMIO_SOURCE
+	Clone or fork `bemio` as described in the `Downloading bemio`_ section.
 
 Step 3: Install `bemio`
-	Add the $BEMIO_SOURCE folder to your `PYTHONPATH <https://docs.python.org/2/using/cmdline.html#environment-variables>`_ environment variable.
+	Add the ``$BEMIO_SOURCE`` folder to your `PYTHONPATH <https://docs.python.org/2/using/cmdline.html#environment-variables>`_ environment variable.
 
 Step 4: Test the instillation
-	Run the ``bemio_test.py`` script inside the $BEMIO_SOURCE folder::
+	Test the `bemio` by running the following command from a command prompt inside the ``$BEMIO_SOURCE`` folder::
 
-		python bemio_test.py
+		python test.py
 
-	The WAMIT, AQWA, and NEMOH test cases should run successfully and you should get a success messages for each test case.
-
+	If the  WAMIT, AQWA, and NEMOH tutorial cases (located in ``$BEMIO_SOURCE/tutorials``)  run successfully, you will receive get a success messages for each case.
