@@ -16,7 +16,7 @@ It can be a pain to install Python, NumPy, SciPy, Matplotlib. h5py and other dep
 
 .. Note::
 
-	If you are using Anaconda, PythonXY or another non-Python.org distribution, you may need to install one of the packages identified in the _`For Experienced Python Users` section. If you need to do so, you should instead install any needed modules via your distribution's own pacakge manager.
+	If you are using Anaconda, PythonXY or another non-Python.org distribution, you may need to install one of the packages identified in the `For Experienced Python Users`_ section. If you need to do so, you should instead install any needed modules via your distribution's own pacakge manager.
 
 
 For Experienced Python Users
