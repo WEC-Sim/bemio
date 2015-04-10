@@ -43,7 +43,7 @@ The code is distributed through the `bemio GitHub webpage <https://github.com/WE
 
 Installing
 ==========
-`bemio` is written in Python 2.7 and is compatible with OSX, Windows, and Linus operating systems. This section provides instructions on how to install `bemio` and test that you installation is working correctly. Simple instillation instructions are provided for users who simply want to run `bemio` and developer Instillation Instructions are provided for users who would like to develop and contribute to the `bemio` code base.
+`bemio` is written in Python 2.7 and is compatible with OSX, Windows, and Linux operating systems. This section provides instructions on how to install `bemio` and test that you installation is working correctly. Simple instillation instructions are provided for users who simply want to run `bemio` and developer Instillation Instructions are provided for users who would like to develop and contribute to the `bemio` code base.
 
 .. _simple_install_win:
 
