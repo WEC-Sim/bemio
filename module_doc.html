@@ -31,7 +31,7 @@
 
   
     <link rel="top" title="bemio v1.0a0 documentation" href="index.html"/>
-        <link rel="prev" title="Tutorials" href="tutorials.html"/> 
+        <link rel="prev" title="&lt;no title&gt;" href="aqwa.html"/> 
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -67,8 +67,8 @@
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="getting_started.html#installing-python-and-the-required-dependencies">Installing Python and the Required Dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="getting_started.html#installing-hdfview">Installing HDFView</a></li>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#id4">Downloading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installing">Installing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-bemio">Downloading bemio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installing-bemio">Installing <cite>bemio</cite></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
@@ -79,9 +79,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="tutorials.html#tutorial-data-files">Tutorial Data Files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials.html#wamit">WAMIT</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials.html#nemoh">NEMOH</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials.html#aqwa">AQWA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#available-tutorials">Available Tutorials</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">bemio Module Documentation</a><ul>
@@ -160,7 +158,7 @@ name &#8211; Name of the body in the simulation</p>
 <dl class="method">
 <dt id="bemio.data_structures.bem.HydrodynamicData.calc_irf">
 <code class="descname">calc_irf</code><span class="sig-paren">(</span><em>t_end=100</em>, <em>n_t=1001</em>, <em>n_w=1001</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bemio/data_structures/bem.html#HydrodynamicData.calc_irf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bemio.data_structures.bem.HydrodynamicData.calc_irf" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the IRF. See WAMITv7 manual section 13-8</p>
+<dd><p>Calculate the impulse response functions. See WAMITv7 manual section 13-8</p>
 <p>Inputs:</p>
 <p>Outputs:
 This function populates the irf variable</p>
@@ -246,7 +244,7 @@ depending on your python env settings</p>
 <span id="nemohoutput"></span><span id="nemoh-output"></span><h3>NemohOutput<a class="headerlink" href="#module-bemio.io.nemoh" title="Permalink to this headline">¶</a></h3>
 <dl class="class">
 <dt id="bemio.io.nemoh.NemohOutput">
-<em class="property">class </em><code class="descclassname">bemio.io.nemoh.</code><code class="descname">NemohOutput</code><span class="sig-paren">(</span><em>sim_dir='./'</em>, <em>cal_file='Nemoh.cal'</em>, <em>results_dir='Results'</em>, <em>mesh_dir='Mesh'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bemio/io/nemoh.html#NemohOutput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bemio.io.nemoh.NemohOutput" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">bemio.io.nemoh.</code><code class="descname">NemohOutput</code><span class="sig-paren">(</span><em>sim_dir='./'</em>, <em>cal_file='Nemoh.cal'</em>, <em>results_dir='Results'</em>, <em>mesh_dir='Mesh'</em>, <em>out_name='nemoh_bemio.out'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bemio/io/nemoh.html#NemohOutput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bemio.io.nemoh.NemohOutput" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class that is used to read Nemoh results.</p>
 <p>Inputs:
 results_dir &#8211; the directory with the Nemoh results files (e.g. CA.dat)</p>
@@ -259,8 +257,8 @@ results_dir &#8211; the directory with the Nemoh results files (e.g. CA.dat)</p>
 <dl class="method">
 <dt id="bemio.io.nemoh.NemohOutput.read_kh">
 <code class="descname">read_kh</code><span class="sig-paren">(</span><em>body_num</em>, <em>file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bemio/io/nemoh.html#NemohOutput.read_kh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bemio.io.nemoh.NemohOutput.read_kh" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fucntion to read HK.dat</p>
-<p>This function is not neccisary for such a simple function, but we may
+<dd><p>Function to read HK.dat</p>
+<p>This function is not necessary for such a simple function, but we may
 need to make it more complicated in the future, so i&#8217;m leaving it as
 a function - mjl 25March2015</p>
 </dd></dl>
@@ -291,7 +289,7 @@ None</p>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="tutorials.html" class="btn btn-neutral" title="Tutorials"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="aqwa.html" class="btn btn-neutral" title="&lt;no title&gt;"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

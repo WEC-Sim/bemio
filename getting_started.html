@@ -80,9 +80,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="tutorials.html#tutorial-data-files">Tutorial Data Files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials.html#wamit">WAMIT</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials.html#nemoh">NEMOH</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials.html#aqwa">AQWA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#available-tutorials">Available Tutorials</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="module_doc.html">bemio Module Documentation</a><ul>
@@ -131,19 +129,19 @@
 <span id="downloading"></span><h2>Installing Python and the Required Dependencies<a class="headerlink" href="#installing-python-and-the-required-dependencies" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="for-python-beginners">
 <h3>For Python Beginners<a class="headerlink" href="#for-python-beginners" title="Permalink to this headline">¶</a></h3>
-<p>It can be a pain to install Python, NumPy, SciPy, Matplotlib. h5py and other dependencies that are needed to run bemio. If you&#8217;re new to python, the easiest approach is to start by installing one of the science and engineering oriented Python distributions:</p>
+<p>It can be a pain to install Python, NumPy, SciPy, Matplotlib, h5py and other dependencies that are needed to run <cite>bemio</cite>. If you&#8217;re new to Python, the easiest approach is to start by installing one of the science and engineering oriented Python distributions:</p>
 <ul class="simple">
 <li><a class="reference external" href="http://continuum.io/downloads">Anaconda</a> (Linux, Mac, Windows)</li>
 <li><a class="reference external" href="https://code.google.com/p/pythonxy/">PythonXY</a> (Windows)</li>
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">If you are using Anaconda, PythonXY or another non-Python.org distribution, you may need to install one of the packages identified in the <a class="reference internal" href="#for-experienced-python-users">For Experienced Python Users</a> section. If you need to do so, you should instead install any needed modules via your distribution&#8217;s own pacakge manager.</p>
+<p class="last">If you are using Anaconda, PythonXY or another non-Python.org distribution, you may need to install one of the packages identified in the <a class="reference internal" href="#for-experienced-python-users">For Experienced Python Users</a> section. If you need to do so, you should instead install any needed modules via your distribution&#8217;s own package manager.</p>
 </div>
 </div>
 <div class="section" id="for-experienced-python-users">
 <h3>For Experienced Python Users<a class="headerlink" href="#for-experienced-python-users" title="Permalink to this headline">¶</a></h3>
-<p>Install <a class="reference external" href="https://www.python.org/downloads/">Python 2.7.x</a> and the following Python packages using pip or another instillation method:</p>
+<p>Install <a class="reference external" href="https://www.python.org/downloads/">Python 2.7.x</a> and the following Python packages using pip or your favorite package instillation method:</p>
 <blockquote>
 <div><ul class="simple">
 <li>matplotlib</li>
@@ -162,14 +160,14 @@
 </div>
 <div class="section" id="downloading-bemio">
 <h2>Downloading bemio<a class="headerlink" href="#downloading-bemio" title="Permalink to this headline">¶</a></h2>
-<p>The code is distributed through GitHub. There are three ways to obtain the code:</p>
+<p><cite>bemio</cite> is distbuited through the <a class="reference external" href="https://github.com/WEC-Sim/bemio/">bemio GitHub web page</a>. There are three ways to obtain the code:</p>
 <div class="section" id="clone-with-git-recommended-bemio-for-users">
 <h3>Clone with Git (Recommended <cite>bemio</cite> for Users)<a class="headerlink" href="#clone-with-git-recommended-bemio-for-users" title="Permalink to this headline">¶</a></h3>
-<p><cite>bemio</cite> can also be obtained by cloning the repository with Git:</p>
+<p><cite>bemio</cite> can obtained by cloning the repository with Git:</p>
 <div class="highlight-python"><div class="highlight"><pre>git clone https://github.com/WEC-Sim/bemio.git
 </pre></div>
 </div>
-<p>This method is recommended for most users because it makes it easy to update your local version of <cite>bemio</cite> to the latest version using Git using the following command executed from within the <cite>bemio</cite> source folder:</p>
+<p>This method is recommended for most users because it makes it easy to update your local version of <cite>bemio</cite> to the latest version using Git&#8217;s <code class="docutils literal"><span class="pre">pull</span></code> command:</p>
 <div class="highlight-python"><div class="highlight"><pre>git pull
 </pre></div>
 </div>
@@ -182,13 +180,13 @@
 <h3>Download code archive<a class="headerlink" href="#download-code-archive" title="Permalink to this headline">¶</a></h3>
 <p>The easiest way to obtain a copy of <cite>bemio</cite> is to download the code archive:</p>
 <ul class="simple">
-<li><a class="reference external" href="https://github.com/WEC-Sim/bemio/releases/tag/v1.0a0">bemio-1.0</a>.</li>
+<li><a href="#id4"><span class="problematic" id="id5">`bemio-1.0 &lt;&gt;`_</span></a>. FIX THIS LINK.</li>
 </ul>
 <p>If you chose this method you will have to re-download the code in order to receive code updates.</p>
 </div>
 </div>
 <div class="section" id="installing-bemio">
-<span id="installing"></span><h2>Installing <cite>bemio</cite><a class="headerlink" href="#installing-bemio" title="Permalink to this headline">¶</a></h2>
+<h2>Installing <cite>bemio</cite><a class="headerlink" href="#installing-bemio" title="Permalink to this headline">¶</a></h2>
 <p><cite>bemio</cite> is written in Python 2.7 and is compatible with OSX, Windows, and Linux operating systems. This section provides instructions on how to install <cite>bemio</cite> and test that you installation is working correctly. Simple instillation instructions are provided for users who simply want to run <cite>bemio</cite> and developer Instillation Instructions are provided for users who would like to develop and contribute to the <cite>bemio</cite> code base.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>

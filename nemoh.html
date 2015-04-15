@@ -1,0 +1,261 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>NEMOH &mdash; bemio v1.0a0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="bemio v1.0a0 documentation" href="index.html"/>
+        <link rel="up" title="Tutorials" href="tutorials.html"/>
+        <link rel="next" title="&lt;no title&gt;" href="aqwa.html"/>
+        <link rel="prev" title="WAMIT" href="wamit.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="index.html" class="fa fa-home"> bemio</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installing-python-and-the-required-dependencies">Installing Python and the Required Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installing-hdfview">Installing HDFView</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-bemio">Downloading bemio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installing-bemio">Installing <cite>bemio</cite></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#loading-data">Loading Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#writing-the-data-to-the-shdf">Writing the Data to the SHDF</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#tutorial-data-files">Tutorial Data Files</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="tutorials.html#available-tutorials">Available Tutorials</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_doc.html">bemio Module Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_doc.html#data-structures">data_structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_doc.html#io-input-output">io (Input/Output)</a></li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">bemio</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
+      
+    <li>NEMOH</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="_sources/nemoh.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="nemoh">
+<h1>NEMOH<a class="headerlink" href="#nemoh" title="Permalink to this headline">¶</a></h1>
+<p>The following code describes the steps involved in using <code class="docutils literal"><span class="pre">bemio</span></code> to
+read, process, and save NEMOH coefficients. This code can be viewed in
+<code class="docutils literal"><span class="pre">$BEMIO_SOURCE/tutorials/nemon/run.py</span></code>. An ipython notebook with the
+code is also provided in <code class="docutils literal"><span class="pre">$BEMIO_SOURCE/tutorials/nemon/run.ipynb</span></code>.</p>
+<blockquote>
+<div>%matplotlib inline</div></blockquote>
+<div class="section" id="load-the-nemoh-module-from-bemio-io">
+<h2>Load the nemoh module from bemio.io<a class="headerlink" href="#load-the-nemoh-module-from-bemio-io" title="Permalink to this headline">¶</a></h2>
+<p>This module provides functionality to read, dimensionalize, visualizes
+the data.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">bemio.io</span> <span class="kn">import</span> <span class="n">nemoh</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="load-the-bem-data-object-from-bemio-data-structures">
+<h2>Load the bem data object from bemio.data_structures<a class="headerlink" href="#load-the-bem-data-object-from-bemio-data-structures" title="Permalink to this headline">¶</a></h2>
+<p>This module provides the functionality to save the data in the SHDF</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">bemio.data_structures</span> <span class="kn">import</span> <span class="n">bem</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="read-the-nemoh-simulation-data-from-the">
+<h2>Read the Nemoh simulation data from the<a class="headerlink" href="#read-the-nemoh-simulation-data-from-the" title="Permalink to this headline">¶</a></h2>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">nemoh_data</span> <span class="o">=</span> <span class="n">nemoh</span><span class="o">.</span><span class="n">NemohOutput</span><span class="p">(</span><span class="n">sim_dir</span><span class="o">=</span><span class="s">&#39;./data/two_body&#39;</span><span class="p">,</span> <span class="n">cal_file</span><span class="o">=</span><span class="s">&#39;Nemoh.cal&#39;</span><span class="p">,</span> <span class="n">results_dir</span><span class="o">=</span><span class="s">&#39;Results&#39;</span><span class="p">,</span> <span class="n">mesh_dir</span><span class="o">=</span><span class="s">&#39;Mesh&#39;</span><span class="p">,</span> <span class="n">out_name</span><span class="o">=</span><span class="s">&#39;./data/two_body.out&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="read-the-hydrostatic-and-ih-files">
+<h2>Read the hydrostatic and IH files<a class="headerlink" href="#read-the-hydrostatic-and-ih-files" title="Permalink to this headline">¶</a></h2>
+<p>These files must be read individually for each body as shown below</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">nemoh_data</span><span class="o">.</span><span class="n">read_hydrostatics</span><span class="p">(</span><span class="n">body_num</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="nb">file</span><span class="o">=</span><span class="s">&#39;./data/two_body/Mesh/Hydrostatics_0.dat&#39;</span><span class="p">)</span>
+<span class="n">nemoh_data</span><span class="o">.</span><span class="n">read_kh</span><span class="p">(</span><span class="n">body_num</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">file</span><span class="o">=</span><span class="s">&#39;./data/two_body/Mesh/KH_0.dat&#39;</span><span class="p">)</span>
+<span class="n">nemoh_data</span><span class="o">.</span><span class="n">read_hydrostatics</span><span class="p">(</span><span class="n">body_num</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="nb">file</span><span class="o">=</span><span class="s">&#39;./data/two_body/Mesh/Hydrostatics_1.dat&#39;</span><span class="p">)</span>
+<span class="n">nemoh_data</span><span class="o">.</span><span class="n">read_kh</span><span class="p">(</span><span class="n">body_num</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">file</span><span class="o">=</span><span class="s">&#39;./data/two_body/Mesh/KH_1.dat&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="calculate-the-irf-and-state-space-coefficients">
+<h2>Calculate the IRF and state space coefficients<a class="headerlink" href="#calculate-the-irf-and-state-space-coefficients" title="Permalink to this headline">¶</a></h2>
+<p>t_end, n_t and n_w are set to small numbers so the calculations run
+quickly. It is recommended that numbers are changed to 100, 1001, and
+1001, respectively, for best accuracy of the IRF and state space
+coefficients.</p>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">nemoh_data</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">num_bodies</span><span class="p">):</span>
+    <span class="n">nemoh_data</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">calc_irf</span><span class="p">(</span><span class="n">t_end</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">n_t</span><span class="o">=</span><span class="mi">101</span><span class="p">,</span> <span class="n">n_w</span><span class="o">=</span><span class="mi">201</span><span class="p">)</span>
+    <span class="n">nemoh_data</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">calc_ss</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="plot-the-surge-and-heave-components-of-added-mass-and-radiation-damping-for-body-0">
+<h2>Plot the surge and heave components of added mass and radiation damping for body 0<a class="headerlink" href="#plot-the-surge-and-heave-components-of-added-mass-and-radiation-damping-for-body-0" title="Permalink to this headline">¶</a></h2>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">comps_to_plot</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]]</span>
+<span class="n">nemoh_data</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot_am_rd</span><span class="p">(</span><span class="n">comps_to_plot</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="write-the-data-to-the-bemio-data-file-format-for-use-with-wec-sim">
+<h2>Write the data to the bemio data file format for use with WEC-Sim<a class="headerlink" href="#write-the-data-to-the-bemio-data-file-format-for-use-with-wec-sim" title="Permalink to this headline">¶</a></h2>
+<div class="code python highlight-python"><div class="highlight"><pre><span class="n">bem</span><span class="o">.</span><span class="n">write_hdf5</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">nemoh_data</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">out_file</span><span class="o">=</span><span class="n">nemoh_data</span><span class="o">.</span><span class="n">files</span><span class="p">[</span><span class="s">&#39;hdf5&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="aqwa.html" class="btn btn-neutral float-right" title="&lt;no title&gt;">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="wamit.html" class="btn btn-neutral" title="WAMIT"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, National Renewable Energy Laboratory and Sandia National Laboratories.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v1.0a0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

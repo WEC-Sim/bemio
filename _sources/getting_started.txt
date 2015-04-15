@@ -9,19 +9,19 @@ Installing Python and the Required Dependencies
 ================================================
 For Python Beginners
 ----------------------
-It can be a pain to install Python, NumPy, SciPy, Matplotlib. h5py and other dependencies that are needed to run bemio. If you're new to python, the easiest approach is to start by installing one of the science and engineering oriented Python distributions:
+It can be a pain to install Python, NumPy, SciPy, Matplotlib, h5py and other dependencies that are needed to run `bemio`. If you're new to Python, the easiest approach is to start by installing one of the science and engineering oriented Python distributions:
 
 * `Anaconda <http://continuum.io/downloads>`_ (Linux, Mac, Windows)
 * `PythonXY <https://code.google.com/p/pythonxy/>`_ (Windows)
 
 .. Note::
 
-	If you are using Anaconda, PythonXY or another non-Python.org distribution, you may need to install one of the packages identified in the `For Experienced Python Users`_ section. If you need to do so, you should instead install any needed modules via your distribution's own pacakge manager.
+	If you are using Anaconda, PythonXY or another non-Python.org distribution, you may need to install one of the packages identified in the `For Experienced Python Users`_ section. If you need to do so, you should instead install any needed modules via your distribution's own package manager.
 
 
 For Experienced Python Users
 -----------------------------------------
-Install `Python 2.7.x <https://www.python.org/downloads/>`_ and the following Python packages using pip or another instillation method:
+Install `Python 2.7.x <https://www.python.org/downloads/>`_ and the following Python packages using pip or your favorite package instillation method:
 	
 	* matplotlib
 	* numpy
@@ -36,31 +36,29 @@ Although not required, `bemio` users will benefit from installing `HDFVIEW <http
 
 Downloading bemio
 ====================
-The code is distributed through GitHub. There are three ways to obtain the code:
+`bemio` is distbuited through the `bemio GitHub web page <https://github.com/WEC-Sim/bemio/>`_. There are three ways to obtain the code:
 
 Clone with Git (Recommended `bemio` for Users)
 ------------------------------------------------
-`bemio` can also be obtained by cloning the repository with Git::
+`bemio` can obtained by cloning the repository with Git::
 
 	git clone https://github.com/WEC-Sim/bemio.git
 
-This method is recommended for most users because it makes it easy to update your local version of `bemio` to the latest version using Git using the following command executed from within the `bemio` source folder::
+This method is recommended for most users because it makes it easy to update your local version of `bemio` to the latest version using Git's ``pull`` command::
 
 	git pull
 
 Fork with Git (Recommended for `bemio` Developers)
-----------------------------------------------
+------------------------------------------------------------
 If you are planning to contribute to the `bemio` code base, please follow the `forking instructions provided by GitHub <https://help.github.com/articles/fork-a-repo/>`_. If you implement an improvement you would like included in the `bemio` code base please make a `pull request <https://help.github.com/articles/using-pull-requests/>`_ so that your improvement can be merged into the code base.
 
 Download code archive
 ------------------------
 The easiest way to obtain a copy of `bemio` is to download the code archive:
 
-* `bemio-1.0 <https://github.com/WEC-Sim/bemio/releases/tag/v1.0a0>`_. 
+* `bemio-1.0 <>`_. FIX THIS LINK.
 
 If you chose this method you will have to re-download the code in order to receive code updates.
-
-.. _installing:
 
 Installing `bemio`
 ==================
