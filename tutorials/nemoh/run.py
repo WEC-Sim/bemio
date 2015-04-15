@@ -4,12 +4,6 @@
 # ## NEMOH
 # The following code describes the steps involved in using ``bemio`` to read, process, and save NEMOH coefficients. This code can be viewed in ``$BEMIO_SOURCE/tutorials/nemon/run.py``. An ipython notebook with the code is also provided in ``$BEMIO_SOURCE/tutorials/nemon/run.ipynb``.
 
-# ### Enable inline plots in the iPython notebook
-
-# In[ ]:
-
-get_ipython().magic(u'matplotlib inline')
-
 
 # ### Load the nemoh module from bemio.io #
 # This module provides functionality to read, dimensionalize, visualizes the data.
