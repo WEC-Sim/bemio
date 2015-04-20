@@ -31,7 +31,7 @@ Contents
    :maxdepth: 2
    
    license.rst
-   getting_started.rst
+   installing.rst
    api.rst
    tutorials.rst
    module_doc.rst

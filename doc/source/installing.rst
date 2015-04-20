@@ -1,14 +1,14 @@
 .. _getting_started:
 
-Getting started
-***************
+Installing
+================
 
 .. _downloading:
 
-Installing Python and the Required Dependencies
-================================================
+Python and the Required Dependencies
+---------------------------------------
 For Python Beginners
-----------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 It can be a pain to install Python, NumPy, SciPy, Matplotlib, h5py and other dependencies that are needed to run `bemio`. If you're new to Python, the easiest approach is to start by installing one of the science and engineering oriented Python distributions:
 
 * `Anaconda <http://continuum.io/downloads>`_ (Linux, Mac, Windows)
@@ -20,7 +20,7 @@ It can be a pain to install Python, NumPy, SciPy, Matplotlib, h5py and other dep
 
 
 For Experienced Python Users
------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Install `Python 2.7.x <https://www.python.org/downloads/>`_ and the following Python packages using pip or your favorite package instillation method:
 	
 	* matplotlib
@@ -30,16 +30,16 @@ Install `Python 2.7.x <https://www.python.org/downloads/>`_ and the following Py
 	* astropy
 	* h5py
 
-Installing HDFView
-=======================
+HDFView
+-------------------
 Although not required, `bemio` users will benefit from installing `HDFVIEW <http://www.hdfgroup.org/products/java/hdfview/>`_. _`HDFVIEW`  allows `bemio` users to view and interact with the standardized bemio hydrodynamic data files.
 
 Downloading bemio
-====================
+----------------------
 `bemio` is distbuited through the `bemio GitHub web page <https://github.com/WEC-Sim/bemio/>`_. There are three ways to obtain the code:
 
 Clone with Git (Recommended `bemio` for Users)
-------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 `bemio` can obtained by cloning the repository with Git::
 
 	git clone https://github.com/WEC-Sim/bemio.git
@@ -48,17 +48,17 @@ This method is recommended for most users because it makes it easy to update you
 
 	git pull
 
-Fork with Git (Recommended for `bemio` Developers)
+Fork with Git - for Developers
 ------------------------------------------------------------
 If you are planning to contribute to the `bemio` code base, please follow the `forking instructions provided by GitHub <https://help.github.com/articles/fork-a-repo/>`_. If you implement an improvement you would like included in the `bemio` code base please make a `pull request <https://help.github.com/articles/using-pull-requests/>`_ so that your improvement can be merged into the code base.
 
 Download code archive
 ------------------------
-The easiest way to obtain a copy of `bemio` is to download the code archive:
+The code archive can be downloaded from the following link:
 
-* `bemio-1.0 <>`_. FIX THIS LINK.
+* `bemio-1.0 <https://github.com/WEC-Sim/bemio/archive/master.zip>`_.
 
-If you chose this method you will have to re-download the code in order to receive code updates.
+If you chose this method you will have to re-download the code in order to receive updates.
 
 Installing `bemio`
 ==================
