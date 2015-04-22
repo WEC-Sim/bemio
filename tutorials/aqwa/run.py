@@ -19,5 +19,5 @@ aq.data[1].plot_am_rd(comps_to_plot)
 aq.data[2].plot_am_rd(comps_to_plot)
 
 # Write hydrodynamic data to HDF5 file format
-hd.write_hdf5(aq.data,aq.files['hdf5'])
-hd.write_pickle(aq.data,aq.files['pickle'])
+hd.write_hdf5(aq)
+hd.write_pickle(aq)

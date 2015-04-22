@@ -4,8 +4,6 @@
 
 # Import matplotlib and make the session interactive for easy plot visualization #
 import matplotlib.pyplot as plt
-plt.interactive(True)
-
 
 # Load the wamit module from bemio.io #
 # This module provides functionality to read, dimensionalize, visualizes the data.
@@ -45,9 +43,8 @@ for i in xrange(wamit_data_obj.data[0].num_bodies):
 # The data is written to the file name specified by the out_file string. The wamit_data_obj
 # contains a dictionary named 'files' with an entry 'hdf5' which contains the default file name
 # wec3.h5
-bem.write_hdf5(data=wamit_data_obj.data, out_file=wamit_data_obj.files['hdf5'])
+bem.write_hdf5(wamit_data_obj)
 
 
-# Keep Python running so the user can view the plots #
-raw_input('\nPress enter to exit and close plots')
+# Close all plots
 plt.close('all')

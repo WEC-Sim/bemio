@@ -1,0 +1,882 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"num",
+				"num_bodies"
+			],
+			[
+				"raw",
+				"raw"
+			],
+			[
+				"ex_",
+				"ex_phase	statement"
+			],
+			[
+				"n_",
+				"n_w	statement"
+			],
+			[
+				"H",
+				"HydrodynamicData	class"
+			],
+			[
+				"flip",
+				"flipud	function"
+			],
+			[
+				"read",
+				"readlines"
+			],
+			[
+				"result",
+				"results_dir	param"
+			],
+			[
+				"c",
+				"ceil	import"
+			],
+			[
+				"dup",
+				"dupCount	statement"
+			],
+			[
+				"k",
+				"key	forflow"
+			],
+			[
+				"a",
+				"all	statement"
+			],
+			[
+				"tra",
+				"trapz	function"
+			],
+			[
+				"t",
+				"tSeries	statement"
+			],
+			[
+				"wsm",
+				"wsmBase"
+			],
+			[
+				"te",
+				"tensorinv	function"
+			],
+			[
+				"d",
+				"dnvBase	statement"
+			],
+			[
+				"dnv",
+				"dnvFreq	statement"
+			],
+			[
+				"rm",
+				"remove	function"
+			],
+			[
+				"write",
+				"writeVtp	function"
+			],
+			[
+				"save",
+				"savetxt	function"
+			],
+			[
+				"am",
+				"amTemp	statement"
+			],
+			[
+				"re",
+				"re"
+			],
+			[
+				"m",
+				"m	statement"
+			],
+			[
+				"n",
+				"name"
+			],
+			[
+				"w",
+				"waveDir"
+			],
+			[
+				"b",
+				"buoyForce"
+			],
+			[
+				"vo",
+				"volDisp"
+			],
+			[
+				"g",
+				"g"
+			],
+			[
+				"at",
+				"attrs	function"
+			],
+			[
+				"Hy",
+				"HydrodynamicExcitation"
+			],
+			[
+				"iin",
+				"interactive	function"
+			],
+			[
+				"aq",
+				"aqwaio"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "bemio/data_structures/bem.py",
+			"settings":
+			{
+				"buffer_size": 30030,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "tutorials/wamit/run.py",
+			"settings":
+			{
+				"buffer_size": 2234,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "bemio/io/wamit.py",
+			"settings":
+			{
+				"buffer_size": 9054,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 247.0,
+		"last_filter": "evernote",
+		"selected_items":
+		[
+			[
+				"evernote",
+				"Evernote: List recent notes"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"pack",
+				"Package Control: Install Package"
+			],
+			[
+				"python",
+				"SublimeREPL: Python - IPython"
+			],
+			[
+				"repl",
+				"SublimeREPL: Python"
+			],
+			[
+				"pydyc",
+				"Python 2 Doc Search (PyDOC)"
+			],
+			[
+				"pydoc",
+				"Python 2 Doc Search (PyDOC)"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"shell",
+				"SublimeREPL: Shell"
+			],
+			[
+				"ipy",
+				"SublimeREPL: Python - IPython"
+			],
+			[
+				"pyth",
+				"SublimeREPL: Python"
+			],
+			[
+				"PYTHON",
+				"SublimeREPL: Python - virtualenv"
+			],
+			[
+				"sublimeREPL:py",
+				"SublimeREPL: Python"
+			],
+			[
+				"rep",
+				"SublimeREPL: Python - IPython"
+			],
+			[
+				"re",
+				"SublimeREPL: Python"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 433.0
+	},
+	"console":
+	{
+		"height": 201.0,
+		"history":
+		[
+			"a",
+			"a+=1",
+			"a = 5",
+			"file_diff_menue",
+			"import matplotlib",
+			"ipython",
+			"ls",
+			"a",
+			"import urllib.request,os,hashlib; h = '2deb499853c4371624f5a07e27c334aa' + 'bf8c4e67d14fb0525ba4f89698a6d7e1'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)",
+			"pdb",
+			"import numpy",
+			"a = 5",
+			"os.system('pwd')",
+			"os.system('ls')",
+			"import os",
+			"from matplotlib import *",
+			"ls"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/mlawson/Applications/bemio",
+		"/Users/mlawson/Applications/bemio/doc",
+		"/Users/mlawson/Applications/bemio/doc/source"
+	],
+	"file_history":
+	[
+		"/Users/mlawson/.pythonstartup",
+		"/Users/mlawson/.bashrc",
+		"/Users/mlawson/Desktop/WECSimDoc_StateSpace_HydroCoupling/Documentation_SS_HC.tex",
+		"/Users/mlawson/Applications/bemio/tutorials/nemoh/run.py",
+		"/Users/mlawson/Applications/bemio/doc/build/html/_sources/index.txt",
+		"/Users/mlawson/Applications/bemio/bemio/io/wamit.py",
+		"/Users/mlawson/Applications/bemio/bemio/io/aqwa.py",
+		"/Users/mlawson/Applications/bemio/doc/source/index.rst",
+		"/Users/mlawson/Applications/bemio/doc/source/installing.rst",
+		"/Users/mlawson/Applications/bemio/doc/source/nemoh.rst",
+		"/Users/mlawson/Dropbox/NREL/conferences-workshops/2015-METS-WashingtonDC/author_and_session_chair_communications/author_pre_conference_email_1.md",
+		"/Users/mlawson/Dropbox/NREL/conferences-workshops/2015-METS-WashingtonDC/publication_copyright/mets2015_license.rst",
+		"/Users/mlawson/Desktop/run/run.rst",
+		"/Users/mlawson/Desktop/run (2)/run.rst",
+		"/Users/mlawson/Applications/bemio/bemio/io/nemoh.py",
+		"/Users/mlawson/Applications/bemio/bemio/data_structures/bem.py",
+		"/Users/mlawson/Applications/bemio/doc/source/getting_started.rst",
+		"/Users/mlawson/Applications/bemio/doc/source/conf.py",
+		"/Users/mlawson/Applications/bemio/doc/Makefile",
+		"/Users/mlawson/Applications/bemio/doc/source/wamit.rst",
+		"/Users/mlawson/Applications/bemio/doc/source/aqwa.rst",
+		"/Users/mlawson/Desktop/run.py",
+		"/Users/mlawson/Desktop/run.rst",
+		"/Users/mlawson/Desktop/run.ipynb",
+		"/Users/mlawson/Desktop/run (1).rst",
+		"/Users/mlawson/Desktop/run (2).rst",
+		"/Users/mlawson/Desktop/run (3).rst",
+		"/Users/mlawson/Applications/bemio/.gitignore",
+		"/Users/mlawson/Desktop/run (1)/run.rst",
+		"/Users/mlawson/Applications/bemio/doc/source/tutorials.rst",
+		"/Users/mlawson/Applications/bemio/doc/push_html.sh",
+		"/Users/mlawson/Applications/bemio/doc/view.sh",
+		"/Users/mlawson/Applications/bemio/doc/.gitignore",
+		"/Users/mlawson/Desktop/run (1).py",
+		"/Users/mlawson/Applications/bemio/tutorials/aqwa/run.py",
+		"/Users/mlawson/Applications/bemio/tutorials/wamit/run.py",
+		"/Users/mlawson/Applications/bemio/tutorials/nemoh/data/two_body/Mesh/Hydrostatics_0.dat",
+		"/Users/mlawson/Applications/bemio/tutorials/nemoh/data/two_body/Results/ExcitationForce.tec",
+		"/Users/mlawson/Applications/bemio/tutorials/nemoh/nemoh_bemio.out",
+		"/Users/mlawson/Applications/bemio/doc/source/module_doc.rst",
+		"/Users/mlawson/Applications/bemio/doc/source/api.rst",
+		"/Users/mlawson/Applications/bemio/doc/source/_static/default.css",
+		"/Users/mlawson/Applications/bemio/doc/source/io_doc.rst",
+		"/Users/mlawson/Applications/bemio/doc/source/documentation.rst",
+		"/Users/mlawson/Applications/bemio/test.py",
+		"/Users/mlawson/Applications/bemio/setup.py",
+		"/Users/mlawson/Dropbox/NREL/projects/wec3/01-F3OF-HDB/wamitRuns/wamitRun-aboutCg-dw/wec3.pot",
+		"/Users/mlawson/Applications/bemio/bemio/mesh_utilities/__init__.py",
+		"/Users/mlawson/Desktop/paper acceptance email.txt",
+		"/Users/mlawson/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/mlawson/Applications/bemio/bemio.egg-info/SOURCES.txt",
+		"/Users/mlawson/Applications/bemio/bemio.egg-info/PKG-INFO",
+		"/Users/mlawson/Applications/bemio/clean.sh",
+		"/Users/mlawson/Applications/bemio/bemio.egg-info/dependency_links.txt",
+		"/Users/mlawson/Applications/bemio/bemio.egg-info/entry_points.txt",
+		"/Users/mlawson/Applications/bemio/bemio.egg-info/requires.txt",
+		"/Users/mlawson/Applications/bemio/bemio.egg-info/top_level.txt",
+		"/Users/mlawson/.bash_profile",
+		"/Users/mlawson/Applications/bemio/README.md",
+		"/Users/mlawson/Applications/bemio/setup.cfg",
+		"/Users/mlawson/Applications/bemio/data_structures/bem.py",
+		"/Users/mlawson/Applications/bemio/io/nemoh.py",
+		"/Users/mlawson/Applications/bemio/io/wamit.py",
+		"/Users/mlawson/Applications/bemio/io/aqwa.py",
+		"/Users/mlawson/Applications/bemio/doc/source/data_object_doc.rst",
+		"/Users/mlawson/Applications/bemio/sample.egg-info/requires.txt",
+		"/Users/mlawson/Applications/bemio/doc/source/bemio_doc.rst",
+		"/Users/mlawson/Applications/bemio/doc/source/bem.rst",
+		"/Users/mlawson/Applications/bemio/doc/source/getting_started_test.rst",
+		"/Users/mlawson/Desktop/paper53_email.txt",
+		"/Users/mlawson/Applications/bemio/doc/source/getting_started copy.rst",
+		"/Users/mlawson/Applications/bemio/doc/build/html/genindex.html",
+		"/Users/mlawson/Applications/bemio/data/bem.py",
+		"/Users/mlawson/Applications/WEC-Sim/NOTICE",
+		"/Users/mlawson/Applications/WEC-Sim/source/objects/bodyClass.m",
+		"/Users/mlawson/Library/Application Support/Sublime Text 3/Packages/EasyDiff/easy_diff.sublime-settings",
+		"/Users/mlawson/Applications/bemio/bemio.sublime-workspace",
+		"/Users/mlawson/Applications/bemio/bemio.sublime-project",
+		"/Users/mlawson/Applications/bemio/tutorials/nemoh/data/Results/DiffractionForce.tec",
+		"/Users/mlawson/Downloads/simulationTest/mesh/KH.dat",
+		"/Users/mlawson/Downloads/simulationTest/mesh/Hydrostatics.dat",
+		"/Users/mlawson/Applications/nemoh/Mesh/hydre.f90",
+		"/Users/mlawson/Applications/nemoh/Mesh/mesh.f90",
+		"/Users/mlawson/Applications/bemio/tutorials/nemoh/data/Nemoh.cal",
+		"/Users/mlawson/Applications/bemio/tutorials/nemoh/data/Results/ExcitationForce.tec",
+		"/Users/mlawson/Dropbox/NREL/projects/open_warp/submissions/Merge NEMOH Code & Update GUI/NemohMerged/finalfix.txt",
+		"/Users/mlawson/Dropbox/NREL/projects/open_warp/submissions/Merge NEMOH Code & Update GUI/test_files/simulation/flap-meshed-quad/mesh/flap-meshed-quad.dat",
+		"/Users/mlawson/Dropbox/NREL/projects/tea/wave-data/supplyCurves_processData.m",
+		"/Users/mlawson/Dropbox/NREL/projects/open_warp/submissions/Merge NEMOH Code & Update GUI/src/openwarp/web.py",
+		"/Users/mlawson/Applications/nemoh/matlabRoutines/nonsymmetrical-osx/NonSymmetrical.dat",
+		"/Users/mlawson/Dropbox/NREL/projects/open_warp/submissions/Merge NEMOH Code & Update GUI/src/main.py",
+		"/Users/mlawson/Dropbox/NREL/projects/tea/wave-data/calcWithRestrictions.m",
+		"/Users/mlawson/Dropbox/NREL/projects/tea/wave-data/HI.dat",
+		"/Users/mlawson/Dropbox/NREL/projects/open_warp/submissions/Merge NEMOH Code & Update GUI/src/requirements.txt",
+		"/Users/mlawson/matplotlibrc",
+		"/Users/mlawson/Dropbox/NREL/projects/OpenWARP/submissions/Irregular Frequencies Assembly/Nemoh/LICENSE.txt",
+		"/Users/mlawson/Applications/nemoh/Mesh/axisym",
+		"/Users/mlawson/Applications/nemoh/matlabRoutines/nonsymmetrical-osx/Results/Fe.dat",
+		"/Users/mlawson/Applications/bemio/tutorials/nemoh/data/Results/index.dat",
+		"/Users/mlawson/Applications/bemio/tutorials/nemoh/data/Results/CA.dat",
+		"/Users/mlawson/Applications/bemio/tutorials/nemoh/data/Results/RadiationCoefficients.tec",
+		"/Users/mlawson/Applications/bemio/tutorials/nemoh/data/Results/CM.dat",
+		"/Users/mlawson/.ipython/profile_default/startup/00.ipy",
+		"/Users/mlawson/.ipython/profile_default/startup/00.py",
+		"/Users/mlawson/.ipython/profile_default/startup/README",
+		"/Users/mlawson/Applications/bemio/data/calc/irf.py",
+		"/Users/mlawson/Dropbox/NREL/projects/wec3/01-F3OF-HDB/wamitRuns/plot_and_output.py",
+		"/Users/mlawson/Applications/nemoh/matlabRoutines/2Bodies/Results/CM.dat",
+		"/Users/mlawson/Applications/nemoh/matlabRoutines/2Bodies/Results/RadiationCoefficients.tec",
+		"/Users/mlawson/Applications/WEC-Sim-WEC-Sim/applications/RM3/wamit/rm3.out",
+		"/Users/mlawson/Applications/bemio/tutorials/aqwa/data/aqwa_example_data.lis",
+		"/Users/mlawson/Applications/nemoh/matlabRoutines/nonsymmetrical-osx/Nemoh.cal",
+		"/Users/mlawson/Desktop/Paper52_reviewer_comments.txt",
+		"/Users/mlawson/Applications/NREL-WEC-Sim/documentation/user-manual/zotero-mhkTechPapers.bib",
+		"/Users/mlawson/Applications/bemio/runners/nemoh.py",
+		"/Users/mlawson/Applications/bemio/tutorials/wamit/data/rm3.out",
+		"/Users/mlawson/Applications/bemio/tutorials/wamit/data/wec3.out",
+		"/Users/mlawson/Dropbox/NREL/projects/wec3/01-F3OF-HDB/wamitRuns/compare-meshes.py",
+		"/Users/mlawson/Dropbox/NREL/projects/wec3/01-F3OF-HDB/wamitRuns/PDS/Langlee.pot",
+		"/Users/mlawson/Dropbox/NREL/projects/wec3/01-F3OF-HDB/wamitRuns/PDS/Langlee.cfg",
+		"/Users/mlawson/Dropbox/NREL/projects/wec3/01-F3OF-HDB/wamitRuns/wamitRun-about00-9/wec3.cfg",
+		"/Users/mlawson/Dropbox/NREL/projects/wec3/01-F3OF-HDB/wamitRuns/PDS/Base.frc",
+		"/Users/mlawson/Dropbox/NREL/projects/wec3/01-F3OF-HDB/wamitRuns/PDS/global.frc",
+		"/Users/mlawson/Dropbox/NREL/projects/wec3/01-F3OF-HDB/wamitRuns/PDS/global.out",
+		"/Users/mlawson/Dropbox/NREL/projects/wec3/01-F3OF-HDB/wamitRuns/wamitRun-about00-9/wec3.out",
+		"/Users/mlawson/Dropbox/NREL/projects/wec3/01-F3OF-HDB/wamitRuns/wamitRun-about00-9/wec3.pot",
+		"/Users/mlawson/Dropbox/NREL/projects/wec3/01-F3OF-HDB/wamitRuns/DNV/01-F3OF.pot",
+		"/Users/mlawson/Dropbox/NREL/projects/wec3/01-F3OF-HDB/wamitRuns/PDS(WAMIT)/Flap1.GDF"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"bod_num",
+			"self.data[i].w[j]",
+			"data[i]",
+			"6 x numFrequencies",
+			"-",
+			"/cite",
+			"%%",
+			"-",
+			"~",
+			".",
+			"~",
+			"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+			"-",
+			"##",
+			"nem",
+			"nio",
+			"####",
+			"wamit_data_obj",
+			"file_break",
+			"'*'",
+			"*",
+			"50",
+			"raw",
+			"cal",
+			"hydrostatics",
+			"0+6*i",
+			"6+6*i,:",
+			"data",
+			"ex_force",
+			"hydrostatics",
+			"body_num",
+			"hydrostatics",
+			"        ",
+			"self.cg",
+			"out_base_name",
+			"600pt",
+			"import",
+			"w",
+			"wamit_data_obj",
+			"w",
+			"read_kh",
+			"read_hydrostatics",
+			"function",
+			"Downloading bemio",
+			"------------\n",
+			"hd",
+			"exclude_trees",
+			"str(n)",
+			"str(m)",
+			"str(key)",
+			"maxdepth",
+			"bem_raw/",
+			"/rd",
+			"/am",
+			"/excitation_coeffs",
+			"/ex",
+			"/ss",
+			"/irf",
+			"/hydro_coeffs/irf",
+			"ssRadfDComp",
+			"ssRadfCComp",
+			"ssRadfBComp",
+			"rad_conv",
+			"ssRadfD",
+			"self.ss.irk_bss",
+			"irk_bss",
+			"h5load",
+			"state_space",
+			"ssRadfAComp",
+			"est",
+			"self.fAddedMassest",
+			"self.fDampingest",
+			"Krlti",
+			"R2BT",
+			"wDir",
+			"wDepth",
+			"stateSpace",
+			"dispVol",
+			"self.ss.r2_thresh",
+			"self.ss.max",
+			"some_var",
+			"sefl",
+			"self.ss_max",
+			"self.ss.ss_rad_conv   = np.array([])",
+			"self.ss.ss_it",
+			"self.ss_it",
+			"self.ss_rad_conv",
+			"self.r2t",
+			"self.irk_bss",
+			"self.r2_thresh",
+			"self.ss_max",
+			"self.ss_rad_f",
+			"ssMax",
+			"self.ssMax ",
+			"self.R2T",
+			"self.R2Thresh",
+			"HYDRO",
+			"KH",
+			"wave",
+			"waveDir",
+			"11582",
+			"self.rd",
+			"self.am",
+			"amrd",
+			"self.w",
+			"amrd_raw",
+			"70756",
+			"-.707",
+			"-7",
+			"-7.075656e+05",
+			"-7.07565600e+05",
+			"self",
+			"rho",
+			"gravity",
+			"9.8",
+			"ascii",
+			"latner",
+			"Water ",
+			"WATER DEPTH",
+			"tmp",
+			"self.data",
+			"self.z_ind",
+			" \n",
+			"ascii",
+			"cal_file",
+			"CLEAN",
+			"'''\n",
+			"linesCA"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": true,
+		"regex": false,
+		"replace_history":
+		[
+			"wamit_data_obj",
+			"self",
+			"self.ss.max",
+			"self.ss.rad_conv   = np.array([])",
+			"self.ss.it",
+			"self.ss.ss_it",
+			"self.ss.ss_rad_conv",
+			"self.ss.r2t",
+			"self.ss.irk_bss",
+			"self.ss.r2_thresh",
+			"b",
+			"a",
+			"proc",
+			"w",
+			"raw",
+			"hydro_data",
+			"amrdProc",
+			"tmp",
+			"z_ind",
+			"ca",
+			"cm",
+			"shape_rd",
+			"t_ind",
+			"'body' + str(key) + ",
+			"'simulation_parameters",
+			"simulation_parameters",
+			"simulation_parameters/",
+			"/properties/",
+			"/sim_parameters/",
+			"/hydro_coeffs/",
+			"data[key].name",
+			"wsm",
+			"dnv",
+			"pdsB",
+			"dnvB",
+			"wsmB",
+			"",
+			"pds",
+			"",
+			"dnvW",
+			"dnvT",
+			"wsmW",
+			"key",
+			"str(self",
+			"",
+			",",
+			" ",
+			""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": true,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "bemio/data_structures/bem.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 30030,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								15475,
+								15475
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 5862.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "tutorials/wamit/run.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2234,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1237,
+								1237
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 2,
+					"file": "bemio/io/wamit.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9054,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								8069,
+								8124
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2777.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.525242148644,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 241.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "bemio.sublime-project",
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"run",
+				"tutorials/wamit/run.py"
+			],
+			[
+				"wamit",
+				"bemio/io/wamit.py"
+			],
+			[
+				"ind",
+				"doc/source/index.rst"
+			],
+			[
+				"bem.",
+				"bemio/data_structures/bem.py"
+			],
+			[
+				"int",
+				"doc/build/html/_sources/index.txt"
+			],
+			[
+				"aw",
+				"bemio/io/aqwa.py"
+			],
+			[
+				"conf",
+				"doc/source/conf.py"
+			],
+			[
+				"bem.py",
+				"bemio/data_structures/bem.py"
+			],
+			[
+				"nemoh",
+				"bemio/io/nemoh.py"
+			],
+			[
+				"bem",
+				"bemio/data_structures/bem.py"
+			],
+			[
+				"nemo",
+				"bemio/io/nemoh.py"
+			],
+			[
+				"run.py",
+				"tutorials/nemoh/run.py"
+			],
+			[
+				"",
+				"bemio/data_structures/bem.py"
+			],
+			[
+				"aqwa",
+				"io/aqwa.py"
+			],
+			[
+				"wamti",
+				"io/wamit.py"
+			],
+			[
+				"gett",
+				"doc/source/getting_started_test.rst"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 279.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
