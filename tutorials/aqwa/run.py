@@ -27,3 +27,4 @@ bem.write_pickle(aq.data,aq.files['pickle'])
 # Keep Python running so the user can view the plots #
 raw_input('\nPress enter to exit and close plots')
 plt.close('all')
+

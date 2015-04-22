@@ -1,7 +1,5 @@
 # Python
 *.py[cod]
-*.sublime-project
-*.sublime-workspace
 *.swp
 *.h5
 *.p
