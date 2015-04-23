@@ -30,14 +30,14 @@ class AqwaOutput(object):
     * None
     
     '''
-    def __init__(self,out_file):
-        self.files = bem.generate_file_names(out_file)
+    def __init__(self, hydro_file, list_file):
+        self.files = bem.generate_file_names(hydro_file)
 
         self.data = {}        
 
-        self._read()
+        self._read(list_file)
 
-    def _read(self):
+    def _read(self,list_file):
         code = 'AQWA'
 
         with open(self.files['out'],'r') as fid:
@@ -171,7 +171,16 @@ class AqwaOutput(object):
                             excitation_magnitude[tmp2[0]][:,tmp2[1]-1,tmp2[2]-1] = tmp1_1[3:]
                             excitation_phase[tmp2[0]][:,tmp2[1]-1,tmp2[2]-1] = tmp1_2
 
-                            
+
+        with open(list_file,'r') as fid:
+            raw_list = fid.readlines()
+        bod_count = 1
+        disp_vol = {}
+        for i, line in enumerate(raw_list):
+            if 'MESH BASED DISPLACEMENT' in line:
+                disp_vol[bod_count] = np.array(line.split())[-1].astype(float)
+                bod_count += 1
+        
 
         for i in xrange(num_bodies):
             print 'body' + str(i+1) + ':' 
@@ -179,22 +188,22 @@ class AqwaOutput(object):
 
             self.data[i].rho = density
             self.data[i].g = gravity
-            self.data[i].wave_dir = wave_directions
+            self.data[i].wave_dir = wave_directions*np.pi/180.
             self.data[i].num_bodies = num_bodies
             
             self.data[i].cg = cg[i+1]
             self.data[i].cb = 'not_defined'
-            self.data[i].k = stiffness_matrix[i+1] #check units
-            self.data[i].T = 2*np.pi/frequencies #check units
-            self.data[i].w = frequencies #check units
+            self.data[i].k = stiffness_matrix[i+1]
+            self.data[i].T = 2*np.pi/frequencies
+            self.data[i].w = frequencies 
             
             self.data[i].wp_area = 'not_defined' 
             self.data[i].buoy_force = 'not_defined'
-            self.data[i].disp_vol = 'not_defined' #need this ...
+            self.data[i].disp_vol = disp_vol[i+1]
             self.data[i].water_depth = water_depth
             self.data[i].body_num = i
             
-            self.data[i].name = 'body' + str(i) #need this. Should be user-defined name ...
+            self.data[i].name = 'body' + str(i+1)
             self.data[i].bem_code = code
             self.data[i].bem_raw_data = raw
 
