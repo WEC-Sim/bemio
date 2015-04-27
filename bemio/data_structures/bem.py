@@ -696,7 +696,7 @@ def write_hdf5(data_obj,out_file=None):
         rawOut = f.create_dataset('bem_data/output_file',data=data_obj.data[key].bem_raw_data)
         rawOut.attrs['description'] = 'Raw output from BEM code'
 
-        code = f.create_dataset('simulation_parameters/bem_code   ',data=data_obj.data[key].bem_code)
+        code = f.create_dataset('simulation_parameters/bem_code',data=data_obj.data[key].bem_code)
         code.attrs['description'] = 'BEM code'
 
         print 'Wrote HDF5 data to ' + out_file
