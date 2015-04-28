@@ -166,10 +166,10 @@ class AqwaOutput(object):
                             tmp1_2 = np.array(raw[i + iBod*(num_wave_directions*num_frequencies*2) + iDir*num_frequencies*2 + iFreq*2 + 2].split()).astype(np.float)
                             tmp2 = tmp1_1[0:3].astype(np.float).astype(np.int)
                             if (iDir==0) and (iFreq==0):
-                                excitation_magnitude[tmp2[0]] = np.zeros([6,num_wave_directions,num_frequencies])
-                                excitation_phase[tmp2[0]] = np.zeros([6,num_wave_directions,num_frequencies])
-                            excitation_magnitude[tmp2[0]][:,tmp2[1]-1,tmp2[2]-1] = tmp1_1[3:]
-                            excitation_phase[tmp2[0]][:,tmp2[1]-1,tmp2[2]-1] = tmp1_2
+                                excitation_magnitude[tmp2[0]] = np.zeros([num_frequencies,6,num_wave_directions])
+                                excitation_phase[tmp2[0]] = np.zeros([num_frequencies,6,num_wave_directions])
+                            excitation_magnitude[tmp2[0]][tmp2[2]-1,:,tmp2[1]-1] = tmp1_1[3:]
+                            excitation_phase[tmp2[0]][tmp2[2]-1,:,tmp2[1]-1] = tmp1_2
 
 
         with open(list_file,'r') as fid:
