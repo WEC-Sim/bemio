@@ -1,9 +1,9 @@
-from bemio.io import mesh as mio
+from bemio.mesh_utilities import mesh 
 
 # Read mesh
-mesh = mio.readVtp('./data/non-symmetrical.vtp')
+non_symmetrical = mesh.read(file_name='./data/non_symmetrical.vtp')
 
 # Write meshes
-mesh.writeVtp('./data/non-symmetrical_example_output.vtp')
-mesh.writeNemoh('./data/non-symmetrical_example_output.dat')
-mesh.writeGdf('./data/non-symmetrical_example_output.gdf')
+non_symmetrical.write_vtp(out_file='./data/non_symmetrical_example_output.vtp')
+non_symmetrical.write_nemoh(out_file='./data/non_symmetrical_example_output.dat')
+non_symmetrical.write_gdf(out_file='./data/non_symmetrical_example_output.gdf')
