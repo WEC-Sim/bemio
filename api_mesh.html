@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>API &mdash; bemio v1.0a0 documentation</title>
+  <title>Using bemio’s Mesh Utilities &mdash; bemio v1.0a0 documentation</title>
   
 
   
@@ -32,7 +32,7 @@
   
     <link rel="top" title="bemio v1.0a0 documentation" href="index.html"/>
         <link rel="next" title="Tutorials" href="tutorials.html"/>
-        <link rel="prev" title="Installing VTK with Python Bindings" href="vtk.html"/> 
+        <link rel="prev" title="Using bemio’s Data Readers" href="api_io.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -73,38 +73,33 @@
           
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="installing.html#python-and-the-required-dependencies">Python and the Required Dependencies</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="installing.html#for-python-beginners">For Python Beginners</a></li>
-<li class="toctree-l3"><a class="reference internal" href="installing.html#for-experienced-python-users">For Experienced Python Users</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="installing.html#hdfview">HDFView</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installing.html#downloading-bemio">Downloading bemio</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="installing.html#clone-with-git-recommended-bemio-for-users">Clone with Git (Recommended <cite>bemio</cite> for Users)</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="installing.html#fork-with-git-for-developers">Fork with Git - for Developers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installing.html#download-code-archive">Download code archive</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="installing.html#installing-bemio">Installing <cite>bemio</cite></a><ul>
-<li class="toctree-l2"><a class="reference internal" href="installing.html#simple-installation-instructions">Simple Installation Instructions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installing.html#developer-instillation-instructions">Developer Instillation Instructions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Downloading and Installing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#downloading-bemio">Downloading bemio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#installing-quick-start-for-python-beginners">Installing: Quick Start for Python Beginners</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#installing-for-experienced-python-users">Installing: For Experienced Python Users</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="vtk.html">Installing VTK with Python Bindings</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="vtk.html#for-osx-users">For OSX Users</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="vtk.html#method-1">Method 1</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="vtk.html#prerequisites-and-pre-installation-tasks">Prerequisites and Pre Installation Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vtk.html#osx">OSX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="vtk.html#method-1-simple">Method 1: Simple</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vtk.html#method-2-complex">Method 2: Complex</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="vtk.html#pre-installation-tasks">Pre-Installation Tasks</a></li>
 <li class="toctree-l4"><a class="reference internal" href="vtk.html#instillation">Instillation</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="vtk.html#linux">Linux</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">API</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="api_io.html">Using <cite>bemio&#8217;s</cite> Data Readers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api_io.html#loading-data">Loading Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_io.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_io.html#writing-the-data-to-the-shdf">Writing the Data to the SHDF</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Using <cite>bemio&#8217;s</cite> Mesh Utilities</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#loading-data">Loading Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#writing-the-data-to-the-shdf">Writing the Data to the SHDF</a></li>
@@ -135,13 +130,13 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="module_doc.html">bemio Module Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="module_doc.html#data-structures">data_structures</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="module_doc.html#hydrodynamicdata">HydrodynamicData</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.data_structures.bem">HydrodynamicData</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="module_doc.html#io-input-output">io (Input/Output)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="module_doc.html#wamitoutput">WamitOutput</a></li>
-<li class="toctree-l3"><a class="reference internal" href="module_doc.html#nemohoutput">NemohOutput</a></li>
-<li class="toctree-l3"><a class="reference internal" href="module_doc.html#aqwaoutput">AqwaOutput</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.wamit">WamitOutput</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.nemoh">NemohOutput</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.aqwa">AqwaOutput</a></li>
 </ul>
 </li>
 </ul>
@@ -170,11 +165,11 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>API</li>
+    <li>Using <cite>bemio&#8217;s</cite> Mesh Utilities</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/api.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/api_mesh.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -183,17 +178,17 @@
 </div>
           <div role="main" class="document">
             
-  <div class="section" id="api">
-<span id="id1"></span><h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="using-bemio-s-mesh-utilities">
+<h1>Using <cite>bemio&#8217;s</cite> Mesh Utilities<a class="headerlink" href="#using-bemio-s-mesh-utilities" title="Permalink to this headline">¶</a></h1>
 <p>In this section the application program interface (API) that allows users how to build custom BEM data readers is first described. Next, the <cite>bemio</cite> standardized hydrodynamic data format (SHDF) is described. Finally a set of tutorials are presented that provide examples of how to use <cite>bemio</cite> to read simulation results from NEMOH, WAMIT, and AQWA and how save the data in the standardized hydrodynamic data format.</p>
 <div class="section" id="loading-data">
-<span id="id2"></span><h2>Loading Data<a class="headerlink" href="#loading-data" title="Permalink to this headline">¶</a></h2>
+<span id="id1"></span><h2>Loading Data<a class="headerlink" href="#loading-data" title="Permalink to this headline">¶</a></h2>
 <p>Users can load data by interacting with the following with the following <cite>bemio</cite> modules</p>
 <blockquote>
 <div><ul class="simple">
-<li><code class="xref py py-mod docutils literal"><span class="pre">bemio.io.nemoh</span></code></li>
-<li><code class="xref py py-mod docutils literal"><span class="pre">bemio.io.wamit</span></code></li>
-<li><code class="xref py py-mod docutils literal"><span class="pre">bemio.io.aqwa</span></code></li>
+<li><a class="reference internal" href="module_doc.html#module-bemio.io.nemoh" title="bemio.io.nemoh"><code class="xref py py-mod docutils literal"><span class="pre">bemio.io.nemoh</span></code></a></li>
+<li><a class="reference internal" href="module_doc.html#module-bemio.io.wamit" title="bemio.io.wamit"><code class="xref py py-mod docutils literal"><span class="pre">bemio.io.wamit</span></code></a></li>
+<li><a class="reference internal" href="module_doc.html#module-bemio.io.aqwa" title="bemio.io.aqwa"><code class="xref py py-mod docutils literal"><span class="pre">bemio.io.aqwa</span></code></a></li>
 </ul>
 </div></blockquote>
 <p>The python code below shows how a user would interact with the modules in the Python 2.7 environment in order to read NEMOH, WAMIT, and AQWA data. Notice that the <code class="xref py py-mod docutils literal"><span class="pre">bemio.io</span></code> objects are used to create data objects that contain the hydrodynamic data from the data files produced by the hydrodynamic simulation codes:</p>
@@ -235,7 +230,7 @@
 <span class="n">bem</span><span class="o">.</span><span class="n">write_hdf5</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">nemoh_data_obj</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">out_file</span><span class="o">=</span><span class="s">&#39;shdf_example.h5&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Once the data is written to the HDF5 file, it can be viewed using <a href="#id3"><span class="problematic" id="id4">`HDFVIEW`_</span></a>. The figure below shows the structure of the SHDF produced by <cite>bemio</cite> from the NEMOH data. Note that the NEMOH simulation was of a two-body point absorber.</p>
+<p>Once the data is written to the HDF5 file, it can be viewed using <a href="#id2"><span class="problematic" id="id3">`HDFVIEW`_</span></a>. The figure below shows the structure of the SHDF produced by <cite>bemio</cite> from the NEMOH data. Note that the NEMOH simulation was of a two-body point absorber.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/rm3_hdf5.png"><img alt="_images/rm3_hdf5.png" src="_images/rm3_hdf5.png" style="width: 600pt;" /></a>
 </div>
@@ -263,7 +258,7 @@
         <a href="tutorials.html" class="btn btn-neutral float-right" title="Tutorials" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="vtk.html" class="btn btn-neutral" title="Installing VTK with Python Bindings" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="api_io.html" class="btn btn-neutral" title="Using bemio’s Data Readers" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

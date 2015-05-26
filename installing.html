@@ -1,0 +1,321 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Downloading and Installing &mdash; bemio v1.0a0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="bemio v1.0a0 documentation" href="index.html"/>
+        <link rel="next" title="Installing VTK with Python Bindings" href="vtk.html"/>
+        <link rel="prev" title="License" href="license.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> bemio
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Downloading and Installing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#downloading-bemio">Downloading bemio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-quick-start-for-python-beginners">Installing: Quick Start for Python Beginners</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-for-experienced-python-users">Installing: For Experienced Python Users</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="vtk.html">Installing VTK with Python Bindings</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="vtk.html#osx">OSX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="vtk.html#method-1-simple">Method 1: Simple</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vtk.html#method-2-complex">Method 2: Complex</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="vtk.html#pre-installation-tasks">Pre-Installation Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="vtk.html#instillation">Instillation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="vtk.html#linux">Linux</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api_io.html">Using <cite>bemio&#8217;s</cite> Data Readers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api_io.html#loading-data">Loading Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_io.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_io.html#writing-the-data-to-the-shdf">Writing the Data to the SHDF</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api_mesh.html">Using <cite>bemio&#8217;s</cite> Mesh Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api_mesh.html#loading-data">Loading Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_mesh.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_mesh.html#writing-the-data-to-the-shdf">Writing the Data to the SHDF</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#tutorial-data-files">Tutorial Data Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#available-tutorials">Available Tutorials</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wamit.html">WAMIT</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wamit.html#viewing-the-shdf-file">Viewing the SHDF File</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="wamit.html#references">References</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nemoh.html">NEMOH</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#load-the-nemoh-module-from-bemio-io">Load the nemoh module from bemio.io</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#load-the-bem-data-object-from-bemio-data-structures">Load the bem data object from bemio.data_structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#read-the-nemoh-simulation-data-from-the">Read the Nemoh simulation data from the</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#read-the-hydrostatic-and-ih-files">Read the hydrostatic and IH files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#calculate-the-irf-and-state-space-coefficients">Calculate the IRF and state space coefficients</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#plot-the-surge-and-heave-components-of-added-mass-and-radiation-damping-for-body-0">Plot the surge and heave components of added mass and radiation damping for body 0</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#write-the-data-to-the-bemio-data-file-format-for-use-with-wec-sim">Write the data to the bemio data file format for use with WEC-Sim</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="aqwa.html">AQWA</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_doc.html">bemio Module Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_doc.html#data-structures">data_structures</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.data_structures.bem">HydrodynamicData</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="module_doc.html#io-input-output">io (Input/Output)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.wamit">WamitOutput</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.nemoh">NemohOutput</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.aqwa">AqwaOutput</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">bemio</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Downloading and Installing</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/installing.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="downloading-and-installing">
+<h1>Downloading and Installing<a class="headerlink" href="#downloading-and-installing" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="downloading-bemio">
+<h2>Downloading bemio<a class="headerlink" href="#downloading-bemio" title="Permalink to this headline">¶</a></h2>
+<p>bemio is distbuited through the <a class="reference external" href="https://github.com/WEC-Sim/bemio/">bemio GitHub web page</a> and can be downloaded using one of the following methods.</p>
+<p><strong>Clone with Git (recommended):</strong> bemio can obtained by cloning the repository using the GitHub GUI (<a class="reference external" href="https://mac.github.com/">Mac</a> and <a class="reference external" href="https://windows.github.com/">Windows</a> ) or from the command line using the command:</p>
+<div class="highlight-python"><div class="highlight"><pre>git clone https://github.com/WEC-Sim/bemio.git
+</pre></div>
+</div>
+<p>This method is recommended because it makes it easy to update your local version of bemio to the latest version using the <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> command.</p>
+<p><strong>Download code archive:</strong> The code archive can be downloaded from <a class="reference external" href="https://github.com/WEC-Sim/bemio/archive/master.zip">bemio-1.0</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The folder that contains the bemio source code will be referred to as the <code class="docutils literal"><span class="pre">$BEMIO_SOURE</span></code> folder.</p>
+</div>
+</div>
+<div class="section" id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<p>Bemio requires the following software and packages.</p>
+<p><strong>Python:</strong> <a class="reference external" href="https://www.python.org/downloads/">Python 2.7.x</a> and the following Python packages are required to run WEC-Sim. These packages can easily be installed using using <a class="reference external" href="https://pypi.python.org/pypi/pip">pip</a>  or your favorite package instillation method:</p>
+<blockquote>
+<div><ul class="simple">
+<li>matplotlib</li>
+<li>numpy</li>
+<li>scipy</li>
+<li>progressbar2</li>
+<li>astropy</li>
+<li>h5py</li>
+</ul>
+</div></blockquote>
+<p><strong>Visualization Toolkit (VTK):</strong> If you would like to use the <code class="docutils literal"><span class="pre">bemio.mesh_utilities</span></code> you will also have to install VTK and the Python 2.7.x bindings. Instructions for how to install VTK are provided in the <a class="reference internal" href="vtk.html#installing-vtk-with-python-bindings"><span>Installing VTK with Python Bindings</span></a> section.</p>
+<p><strong>HDFVIEW:</strong> Although not required, bemio users will benefit from installing <a class="reference external" href="http://www.hdfgroup.org/products/java/hdfview/">HDFVIEW</a>. <cite>HDFVIEW</cite>  allows bemio users to view and interact with the bemio output files.</p>
+</div>
+<div class="section" id="installing-quick-start-for-python-beginners">
+<h2>Installing: Quick Start for Python Beginners<a class="headerlink" href="#installing-quick-start-for-python-beginners" title="Permalink to this headline">¶</a></h2>
+<p><strong>Step 1 - Install Python:</strong> It can be a pain to install Python, NumPy, SciPy, Matplotlib, h5py and other dependencies that are needed to run bemio. If you&#8217;re new to Python, the easiest approach is to start by installing one of the science and engineering oriented Python distributions:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://continuum.io/downloads">Anaconda</a> (Linux, Mac, Windows)</li>
+<li><a class="reference external" href="https://code.google.com/p/pythonxy/">PythonXY</a> (Windows)</li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you are using Anaconda, PythonXY or another non-Python.org distribution, you may need to install one of the packages identified in the <a class="reference internal" href="#dependencies">Dependencies</a> section. If you need to do so, you should install any needed modules via your distribution&#8217;s package manager.</p>
+</div>
+<p><strong>Step 2 - Download bemio:</strong> Download bemio as described in the <a class="reference internal" href="#downloading-bemio">Downloading bemio</a> section</p>
+<p><strong>Step 3 - Install bemio:</strong> Open a command window (Windows) or shell (OSX and LInux) and navigate to <code class="docutils literal"><span class="pre">$BEMIO_SOURCE</span></code>. Once inside the <code class="docutils literal"><span class="pre">$BEMIO_SOURCE</span></code> folder execute the following command:</p>
+<div class="highlight-python"><div class="highlight"><pre>python setup.py install --user
+</pre></div>
+</div>
+<p><strong>Step 4 - Test the instillation:</strong> Test the bemio by running the following command from a command prompt inside the <code class="docutils literal"><span class="pre">$BEMIO_SOURCE</span></code> folder:</p>
+<div class="highlight-python"><div class="highlight"><pre>python test.py
+</pre></div>
+</div>
+<p>If the  WAMIT, AQWA, and NEMOH tutorial cases (located in <code class="docutils literal"><span class="pre">$BEMIO_SOURCE/tutorials</span></code>)  run successfully, you will receive get a success messages for each case.</p>
+</div>
+<div class="section" id="installing-for-experienced-python-users">
+<h2>Installing: For Experienced Python Users<a class="headerlink" href="#installing-for-experienced-python-users" title="Permalink to this headline">¶</a></h2>
+<p>These instructions assume the user has an advanced level of Python knowledge.</p>
+<p><strong>Step 1 - Install Python 2.7.x:</strong> Install Python 2.7.x and the Python modules identified in the <a class="reference internal" href="#dependencies">Dependencies</a> section.</p>
+<p><strong>Step 2 - Download bemio:</strong> Clone or fork bemio from the <a class="reference external" href="https://github.com/WEC-Sim/bemio/">bemio GitHub page</a> using git:</p>
+<div class="highlight-python"><div class="highlight"><pre>git clone https://github.com/WEC-Sim/bemio.git
+</pre></div>
+</div>
+<p><strong>Step 3 - Install bemio:</strong> Add the <code class="docutils literal"><span class="pre">$BEMIO_SOURCE</span></code> folder to your <a class="reference external" href="https://docs.python.org/2/using/cmdline.html#environment-variables">PYTHONPATH</a> environment variable.</p>
+<p><strong>Step 4 - Test the instillation:</strong> Test the bemio by running the following command from a command prompt inside the <code class="docutils literal"><span class="pre">$BEMIO_SOURCE</span></code> folder:</p>
+<div class="highlight-python"><div class="highlight"><pre>python test.py
+</pre></div>
+</div>
+<p>If the  WAMIT, AQWA, and NEMOH tutorial cases (located in <code class="docutils literal"><span class="pre">$BEMIO_SOURCE/tutorials</span></code>)  run successfully, you will receive get a success messages for each case.</p>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="vtk.html" class="btn btn-neutral float-right" title="Installing VTK with Python Bindings" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="license.html" class="btn btn-neutral" title="License" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, National Renewable Energy Laboratory and Sandia National Laboratories.
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v1.0a0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

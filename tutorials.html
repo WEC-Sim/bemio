@@ -5,6 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Tutorials &mdash; bemio v1.0a0 documentation</title>
@@ -14,7 +15,6 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
   
   
@@ -32,10 +32,10 @@
   
     <link rel="top" title="bemio v1.0a0 documentation" href="index.html"/>
         <link rel="next" title="WAMIT" href="wamit.html"/>
-        <link rel="prev" title="API" href="api.html"/> 
+        <link rel="prev" title="Using bemio’s Mesh Utilities" href="api_mesh.html"/> 
 
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+  <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
@@ -47,8 +47,14 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-nav-search">
         
-          <a href="index.html" class="fa fa-home"> bemio</a>
+
         
+          <a href="index.html" class="icon icon-home"> bemio
+        
+
+        
+        </a>
+
         
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -57,6 +63,8 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
+
+        
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
@@ -65,27 +73,72 @@
           
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installing-python-and-the-required-dependencies">Installing Python and the Required Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installing-hdfview">Installing HDFView</a></li>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-bemio">Downloading bemio</a></li>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installing-bemio">Installing <cite>bemio</cite></a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Downloading and Installing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#downloading-bemio">Downloading bemio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#installing-quick-start-for-python-beginners">Installing: Quick Start for Python Beginners</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#installing-for-experienced-python-users">Installing: For Experienced Python Users</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api.html#loading-data">Loading Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#writing-the-data-to-the-shdf">Writing the Data to the SHDF</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vtk.html">Installing VTK with Python Bindings</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="vtk.html#osx">OSX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="vtk.html#method-1-simple">Method 1: Simple</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vtk.html#method-2-complex">Method 2: Complex</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="vtk.html#pre-installation-tasks">Pre-Installation Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="vtk.html#instillation">Instillation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="vtk.html#linux">Linux</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api_io.html">Using <cite>bemio&#8217;s</cite> Data Readers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api_io.html#loading-data">Loading Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_io.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_io.html#writing-the-data-to-the-shdf">Writing the Data to the SHDF</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api_mesh.html">Using <cite>bemio&#8217;s</cite> Mesh Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api_mesh.html#loading-data">Loading Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_mesh.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_mesh.html#writing-the-data-to-the-shdf">Writing the Data to the SHDF</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Tutorials</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#tutorial-data-files">Tutorial Data Files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#available-tutorials">Available Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#available-tutorials">Available Tutorials</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wamit.html">WAMIT</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wamit.html#viewing-the-shdf-file">Viewing the SHDF File</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="wamit.html#references">References</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nemoh.html">NEMOH</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#load-the-nemoh-module-from-bemio-io">Load the nemoh module from bemio.io</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#load-the-bem-data-object-from-bemio-data-structures">Load the bem data object from bemio.data_structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#read-the-nemoh-simulation-data-from-the">Read the Nemoh simulation data from the</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#read-the-hydrostatic-and-ih-files">Read the hydrostatic and IH files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#calculate-the-irf-and-state-space-coefficients">Calculate the IRF and state space coefficients</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#plot-the-surge-and-heave-components-of-added-mass-and-radiation-damping-for-body-0">Plot the surge and heave components of added mass and radiation damping for body 0</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#write-the-data-to-the-bemio-data-file-format-for-use-with-wec-sim">Write the data to the bemio data file format for use with WEC-Sim</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="aqwa.html">AQWA</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="module_doc.html">bemio Module Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_doc.html#data-structures">data_structures</a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_doc.html#io-input-output">io (Input/Output)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_doc.html#data-structures">data_structures</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.data_structures.bem">HydrodynamicData</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="module_doc.html#io-input-output">io (Input/Output)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.wamit">WamitOutput</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.nemoh">NemohOutput</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.aqwa">AqwaOutput</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -115,7 +168,9 @@
     <li>Tutorials</li>
       <li class="wy-breadcrumbs-aside">
         
-          <a href="_sources/tutorials.txt" rel="nofollow"> View page source</a>
+          
+            <a href="_sources/tutorials.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
   </ul>
@@ -129,7 +184,7 @@
 </div>
 <div class="section" id="tutorials">
 <h1>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this headline">¶</a></h1>
-<p>This section provides tutorials that show how to use <a class="reference internal" href="api.html#api"><span>API</span></a> to read, process, and save NEMOH, WAMIT, and AQWA simulation data. Specifically, the tutorials show how to:</p>
+<p>This section provides tutorials that show how to use <span class="xref std std-ref">API</span> to read, process, and save NEMOH, WAMIT, and AQWA simulation data. Specifically, the tutorials show how to:</p>
 <blockquote>
 <div><ol class="arabic simple">
 <li>Create custom programs that read BEM simulation data</li>
@@ -149,7 +204,9 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="wamit.html">WAMIT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wamit.html#references">References</a></li>
 <li class="toctree-l1"><a class="reference internal" href="nemoh.html">NEMOH</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aqwa.html">AQWA</a></li>
 </ul>
 </div>
 </div>
@@ -161,10 +218,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="wamit.html" class="btn btn-neutral float-right" title="WAMIT">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="wamit.html" class="btn btn-neutral float-right" title="WAMIT" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="api.html" class="btn btn-neutral" title="API"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="api_mesh.html" class="btn btn-neutral" title="Using bemio’s Mesh Utilities" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -176,10 +233,10 @@
         &copy; Copyright 2015, National Renewable Energy Laboratory and Sandia National Laboratories.
     </p>
   </div>
-
   Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-  
+
 </footer>
+
         </div>
       </div>
 

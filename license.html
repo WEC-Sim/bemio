@@ -5,6 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>License &mdash; bemio v1.0a0 documentation</title>
@@ -14,7 +15,6 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
   
   
@@ -31,11 +31,11 @@
 
   
     <link rel="top" title="bemio v1.0a0 documentation" href="index.html"/>
-        <link rel="next" title="Getting started" href="getting_started.html"/>
+        <link rel="next" title="Installing" href="installing.html"/>
         <link rel="prev" title="bemio Documentation and Users Guide" href="index.html"/> 
 
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+  <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
@@ -47,8 +47,14 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-nav-search">
         
-          <a href="index.html" class="fa fa-home"> bemio</a>
+
         
+          <a href="index.html" class="icon icon-home"> bemio
+        
+
+        
+        </a>
+
         
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -57,6 +63,8 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
+
+        
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
@@ -65,11 +73,35 @@
           
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="">License</a></li>
-<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installing-python-and-the-required-dependencies">Installing Python and the Required Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installing-hdfview">Installing HDFView</a></li>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#downloading-bemio">Downloading bemio</a></li>
-<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installing-bemio">Installing <cite>bemio</cite></a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Installing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#python-and-the-required-dependencies">Python and the Required Dependencies</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installing.html#for-python-beginners">For Python Beginners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installing.html#for-experienced-python-users">For Experienced Python Users</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#hdfview">HDFView</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#downloading-bemio">Downloading bemio</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installing.html#clone-with-git-recommended-bemio-for-users">Clone with Git (Recommended <cite>bemio</cite> for Users)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#fork-with-git-for-developers">Fork with Git - for Developers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#download-code-archive">Download code archive</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html#installing-bemio">Installing <cite>bemio</cite></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#simple-installation-instructions">Simple Installation Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#developer-instillation-instructions">Developer Instillation Instructions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="vtk.html">Installing VTK with Python Bindings</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="vtk.html#for-osx-users">For OSX Users</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="vtk.html#method-1">Method 1</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="vtk.html#prerequisites-and-pre-installation-tasks">Prerequisites and Pre Installation Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="vtk.html#instillation">Instillation</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API</a><ul>
@@ -80,12 +112,38 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="tutorials.html#tutorial-data-files">Tutorial Data Files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials.html#available-tutorials">Available Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#available-tutorials">Available Tutorials</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wamit.html">WAMIT</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wamit.html#viewing-the-shdf-file">Viewing the SHDF File</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="wamit.html#references">References</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nemoh.html">NEMOH</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#load-the-nemoh-module-from-bemio-io">Load the nemoh module from bemio.io</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#load-the-bem-data-object-from-bemio-data-structures">Load the bem data object from bemio.data_structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#read-the-nemoh-simulation-data-from-the">Read the Nemoh simulation data from the</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#read-the-hydrostatic-and-ih-files">Read the hydrostatic and IH files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#calculate-the-irf-and-state-space-coefficients">Calculate the IRF and state space coefficients</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#plot-the-surge-and-heave-components-of-added-mass-and-radiation-damping-for-body-0">Plot the surge and heave components of added mass and radiation damping for body 0</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#write-the-data-to-the-bemio-data-file-format-for-use-with-wec-sim">Write the data to the bemio data file format for use with WEC-Sim</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="aqwa.html">AQWA</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="module_doc.html">bemio Module Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_doc.html#data-structures">data_structures</a></li>
-<li class="toctree-l2"><a class="reference internal" href="module_doc.html#io-input-output">io (Input/Output)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_doc.html#data-structures">data_structures</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#hydrodynamicdata">HydrodynamicData</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="module_doc.html#io-input-output">io (Input/Output)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#wamitoutput">WamitOutput</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#nemohoutput">NemohOutput</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#aqwaoutput">AqwaOutput</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -115,7 +173,9 @@
     <li>License</li>
       <li class="wy-breadcrumbs-aside">
         
-          <a href="_sources/license.txt" rel="nofollow"> View page source</a>
+          
+            <a href="_sources/license.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
   </ul>
@@ -137,10 +197,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="getting_started.html" class="btn btn-neutral float-right" title="Getting started">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="installing.html" class="btn btn-neutral float-right" title="Installing" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="bemio Documentation and Users Guide"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="bemio Documentation and Users Guide" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -152,10 +212,10 @@
         &copy; Copyright 2015, National Renewable Energy Laboratory and Sandia National Laboratories.
     </p>
   </div>
-
   Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-  
+
 </footer>
+
         </div>
       </div>
 

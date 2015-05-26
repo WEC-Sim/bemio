@@ -1,0 +1,347 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Installing VTK with Python Bindings &mdash; bemio v1.0a0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="bemio v1.0a0 documentation" href="index.html"/>
+        <link rel="next" title="Using bemio’s Data Readers" href="api_io.html"/>
+        <link rel="prev" title="Downloading and Installing" href="installing.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> bemio
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installing.html">Downloading and Installing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#downloading-bemio">Downloading bemio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#installing-quick-start-for-python-beginners">Installing: Quick Start for Python Beginners</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#installing-for-experienced-python-users">Installing: For Experienced Python Users</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Installing VTK with Python Bindings</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#osx">OSX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#method-1-simple">Method 1: Simple</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#method-2-complex">Method 2: Complex</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pre-installation-tasks">Pre-Installation Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#instillation">Instillation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#linux">Linux</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api_io.html">Using <cite>bemio&#8217;s</cite> Data Readers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api_io.html#loading-data">Loading Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_io.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_io.html#writing-the-data-to-the-shdf">Writing the Data to the SHDF</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api_mesh.html">Using <cite>bemio&#8217;s</cite> Mesh Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api_mesh.html#loading-data">Loading Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_mesh.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_mesh.html#writing-the-data-to-the-shdf">Writing the Data to the SHDF</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#tutorial-data-files">Tutorial Data Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials.html#available-tutorials">Available Tutorials</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wamit.html">WAMIT</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="wamit.html#viewing-the-shdf-file">Viewing the SHDF File</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="wamit.html#references">References</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nemoh.html">NEMOH</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#load-the-nemoh-module-from-bemio-io">Load the nemoh module from bemio.io</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#load-the-bem-data-object-from-bemio-data-structures">Load the bem data object from bemio.data_structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#read-the-nemoh-simulation-data-from-the">Read the Nemoh simulation data from the</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#read-the-hydrostatic-and-ih-files">Read the hydrostatic and IH files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#calculate-the-irf-and-state-space-coefficients">Calculate the IRF and state space coefficients</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#plot-the-surge-and-heave-components-of-added-mass-and-radiation-damping-for-body-0">Plot the surge and heave components of added mass and radiation damping for body 0</a></li>
+<li class="toctree-l4"><a class="reference internal" href="nemoh.html#write-the-data-to-the-bemio-data-file-format-for-use-with-wec-sim">Write the data to the bemio data file format for use with WEC-Sim</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="aqwa.html">AQWA</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="module_doc.html">bemio Module Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="module_doc.html#data-structures">data_structures</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.data_structures.bem">HydrodynamicData</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="module_doc.html#io-input-output">io (Input/Output)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.wamit">WamitOutput</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.nemoh">NemohOutput</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.aqwa">AqwaOutput</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">bemio</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Installing VTK with Python Bindings</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/vtk.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="installing-vtk-with-python-bindings">
+<span id="id1"></span><h1>Installing VTK with Python Bindings<a class="headerlink" href="#installing-vtk-with-python-bindings" title="Permalink to this headline">¶</a></h1>
+<p>In order to use <code class="docutils literal"><span class="pre">bemio.mesh_utilities</span></code> packaged with <cite>bemio</cite> you must have the Visualization Toolkit (VTK)  and the VTK Python 2.7.x bindings installed.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Some Python distributions, such as Anaconda and PythonXY, may include VTK bindings, however, it is recommended that <cite>bemio</cite> users install VTK using the instructions in this section.</p>
+</div>
+<div class="section" id="osx">
+<h2>OSX<a class="headerlink" href="#osx" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="method-1-simple">
+<h3>Method 1: Simple<a class="headerlink" href="#method-1-simple" title="Permalink to this headline">¶</a></h3>
+<p>Install VTK using <a class="reference external" href="https://www.macports.org/">MacPorts</a>, <a class="reference external" href="http://www.finkproject.org/">Fink</a>, or <a class="reference external" href="http://brew.sh/">HomeBrew</a>. If you would like to install VTK using this method you should also install Python and other bemio dependencies with your selected package manager.</p>
+</div>
+<div class="section" id="method-2-complex">
+<h3>Method 2: Complex<a class="headerlink" href="#method-2-complex" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="pre-installation-tasks">
+<h4>Pre-Installation Tasks<a class="headerlink" href="#pre-installation-tasks" title="Permalink to this headline">¶</a></h4>
+<p><strong>Step 1:</strong> Insure the following software is installed on your system:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://www.python.org/downloads/">Python-2.7.x</a></li>
+<li><a class="reference external" href="https://developer.apple.com/xcode/downloads/">Apple Xcode</a></li>
+<li><a class="reference external" href="http://www.cmake.org/">cmake</a></li>
+<li><a class="reference external" href="http://www.tcl.tk/">tcl</a></li>
+<li><a class="reference external" href="http://www.tcl.tk/">tk</a></li>
+</ul>
+<p>Python is preloaded on OSX systems and XCode can be installed through the <a class="reference external" href="https://itunes.apple.com/us/app/xcode/id497799835;jsessionid=wnox0jq0k0vj2wbtcl3kohuf?mt=12#">OSX App-Store</a> . The other packages can easily be installed using <a class="reference external" href="https://www.macports.org/">MacPorts</a> or a similar package manager, such as <a class="reference external" href="http://www.finkproject.org/">Fink</a> or <a class="reference external" href="http://brew.sh/">HomeBrew</a>. Here is an example of how to install using MacPorts:</p>
+<div class="highlight-shell"><div class="highlight"><pre>sudo port install cmake
+sudo port install tcl
+sudo port install tk
+</pre></div>
+</div>
+<p><strong>Step 2</strong>: Download and unzip the latest version of VTK from here - <a class="reference external" href="http://www.vtk.org/download/">http://www.vtk.org/download</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The folder that contains the VTK source code will be referred to as <code class="docutils literal"><span class="pre">$VTK_SOURCE</span></code></p>
+</div>
+</div>
+<div class="section" id="instillation">
+<h4>Instillation<a class="headerlink" href="#instillation" title="Permalink to this headline">¶</a></h4>
+<p>Open a terminal window and use the following procedure to compile VTK and the Python bindings.</p>
+<div class="highlight-shell"><div class="highlight"><pre><span class="c"># Move to the VTK source directory</span>
+mlawson@mbp:~<span class="nv">$ </span><span class="nb">cd</span> <span class="nv">$VTK_SOURCE</span>
+
+<span class="c"># Make a directory for the build and move into the build directory</span>
+mlawson@mbp:VTK-6.2.0<span class="nv">$ </span>mkdir build
+mlawson@mbp:VTK-6.2.0<span class="nv">$ </span><span class="nb">cd </span>build
+
+<span class="c"># Run cmake in interactive mode. Insure that the ``PYTHON_VERSION`` is set to ``2``, the</span>
+<span class="c"># ``VTK_WRAP_PYTHON`` is set to ``ON, and ``BUILD_SHARED_LIBS`` is set to ON. ``BUILD_SHARED_LIBS``</span>
+<span class="c"># is not always visable and you may need to enter the &quot;advnacec mode&quot; by pressing ``t`` to confirm this option is</span>
+<span class="c"># correctly set. After the options are properly set, press ``c`` to configure and then ``g``</span>
+<span class="c"># to generate the required make files.</span>
+mlawson@mbp:VTK-6.2.0<span class="nv">$ </span>sudo ccmake ..
+
+    BUILD_DOCUMENTATION              OFF
+    BUILD_EXAMPLES                   OFF
+<span class="hll">    BUILD_SHARED_LIBS                ON       <span class="c"># May need to toggle advanced mode to view this option</span>
+</span>    BUILD_TESTING                    OFF
+    BUILD_USER_DEFINED_LIBS          OFF
+    CMAKE_BUILD_TYPE                 Release
+    CMAKE_FRAMEWORK_INSTALL_PREFIX   /usr/local/frameworks
+    IOS_DEVICE_ARCHITECTURES         arm64<span class="p">;</span>armv7<span class="p">;</span>armv7s
+    IOS_SIMULATOR_ARCHITECTURES      i386<span class="p">;</span>x86_64
+    OPENGL_ES_VERSION                2.0
+    VTK_ANDROID_BUILD                OFF
+    VTK_Group_Imaging                OFF
+    VTK_Group_MPI                    OFF
+    VTK_Group_Qt                     OFF
+    VTK_Group_Rendering              ON
+    VTK_Group_StandAlone             ON
+    VTK_Group_Tk                     OFF
+    VTK_Group_Views                  OFF
+    VTK_Group_Web                    OFF
+    VTK_IOS_BUILD                    OFF
+<span class="hll">    VTK_PYTHON_VERSION               2
+</span>    VTK_SMP_IMPLEMENTATION_TYPE      Sequential
+    VTK_USE_LARGE_DATA               OFF
+    VTK_WRAP_JAVA                    OFF
+<span class="hll">    VTK_WRAP_PYTHON                  ON
+</span>    VTK_WRAP_TCL                     OFF
+
+    BUILD_DOCUMENTATION: Build the VTK documentation
+    Press <span class="o">[</span>enter<span class="o">]</span> to edit option                                                 CMake Version 3.2.2
+    Press <span class="o">[</span>c<span class="o">]</span> to configure
+    Press <span class="o">[</span>h<span class="o">]</span> <span class="k">for</span> <span class="nb">help           </span>Press <span class="o">[</span>q<span class="o">]</span> to quit without generating
+<span class="hll">    Press <span class="o">[</span>t<span class="o">]</span> to toggle advanced mode <span class="o">(</span>Currently Off<span class="o">)</span>
+</span>
+<span class="c"># Build VTK using make - this will take a while :(</span>
+mlawson@mbp:VTK-6.2.0<span class="nv">$ </span>sudo make
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="linux">
+<h2>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h2>
+<p>Install VTK and the VTK Python bindings using your system&#8217;s package manager.</p>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="api_io.html" class="btn btn-neutral float-right" title="Using bemio’s Data Readers" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="installing.html" class="btn btn-neutral" title="Downloading and Installing" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, National Renewable Energy Laboratory and Sandia National Laboratories.
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'v1.0a0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
