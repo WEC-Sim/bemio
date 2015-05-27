@@ -1,18 +1,14 @@
 WAMIT
 -----
-WAMIT tutorial files can be found in the ``$BEMIO_TUTORIALS/wamit`` folder. As shown below, the folder contains a ``data`` folder and a ``run.py`` folder as shown below.
+WAMIT tutorial files can be found in the ``$BEMIO_TUTORIALS/wamit`` folder.
 
-.. figure::  _static/wamit_tut_dir.png
-   :align: center
-   :width: 400pt
-
-The data folder contains several example WAMIT output files. In this tutorial we will use the ``wec3.out`` example data. This file contains WAMIT simulation from a floating three-body oscillating flap device shown below. This device geometry was used in the Wave Energy Converter Code Comparison (WEC3) project [1] and described by Babarit et al. [2] (FIX CITATIONs).
+The ``$BEMIO_TUTORIALS/wamit/data`` folder contains several example WAMIT output files. In this tutorial we will use the ``wec3.out`` example data. This file contains WAMIT simulation from a floating three-body oscillating flap device shown below. This device geometry is described thoroughly by Babarit et al. :cite:`babarit2012`.
 
 .. figure::  _static/wec3_device.png
    :align: center
    :width: 400pt
 
-The ``run.py`` file contains a custom written script that uses the `bemio` :ref:`API` to read the ``wec3.out`` file, plot hydrodynamic coefficients, and save the data in the SHDF.
+The ``$BEMIO_TUTORIALS/wamit/run.py`` file contains a custom written script that uses the `bemio` :ref:`API` to read the ``wec3.out`` file, plot hydrodynamic coefficients, and save the data in the SHDF.
 
 .. literalinclude:: ../../tutorials/wamit/run.py
 
@@ -34,3 +30,8 @@ The SHDF file containing the WAMIT data was written to ``$BEMIO_TUTORIALS/wamit/
 .. figure:: _static/wamit_tut_shdf.png
    :align: center
    :width: 550pt
+
+References
+--------------
+.. bibliography:: bemio.bib
+   :style: unsrt

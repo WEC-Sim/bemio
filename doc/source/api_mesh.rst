@@ -1,7 +1,5 @@
-.. _API:
-
-API
-===
+Using `bemio's` Mesh Utilities
+==============================
 In this section the application program interface (API) that allows users how to build custom BEM data readers is first described. Next, the `bemio` standardized hydrodynamic data format (SHDF) is described. Finally a set of tutorials are presented that provide examples of how to use `bemio` to read simulation results from NEMOH, WAMIT, and AQWA and how save the data in the standardized hydrodynamic data format.
 
 .. _loading_data:
