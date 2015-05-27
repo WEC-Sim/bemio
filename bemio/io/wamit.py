@@ -40,7 +40,7 @@ class WamitOutput(object):
         '''
         Internal function to read WAMIT output file into the class. that is called during __init__
         '''
-        with open(self.files['out'],'r') as fid:
+        with open(self.files['out'],'rU') as fid:
 
             raw = fid.readlines()
    
@@ -54,9 +54,27 @@ class WamitOutput(object):
         name = {}    
         disp_vol = {}
         k = {}
+        waveHead = []
+        empty_line = '\n'
 
         
         for i, line in enumerate(raw):
+
+
+
+            if "POTEN run date and starting time:" in line:
+
+                data = raw[i+4]
+                count = 0
+
+                while data != empty_line:
+
+                    count += 1
+                    T.append(float(data.split()[0]))
+                    data = raw[i+count+4]
+
+            if "Wave Heading (deg)" in line:
+                waveHead.append(float(line.split()[-1]))       
             
             if 'Water depth:' in line:
                 water_depth = raw[i].split()[2]
@@ -129,67 +147,157 @@ class WamitOutput(object):
                         
                         
                 bodCount += 1      
-
-
                 
             # Inf freq added mass
             if "Wave period = zero" in line:
                 
-                amInf  = raw[i+7:i+7+(6*num_bodies)**2]
-                amInf = np.array([amInf[temp].split()[2] for temp in xrange(np.size(amInf))]).astype(float)
-                amInf = amInf.reshape(6*num_bodies,6*num_bodies)
+                if "ADDED-MASS COEFFICIENTS" in raw[i+4]:
 
+                    amInf  = raw[i+7:i+7+(6*num_bodies)**2]
+                    amInf = np.array([amInf[temp].split()[2] for temp in xrange(np.size(amInf))]).astype(float)
+                    amInf = amInf.reshape(6*num_bodies,6*num_bodies)
 
                 
             # Zero freq added mass
             if "Wave period = infinite" in line:
+
+                if "ADDED-MASS COEFFICIENTS" in raw[i+4]:
                 
-                amZero = raw[i+7:i+7+(6*num_bodies)**2]
-                amZero = np.array([amZero[temp].split()[2] for temp in xrange(np.size(amZero))]).astype(float)
-                amZero = amZero.reshape(6*num_bodies,6*num_bodies)
+                    amZero = raw[i+7:i+7+(6*num_bodies)**2]
+                    amZero = np.array([amZero[temp].split()[2] for temp in xrange(np.size(amZero))]).astype(float)
+                    amZero = amZero.reshape(6*num_bodies,6*num_bodies)
+
 
             # Added mass, damping, and excitation
             if "Wave period (sec)" in line:
-                
-                T.append(raw[i].split()[4])
-                
-                am = raw[i+7:i+7+(6*num_bodies)**2]
-                am = np.array([am[temp].split()[2] for temp in xrange(np.size(am))]).astype(float)
-                am = am.reshape(6*num_bodies,6*num_bodies,1)
-                
-                rad = raw[i+7:i+7+(6*num_bodies)**2]
-                rad = np.array([rad[temp].split()[3] for temp in xrange(np.size(rad))]).astype(float)
-                rad = rad.reshape(6*num_bodies,6*num_bodies,1)
-                
-                ex = raw[i+17+(6*num_bodies)**2:i+17+(6*num_bodies)**2+6*num_bodies]
-                ex = np.array([ex[temp].split()[1] for temp in xrange(np.size(ex))]).astype(float)
-                ex = ex.reshape(1,6*num_bodies)  
-                
-                phase = raw[i+17+(6*num_bodies)**2:i+17+(6*num_bodies)**2+6*num_bodies]
-                phase = np.array([phase[temp].split()[2] for temp in xrange(np.size(phase))]).astype(float)
-                phase = phase.reshape(1,6*num_bodies)  
 
-                if freqCount is 0:
-
-                    amAll = am
-                    radAll = rad
-                    exAll = ex
-                    phaseAll = phase
+                if "ADDED-MASS AND DAMPING COEFFICIENTS" in raw[i+4]: # Only fill in the matrix if values were calculated
+                
+                    # T.append(raw[i].split()[4])
                     
-                    freqCount = 1
+                    am = raw[i+7:i+7+(6*num_bodies)**2]
+                    am = np.array([am[temp].split()[2] for temp in xrange(np.size(am))]).astype(float)
+                    am = am.reshape(6*num_bodies,6*num_bodies,1)
+                    
+                    rad = raw[i+7:i+7+(6*num_bodies)**2]
+                    rad = np.array([rad[temp].split()[3] for temp in xrange(np.size(rad))]).astype(float)
+                    rad = rad.reshape(6*num_bodies,6*num_bodies,1)
+                    
+                    if freqCount is 0:
 
-                else:
+                        amAll = am
+                        radAll = rad
+                        
+                        freqCount = 1
 
-                    amAll = np.append(amAll,am,axis=2)
-                    radAll = np.append(radAll,rad,axis=2)
-                    exAll = np.append(exAll,ex,axis=0)
-                    phaseAll = np.append(phaseAll,phase,axis=0)
-                                        
+                    else:
+
+                        amAll = np.append(amAll,am,axis=2)
+                        radAll = np.append(radAll,rad,axis=2)
+        
+        # Put things into numpy arrays                               
         T = np.array(T).astype(float)
+        waveHead = np.array(waveHead).astype(float)
+
+        # Only select the wave headings once
+        temp = 999
+        temp_waveHead = []
+        count = 0
+        while temp != waveHead[0]:
+            count += 1
+            temp_waveHead.append(waveHead[count-1])
+            temp = waveHead[count]
+        waveHead = np.array(temp_waveHead).astype(float)
+
+
+        
+        # Terribly complicated code to read excitation forces and phases, RAOs, etc
+        exAll = np.zeros([6*num_bodies,waveHead.size,T.size])
+        phaseAll = exAll.copy()
+        raoAll = exAll.copy()
+        raoPhaseAll = exAll.copy()
+        ssyAll = exAll.copy()
+        ssyPhaseAll = exAll.copy()
+        count_diff2 = 0
+        count_rao2 = 0
+        count_ssy2 = 0
+        for i, line in enumerate(raw):
+
+            count_diff = 0
+            count_rao = 0
+            count_ssy = 0
+
+            if "DIFFRACTION EXCITING FORCES AND MOMENTS" in line:
+
+                count_diff += 1
+                count_diff2 += 1
+                count_waveHead = 0
+                count = 0
+
+                while count_waveHead < waveHead.size:
+
+                    count += 1
+
+                    if "Wave Heading (deg) :" in raw[i+count_diff + count]:
+
+                        count_waveHead += 1
+                        temp_line = raw[i+count_diff+count+4]
+                        count2 = 0
+
+                        while temp_line != empty_line:
+                            count2 += 1
+                            exAll[int(temp_line.split()[0])-1,count_waveHead-1,count_diff2-1] = float(temp_line.split()[1])
+                            phaseAll[int(temp_line.split()[0])-1,count_waveHead-1,count_diff2-1] = float(temp_line.split()[2])
+                            temp_line = raw[i+count_diff+count+4+count2]
+
+            if "RESPONSE AMPLITUDE OPERATORS" in line:
+
+                count_rao += 1
+                count_rao2 += 1
+                count_waveHead = 0
+                count = 0
+
+                while count_waveHead < waveHead.size:
+
+                    count += 1
+
+                    if "Wave Heading (deg) :" in raw[i+count_rao + count]:
+
+                        count_waveHead += 1
+                        temp_line = raw[i+count_rao+count+4]
+                        count2 = 0
+
+                        while temp_line != empty_line:
+                            count2 += 1
+                            raoAll[int(temp_line.split()[0])-1,count_waveHead-1,count_rao2-1] = float(temp_line.split()[1])
+                            raoPhaseAll[int(temp_line.split()[0])-1,count_waveHead-1,count_rao2-1] = float(temp_line.split()[2])
+                            temp_line = raw[i+count_rao+count+4+count2]
+
+            if "SURGE, SWAY & YAW DRIFT FORCES (Momentum Conservation)" in line:
+
+                count_ssy += 1
+                count_ssy2 += 1
+                count_waveHead = 0
+                count = 0
+
+                while count_waveHead < waveHead.size:
+
+                    count += 1
+
+                    if "Wave Heading (deg) :" in raw[i+count_ssy + count]:
+
+                        count_waveHead += 1
+                        temp_line = raw[i+count_ssy+count+4]
+                        count2 = 0
+
+                        while temp_line != empty_line:
+                            count2 += 1
+                            ssyAll[int(temp_line.split()[0])-1,count_waveHead-1,count_ssy2-1] = float(temp_line.split()[1])
+                            ssyPhaseAll[int(temp_line.split()[0])-1,count_waveHead-1,count_ssy2-1] = float(temp_line.split()[2])
+                            temp_line = raw[i+count_ssy+count+4+count2]
 
 
         # Load data into the hydrodata structure
-        print 'Dimensionalized WAMIT Hydrodynamic coefficients with g = ' + str(self.g) + ' and rho = ' + str(self.rho)    
         for i in xrange(num_bodies):       
             self.data[i] = bem.HydrodynamicData() 
             self.data[i].name = name[i][0:-4]
@@ -202,31 +310,90 @@ class WamitOutput(object):
             self.data[i].cb = cb[i]
             self.data[i].k = k[i]*self.rho*self.g
             self.data[i].disp_vol = disp_vol[i]
-            
-            self.data[i].am.inf = amInf[6*i:6+6*i,:]
-            self.data[i].am.inf = self.data[i].am.inf*self.rho
-
-            self.data[i].am.zero = amZero[6*i:6+6*i,:]
-            self.data[i].am.zero = self.data[i].am.zero*self.rho
-            
+            self.data[i].wave_heading = waveHead
             self.data[i].T = T
             self.data[i].w = 2.0*np.pi/self.data[i].T
-
-            self.data[i].am.all = amAll[6*i:6+6*i,:,:]
-            self.data[i].am.all = self.data[i].am.all*self.rho
             
-            self.data[i].rd.all = radAll[6*i:6+6*i,:,:]
-            for j in xrange(np.shape(self.data[i].rd.all)[2]):
-                self.data[i].rd.all[:,:,j] = self.data[i].rd.all[:,:,j]*self.rho*self.data[i].w[j]
-                
-            self.data[i].ex.mag = exAll[:,6*i:6+6*i]*self.rho*self.g
-            self.data[i].ex.phase = np.deg2rad(phaseAll[:,6*i:6+6*i])
-            self.data[i].ex.re = self.data[i].ex.mag*np.cos(self.data[i].ex.phase)
-            self.data[i].ex.im = self.data[i].ex.mag*np.sin(self.data[i].ex.phase)
+            if 'amInf' in locals():
+
+                self.data[i].am.inf = amInf[6*i:6+6*i,:]
+                self.data[i].am.inf = self.data[i].am.inf*self.rho
+
+            else:
+
+                self.data[i].am.inf = np.nan*np.zeros([6*num_bodies,6*num_bodies,self.data[i].T.size])
+                print 'Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain infinite frequency added mass coefficients'
+
+
+            if 'amZero' in locals():
+
+                self.data[i].am.zero = amZero[6*i:6+6*i,:]
+                self.data[i].am.zero = self.data[i].am.zero*self.rho
+
+            else:
+
+                self.data[i].am.zero = np.nan*np.zeros([6*num_bodies,6*num_bodies,self.data[i].T.size])
+                print 'Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain zero frequency added mass coefficients'
+            
+
+            if 'amAll' in locals():
+            
+                self.data[i].am.all = amAll[6*i:6+6*i,:,:]
+                self.data[i].am.all = self.data[i].am.all*self.rho
+            
+            else:
+
+                self.data[i].am.all = np.nan*np.zeros([6*num_bodies,6*num_bodies,self.data[i].T.size])
+                print 'Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain any frequency dependent added mass coefficients'
+
+            
+            if 'radAll' in locals():
+
+                self.data[i].rd.all = radAll[6*i:6+6*i,:,:]
+                for j in xrange(np.shape(self.data[i].rd.all)[2]):
+                    self.data[i].rd.all[:,:,j] = self.data[i].rd.all[:,:,j]*self.rho*self.data[i].w[j]
+
+            else:
+
+                self.data[i].rd.all = np.nan*np.zeros([6*num_bodies,6*num_bodies,self.data[i].T.size])
+                print 'Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain any frequency dependent radiation damping coefficients'
+
+            if 'exAll' in locals():
+
+                self.data[i].ex.mag = exAll[6*i:6+6*i,:,:]*self.rho*self.g
+                self.data[i].ex.phase = np.deg2rad(phaseAll[6*i:6+6*i,:,:])
+                self.data[i].ex.re = self.data[i].ex.mag*np.cos(self.data[i].ex.phase)
+                self.data[i].ex.im = self.data[i].ex.mag*np.sin(self.data[i].ex.phase)
+
+            else:
+
+                print 'Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain any excitation coefficients'
+
+
+            if 'raoAll' in locals():
+
+                self.data[i].rao.mag = raoAll[6*i:6+6*i,:,:]
+                self.data[i].rao.phase = np.deg2rad(phaseAll[6*i:6+6*i,:,:])
+                self.data[i].rao.re = self.data[i].rao.mag*np.cos(self.data[i].rao.phase)
+                self.data[i].rao.im = self.data[i].rao.mag*np.sin(self.data[i].rao.phase)
+
+            else:
+
+                print 'Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain any rao data'
+
+            if 'ssyAll' in locals():
+
+                self.data[i].ssy.mag = ssyAll[6*i:6+6*i,:,:]
+                self.data[i].ssy.phase = np.deg2rad(phaseAll[6*i:6+6*i,:,:])
+                self.data[i].ssy.re = self.data[i].ssy.mag*np.cos(self.data[i].ssy.phase)
+                self.data[i].ssy.im = self.data[i].ssy.mag*np.sin(self.data[i].ssy.phase)
+
+            else:
+
+                print 'Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain any rao data'
+
 
             self.data[i].bem_raw_data = raw
             self.data[i].bem_code = code
 
-def _load(data):
-
-    return coefficients
+        print 'Dimensionalized WAMIT Hydrodynamic coefficients with g = ' + str(self.g) + ' and rho = ' + str(self.rho) 

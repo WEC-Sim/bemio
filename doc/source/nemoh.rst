@@ -68,3 +68,5 @@ Write the data to the bemio data file format for use with WEC-Sim
 .. code:: python
 
     bem.write_hdf5(data=nemoh_data.data, out_file=nemoh_data.files['hdf5'])
+
+.. include:: nemoh.html

@@ -61,5 +61,5 @@ nemoh_data.data[0].plot_am_rd(comps_to_plot)
 
 # In[ ]:
 
-bem.write_hdf5(data=nemoh_data.data, out_file=nemoh_data.files['hdf5'])
+bem.write_hdf5(nemoh_data)
 
