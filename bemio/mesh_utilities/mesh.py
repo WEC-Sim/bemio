@@ -314,14 +314,16 @@ def read(file_name):
 
     elif f_ext == '.dat':
 
-        mesh_data = _read_nemoh(file_name)
+        mesh_data._read_nemoh(file_name)
 
     else:
         raise Exception(f_ext + ' is an unsupported file mesh file type')
 
+    mesh_data._create_vtp_mesh()
+
     return mesh_data
 
-    mesh_data._create_vtp_mesh()
+    
 
 
 def _read_gdf(file_name):
