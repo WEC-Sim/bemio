@@ -188,7 +188,7 @@ class AqwaOutput(object):
 
             self.data[i].rho = density
             self.data[i].g = gravity
-            self.data[i].wave_dir = wave_directions*np.pi/180.
+            self.data[i].wave_dir = wave_directions
             self.data[i].num_bodies = num_bodies
             
             self.data[i].cg = cg[i+1]
