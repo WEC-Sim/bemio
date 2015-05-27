@@ -4,8 +4,12 @@
 *.h5
 *.p
 *.ipynb_checkpoints
+*.sublime-workspace*
+*.sublime-project*
+
 
 run
+*.vis-temp.*
 
 # C extensions
 *.so
