@@ -71,20 +71,7 @@ class PanelMesh(object):
 
         return out_string
 
-        
-
-    def write_vtp(self,out_file=None):
-        '''
-        Function to write VTK Poly data file with the mesh data
-        
-        Inputs:
-            out_file: string specifying the file name for the output vtp file
-        Outputs:
-            None
-        Function action:
-            A vtp file is written with the name of the out_file
-        '''
-
+    def _create_vtp_mesh(self):
         self.vtp_mesh    = vtk.vtkPolyData()
         points  = vtk.vtkPoints()
         polys   = vtk.vtkCellArray()
@@ -100,6 +87,9 @@ class PanelMesh(object):
             
         self.vtp_mesh.SetPoints(points)
         self.vtp_mesh.SetPolys(polys)
+
+
+    def write_vtp(self,out_file=None):
         
         writer = vtk.vtkXMLPolyDataWriter()
 
@@ -247,7 +237,6 @@ class PanelMesh(object):
         self.num_faces = self.faces.shape[0]
 
     def view(self,color=[0.5,1,0.5],opacity=1.0):
-        self.write_vtp()
 
         # Create a mapper and load VTP data into the mapper
         mapper=vtk.vtkPolyDataMapper()
@@ -331,6 +320,8 @@ def read(file_name):
         raise Exception(f_ext + ' is an unsupported file mesh file type')
 
     return mesh_data
+
+    mesh_data._create_vtp_mesh()
 
 
 def _read_gdf(file_name):
