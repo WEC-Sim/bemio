@@ -87,6 +87,12 @@ view_html.sh
 *.toc
 *.zip
 
+*.1
+*.3
+*.mmx
+wamitlog.txt
+wec3.hst
+
 .DS_Store
 
 */output/

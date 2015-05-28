@@ -1,4 +1,3 @@
-# Copyright 2014 the National Renewable Energy Laboratory
 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -54,7 +53,7 @@ class WamitOutput(object):
         name = {}    
         disp_vol = {}
         k = {}
-        waveHead = []
+        wave_dir = []
         empty_line = '\n'
 
         
@@ -74,7 +73,7 @@ class WamitOutput(object):
                     data = raw[i+count+4]
 
             if "Wave Heading (deg)" in line:
-                waveHead.append(float(line.split()[-1]))       
+                wave_dir.append(float(line.split()[-1]))       
             
             if 'Water depth:' in line:
                 water_depth = raw[i].split()[2]
@@ -197,22 +196,22 @@ class WamitOutput(object):
         
         # Put things into numpy arrays                               
         T = np.array(T).astype(float)
-        waveHead = np.array(waveHead).astype(float)
+        wave_dir = np.array(wave_dir).astype(float)
 
         # Only select the wave headings once
         temp = 999
-        temp_waveHead = []
+        temp_wave_dir = []
         count = 0
-        while temp != waveHead[0]:
+        while temp != wave_dir[0]:
             count += 1
-            temp_waveHead.append(waveHead[count-1])
-            temp = waveHead[count]
-        waveHead = np.array(temp_waveHead).astype(float)
+            temp_wave_dir.append(wave_dir[count-1])
+            temp = wave_dir[count]
+        wave_dir = np.array(temp_wave_dir).astype(float)
 
 
         
         # Terribly complicated code to read excitation forces and phases, RAOs, etc
-        exAll = np.zeros([6*num_bodies,waveHead.size,T.size])
+        exAll = np.zeros([6*num_bodies,wave_dir.size,T.size])
         phaseAll = exAll.copy()
         raoAll = exAll.copy()
         raoPhaseAll = exAll.copy()
@@ -231,69 +230,69 @@ class WamitOutput(object):
 
                 count_diff += 1
                 count_diff2 += 1
-                count_waveHead = 0
+                count_wave_dir = 0
                 count = 0
 
-                while count_waveHead < waveHead.size:
+                while count_wave_dir < wave_dir.size:
 
                     count += 1
 
                     if "Wave Heading (deg) :" in raw[i+count_diff + count]:
 
-                        count_waveHead += 1
+                        count_wave_dir += 1
                         temp_line = raw[i+count_diff+count+4]
                         count2 = 0
 
                         while temp_line != empty_line:
                             count2 += 1
-                            exAll[int(temp_line.split()[0])-1,count_waveHead-1,count_diff2-1] = float(temp_line.split()[1])
-                            phaseAll[int(temp_line.split()[0])-1,count_waveHead-1,count_diff2-1] = float(temp_line.split()[2])
+                            exAll[int(temp_line.split()[0])-1,count_wave_dir-1,count_diff2-1] = float(temp_line.split()[1])
+                            phaseAll[int(temp_line.split()[0])-1,count_wave_dir-1,count_diff2-1] = float(temp_line.split()[2])
                             temp_line = raw[i+count_diff+count+4+count2]
 
             if "RESPONSE AMPLITUDE OPERATORS" in line:
 
                 count_rao += 1
                 count_rao2 += 1
-                count_waveHead = 0
+                count_wave_dir = 0
                 count = 0
 
-                while count_waveHead < waveHead.size:
+                while count_wave_dir < wave_dir.size:
 
                     count += 1
 
                     if "Wave Heading (deg) :" in raw[i+count_rao + count]:
 
-                        count_waveHead += 1
+                        count_wave_dir += 1
                         temp_line = raw[i+count_rao+count+4]
                         count2 = 0
 
                         while temp_line != empty_line:
                             count2 += 1
-                            raoAll[int(temp_line.split()[0])-1,count_waveHead-1,count_rao2-1] = float(temp_line.split()[1])
-                            raoPhaseAll[int(temp_line.split()[0])-1,count_waveHead-1,count_rao2-1] = float(temp_line.split()[2])
+                            raoAll[int(temp_line.split()[0])-1,count_wave_dir-1,count_rao2-1] = float(temp_line.split()[1])
+                            raoPhaseAll[int(temp_line.split()[0])-1,count_wave_dir-1,count_rao2-1] = float(temp_line.split()[2])
                             temp_line = raw[i+count_rao+count+4+count2]
 
             if "SURGE, SWAY & YAW DRIFT FORCES (Momentum Conservation)" in line:
 
                 count_ssy += 1
                 count_ssy2 += 1
-                count_waveHead = 0
+                count_wave_dir = 0
                 count = 0
 
-                while count_waveHead < waveHead.size:
+                while count_wave_dir < wave_dir.size:
 
                     count += 1
 
                     if "Wave Heading (deg) :" in raw[i+count_ssy + count]:
 
-                        count_waveHead += 1
+                        count_wave_dir += 1
                         temp_line = raw[i+count_ssy+count+4]
                         count2 = 0
 
                         while temp_line != empty_line:
                             count2 += 1
-                            ssyAll[int(temp_line.split()[0])-1,count_waveHead-1,count_ssy2-1] = float(temp_line.split()[1])
-                            ssyPhaseAll[int(temp_line.split()[0])-1,count_waveHead-1,count_ssy2-1] = float(temp_line.split()[2])
+                            ssyAll[int(temp_line.split()[0])-1,count_wave_dir-1,count_ssy2-1] = float(temp_line.split()[1])
+                            ssyPhaseAll[int(temp_line.split()[0])-1,count_wave_dir-1,count_ssy2-1] = float(temp_line.split()[2])
                             temp_line = raw[i+count_ssy+count+4+count2]
 
 
@@ -310,7 +309,7 @@ class WamitOutput(object):
             self.data[i].cb = cb[i]
             self.data[i].k = k[i]*self.rho*self.g
             self.data[i].disp_vol = disp_vol[i]
-            self.data[i].wave_heading = waveHead
+            self.data[i].wave_dir = wave_dir
             self.data[i].T = T
             self.data[i].w = 2.0*np.pi/self.data[i].T
             
