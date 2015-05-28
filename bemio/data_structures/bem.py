@@ -165,8 +165,7 @@ class HydrodynamicData(object):
         self.cb             = 'not_defined'                           
         self.k              = 'not_defined'                           
         self.T              = 'not_defined'                                                       
-        self.w              = 'not_defined'
-        self.wave_heading   = 'not_defined'                          
+        self.w              = 'not_defined'                     
         
         # np.floats()
         self.wp_area        = 'not_defined'                             

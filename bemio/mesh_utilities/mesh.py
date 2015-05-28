@@ -83,11 +83,57 @@ class PanelMesh(object):
 
         for i in range(self.num_faces):
 
-            polys.InsertNextCell( mk_vtk_id_list(self.faces[i]))
+            polys.InsertNextCell(_mk_vtk_id_list(self.faces[i]))
             
         self.vtp_mesh.SetPoints(points)
         self.vtp_mesh.SetPolys(polys)
 
+    def _write_nemoh(self,fid):
+
+        fid.write('2 0') # This should not be hard coded
+        fid.write('\n')
+        for i in xrange(self.num_points):
+            fid.write(str(i+1) + ' ' +str(self.points[i]).replace('[','').replace(']',''))
+            fid.write('\n')
+        fid.write('0 0 0 0')
+        fid.write('\n')
+        for i in xrange(self.num_faces):
+            fid.write(str(self.faces[i]+1).replace('[','').replace(']','').replace('.',''))
+            fid.write('\n')
+        fid.write('0 0 0 0')
+
+    def _write_gdf(self,fid):
+
+        fid.write('Mesh file written by meshio.py')
+        fid.write('\n')
+        fid.write('1 9.80665       ULEN GRAV')
+        fid.write('\n')
+        fid.write('0  0    ISX  ISY')
+        fid.write('\n')
+        fid.write(str(self.num_faces))
+        fid.write('\n')
+        for i,face in enumerate(self.faces):
+            if np.size(face) is 4: # if the mesh element is a quad
+                for j,pointKey in enumerate(face):
+                    fid.write(str(self.points[pointKey]).replace(',','').replace('[','').replace(']','') + '\n')
+            if np.size(face) is 3: # if the mesh element is a tri
+                faceMod = np.append(face,face[-1])
+                for j,pointKey in enumerate(faceMod):
+                    fid.write(str(self.points[pointKey]).replace(',','').replace('[','').replace(']','') + '\n')
+
+
+    def _collapse(self,plane=2,value=0.0,direction=1):
+        '''Collapse points
+        '''
+        for i in xrange(self.num_faces):
+
+            for j in xrange(self.faces[i].size):
+
+                p = int(self.faces[i][j])
+
+                if self.points[p][plane] > value*direction:
+
+                    self.points[p][plane] = value
 
     def write_vtp(self,out_file=None):
         
@@ -136,19 +182,7 @@ class PanelMesh(object):
 
         print 'Wrote NEMOH mesh to ' + str(self.out_file)
                 
-    def _write_nemoh(self,fid):
 
-        fid.write('2 0') # This should not be hard coded
-        fid.write('\n')
-        for i in xrange(self.num_points):
-            fid.write(str(i+1) + ' ' +str(self.points[i]).replace('[','').replace(']',''))
-            fid.write('\n')
-        fid.write('0 0 0 0')
-        fid.write('\n')
-        for i in xrange(self.num_faces):
-            fid.write(str(self.faces[i]+1).replace('[','').replace(']','').replace('.',''))
-            fid.write('\n')
-        fid.write('0 0 0 0')
 
                 
     def write_gdf(self,out_file=None):
@@ -176,38 +210,7 @@ class PanelMesh(object):
 
         print 'Wrote WAMIT mesh to ' + str(self.out_file)
                 
-    def _write_gdf(self,fid):
-
-        fid.write('Mesh file written by meshio.py')
-        fid.write('\n')
-        fid.write('1 9.80665       ULEN GRAV')
-        fid.write('\n')
-        fid.write('0  0    ISX  ISY')
-        fid.write('\n')
-        fid.write(str(self.num_faces))
-        fid.write('\n')
-        for i,face in enumerate(self.faces):
-            if np.size(face) is 4: # if the mesh element is a quad
-                for j,pointKey in enumerate(face):
-                    fid.write(str(self.points[pointKey]).replace(',','').replace('[','').replace(']','') + '\n')
-            if np.size(face) is 3: # if the mesh element is a tri
-                faceMod = np.append(face,face[-1])
-                for j,pointKey in enumerate(faceMod):
-                    fid.write(str(self.points[pointKey]).replace(',','').replace('[','').replace(']','') + '\n')
-
-
-    def _collapse(self,plane=2,value=0.0,direction=1):
-        '''Collapse points
-        '''
-        for i in xrange(self.num_faces):
-
-            for j in xrange(self.faces[i].size):
-
-                p = int(self.faces[i][j])
-
-                if self.points[p][plane] > value*direction:
-
-                    self.points[p][plane] = value
+    
 
 
     def cut(self,plane=2,value=0.0,direction=1):
@@ -292,38 +295,6 @@ class PanelMesh(object):
         else:
 
             print 'paraview() function only supported for osx'
-
-
-def read(file_name):
-    (f_name,f_ext) = os.path.splitext(file_name)
-
-    if f_ext == '.GDF' or f_ext == '.gdf':
-
-        mesh_data = _read_gdf(file_name)
-
-
-    elif f_ext == '.stl':
-
-        mesh_data = _read_stl(file_name)
-
-
-    elif f_ext == '.vtp':
-
-        mesh_data = _read_vtp(file_name)
-
-
-    elif f_ext == '.dat':
-
-        mesh_data._read_nemoh(file_name)
-
-    else:
-        raise Exception(f_ext + ' is an unsupported file mesh file type')
-
-    mesh_data._create_vtp_mesh()
-
-    return mesh_data
-
-    
 
 
 def _read_gdf(file_name):
@@ -458,7 +429,7 @@ def _read_nemoh(file_name):
     
     return mesh_data
     
-def mk_vtk_id_list(it):
+def_mk_vtk_id_list(it):
     '''
     Function to make vtk id list object
     
@@ -474,3 +445,32 @@ def mk_vtk_id_list(it):
         vil.InsertNextId(int(i))
         
     return vil
+
+def read(file_name):
+    (f_name,f_ext) = os.path.splitext(file_name)
+
+    if f_ext == '.GDF' or f_ext == '.gdf':
+
+        mesh_data = _read_gdf(file_name)
+
+
+    elif f_ext == '.stl':
+
+        mesh_data = _read_stl(file_name)
+
+
+    elif f_ext == '.vtp':
+
+        mesh_data = _read_vtp(file_name)
+
+
+    elif f_ext == '.dat':
+
+        mesh_data._read_nemoh(file_name)
+
+    else:
+        raise Exception(f_ext + ' is an unsupported file mesh file type')
+
+    mesh_data._create_vtp_mesh()
+
+    return mesh_data
