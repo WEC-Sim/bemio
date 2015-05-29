@@ -43,7 +43,7 @@ class Raw(object):
         pass
 
 
-class HydrodynamicCoefficients(object):
+class HydrodynamicCoefficientsFreq(object):
     '''
     Data class that contains hydrodynamic coefficient data
 
@@ -63,7 +63,7 @@ class HydrodynamicCoefficients(object):
         self.zero           = np.array([])
     
 
-class HydrodynamicExcitation(object):
+class HydrodynamicCoefficients(object):
     '''
     Data class that contains hydrodynamic excitation coefficinets.
 
@@ -141,13 +141,13 @@ class HydrodynamicData(object):
     disp_vol -- Volume displacement
     T -- Wave periods of simulations (e.g. [1, 2, 3, 4, 5,])
     w -- Wave freqencies of simulations 
-    am -- Added mass coefficients of HydrodynamicCoefficients type
-    rd -- Radiation damping coefficients of HydrodynamicCoefficients
+    am -- Added mass coefficients of HydrodynamicCoefficientsFreq type
+    rd -- Radiation damping coefficients of HydrodynamicCoefficientsFreq
     type
     wp_area -- Water plane area          
     buoy_force -- Buoyancy force at equilibrium
     k -- Hydrostatic stiffness matrix
-    ex -- Excitation coeffs of HydrodynamicExcitation type
+    ex -- Excitation coeffs of HydrodynamicCoefficients type
     water_depth -- Water depth
     wave_dir -- Wave direction 
     name -- Name of the body in the simulation
@@ -180,11 +180,11 @@ class HydrodynamicData(object):
         self.bem_raw_data    = 'not_defined'
 
         # objects
-        self.am              = HydrodynamicCoefficients()    
-        self.rd              = HydrodynamicCoefficients()  
-        self.ex              = HydrodynamicExcitation()  
-        self.rao             = HydrodynamicExcitation() # same format as hydrodynamic excitation 
-        self.ssy             = HydrodynamicExcitation() # same format as hydrodynamic excitation 
+        self.am              = HydrodynamicCoefficientsFreq()    
+        self.rd              = HydrodynamicCoefficientsFreq()  
+        self.ex              = HydrodynamicCoefficients()  
+        self.rao             = HydrodynamicCoefficients() # same format as hydrodynamic excitation 
+        self.ssy             = HydrodynamicCoefficients() # same format as hydrodynamic excitation 
         self.irf             = IRF()
         self.ss              = StateSpaceCoefficients()
 
