@@ -44,7 +44,7 @@ except:
 
 
 class PanelMesh(object):
-    ''' Class to handle surface meshes. The class currently handels quad or tri
+    ''' Class to handle surface meshes. The class currently handles quad or tri
     meshes
     '''
     def __init__(self,file_name):

@@ -45,8 +45,8 @@ class WamitOutput(object):
    
         code = 'WAMIT'
         num_bodies = 0 # Total number of bodies
-        bodCount = 0 # Counter for bodies
-        freqCount = 0
+        bod_count = 0 # Counter for bodies
+        freq_count = 0
         T = []
         cg = {}
         cb = {}
@@ -88,7 +88,6 @@ class WamitOutput(object):
                 num_bodies = 1
                 name[0] = raw[i].split()[-1]
 
-
             
             # If there are two bodies in the WAMIT run
             if "Input from Geometric Data Files:" in line:
@@ -99,7 +98,6 @@ class WamitOutput(object):
 
                         num_bodies += 1
                         name[num_bodies-1] = raw[i+j].split()[-1]
-
 
 
             # Read the body positions
@@ -113,17 +111,17 @@ class WamitOutput(object):
                         '''
 
                         temp = raw[i+j].split()
-                        cg[bodCount] = np.array([temp[2],temp[5],temp[8]]).astype(float)
+                        cg[bod_count] = np.array([temp[2],temp[5],temp[8]]).astype(float)
                         
                     if 'Volumes (VOLX,VOLY,VOLZ):' in raw[i+j]:
 
                         temp = raw[i+j].split()
-                        disp_vol[bodCount] = float(temp[-1])
+                        disp_vol[bod_count] = float(temp[-1])
                         
                     if 'Center of Buoyancy (Xb,Yb,Zb):' in raw[i+j]:
 
                         temp = raw[i+j].split()
-                        cb[bodCount] = np.array([temp[-3],temp[-2],temp[-1]]).astype(float)
+                        cb[bod_count] = np.array([temp[-3],temp[-2],temp[-1]]).astype(float)
                         
                     if 'C(3,3),C(3,4),C(3,5):' in raw[i+j]:
 
@@ -142,81 +140,87 @@ class WamitOutput(object):
                         temp[4,4] = np.float(temp2[1])
                         temp[4,5] = np.float(temp2[2])
                         
-                        k[bodCount] = temp
+                        k[bod_count] = temp
                         
+
+                bod_count += 1      
                         
-                bodCount += 1      
-                
-            # Inf freq added mass
-            if "Wave period = zero" in line:
-                
-                if "ADDED-MASS COEFFICIENTS" in raw[i+4]:
-
-                    amInf  = raw[i+7:i+7+(6*num_bodies)**2]
-                    amInf = np.array([amInf[temp].split()[2] for temp in xrange(np.size(amInf))]).astype(float)
-                    amInf = amInf.reshape(6*num_bodies,6*num_bodies)
-
-                
-            # Zero freq added mass
-            if "Wave period = infinite" in line:
-
-                if "ADDED-MASS COEFFICIENTS" in raw[i+4]:
-                
-                    amZero = raw[i+7:i+7+(6*num_bodies)**2]
-                    amZero = np.array([amZero[temp].split()[2] for temp in xrange(np.size(amZero))]).astype(float)
-                    amZero = amZero.reshape(6*num_bodies,6*num_bodies)
-
-
-            # Added mass, damping, and excitation
-            if "Wave period (sec)" in line:
-
-                if "ADDED-MASS AND DAMPING COEFFICIENTS" in raw[i+4]: # Only fill in the matrix if values were calculated
-                
-                    # T.append(raw[i].split()[4])
-                    
-                    am = raw[i+7:i+7+(6*num_bodies)**2]
-                    am = np.array([am[temp].split()[2] for temp in xrange(np.size(am))]).astype(float)
-                    am = am.reshape(6*num_bodies,6*num_bodies,1)
-                    
-                    rad = raw[i+7:i+7+(6*num_bodies)**2]
-                    rad = np.array([rad[temp].split()[3] for temp in xrange(np.size(rad))]).astype(float)
-                    rad = rad.reshape(6*num_bodies,6*num_bodies,1)
-                    
-                    if freqCount is 0:
-
-                        amAll = am
-                        radAll = rad
-                        
-                        freqCount = 1
-
-                    else:
-
-                        amAll = np.append(amAll,am,axis=2)
-                        radAll = np.append(radAll,rad,axis=2)
-        
         # Put things into numpy arrays                               
         T = np.array(T).astype(float)
         wave_dir = np.array(wave_dir).astype(float)
 
         # Only select the wave headings once
-        temp = 999
+        temp = 999999
         temp_wave_dir = []
         count = 0
+
         while temp != wave_dir[0]:
+
             count += 1
             temp_wave_dir.append(wave_dir[count-1])
             temp = wave_dir[count]
+
+
         wave_dir = np.array(temp_wave_dir).astype(float)
 
+        # Read added mass and rad damping
+        count_freq = 0
+        am_all = np.zeros([6*num_bodies,6*num_bodies,T.size])
+        rd_all = am_all.copy()
+        am_inf = np.zeros([6*num_bodies,6*num_bodies])
+        am_zero = am_inf.copy()
 
-        
+        for i, line in enumerate(raw):
+
+            # Read inf freq added mass
+            if "Wave period = zero" in line:
+                
+                count = 7
+                temp_line = raw[count+i]
+
+                while temp_line != empty_line:
+
+                    am_inf[int(temp_line.split()[0])-1,int(temp_line.split()[1])-1] = temp_line.split()[2]
+                    count += 1
+                    temp_line = raw[count+i]
+
+
+            # Read zero freq added mass
+            if "Wave period = infinite" in line:
+                
+                count = 7
+                temp_line = raw[count+i]
+
+                while temp_line != empty_line:
+
+                    am_zero[int(temp_line.split()[0])-1,int(temp_line.split()[1])-1] = temp_line.split()[2]
+                    count += 1
+                    temp_line = raw[count+i]
+
+
+            # Read freq dependent added mass and rad damping
+            if "Wave period (sec) =" in line:
+
+                count = 7
+                temp_line = raw[count+i]
+
+                while temp_line != empty_line:
+
+                    am_all[int(temp_line.split()[0])-1,int(temp_line.split()[1])-1,count_freq] = temp_line.split()[2]
+                    rd_all[int(temp_line.split()[0])-1,int(temp_line.split()[1])-1,count_freq] = temp_line.split()[3]
+                    count += 1 
+                    temp_line = raw[count+i]
+                
+                count_freq += 1
+
+
         # Terribly complicated code to read excitation forces and phases, RAOs, etc
-        exAll = np.zeros([6*num_bodies,wave_dir.size,T.size])
-        phaseAll = exAll.copy()
-        raoAll = exAll.copy()
-        raoPhaseAll = exAll.copy()
-        ssyAll = exAll.copy()
-        ssyPhaseAll = exAll.copy()
+        ex_all = np.zeros([6*num_bodies,wave_dir.size,T.size])
+        phase_all = ex_all.copy()
+        rao_all = ex_all.copy()
+        rao_phase_all = ex_all.copy()
+        ssy_all = ex_all.copy()
+        ssy_phase_all = ex_all.copy()
         count_diff2 = 0
         count_rao2 = 0
         count_ssy2 = 0
@@ -245,8 +249,8 @@ class WamitOutput(object):
 
                         while temp_line != empty_line:
                             count2 += 1
-                            exAll[int(temp_line.split()[0])-1,count_wave_dir-1,count_diff2-1] = float(temp_line.split()[1])
-                            phaseAll[int(temp_line.split()[0])-1,count_wave_dir-1,count_diff2-1] = float(temp_line.split()[2])
+                            ex_all[int(temp_line.split()[0])-1,count_wave_dir-1,count_diff2-1] = float(temp_line.split()[1])
+                            phase_all[int(temp_line.split()[0])-1,count_wave_dir-1,count_diff2-1] = float(temp_line.split()[2])
                             temp_line = raw[i+count_diff+count+4+count2]
 
             if "RESPONSE AMPLITUDE OPERATORS" in line:
@@ -268,8 +272,8 @@ class WamitOutput(object):
 
                         while temp_line != empty_line:
                             count2 += 1
-                            raoAll[int(temp_line.split()[0])-1,count_wave_dir-1,count_rao2-1] = float(temp_line.split()[1])
-                            raoPhaseAll[int(temp_line.split()[0])-1,count_wave_dir-1,count_rao2-1] = float(temp_line.split()[2])
+                            rao_all[int(temp_line.split()[0])-1,count_wave_dir-1,count_rao2-1] = float(temp_line.split()[1])
+                            rao_phase_all[int(temp_line.split()[0])-1,count_wave_dir-1,count_rao2-1] = float(temp_line.split()[2])
                             temp_line = raw[i+count_rao+count+4+count2]
 
             if "SURGE, SWAY & YAW DRIFT FORCES (Momentum Conservation)" in line:
@@ -291,8 +295,8 @@ class WamitOutput(object):
 
                         while temp_line != empty_line:
                             count2 += 1
-                            ssyAll[int(temp_line.split()[0])-1,count_wave_dir-1,count_ssy2-1] = float(temp_line.split()[1])
-                            ssyPhaseAll[int(temp_line.split()[0])-1,count_wave_dir-1,count_ssy2-1] = float(temp_line.split()[2])
+                            ssy_all[int(temp_line.split()[0])-1,count_wave_dir-1,count_ssy2-1] = float(temp_line.split()[1])
+                            ssy_phase_all[int(temp_line.split()[0])-1,count_wave_dir-1,count_ssy2-1] = float(temp_line.split()[2])
                             temp_line = raw[i+count_ssy+count+4+count2]
 
 
@@ -313,9 +317,9 @@ class WamitOutput(object):
             self.data[i].T = T
             self.data[i].w = 2.0*np.pi/self.data[i].T
             
-            if 'amInf' in locals():
+            if 'am_inf' in locals():
 
-                self.data[i].am.inf = amInf[6*i:6+6*i,:]
+                self.data[i].am.inf = am_inf[6*i:6+6*i,:]
                 self.data[i].am.inf = self.data[i].am.inf*self.rho
 
             else:
@@ -324,9 +328,9 @@ class WamitOutput(object):
                 print 'Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain infinite frequency added mass coefficients'
 
 
-            if 'amZero' in locals():
+            if 'am_zero' in locals():
 
-                self.data[i].am.zero = amZero[6*i:6+6*i,:]
+                self.data[i].am.zero = am_zero[6*i:6+6*i,:]
                 self.data[i].am.zero = self.data[i].am.zero*self.rho
 
             else:
@@ -335,9 +339,9 @@ class WamitOutput(object):
                 print 'Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain zero frequency added mass coefficients'
             
 
-            if 'amAll' in locals():
+            if 'am_all' in locals():
             
-                self.data[i].am.all = amAll[6*i:6+6*i,:,:]
+                self.data[i].am.all = am_all[6*i:6+6*i,:,:]
                 self.data[i].am.all = self.data[i].am.all*self.rho
             
             else:
@@ -346,9 +350,9 @@ class WamitOutput(object):
                 print 'Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain any frequency dependent added mass coefficients'
 
             
-            if 'radAll' in locals():
+            if 'rd_all' in locals():
 
-                self.data[i].rd.all = radAll[6*i:6+6*i,:,:]
+                self.data[i].rd.all = rd_all[6*i:6+6*i,:,:]
                 for j in xrange(np.shape(self.data[i].rd.all)[2]):
                     self.data[i].rd.all[:,:,j] = self.data[i].rd.all[:,:,j]*self.rho*self.data[i].w[j]
 
@@ -357,10 +361,10 @@ class WamitOutput(object):
                 self.data[i].rd.all = np.nan*np.zeros([6*num_bodies,6*num_bodies,self.data[i].T.size])
                 print 'Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain any frequency dependent radiation damping coefficients'
 
-            if 'exAll' in locals():
+            if 'ex_all' in locals():
 
-                self.data[i].ex.mag = exAll[6*i:6+6*i,:,:]*self.rho*self.g
-                self.data[i].ex.phase = np.deg2rad(phaseAll[6*i:6+6*i,:,:])
+                self.data[i].ex.mag = ex_all[6*i:6+6*i,:,:]*self.rho*self.g
+                self.data[i].ex.phase = np.deg2rad(phase_all[6*i:6+6*i,:,:])
                 self.data[i].ex.re = self.data[i].ex.mag*np.cos(self.data[i].ex.phase)
                 self.data[i].ex.im = self.data[i].ex.mag*np.sin(self.data[i].ex.phase)
 
@@ -369,10 +373,10 @@ class WamitOutput(object):
                 print 'Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain any excitation coefficients'
 
 
-            if 'raoAll' in locals():
+            if 'rao_all' in locals():
 
-                self.data[i].rao.mag = raoAll[6*i:6+6*i,:,:]
-                self.data[i].rao.phase = np.deg2rad(phaseAll[6*i:6+6*i,:,:])
+                self.data[i].rao.mag = rao_all[6*i:6+6*i,:,:]
+                self.data[i].rao.phase = np.deg2rad(phase_all[6*i:6+6*i,:,:])
                 self.data[i].rao.re = self.data[i].rao.mag*np.cos(self.data[i].rao.phase)
                 self.data[i].rao.im = self.data[i].rao.mag*np.sin(self.data[i].rao.phase)
 
@@ -380,10 +384,10 @@ class WamitOutput(object):
 
                 print 'Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain any rao data'
 
-            if 'ssyAll' in locals():
+            if 'ssy_all' in locals():
 
-                self.data[i].ssy.mag = ssyAll[6*i:6+6*i,:,:]
-                self.data[i].ssy.phase = np.deg2rad(phaseAll[6*i:6+6*i,:,:])
+                self.data[i].ssy.mag = ssy_all[6*i:6+6*i,:,:]
+                self.data[i].ssy.phase = np.deg2rad(phase_all[6*i:6+6*i,:,:])
                 self.data[i].ssy.re = self.data[i].ssy.mag*np.cos(self.data[i].ssy.phase)
                 self.data[i].ssy.im = self.data[i].ssy.mag*np.sin(self.data[i].ssy.phase)
 
