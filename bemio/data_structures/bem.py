@@ -44,17 +44,9 @@ class Raw(object):
 
 
 class HydrodynamicCoefficientsFreq(object):
-    '''
-    Data class that contains hydrodynamic coefficient data
+    '''Frequency dependent hydrodynamic coefficients
 
-    Variables:
-    all -- Frequency dependent hydrodynamic coefficients. 
-    6 x (6 OR 6*nbodies) x numFrequencies np.array.
 
-    inf -- Infinate freqnency added mass. 6 x (6 OR 6*nbodies)
-    np.array()
-
-    zero -- Zero frequency added mass. 6 x (6 OR 6*nbodies) np.array()
     '''
     def __init__(self):
 
@@ -183,10 +175,12 @@ class HydrodynamicData(object):
         self.am              = HydrodynamicCoefficientsFreq()    
         self.rd              = HydrodynamicCoefficientsFreq()  
         self.ex              = HydrodynamicCoefficients()  
-        self.rao             = HydrodynamicCoefficients() # same format as hydrodynamic excitation 
-        self.ssy             = HydrodynamicCoefficients() # same format as hydrodynamic excitation 
-        self.irf             = IRF()
-        self.ss              = StateSpaceCoefficients()
+        self.rao             = HydrodynamicCoefficients()
+        self.ssy             = HydrodynamicCoefficients()
+        self.irf_rd          = IRF()
+        self.ss_rd           = StateSpaceCoefficients()
+        self.irf_ex          = IRF()
+        self.ss_ex           = StateSpaceCoefficients()
 
     def __repr__(self):
         out_string = 'Body name: ' + str(self.name) + \
@@ -198,7 +192,67 @@ class HydrodynamicData(object):
         return out_string
 
 
-    def calc_irf(self, t_end=100, n_t = 1001, n_w=1001):
+    def calc_irf_excitation(self, t_length=100.0, n_t = 1001, n_w=1001):
+        self.irf_ex.t = np.linspace(-t_length,t_length,n_t)
+        self.irf_ex.w = np.linspace(np.min(self.w),np.max(self.w),n_w)
+
+        self.irf_ex.f = np.zeros([self.ex.mag.shape[0], self.ex.mag.shape[1], self.irf_ex.t.size])
+
+        ex_re_interp = np.zeros([self.ex.mag.shape[0], self.ex.mag.shape[1], self.irf_ex.w.size ])
+        ex_im_interp = np.zeros([self.ex.mag.shape[0], self.ex.mag.shape[1], self.irf_ex.w.size ])
+
+        # Interpolate the radiation damping matrix for the IRF calculation
+        flip = False
+
+        if self.w[0] > self.w[1]:
+
+            w_tmp = np.flipud(self.w)
+            flip = True
+
+        else:
+
+            w_tmp = self.w
+
+        for i in xrange(self.ex.mag.shape[0]):
+
+            for j in xrange(self.ex.mag.shape[1]):
+
+                if flip is True:
+
+                    ex_tmp_re = np.flipud(self.ex.re[i, j, :])
+                    ex_tmp_im = np.flipud(self.rd.im[i, j, :])
+
+                else:
+
+                    ex_tmp_re = self.ex.re[i,j,:]
+                    ex_tmp_im = self.ex.im[i,j,:]
+
+
+                f_re = interpolate.interp1d(x=w_tmp, y=ex_tmp_re)
+                f_im = interpolate.interp1d(x=w_tmp, y=ex_tmp_im)
+                ex_re_interp[i,j,:] = f_re(self.irf_ex.w)
+                ex_im_interp[i,j,:] = f_im(self.irf_ex.w)
+
+        pbar_maxval = self.irf_ex.t.size*self.ex.mag.shape[0]*self.ex.mag.shape[1]
+        pbar = ProgressBar(widgets=['Calculating the excitation force impulse response function for ' + self.name + ':',Percentage(), Bar()], maxval=pbar_maxval).start()
+        count = 1
+        for t_ind, t in enumerate(self.irf_ex.t):
+
+            for i in xrange(self.ex.mag.shape[0]):
+
+                for j in xrange(self.ex.mag.shape[1]):
+                    tmp = ex_re_interp[i,j,:]*np.cos(self.irf_ex.w*t) - ex_im_interp[i,j,:]*np.sin(self.irf_ex.w*t)
+                    tmp *= 1.0/np.pi
+                    self.irf_ex.f[i,j,t_ind] = np.trapz(y=tmp,x=self.irf_rd.w)
+                    pbar.update(count)
+                    count += 1
+
+        pbar.finish()
+
+    def calc_ss_excitation(self, t_end=100, n_t = 1001, n_w=1001):
+        raise Exception('The calc_ss_excitation function is not yet implemented')
+
+    def calc_irf_radiation(self, t_end=100, n_t = 1001, n_w=1001):
         '''
         Calculate the impulse response functions. See WAMITv7 manual section 13-8
 
@@ -208,31 +262,29 @@ class HydrodynamicData(object):
         This function populates the irf variable
         '''
 
-        self.irf.t = np.linspace(0,t_end,n_t)
-        self.irf.w = np.linspace(np.min(self.w),np.max(self.w),n_w)
+        self.irf_rd.t = np.linspace(0,t_end,n_t)
+        self.irf_rd.w = np.linspace(np.min(self.w),np.max(self.w),n_w)
 
-        self.irf.L = np.zeros( [ np.shape(self.am.inf)[0],np.shape(self.am.inf)[1],np.size(self.irf.t) ] )
-        self.irf.K = np.zeros( [ np.shape(self.am.inf)[0],np.shape(self.am.inf)[1],np.size(self.irf.t) ] )
+        self.irf_rd.L = np.zeros( [ self.am.inf.shape[0],self.am.inf.shape[1],self.irf_rd.t.size ] )
+        self.irf_rd.K = np.zeros( [ self.am.inf.shape[0],self.am.inf.shape[1],self.irf_rd.t.size ] )
 
-        rd_interp = np.zeros( [ np.shape(self.rd.all)[0], np.shape(self.rd.all)[1], np.size(self.irf.w) ])
-
-        shape_rd = np.shape(self.rd.all)
+        rd_interp = np.zeros( [ self.rd.all.shape[0], self.rd.all.shape[1], self.irf_rd.w.size ])
 
         # Interpolate the radiation damping matrix for the IRF calculation
         flip = False
 
         if self.w[0] > self.w[1]:
 
-            wTmp = np.flipud(self.w)
+            w_tmp = np.flipud(self.w)
             flip = True
 
         else:
 
-            wTmp = self.w
+            w_tmp = self.w
 
-        for i in xrange(shape_rd[0]):
+        for i in xrange(self.rd.all.shape[0]):
 
-            for j in xrange(shape_rd[1]):
+            for j in xrange(self.rd.all.shape[1]):
 
                 if flip is True:
 
@@ -241,28 +293,28 @@ class HydrodynamicData(object):
                 else:
                     rdTmp = self.rd.all[i,j,:]
 
-                f = interpolate.interp1d(x=wTmp, y=rdTmp)
-                rd_interp[i,j,:] = f(self.irf.w) 
+                f = interpolate.interp1d(x=w_tmp, y=rdTmp)
+                rd_interp[i,j,:] = f(self.irf_rd.w) 
 
         # Calculate the IRF
-        pbar = ProgressBar(widgets=['Calculating the impulse response function for ' + self.name + ':',Percentage(), Bar()], maxval=np.size(self.irf.t)*shape_rd[0]*shape_rd[1]).start()
+        pbar = ProgressBar(widgets=['Calculating the radiation damping impulse response function for ' + self.name + ':',Percentage(), Bar()], maxval=np.size(self.irf_rd.t)*self.rd.all.shape[0]*self.rd.all.shape[1]).start()
         count = 1
-        for t_ind, t in enumerate(self.irf.t):
+        for t_ind, t in enumerate(self.irf_rd.t):
 
-            for i in xrange(shape_rd[0]):
+            for i in xrange(self.rd.all.shape[0]):
 
-                for j in xrange(shape_rd[1]):
+                for j in xrange(self.rd.all.shape[1]):
                     # Radiation damping calculation method
-                    tmpL = 2./np.pi*rd_interp[i,j,:]*np.sin(self.irf.w*t)
-                    tmpK = 2./np.pi*rd_interp[i,j,:]*np.cos(self.irf.w*t)
-                    self.irf.K[i,j,t_ind] = np.trapz(y=tmpK,x=self.irf.w)
-                    self.irf.L[i,j,t_ind] = np.trapz(y=tmpL,x=self.irf.w)
+                    tmpL = 2./np.pi*rd_interp[i,j,:]*np.sin(self.irf_rd.w*t)
+                    tmpK = 2./np.pi*rd_interp[i,j,:]*np.cos(self.irf_rd.w*t)
+                    self.irf_rd.K[i,j,t_ind] = np.trapz(y=tmpK,x=self.irf_rd.w)
+                    self.irf_rd.L[i,j,t_ind] = np.trapz(y=tmpL,x=self.irf_rd.w)
                     pbar.update(count)
                     count += 1
 
         pbar.finish()
 
-    def calc_ss(self, max_order=10, r2_thresh=0.95 ):
+    def calc_ss_rdiation(self, max_order=10, r2_thresh=0.95 ):
         '''
         Function to calculate state space coefficients
         
@@ -286,35 +338,33 @@ class HydrodynamicData(object):
         [Ass,Bss,Css,Dss,Krest,status]       
         SS_TD(bodyTemp.hydroForce.irkb(:,ii,jj),simu.ss_max,simu.R2Thresh,simu.dt)
         '''
-        dt                  = self.irf.t[2]-self.irf.t[1]
-        numFreq             = np.size(self.irf.t) 
-        self.ss.irk_bss         = np.zeros( [ np.shape(self.am.inf)[0],np.shape(self.am.inf)[0],numFreq] )
-        r2bt                = np.zeros( [ np.shape(self.am.inf)[0],np.shape(self.am.inf)[0],numFreq] )
-        # rd_est    = np.zeros( [ np.shape(self.am.inf)[0],np.shape(self.am.inf)[0],numFreq] )
-        # am_est  = np.zeros( [ np.shape(self.am.inf)[0],np.shape(self.am.inf)[0],numFreq] )
-        k_ss_est               = np.zeros( numFreq )
-        self.ss.A = np.zeros([6,np.shape(self.am.inf)[1],max_order,max_order])
-        self.ss.B = np.zeros([6,np.shape(self.am.inf)[1],max_order,1])
-        self.ss.C = np.zeros([6,np.shape(self.am.inf)[1],1,max_order])
-        self.ss.D = np.zeros([6,np.shape(self.am.inf)[1],1])
-        self.ss.irk_bss   = np.zeros([6,np.shape(self.am.inf)[1],numFreq])
-        self.ss.rad_conv= np.zeros([6,np.shape(self.am.inf)[1]])
-        self.ss.it     = np.zeros([6,np.shape(self.am.inf)[1]])
-        self.ss.r2t      = np.zeros([6,np.shape(self.am.inf)[1]])
+        dt                  = self.irf_rd.t[2]-self.irf_rd.t[1]
+        numFreq             = np.size(self.irf_rd.t) 
+        r2bt                = np.zeros( [ self.am.inf.shape[0],self.am.inf.shape[0],numFreq] )
+        k_ss_est            = np.zeros( numFreq )
+        self.ss_rd.irk_bss     = np.zeros( [ self.am.inf.shape[0],self.am.inf.shape[0],numFreq] )
+        self.ss_rd.A           = np.zeros([6,self.am.inf.shape[1],max_order,max_order])
+        self.ss_rd.B           = np.zeros([6,self.am.inf.shape[1],max_order,1])
+        self.ss_rd.C           = np.zeros([6,self.am.inf.shape[1],1,max_order])
+        self.ss_rd.D           = np.zeros([6,self.am.inf.shape[1],1])
+        self.ss_rd.irk_bss     = np.zeros([6,self.am.inf.shape[1],numFreq])
+        self.ss_rd.rad_conv    = np.zeros([6,self.am.inf.shape[1]])
+        self.ss_rd.it          = np.zeros([6,self.am.inf.shape[1]])
+        self.ss_rd.r2t         = np.zeros([6,self.am.inf.shape[1]])
         
-        pbar = ProgressBar(widgets=['Calculating state space coefficients for ' + self.name + ':',Percentage(), Bar()], maxval=np.shape(self.am.inf)[0]*np.shape(self.am.inf)[1]).start()
+        pbar = ProgressBar(widgets=['Calculating radiation damping state space coefficients for ' + self.name + ':',Percentage(), Bar()], maxval=self.am.inf.shape[0]*self.am.inf.shape[1]).start()
         count = 0
-        for i in xrange(np.shape(self.am.inf)[0]):
+        for i in xrange(self.am.inf.shape[0]):
 
-            for j in xrange(np.shape(self.am.inf)[1]):
+            for j in xrange(self.am.inf.shape[1]):
 
-                r2bt = np.linalg.norm(self.irf.K[i,j,:]-self.irf.K.mean(axis=2)[i,j])
+                r2bt = np.linalg.norm(self.irf_rd.K[i,j,:]-self.irf_rd.K.mean(axis=2)[i,j])
                 
                 ss = 2 #Initial state space order
                 while True:
                     
                     #Perform Hankel Singular Value Decomposition
-                    y=dt*self.irf.K[i,j,:]                    
+                    y=dt*self.irf_rd.K[i,j,:]                    
                     h=hankel(y[1::])
                     u,svh,v=np.linalg.svd(h)
                     
@@ -337,44 +387,45 @@ class HydrodynamicData(object):
 
                     iidd = np.linalg.inv(CoeA*np.eye(ss)-CoeC*a)               #(T/2*I + T/2*A)^{-1}         = 2/T(I + A)^{-1}
                     
-                    ac = np.dot(CoeB*a-CoeD*np.eye(ss),iidd)                            #(A-I)2/T(I + A)^{-1}         = 2/T(A-I)(I + A)^{-1}
-                    bc = (CoeA*CoeB-CoeC*CoeD)*np.dot(iidd,b)                         #(T/2+T/2)*2/T(I + A)^{-1}B   = 2(I + A)^{-1}B
-                    cc = np.dot(c,iidd)                                                #C * 2/T(I + A)^{-1}          = 2/T(I + A)^{-1}
-                    dc = d + CoeC*np.dot(np.dot(c,iidd),b)                                     #D - T/2C (2/T(I + A)^{-1})B  = D - C(I + A)^{-1})B
+                    ac = np.dot(CoeB*a-CoeD*np.eye(ss),iidd)                   #(A-I)2/T(I + A)^{-1}         = 2/T(A-I)(I + A)^{-1}
+                    bc = (CoeA*CoeB-CoeC*CoeD)*np.dot(iidd,b)                  #(T/2+T/2)*2/T(I + A)^{-1}B   = 2(I + A)^{-1}B
+                    cc = np.dot(c,iidd)                                        #C * 2/T(I + A)^{-1}          = 2/T(I + A)^{-1}
+                    dc = d + CoeC*np.dot(np.dot(c,iidd),b)                     #D - T/2C (2/T(I + A)^{-1})B  = D - C(I + A)^{-1})B
 
                     for jj in xrange(numFreq):
 
-                        k_ss_est[jj] = np.dot(np.dot(cc,expm(ac*dt*jj)),bc)                         #Calculate impulse response function from state space approximation
+                        k_ss_est[jj] = np.dot(np.dot(cc,expm(ac*dt*jj)),bc)    #Calculate impulse response function from state space approximation
   
-                    R2TT = np.linalg.norm(self.irf.K[i,j,:]-k_ss_est)                #Calculate 2 norm of the difference between know and estimated values impulse response function
-                    R2T = 1 - np.square(R2TT/r2bt)                                    #Calculate the R2 value for impulse response function
+                    R2TT = np.linalg.norm(self.irf_rd.K[i,j,:]-k_ss_est)          #Calculate 2 norm of the difference between know and estimated values impulse response function
+                    R2T = 1 - np.square(R2TT/r2bt)                             #Calculate the R2 value for impulse response function
 
-                    if R2T >= r2_thresh:                                   #Check to see if threshold for the impulse response is meet
+                    if R2T >= r2_thresh:                                       #Check to see if threshold for the impulse response is meet
                     
                         status = 1                                             #%Set status
                         break
                     
-                    if ss == max_order:                                            #Check to see if limit on the state space order has been reached
+                    if ss == max_order:                                        #Check to see if limit on the state space order has been reached
                     
                         status = 2                                             #%Set status
                         break
                     
                     ss=ss+1                                                    #Increase state space order
                                         
-                self.ss.A[i,j,0:np.shape(ac)[0],0:np.shape(ac)[0]]  = ac
-                self.ss.B[i,j,0:np.shape(bc)[0],0                ]  = bc[:,0]
-                self.ss.C[i,j,0                ,0:np.shape(cc)[1]]  = cc[0,:]
-                self.ss.D[i,j]                                      = dc
-                self.ss.irk_bss[i,j,:]  = k_ss_est
-                self.ss.rad_conv[i,j] = status
-                self.ss.r2t[i,j] = R2T
-                self.ss.it[i,j] = ss
+                self.ss_rd.A[i,j,0:ac.shape[0],0:ac.shape[0]]  = ac
+                self.ss_rd.B[i,j,0:bc.shape[0],0                ]  = bc[:,0]
+                self.ss_rd.C[i,j,0                ,0:cc.shape[1]]  = cc[0,:]
+                self.ss_rd.D[i,j]                                      = dc
+                self.ss_rd.irk_bss[i,j,:]  = k_ss_est
+                self.ss_rd.rad_conv[i,j] = status
+                self.ss_rd.r2t[i,j] = R2T
+                self.ss_rd.it[i,j] = ss
+
                 count += 1
                 pbar.update(count)
 
         pbar.finish()
         
-    def plot_irf(self,components):
+    def plot_irf_rdiation(self,components):
         '''
         Function to plot the IRF
 
@@ -386,16 +437,16 @@ class HydrodynamicData(object):
         depending on your python env settings
         '''  
         
-        f, ax = plt.subplots(np.shape(components)[0], sharex=True, figsize=(8,10))
+        f, ax = plt.subplots(components.shape[0], sharex=True, figsize=(8,10))
                 
         # Plot added mass and damping
         for i,comp in enumerate(components):
             
             x = comp[0]
             y = comp[1]
-            t = self.irf.t
-            L = self.irf.L[x,y,:]
-            K = self.irf.K[x,y,:]
+            t = self.irf_rd.t
+            L = self.irf_rd.L[x,y,:]
+            K = self.irf_rd.K[x,y,:]
 
             ax[i].set_ylabel('comp ' + str(x) + ',' + str(y))
 
@@ -550,82 +601,101 @@ def write_hdf5(data_obj,out_file=None):
             num.attrs['description'] = 'Number of rigid body from the BEM simulation'
             
             # Hydro coeffs
+            # Radiation IRF        
             try:
 
-                irfK = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/impulse_response_fun/K',data=data_obj.data[key].irf.K)
-                irfK.attrs['units'] = ''
-                irfK.attrs['description'] = 'Impulse response function' 
+                irf_rad_k = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/impulse_response_fun/K',data=data_obj.data[key].irf_rd.K)
+                irf_rad_k.attrs['units'] = ''
+                irf_rad_k.attrs['description'] = 'Impulse response function' 
 
-                irfT = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/impulse_response_fun/t',data=data_obj.data[key].irf.t)
-                irfT.attrs['units'] = 'seconds'
-                irfT.attrs['description'] = 'Time vector for the impulse response function' 
+                irf_rad_t = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/impulse_response_fun/t',data=data_obj.data[key].irf_rd.t)
+                irf_rad_t.attrs['units'] = 'seconds'
+                irf_rad_t.attrs['description'] = 'Time vector for the impulse response function' 
 
-                irfW = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/impulse_response_fun/w',data=data_obj.data[key].irf.w)
-                irfW.attrs['units'] = 'seconds'
-                irfW.attrs['description'] = 'Interpolated frequencies used to compute the impulse response function' 
+                irf_rad_w = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/impulse_response_fun/w',data=data_obj.data[key].irf_rd.w)
+                irf_rad_w.attrs['units'] = 'seconds'
+                irf_rad_w.attrs['description'] = 'Interpolated frequencies used to compute the impulse response function' 
 
-                irfL = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/impulse_response_fun/L',data=data_obj.data[key].irf.L)
-                irfL.attrs['units'] = ''
-                irfL.attrs['description'] = 'Time derivatitive of the impulse response functiuon' 
+                irf_rad_l = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/impulse_response_fun/L',data=data_obj.data[key].irf_rd.L)
+                irf_rad_l.attrs['units'] = ''
+                irf_rad_l.attrs['description'] = 'Time derivatitive of the impulse response functiuon' 
 
-                for m in xrange(np.shape(data_obj.data[key].am.all)[0]):
+                for m in xrange(data_obj.data[key].am.all.shape[0]):
             
-                    for n in xrange(np.shape(data_obj.data[key].am.all)[1]):
+                    for n in xrange(data_obj.data[key].am.all.shape[1]):
 
-                        irfLComp = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/impulse_response_fun/comps/L/comp_' + str(m+1) + '_' + str(n+1),data=data_obj.data[key].irf.L[m,n,:])
-                        irfLComp.attrs['units'] = ''
-                        irfLComp.attrs['description'] = 'Components of the IRF'
+                        irf_rad_l_comp = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/impulse_response_fun/comps/L/comp_' + str(m+1) + '_' + str(n+1),data=data_obj.data[key].irf_rd.L[m,n,:])
+                        irf_rad_l_comp.attrs['units'] = ''
+                        irf_rad_l_comp.attrs['description'] = 'Components of the IRF'
 
-                        irfKComp = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/impulse_response_fun/comps/K/comp_' + str(m+1) + '_' + str(n+1),data=data_obj.data[key].irf.K[m,n,:])
-                        irfKComp.attrs['units'] = ''
-                        irfKComp.attrs['description'] = 'Components of the ddt(IRF): K'
+                        irf_rad_k_comp = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/impulse_response_fun/comps/K/comp_' + str(m+1) + '_' + str(n+1),data=data_obj.data[key].irf_rd.K[m,n,:])
+                        irf_rad_k_comp.attrs['units'] = ''
+                        irf_rad_k_comp.attrs['description'] = 'Components of the ddt(IRF): K'
+            except:
+
+                print 'IRF functions for ' + data_obj.data[key].name + ' were not written because they were not calculated. Use the calc_irf function to calculate the IRF.'
+
+            # Excitation IRF
+            try:
+
+                irf_ex_f = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/excitation/impulse_response_fun/f',data=data_obj.data[key].irf_ex.f)
+                irf_ex_f.attrs['units'] = ''
+                irf_ex_f.attrs['description'] = 'Impulse response function' 
+
+                for m in xrange(data_obj.data[key].am.all.shape[0]):
+            
+                    for n in xrange(data_obj.data[key].am.all.shape[1]):
+
+                        irf_ex_f_comp = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/excitation/impulse_response_fun/comps/f/comp_' + str(m+1) + '_' + str(n+1),data=data_obj.data[key].irf_ex.f[m,n,:])
+                        irf_ex_f_comp.attrs['units'] = ''
+                        irf_ex_f_comp.attrs['description'] = 'Components of the ddt(IRF): f'
             except:
 
                 print 'IRF functions for ' + data_obj.data[key].name + ' were not written because they were not calculated. Use the calc_irf function to calculate the IRF.'
 
             try:
     
-                ssRadfA = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/state_space/A/all',data=data_obj.data[key].ss.A)
+                ssRadfA = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/state_space/A/all',data=data_obj.data[key].ss_rd.A)
                 ssRadfA.attrs['units'] = ''
                 ssRadfA.attrs['description'] = 'State Space A Coefficient'
                 
-                ssRadfB = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/state_space/B/all',data=data_obj.data[key].ss.B)
+                ssRadfB = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/state_space/B/all',data=data_obj.data[key].ss_rd.B)
                 ssRadfB.attrs['units'] = ''
                 ssRadfB.attrs['description'] = 'State Space B Coefficient'
 
-                ssRadfC = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/state_space/C/all',data=data_obj.data[key].ss.C)
+                ssRadfC = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/state_space/C/all',data=data_obj.data[key].ss_rd.C)
                 ssRadfC.attrs['units'] = ''
                 ssRadfC.attrs['description'] = 'State Space C Coefficient'
 
-                ssRadfD = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/state_space/D/all',data=data_obj.data[key].ss.D)
+                ssRadfD = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/state_space/D/all',data=data_obj.data[key].ss_rd.D)
                 ssRadfD.attrs['units'] = ''
                 ssRadfD.attrs['description'] = 'State Space D Coefficient'
 
-                r2t = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/state_space/r2t',data=data_obj.data[key].ss.r2t)
+                r2t = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/state_space/r2t',data=data_obj.data[key].ss_rd.r2t)
                 r2t.attrs['units'] = ''
                 r2t.attrs['description'] = 'State space curve fitting R**2 value'
 
-                it = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/state_space/it',data=data_obj.data[key].ss.it)
+                it = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/state_space/it',data=data_obj.data[key].ss_rd.it)
                 it.attrs['units'] = ''
                 it.attrs['description'] = 'Order of state space reailization'
 
-                for m in xrange(np.shape(data_obj.data[key].am.all)[0]):
+                for m in xrange(data_obj.data[key].am.all.shape[0]):
             
-                    for n in xrange(np.shape(data_obj.data[key].am.all)[1]):
+                    for n in xrange(data_obj.data[key].am.all.shape[1]):
 
-                        ss_A = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/state_space/A/comps/comp_' + str(m+1) + '_' + str(n+1),data=data_obj.data[key].ss.A[m,n,:,:])
+                        ss_A = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/state_space/A/comps/comp_' + str(m+1) + '_' + str(n+1),data=data_obj.data[key].ss_rd.A[m,n,:,:])
                         ss_A.attrs['units'] = ''
                         ss_A.attrs['description'] = 'Components of the State Space A Coefficient'
 
-                        ss_B = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/state_space/B/comps/comp_' + str(m+1) + '_' + str(n+1),data=data_obj.data[key].ss.B[m,n,:,:])
+                        ss_B = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/state_space/B/comps/comp_' + str(m+1) + '_' + str(n+1),data=data_obj.data[key].ss_rd.B[m,n,:,:])
                         ss_B.attrs['units'] = ''
                         ss_B.attrs['description'] = 'Components of the State Space B Coefficient'
 
-                        ss_C = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/state_space/C/comps/comp_' + str(m+1) + '_' + str(n+1),data=data_obj.data[key].ss.C[m,n,:,:])
+                        ss_C = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/state_space/C/comps/comp_' + str(m+1) + '_' + str(n+1),data=data_obj.data[key].ss_rd.C[m,n,:,:])
                         ss_C.attrs['units'] = ''
                         ss_C.attrs['description'] = 'Components of the State Space C Coefficient'
 
-                        ss_D = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/state_space/D/comps/comp_' + str(m+1) + '_' + str(n+1),data=data_obj.data[key].ss.D[m,n])
+                        ss_D = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/state_space/D/comps/comp_' + str(m+1) + '_' + str(n+1),data=data_obj.data[key].ss_rd.D[m,n])
                         ss_D.attrs['units'] = ''
                         ss_D.attrs['description'] = 'Components of the State Space C Coefficient'
     
@@ -663,9 +733,9 @@ def write_hdf5(data_obj,out_file=None):
             am.attrs['units for rotational degrees of freedom'] = 'kg-m^2'
             am.attrs['description'] = 'Added mass. Frequency is the thrid dimension of the data structure.'
             
-            for m in xrange(np.shape(data_obj.data[key].am.all)[0]):
+            for m in xrange(data_obj.data[key].am.all.shape[0]):
             
-                for n in xrange(np.shape(data_obj.data[key].am.all)[1]):
+                for n in xrange(data_obj.data[key].am.all.shape[1]):
 
                     amComp = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/added_mass/comps/comp_' + str(m+1) + '_' + str(n+1),data=data_obj.data[key].am.all[m,n,:])
                     amComp.attrs['units'] = ''
