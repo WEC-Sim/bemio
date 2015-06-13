@@ -1,45 +1,33 @@
-Using `bemio's` Data Readers
-============================
-In this section the application program interface (API) that allows users how to build custom BEM data readers is first described. Next, the `bemio` standardized hydrodynamic data format (SHDF) is described. Finally a set of tutorials are presented that provide examples of how to use `bemio` to read simulation results from NEMOH, WAMIT, and AQWA and how save the data in the standardized hydrodynamic data format.
+bemio Overview
+==============
+bemio provides two capabilities:
 
-.. _loading_data:
+	#. **Mesh visualization and conversion:** The :mod:`bemio.mesh_utilities` module provides the capability to read, visualization, and convert between the different mesh formats that are used by WAMIT, NEMOH, and AQWA.
+	#. **BEM data reader, processor, and writer:** THe ``bemio.io`` module provides the ability to read output data from WAMIT, NEMOH, and AQWA. In addition, the module processes the data by dimensioning the hydrodynamic coefficients, calculating impulse response functions, and state space realization coefficients. The processed data is then saved in a standardized HDF5 file.
 
-Loading Data
-~~~~~~~~~~~~
+bemio.mesh_utilities: Mesh Visualization and Conversion
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The :mod:`bemio.mesh_utilities` has three main functions that the user interacts with
 
-Users can load data by interacting with the following with the following `bemio` modules
+bemio.io: BEM Data Readers
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+This section demonstrates how to interact with the :mod:`bemio.io` objects that can read NEMOH, WAMIT, and AQWA data output files. We use the :mod:`bemio.io.wamit` WAMIT reader to demonstrate functionality. Examples of how to read NEMOH and AWWA data can be found in the :ref:`Tutorials` section.
+Reading Data
+------------
 
-	* :mod:`bemio.io.nemoh`
-	* :mod:`bemio.io.wamit`
-	* :mod:`bemio.io.aqwa`
 
-The python code below shows how a user would interact with the modules in the Python 2.7 environment in order to read NEMOH, WAMIT, and AQWA data. Notice that the :mod:`bemio.io` objects are used to create data objects that contain the hydrodynamic data from the data files produced by the hydrodynamic simulation codes::
+Users can load data by interacting with the :mod:`bemio.io.nemoh`, :mod:`bemio.io.wamit`, and :mod:`bemio.io.aqwa` modules. The first step is to load the desired module into the Python. Below it is shown how to import the :mod:`bemio.io.wamit` module and  read in WAMIT simulation results:
 
-	from bemio.io import nemoh  # Import NEMOH module
-	from bemio.io import wanit  # Import WAMIT module
-	from bemio.io import aqwa   # Import AQWA module
-
-	# Read  NEMOH data into the nemoh_data object
-	nemoh_data_obj = nemoh.NemohOutput(out_file='./tutorials/nemoh/data/FIX_ME')
-
+	# Import WAMTI module
+	from wamit.io import wamit  
+	
 	# Read data from a WAMIT .out file into the wamit_data object
 	wamit_data_obj = wamit.WamitOutput(out_file='./tutorials/wamit/data/rm3.out')
 
-	# Read data from a AQWA .lis file into the aqwa_data object 
-	wamit_data_obj = aqwa.AqwaOutput(out_file='./tutorials/aqwa/data/aqwa_example_data.lis')
-
-.. _irf_and_ss:
 
 Calculating Impulse Response Functions and Sate Space Coefficients
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Once the data is loaded into the data objects, functions in the :mod:`bemio.io`  modules can be used to calculate the impulse response function and state space hydrodynamic coefficients from the hydrodynamic data. The code below demonstrates how to use the :meth:`calc_irf` and :meth:`calc_ss` functions to calculate and store the impulse response functions for the NEMOH data object. The calculation procedure would be the same for the ``wamit_data_obj`` and ``aqwa_data_obj`` data objects::
-
-	# Calculate the impulse response functions
-	nemoh_data_obj.data[i].calc_irf(t_end=100, n_t = 1001, n_w=1001)
-
-	# Calculate the state space coefficients corresponding to the impulse response functions
-	nemoh_data_obj.data[i].calc_ss()
+Once the data is loaded into one of the mod:`bemio.io` data objects, the impulse response function and state space hydrodynamic coefficients can be calculated using the :meth:`calc_irf` and :meth:`calc_ss` methods::
 
 
 .. _standard_data_format:
@@ -58,7 +46,7 @@ Once data is loaded read into a data object, the :meth:`write_hdf5` function can
 	# Write the data to a SHDF file named shdf_example.h5
 	bem.write_hdf5(data=nemoh_data_obj.data, out_file='shdf_example.h5')
 
-Once the data is written to the HDF5 file, it can be viewed using `HDFVIEW`_. The figure below shows the structure of the SHDF produced by `bemio` from the NEMOH data. Note that the NEMOH simulation was of a two-body point absorber.
+Once the data is written to the HDF5 file, it can be viewed using HDFVIEW. The figure below shows the structure of the SHDF produced by `bemio` from the NEMOH data. Note that the NEMOH simulation was of a two-body point absorber.
 
 .. figure::  _static/rm3_hdf5.png
    :align:   center

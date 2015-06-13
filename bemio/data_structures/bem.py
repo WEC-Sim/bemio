@@ -26,10 +26,6 @@ import os
 
 import matplotlib.pyplot as plt
 
-import pickle
-
-import h5py
-
 from scipy import interpolate
 
 from scipy.linalg import hankel, expm
@@ -49,7 +45,7 @@ class HydrodynamicCoefficients(object):
     '''
     def __init__(self):
         self.irf             = ImpulseResponseFunction()
-        self.ss_ex           = StateSpaceRealization()
+        self.ss              = StateSpaceRealization()
 
 class ImpulseResponseFunction(object):
     '''Impulse response function data
@@ -166,7 +162,7 @@ class HydrodynamicData(object):
                 for j in xrange(self.ex.mag.shape[1]):
                     tmp = ex_re_interp[i,j,:]*np.cos(self.ex.irf.w*t) - ex_im_interp[i,j,:]*np.sin(self.ex.irf.w*t)
                     tmp *= 1.0/np.pi
-                    self.ex.irf.f[i,j,t_ind] = np.trapz(y=tmp,x=self.rd.irf.w)
+                    self.ex.irf.f[i,j,t_ind] = np.trapz(y=tmp,x=self.ex.irf.w)
                     pbar.update(count)
                     count += 1
 
@@ -231,7 +227,7 @@ class HydrodynamicData(object):
 
         pbar.finish()
 
-    def calc_ss_rdiation(self, max_order=10, r2_thresh=0.95 ):
+    def calc_ss_radiation(self, max_order=10, r2_thresh=0.95 ):
         '''Function to calculate state space realization
         
         Inputs:
@@ -277,64 +273,66 @@ class HydrodynamicData(object):
                 r2bt = np.linalg.norm(self.rd.irf.K[i,j,:]-self.rd.irf.K.mean(axis=2)[i,j])
                 
                 ss = 2 #Initial state space order
-                while True:
-                    
-                    #Perform Hankel Singular Value Decomposition
-                    y=dt*self.rd.irf.K[i,j,:]                    
-                    h=hankel(y[1::])
-                    u,svh,v=np.linalg.svd(h)
-                    
-                    u1 = u[0:numFreq-2,0:ss]
-                    v1 = v.T[0:numFreq-2,0:ss]
-                    u2 = u[1:numFreq-1,0:ss]
-                    sqs = np.sqrt(svh[0:ss].reshape(ss,1))
-                    invss = 1/sqs
-                    ubar = np.dot(u1.T,u2)
 
-                    a = ubar*np.dot(invss,sqs.T)
-                    b = v1[0,:].reshape(ss,1)*sqs
-                    c = u1[0,:].reshape(1,ss)*sqs.T
-                    d = y[0]        
+                if r2bt != 0.0:
+                    while True:
+                        
+                        #Perform Hankel Singular Value Decomposition
+                        y=dt*self.rd.irf.K[i,j,:]                    
+                        h=hankel(y[1::])
+                        u,svh,v=np.linalg.svd(h)
+                        
+                        u1 = u[0:numFreq-2,0:ss]
+                        v1 = v.T[0:numFreq-2,0:ss]
+                        u2 = u[1:numFreq-1,0:ss]
+                        sqs = np.sqrt(svh[0:ss].reshape(ss,1))
+                        invss = 1/sqs
+                        ubar = np.dot(u1.T,u2)
 
-                    CoeA = dt/2
-                    CoeB = 1
-                    CoeC = -CoeA
-                    CoeD = 1
+                        a = ubar*np.dot(invss,sqs.T)
+                        b = v1[0,:].reshape(ss,1)*sqs
+                        c = u1[0,:].reshape(1,ss)*sqs.T
+                        d = y[0]        
 
-                    iidd = np.linalg.inv(CoeA*np.eye(ss)-CoeC*a)               #(T/2*I + T/2*A)^{-1}         = 2/T(I + A)^{-1}
-                    
-                    ac = np.dot(CoeB*a-CoeD*np.eye(ss),iidd)                   #(A-I)2/T(I + A)^{-1}         = 2/T(A-I)(I + A)^{-1}
-                    bc = (CoeA*CoeB-CoeC*CoeD)*np.dot(iidd,b)                  #(T/2+T/2)*2/T(I + A)^{-1}B   = 2(I + A)^{-1}B
-                    cc = np.dot(c,iidd)                                        #C * 2/T(I + A)^{-1}          = 2/T(I + A)^{-1}
-                    dc = d + CoeC*np.dot(np.dot(c,iidd),b)                     #D - T/2C (2/T(I + A)^{-1})B  = D - C(I + A)^{-1})B
+                        CoeA = dt/2
+                        CoeB = 1
+                        CoeC = -CoeA
+                        CoeD = 1
 
-                    for jj in xrange(numFreq):
+                        iidd = np.linalg.inv(CoeA*np.eye(ss)-CoeC*a)               #(T/2*I + T/2*A)^{-1}         = 2/T(I + A)^{-1}
+                        
+                        ac = np.dot(CoeB*a-CoeD*np.eye(ss),iidd)                   #(A-I)2/T(I + A)^{-1}         = 2/T(A-I)(I + A)^{-1}
+                        bc = (CoeA*CoeB-CoeC*CoeD)*np.dot(iidd,b)                  #(T/2+T/2)*2/T(I + A)^{-1}B   = 2(I + A)^{-1}B
+                        cc = np.dot(c,iidd)                                        #C * 2/T(I + A)^{-1}          = 2/T(I + A)^{-1}
+                        dc = d + CoeC*np.dot(np.dot(c,iidd),b)                     #D - T/2C (2/T(I + A)^{-1})B  = D - C(I + A)^{-1})B
 
-                        k_ss_est[jj] = np.dot(np.dot(cc,expm(ac*dt*jj)),bc)    #Calculate impulse response function from state space approximation
-  
-                    R2TT = np.linalg.norm(self.rd.irf.K[i,j,:]-k_ss_est)          #Calculate 2 norm of the difference between know and estimated values impulse response function
-                    R2T = 1 - np.square(R2TT/r2bt)                             #Calculate the R2 value for impulse response function
+                        for jj in xrange(numFreq):
 
-                    if R2T >= r2_thresh:                                       #Check to see if threshold for the impulse response is meet
-                    
-                        status = 1                                             #%Set status
-                        break
-                    
-                    if ss == max_order:                                        #Check to see if limit on the state space order has been reached
-                    
-                        status = 2                                             #%Set status
-                        break
-                    
-                    ss=ss+1                                                    #Increase state space order
-                                        
-                self.rd.ss.A[i,j,0:ac.shape[0],0:ac.shape[0]]  = ac
-                self.rd.ss.B[i,j,0:bc.shape[0],0                ]  = bc[:,0]
-                self.rd.ss.C[i,j,0                ,0:cc.shape[1]]  = cc[0,:]
-                self.rd.ss.D[i,j]                                      = dc
-                self.rd.ss.irk_bss[i,j,:]  = k_ss_est
-                self.rd.ss.rad_conv[i,j] = status
-                self.rd.ss.r2t[i,j] = R2T
-                self.rd.ss.it[i,j] = ss
+                            k_ss_est[jj] = np.dot(np.dot(cc,expm(ac*dt*jj)),bc)    #Calculate impulse response function from state space approximation
+      
+                        R2TT = np.linalg.norm(self.rd.irf.K[i,j,:]-k_ss_est)          #Calculate 2 norm of the difference between know and estimated values impulse response function
+                        R2T = 1 - np.square(R2TT/r2bt)                             #Calculate the R2 value for impulse response function
+
+                        if R2T >= r2_thresh:                                       #Check to see if threshold for the impulse response is meet
+                        
+                            status = 1                                             #%Set status
+                            break
+                        
+                        if ss == max_order:                                        #Check to see if limit on the state space order has been reached
+                        
+                            status = 2                                             #%Set status
+                            break
+                        
+                        ss=ss+1                                                    #Increase state space order
+                                            
+                    self.rd.ss.A[i,j,0:ac.shape[0],0:ac.shape[0]]  = ac
+                    self.rd.ss.B[i,j,0:bc.shape[0],0                ]  = bc[:,0]
+                    self.rd.ss.C[i,j,0                ,0:cc.shape[1]]  = cc[0,:]
+                    self.rd.ss.D[i,j]                                      = dc
+                    self.rd.ss.irk_bss[i,j,:]  = k_ss_est
+                    self.rd.ss.rad_conv[i,j] = status
+                    self.rd.ss.r2t[i,j] = R2T
+                    self.rd.ss.it[i,j] = ss
 
                 count += 1
                 pbar.update(count)
@@ -376,7 +374,7 @@ class HydrodynamicData(object):
 
     def plot_am_rd(self,components):
         '''
-        Function to plot the added mass and raditation damping coefficinets
+        Function to plot the added mass and radiation damping coefficients
 
         Inputs:
         components -- A list of components to plot. E.g [[0,0],[1,1],[2,2]]

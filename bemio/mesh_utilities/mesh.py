@@ -60,7 +60,6 @@ class PanelMesh(object):
 
             raise Exception('The file ' + file_name + ' does not exist')
 
-
     def __repr__(self):
 
         out_string = 'File name: ' + str(self.file_name) + \
@@ -88,40 +87,6 @@ class PanelMesh(object):
         self.vtp_mesh.SetPoints(points)
         self.vtp_mesh.SetPolys(polys)
 
-    def _write_nemoh(self,fid):
-
-        fid.write('2 0') # This should not be hard coded
-        fid.write('\n')
-        for i in xrange(self.num_points):
-            fid.write(str(i+1) + ' ' +str(self.points[i]).replace('[','').replace(']',''))
-            fid.write('\n')
-        fid.write('0 0 0 0')
-        fid.write('\n')
-        for i in xrange(self.num_faces):
-            fid.write(str(self.faces[i]+1).replace('[','').replace(']','').replace('.',''))
-            fid.write('\n')
-        fid.write('0 0 0 0')
-
-    def _write_gdf(self,fid):
-
-        fid.write('Mesh file written by meshio.py')
-        fid.write('\n')
-        fid.write('1 9.80665       ULEN GRAV')
-        fid.write('\n')
-        fid.write('0  0    ISX  ISY')
-        fid.write('\n')
-        fid.write(str(self.num_faces))
-        fid.write('\n')
-        for i,face in enumerate(self.faces):
-            if np.size(face) is 4: # if the mesh element is a quad
-                for j,pointKey in enumerate(face):
-                    fid.write(str(self.points[pointKey]).replace(',','').replace('[','').replace(']','') + '\n')
-            if np.size(face) is 3: # if the mesh element is a tri
-                faceMod = np.append(face,face[-1])
-                for j,pointKey in enumerate(faceMod):
-                    fid.write(str(self.points[pointKey]).replace(',','').replace('[','').replace(']','') + '\n')
-
-
     def _collapse(self,plane=2,value=0.0,direction=1):
         '''Collapse points
         '''
@@ -135,84 +100,75 @@ class PanelMesh(object):
 
                     self.points[p][plane] = value
 
-    def write_vtp(self,out_file=None):
+    def write(self,mesh_format='VTK'):
+
+        out_file_base = os.path.splitext(self.file_name)[0] + '_bemio_output'
+
+        if mesh_format == 'VTK' or mesh_format == 'VTP':
+            self.out_file = out_file_base + '.vtp'
+            self._write_vtp()
+
+        if mesh_format == 'WAMIT' or mesh_format == 'GDF':
+            self.out_file = out_file_base + '.gdf'
+            self._write_gdf()
+
+        if mesh_format == 'NEMOH':
+            self.out_file = out_file_base + '.dat'
+            self._write_nemoh()
+
+
+    def _write_vtp(self):
         
         writer = vtk.vtkXMLPolyDataWriter()
-
-        if out_file is None:
-
-            self.out_file = os.path.splitext(self.file_name)[0] + '.vtp'
-
-        else:
-
-            self.out_file = out_file
-
         writer.SetFileName(self.out_file)
-
-
         writer.SetInputData(self.vtp_mesh)
         writer.SetDataModeToAscii()
         writer.Write()
 
         print 'Wrote VTK PolyData mesh to ' + str(self.out_file)
-        
-    def write_nemoh(self,out_file=None):
-        '''
-        Function to write a mesh file in the Nemoh format.
-        
-        The function currently assumes that the mesh that is that is read has
-        four nodes per cell.
-        
-        Inputs:
-            out_file: string specifying the file name for the output file
-        Outputs:
-            None
-        Function action:
-            A Nemoh mesh file is written with the name of the out_file
-            
-        '''
 
-        if out_file is None:
-            self.out_file = os.path.splitext(self.file_name)[0] + '.dat'
-        else:
-            self.out_file = out_file
-
+        
+    def _write_nemoh(self):
+        
         with open(self.out_file,'w') as fid:
-            self._write_nemoh(fid)
+            fid.write('2 0') # This should not be hard coded
+            fid.write('\n')
+            for i in xrange(self.num_points):
+                fid.write(str(i+1) + ' ' +str(self.points[i]).replace('[','').replace(']',''))
+                fid.write('\n')
+            fid.write('0 0 0 0')
+            fid.write('\n')
+            for i in xrange(self.num_faces):
+                fid.write(str(self.faces[i]+1).replace('[','').replace(']','').replace('.',''))
+                fid.write('\n')
+            fid.write('0 0 0 0')
 
         print 'Wrote NEMOH mesh to ' + str(self.out_file)
                 
 
-
-                
-    def write_gdf(self,out_file=None):
-        '''
-        Function to write a mesh file in the WAMIT format.
-        
-        The function currently assumes that the mesh that is that is read has
-        four nodes per cell.
-        
-        Inputs:
-            out_file: string specifying the file name for the output file
-        Outputs:
-            None
-        Function action:
-            A WAMIT mesh file is written with the name of the out_file
-            
-        '''
-        if out_file is None:
-            self.out_file = os.path.splitext(self.file_name)[0] + '.gdf'
-        else:
-            self.out_file = out_file
+    def _write_gdf(self,out_file=None):
         
         with open(self.out_file,'w') as fid:
-            self._write_gdf(fid)
+            fid.write('Mesh file written by meshio.py')
+            fid.write('\n')
+            fid.write('1 9.80665       ULEN GRAV')
+            fid.write('\n')
+            fid.write('0  0    ISX  ISY')
+            fid.write('\n')
+            fid.write(str(self.num_faces))
+            fid.write('\n')
+            for i,face in enumerate(self.faces):
+                if np.size(face) is 4: # if the mesh element is a quad
+                    for j,pointKey in enumerate(face):
+                        fid.write(str(self.points[pointKey]).replace(',','').replace('[','').replace(']','') + '\n')
+                if np.size(face) is 3: # if the mesh element is a tri
+                    faceMod = np.append(face,face[-1])
+                    for j,pointKey in enumerate(faceMod):
+                        fid.write(str(self.points[pointKey]).replace(',','').replace('[','').replace(']','') + '\n')
 
         print 'Wrote WAMIT mesh to ' + str(self.out_file)
                 
     
-
-
     def cut(self,plane=2,value=0.0,direction=1):
         self.collapse(plane,value,direction)
 
@@ -276,7 +232,7 @@ class PanelMesh(object):
 
     def paraview(self):
         '''
-        Visualize the geometry in paraview
+        Visualize the geometry in paraview - this is kind of a hack function
 
         To use this function make a symbolic link to the paraview.app folder
         on your system to ~/bin. Or alternatively change this function
@@ -328,7 +284,9 @@ def _read_gdf(file_name):
     for panelNum,i in enumerate(np.arange(4,4+mesh_data.num_points,4)):
 
         mesh_data.faces.append(np.array([i-4,i-3,i-2,i-1]))
-        
+    
+    print 'Successfully read WAMIT mesh ' + str(file_name)
+
     return mesh_data
 
 
@@ -356,6 +314,8 @@ def _read_stl(file_name):
         mesh_data.points.append(np.array(vtk_to_numpy(reader.GetOutput().GetCell(i).GetPoints().GetData())))
     mesh_data.points = np.array(mesh_data.points).reshape([mesh_data.num_faces*3,3])
     
+    print 'Successfully read STL mesh ' + str(file_name)
+
     return mesh_data
     
 
@@ -391,6 +351,8 @@ def _read_vtp(file_name):
             idsTemp.append(int(c.GetPointId(i)))
         mesh_data.faces.append(np.array(idsTemp))
     
+    print 'Successfully read VTP mesh ' + str(file_name)
+
     return mesh_data
     
 
@@ -427,9 +389,11 @@ def _read_nemoh(file_name):
     mesh_data.num_points = np.shape(mesh_data.points)[0]
     mesh_data.num_faces = np.shape(mesh_data.faces)[0]
     
+    print 'Successfully read NEMOH mesh ' + str(file_name)
+
     return mesh_data
     
-def_mk_vtk_id_list(it):
+def _mk_vtk_id_list(it):
     '''
     Function to make vtk id list object
     
@@ -447,6 +411,7 @@ def_mk_vtk_id_list(it):
     return vil
 
 def read(file_name):
+    file_name = os.path.abspath(file_name)
     (f_name,f_ext) = os.path.splitext(file_name)
 
     if f_ext == '.GDF' or f_ext == '.gdf':
@@ -466,7 +431,7 @@ def read(file_name):
 
     elif f_ext == '.dat':
 
-        mesh_data._read_nemoh(file_name)
+        mesh_data = _read_nemoh(file_name)
 
     else:
         raise Exception(f_ext + ' is an unsupported file mesh file type')
