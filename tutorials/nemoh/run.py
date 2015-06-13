@@ -1,14 +1,4 @@
-
-# coding: utf-8
-
-# ## NEMOH
-# The following code describes the steps involved in using ``bemio`` to read, process, and save NEMOH coefficients. This code can be viewed in ``$BEMIO_SOURCE/tutorials/nemon/run.py``. An ipython notebook with the code is also provided in ``$BEMIO_SOURCE/tutorials/nemon/run.ipynb``.
-
-
-# ### Load the nemoh module from bemio.io #
-# This module provides functionality to read, dimensionalize, visualizes the data.
-
-# In[ ]:
+#! /bin/python
 
 from bemio.io import nemoh
 
@@ -33,8 +23,7 @@ nemoh_data = nemoh.NemohOutput(sim_dir='./data/two_body', cal_file='Nemoh.cal', 
 
 # In[ ]:
 
-nemoh_data.read_hydrostatics(body_num=0,file='./data/two_body/Mesh/Hydrostatics_0.dat')
-nemoh_data.read_kh(body_num=0, file='./data/two_body/Mesh/KH_0.dat')
+
 nemoh_data.read_hydrostatics(body_num=1,file='./data/two_body/Mesh/Hydrostatics_1.dat')
 nemoh_data.read_kh(body_num=1, file='./data/two_body/Mesh/KH_1.dat')
 
