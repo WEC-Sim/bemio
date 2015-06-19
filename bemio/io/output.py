@@ -11,8 +11,12 @@ def write_hdf5(data_obj,out_file=None):
     Outputs: None
     '''
 
+
     if out_file is None:
         out_file = data_obj.files['hdf5']
+
+
+    print 'Writing HDF5 data to ' + out_file
 
 
     with h5py.File(out_file, "w") as f:       
@@ -71,7 +75,7 @@ def write_hdf5(data_obj,out_file=None):
                         irf_rad_k_comp.attrs['description'] = 'Components of the ddt(IRF): K'
             except:
 
-                print 'IRF functions for ' + data_obj.data[key].name + ' were not written because they were not calculated. Use the calc_irf function to calculate the IRF.'
+                print '\tRadiation IRF functions for ' + data_obj.data[key].name + ' were not written.'
 
             # Excitation IRF
             try:
@@ -93,7 +97,7 @@ def write_hdf5(data_obj,out_file=None):
                     
             except:
 
-                print 'IRF functions for ' + data_obj.data[key].name + ' were not written because they were not calculated. Use the calc_irf function to calculate the IRF.'
+                print '\tExcitation IRF functions for ' + data_obj.data[key].name + ' were not written.'
 
             try:
     
@@ -119,7 +123,7 @@ def write_hdf5(data_obj,out_file=None):
 
                 it = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/state_space/it',data=data_obj.data[key].rd.ss.it)
                 it.attrs['units'] = ''
-                it.attrs['description'] = 'Order of state space reailization'
+                it.attrs['description'] = 'Order of state space realization'
 
                 for m in xrange(data_obj.data[key].am.all.shape[0]):
             
@@ -143,7 +147,7 @@ def write_hdf5(data_obj,out_file=None):
     
             except:
 
-                print 'State Space Coefficients for ' + data_obj.data[key].name + ' were not written because they were not calculated. Use the calc_ss function to calculate the State Space Coefficients.'
+                print '\tRadiation state space coefficients for ' + data_obj.data[key].name + ' were not written.'
 
             k = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/linear_restoring_stiffness',data=data_obj.data[key].k)
             k.attrs['units'] = ''
@@ -155,7 +159,7 @@ def write_hdf5(data_obj,out_file=None):
             
             exPhase = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/excitation/phase',data=data_obj.data[key].ex.phase)
             exPhase.attrs['units'] = 'rad'
-            exPhase.attrs['description'] = 'Phase angle of exctiation force'  
+            exPhase.attrs['description'] = 'Phase angle of excitation force'  
             
             exRe = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/excitation/re',data=data_obj.data[key].ex.re)
             exRe.attrs['units'] = ''
@@ -173,7 +177,7 @@ def write_hdf5(data_obj,out_file=None):
             am = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/added_mass/all',data=data_obj.data[key].am.all)
             am.attrs['units for translational degrees of freedom'] = 'kg'                
             am.attrs['units for rotational degrees of freedom'] = 'kg-m^2'
-            am.attrs['description'] = 'Added mass. Frequency is the thrid dimension of the data structure.'
+            am.attrs['description'] = 'Added mass. Frequency is the third dimension of the data structure.'
             
             for m in xrange(data_obj.data[key].am.all.shape[0]):
             
@@ -216,10 +220,10 @@ def write_hdf5(data_obj,out_file=None):
         wave_dir.attrs['units'] = 'rad'
         wave_dir.attrs['description'] = 'Wave direction'
 
-        rawOut = f.create_dataset('bem_data/output_file',data=data_obj.data[key].bem_raw_data)
+        rawOut = f.create_dataset('simulation_parameters/bem_raw_data',data=data_obj.data[key].bem_raw_data)
         rawOut.attrs['description'] = 'Raw output from BEM code'
 
         code = f.create_dataset('simulation_parameters/bem_code',data=data_obj.data[key].bem_code)
         code.attrs['description'] = 'BEM code'
 
-        print 'Wrote HDF5 data to ' + out_file
+        
