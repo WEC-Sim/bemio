@@ -139,7 +139,7 @@ class HydrodynamicData(object):
                 if flip is True:
 
                     ex_tmp_re = np.flipud(self.ex.re[i, j, :])
-                    ex_tmp_im = np.flipud(self.rd.im[i, j, :])
+                    ex_tmp_im = np.flipud(self.ex.im[i, j, :])
 
                 else:
 
