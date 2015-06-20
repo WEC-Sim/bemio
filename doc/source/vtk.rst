@@ -2,16 +2,19 @@
 
 Installing VTK with Python Bindings
 ===================================
-In order to use ``bemio.mesh_utilities`` packaged with `bemio` you must have the Visualization Toolkit (VTK)  and the VTK Python 2.7.x bindings installed.
+In order to use ``bemio.mesh_utilities`` packaged with bemio you must have the Visualization Toolkit (VTK)  and the VTK Python 2.7.x bindings installed on your system.
 
 .. Note::
-	Some Python distributions, such as Anaconda and PythonXY, may include VTK bindings, however, it is recommended that `bemio` users install VTK using the instructions in this section.
+    Installing the VTK Python bindings is only required if you would like to use bemio's :mod:`bemio.mesh_utilities` features.
+
+.. Note::
+	Some Python distributions, such as Anaconda and PythonXY, may include VTK bindings, however, it is recommended that `bemio` users install VTK using the instructions in this section because the VTK versions distributed with Anaconda and PythonXY are not kept current.
 
 OSX
 ---
 Method 1: Simple
 ~~~~~~~~~~~~~~~~
-Install VTK using `MacPorts <https://www.macports.org/>`_, `Fink <http://www.finkproject.org/>`_, or `HomeBrew <http://brew.sh/>`_. If you would like to install VTK using this method you should also install Python and other bemio dependencies with your selected package manager.
+Install VTK using `MacPorts <https://www.macports.org/>`_, `Fink <http://www.finkproject.org/>`_, or `HomeBrew <http://brew.sh/>`_. If you would like to install VTK using this method you should also install Python and other bemio dependencies using this method.
 
 Method 2: Complex
 ~~~~~~~~~~~~~~~~~
@@ -25,7 +28,7 @@ Pre-Installation Tasks
 * `tcl <http://www.tcl.tk/>`_
 * `tk <http://www.tcl.tk/>`_
 
-Python is preloaded on OSX systems and XCode can be installed through the `OSX App-Store <https://itunes.apple.com/us/app/xcode/id497799835;jsessionid=wnox0jq0k0vj2wbtcl3kohuf?mt=12#>`_ . The other packages can easily be installed using `MacPorts <https://www.macports.org/>`_ or a similar package manager, such as `Fink <http://www.finkproject.org/>`_ or `HomeBrew <http://brew.sh/>`_. Here is an example of how to install using MacPorts:
+Python is preloaded on OSX systems and XCode can be installed through the `OSX App Store <https://itunes.apple.com/us/app/xcode/id497799835;jsessionid=wnox0jq0k0vj2wbtcl3kohuf?mt=12#>`_ . The other packages can easily be installed using `MacPorts <https://www.macports.org/>`_, `Fink <http://www.finkproject.org/>`_, or `HomeBrew <http://brew.sh/>`_. Here is an example of how to install cmake, tck, and tk using MacPorts:
 
 .. code-block:: shell
 
@@ -98,4 +101,8 @@ Open a terminal window and use the following procedure to compile VTK and the Py
 
 Linux
 -----
-Install VTK and the VTK Python bindings using your system's package manager.  
+Install VTK and the VTK Python bindings using your system's package manager or adapt the `OSX`_ instructions described above.
+
+Windows
+-------
+No instructions available at this time. 
