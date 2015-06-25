@@ -103,6 +103,8 @@ class NemohOutput(object):
             self.data[i].name = self.cal.name[i]
             self.data[i].num_bodies = self.cal.n_bods
 
+            self.data[i].nondimensionalize_hydro_coeffs()
+
     def read_kh(self,body_num,file):
         '''
         Function to read HK.dat
