@@ -107,7 +107,7 @@ class NemohOutput(object):
 
     def read_kh(self,body_num,file):
         '''
-        Function to read HK.dat
+        Function to read KH.dat
 
         This function is not necessary for such a simple function, but we may
         need to make it more complicated in the future, so i'm leaving it as
