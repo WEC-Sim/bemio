@@ -2,8 +2,6 @@
 
 # bemio WAMIT tutorial
 
-# Import matplotlib - non required
-import matplotlib.pyplot as plt
 
 # Load the wamit module from bemio.io
 # This module provides functionality to read, dimensionalize, visualizes the data.

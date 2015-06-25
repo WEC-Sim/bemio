@@ -253,37 +253,6 @@ class PanelMesh(object):
             print 'paraview() function only supported for osx'
 
 
-<<<<<<< HEAD
-def read(file_name):
-    (f_name,f_ext) = os.path.splitext(file_name)
-
-    if f_ext == '.GDF' or f_ext == '.gdf':
-
-        mesh_data = _read_gdf(file_name)
-
-
-    elif f_ext == '.stl':
-
-        mesh_data = _read_stl(file_name)
-
-
-    elif f_ext == '.vtp':
-
-        mesh_data = _read_vtp(file_name)
-
-
-    elif f_ext == '.dat':
-
-        mesh_data = _read_nemoh(file_name)
-
-    else:
-        raise Exception(f_ext + ' is an unsupported file mesh file type')
-
-    return mesh_data
-
-
-=======
->>>>>>> 66c9ac2ebca143fd02284d952959fe4dd806a834
 def _read_gdf(file_name):
     '''
     Function to read WAMIT GDF meshes
@@ -315,13 +284,9 @@ def _read_gdf(file_name):
     for panelNum,i in enumerate(np.arange(4,4+mesh_data.num_points,4)):
 
         mesh_data.faces.append(np.array([i-4,i-3,i-2,i-1]))
-<<<<<<< HEAD
-        
-=======
-    
+
     print 'Successfully read WAMIT mesh ' + str(file_name)
 
->>>>>>> 66c9ac2ebca143fd02284d952959fe4dd806a834
     return mesh_data
 
 
@@ -349,11 +314,10 @@ def _read_stl(file_name):
         mesh_data.points.append(np.array(vtk_to_numpy(reader.GetOutput().GetCell(i).GetPoints().GetData())))
     mesh_data.points = np.array(mesh_data.points).reshape([mesh_data.num_faces*3,3])
     
-<<<<<<< HEAD
-=======
+
     print 'Successfully read STL mesh ' + str(file_name)
 
->>>>>>> 66c9ac2ebca143fd02284d952959fe4dd806a834
+
     return mesh_data
     
 

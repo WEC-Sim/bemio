@@ -28,13 +28,13 @@ Contents
 .. toctree::
    :maxdepth: 2
    
-   license.rst
    installing.rst
    vtk.rst
    api_io.rst
    api_mesh.rst
    tutorials.rst
    module_doc.rst
+   license.rst
 
 
 Indices and tables
