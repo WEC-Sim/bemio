@@ -42,7 +42,7 @@ Python is preloaded on OSX systems and XCode can be installed through the `OSX A
 
     The folder that contains the VTK source code will be referred to as ``$VTK_SOURCE``
 
-Instillation
+Install
 ............
 Open a terminal window and use the following procedure to compile VTK and the Python bindings.
 

@@ -19,6 +19,7 @@ and excitation forces
 
 Author: Michael Lawson, Yi-Hsiang Yu, Carlos Michelen
 '''
+from __future__ import division
 
 import numpy as np
 
@@ -29,6 +30,8 @@ import matplotlib.pyplot as plt
 from scipy import interpolate
 
 from scipy.linalg import hankel, expm
+
+
 
 from progressbar import ProgressBar, Bar, Percentage
 
@@ -168,7 +171,7 @@ class HydrodynamicData(object):
 
         pbar.finish()
 
-    def calc_ss_excitation(self, t_end=100, n_t = 1001, n_w=1001):
+    def calc_ss_excitation(self):
         raise Exception('The calc_ss_excitation function is not yet implemented')
 
     def calc_irf_radiation(self, t_end=100, n_t = 1001, n_w=1001):
