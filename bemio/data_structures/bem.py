@@ -462,6 +462,32 @@ class HydrodynamicData(object):
 
             ax[0].legend(loc=0)
 
+    def dimensionalize_hydro_coeffs(self):
+        self.k = self.k*self.rho*self.g
+        self.am.all = self.am.all*self.rho
+        self.am.inf = self.am.inf*self.rho
+        self.am.zero = self.am.zero*self.rho
+        self.ex.mag = self.ex.mag*self.rho*self.g
+
+        for j in xrange(self.rd.all.shape[2]):
+
+                self.rd.all[:,:,j] = self.rd.all[:,:,j]*self.rho*self.w[j]
+
+        print 'Dimensionalized added mass, radiation damping, hydrodynamic excitation, and spring stiffness coefficients'
+
+    def nondimensionalize_hydro_coeffs(self):
+        self.k = self.k/(self.rho*self.g)
+        self.am.all = self.am.all/self.rho
+        self.am.inf = self.am.inf/self.rho
+        self.am.zero = self.am.zero/self.rho
+        self.ex.mag = self.ex.mag/(self.rho*self.g)
+
+        for j in xrange(self.rd.all.shape[2]):
+
+                self.rd.all[:,:,j] = self.rd.all[:,:,j]/(self.rho*self.w[j])
+
+        print 'Non-dimensionalized added mass, radiation damping, hydrodynamic excitation, and spring stiffness coefficients'
+
 def generate_file_names(out_file):
     '''
     Function to generate filenames needed by hydroData module
