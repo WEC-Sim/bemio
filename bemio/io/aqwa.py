@@ -77,7 +77,7 @@ class AqwaOutput(object):
                 water_depth = tmp[0]
                 density = tmp[1]
                 gravity = tmp[2]
-                symmetry = tmp[3]
+                # symmetry = tmp[3]
 
             if 'DRAFT' in line:
                 draft = {}
@@ -183,6 +183,8 @@ class AqwaOutput(object):
         
 
         for i in xrange(num_bodies):
+
+
             print 'body' + str(i+1) + ':' 
             self.data[i] = bem.HydrodynamicData() 
 
@@ -193,7 +195,7 @@ class AqwaOutput(object):
             
             self.data[i].cg = cg[i+1]
             self.data[i].cb = 'not_defined'
-            self.data[i].k = stiffness_matrix[i+1]
+            self.data[i].k = stiffness_matrix[i+1] / (self.data[i].rho*self.data[i].g)
             self.data[i].T = 2*np.pi/frequencies
             self.data[i].w = frequencies 
             
@@ -219,3 +221,6 @@ class AqwaOutput(object):
             self.data[i].ex.re = self.data[i].ex.mag * np.cos(self.data[i].ex.phase)
             self.data[i].ex.im = self.data[i].ex.mag * np.sin(self.data[i].ex.phase)
 
+            self.data[i].nondimensionalize_hydro_coeffs()
+
+    
