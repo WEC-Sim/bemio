@@ -123,7 +123,7 @@ class NemohOutput(object):
 
             hydrostatics = fid.readlines()
 
-        self.data[body_num].volDisp = np.float(hydrostatics[3].split()[-1])
+        self.data[body_num].disp_vol = np.float(hydrostatics[3].split()[-1])
         self.data[body_num].wp_area = np.float(hydrostatics[4].split()[-1])
 
         xf = np.float(hydrostatics[0].split()[2])
