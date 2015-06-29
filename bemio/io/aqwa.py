@@ -195,7 +195,7 @@ class AqwaOutput(object):
             
             self.data[i].cg = cg[i+1]
             self.data[i].cb = 'not_defined'
-            self.data[i].k = stiffness_matrix[i+1] / (self.data[i].rho*self.data[i].g)
+            self.data[i].k = stiffness_matrix[i+1]
             self.data[i].T = 2*np.pi/frequencies
             self.data[i].w = frequencies 
             
