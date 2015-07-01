@@ -15,6 +15,7 @@ nemoh_data.read_kh(body_num=1, file='./data/two_body/Mesh/KH_1.dat')
 
 for i in xrange(nemoh_data.data[0].num_bodies):
 	nemoh_data.data[i].calc_irf_radiation(t_end=50, n_t=101, n_w=201)
-	nemoh_data.data[i].calc_ss_radiation()
+	nemoh_data.data[i].calc_irf_excitation(n_t=101, n_w=201)
+	# nemoh_data.data[i].calc_ss_radiation()
 
 write_hdf5(nemoh_data)

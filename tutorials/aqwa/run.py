@@ -10,6 +10,5 @@ for i in xrange(aqwa_data.data[0].num_bodies):
 	aqwa_data.data[i].calc_irf_excitation()
 	# aqwa_data.data[i].calc_ss_radiation(max_order=3, r2_thresh=0.5 )
 	
-
 # Write hydrodynamic data to HDF5 file format
 write_hdf5(aqwa_data)
