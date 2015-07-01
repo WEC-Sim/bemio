@@ -63,11 +63,11 @@ class NemohOutput(object):
         self._read_cal()
 
         # Read tec plot output files
-        self.am, self.rd, self.w, raw_rad = _read_tec(self.files['RadiationCoefficients'],data_type=0)
+        self.am, self.rd, self.w, raw_rad = _read_tec(self.files['RadiationCoefficients'])
 
-        self.ex_mag, self.ex_phase, temp, raw_ex = _read_tec(self.files['ExcitationForce'],data_type=1)
-        self.dfr_mag, self.dfr_phase, temp, raw_diff = _read_tec(self.files['DiffractionForce'],data_type=1)
-        self.fk_mag, self.fk_phase, temp, raw_fk = _read_tec(self.files['FKForce'],data_type=1)
+        self.ex_mag, self.ex_phase, temp, raw_ex = _read_tec(self.files['ExcitationForce'])
+        self.dfr_mag, self.dfr_phase, temp, raw_diff = _read_tec(self.files['DiffractionForce'])
+        self.fk_mag, self.fk_phase, temp, raw_fk = _read_tec(self.files['FKForce'])
 
         self.ex_im = self.ex_mag*np.sin(self.ex_phase)
         self.ex_re = self.ex_mag*np.cos(self.ex_phase)
@@ -188,7 +188,7 @@ def _reshape_tec(data):
 
     return out
 
-def _read_tec(file,data_type=0):
+def _read_tec(file):
     '''
     Function to read read am and rd coefficients
 
@@ -235,10 +235,6 @@ def _read_tec(file,data_type=0):
         for j in xrange(n_vars):
             a[i,j,:] = proc[zone].field(1+j*2)     
             b[i,j,:] = proc[zone].field(2+j*2)
-
-    # if data_type == 1:
-    #     a = _reshape_tec(a)
-    #     b = _reshape_tec(b)
 
     return (a, b, w, raw)
 
