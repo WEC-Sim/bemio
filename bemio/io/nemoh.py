@@ -37,9 +37,11 @@ class NemohOutput(object):
     Inputs:
     results_dir -- the directory with the Nemoh results files (e.g. CA.dat)
     '''
-    def __init__(self, sim_dir='./', cal_file='Nemoh.cal', results_dir = 'Results', mesh_dir='Mesh', out_name='nemoh_bemio.out'):
+    def __init__(self, sim_dir='./', cal_file='Nemoh.cal', results_dir = 'Results', mesh_dir='Mesh', out_name='nemoh_bemio.out', dimensionalize=False):
 
         # Set files
+        self.dimensionalize = dimensionalize
+        self.dimensional = True
         self.dir = os.path.abspath(sim_dir)
         self.files = bem.generate_file_names(out_name)
         self.files['Nemoh']     = os.path.join(self.dir,cal_file)
@@ -102,8 +104,11 @@ class NemohOutput(object):
             self.data[i].body_num = i
             self.data[i].name = self.cal.name[i]
             self.data[i].num_bodies = self.cal.n_bods
+            self.data[i].dimensional = self.dimensional
+            self.data[i].dimensioanlize = self.dimensionalize
 
-            self.data[i].nondimensionalize_hydro_coeffs()
+            self.data[i].dimensionalize_nondimensionalize() # Note... this is missing the KH nondimensionalization
+
 
     def read_kh(self,body_num,file):
         '''
@@ -127,13 +132,8 @@ class NemohOutput(object):
         self.data[body_num].wp_area = np.float(hydrostatics[4].split()[-1])
 
         xf = np.float(hydrostatics[0].split()[2])
-        # xg = np.float(hydrostatics[0].split()[-1])
-
         yf = np.float(hydrostatics[1].split()[2])
-        # yg = np.float(hydrostatics[1].split()[-1])
-
-        zf = np.float(hydrostatics[2].split()[2])
-        # zg = np.float(hydrostatics[2].split()[-1])      
+        zf = np.float(hydrostatics[2].split()[2])    
 
         self.data[body_num].cg  = np.array([xf, yf, zf])
 

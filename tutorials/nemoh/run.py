@@ -1,4 +1,4 @@
-#! /bin/python
+#! /usr/bin/python
 
 from bemio.io.nemoh import NemohOutput
 

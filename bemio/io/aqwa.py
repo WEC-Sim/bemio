@@ -30,9 +30,10 @@ class AqwaOutput(object):
     * None
     
     '''
-    def __init__(self, hydro_file, list_file):
+    def __init__(self, hydro_file, list_file, dimensionalize=False):
         self.files = bem.generate_file_names(hydro_file)
-
+        self.dimensionalize = dimensionalize
+        self.dimensonal = True
         self.data = {}        
 
         self._read(list_file)
@@ -186,7 +187,10 @@ class AqwaOutput(object):
 
 
             print 'body' + str(i+1) + ':' 
-            self.data[i] = bem.HydrodynamicData() 
+            
+            self.data[i] = bem.HydrodynamicData()
+            self.data[i].dimensional = self.dimensonal
+            self.data[i].dimensionalize = self.dimensionalize 
 
             self.data[i].rho = density
             self.data[i].g = gravity
@@ -221,6 +225,5 @@ class AqwaOutput(object):
             self.data[i].ex.re = self.data[i].ex.mag * np.cos(self.data[i].ex.phase)
             self.data[i].ex.im = self.data[i].ex.mag * np.sin(self.data[i].ex.phase)
 
-            self.data[i].nondimensionalize_hydro_coeffs()
-
-    
+            self.data[i].dimensionalize_nondimensionalize()
+        
