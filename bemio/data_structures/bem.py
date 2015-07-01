@@ -143,10 +143,7 @@ class HydrodynamicData(object):
     def calc_irf_radiation(self, t_end=100, n_t = 1001, n_w=1001):
         '''Function to calculate the wave radiation impulse response function
         '''
-        if self.dimensional is True:
-            raise Exception('The hydrodynamic coefficients must be nondimensional to use the calc_irf_radiation function. Please use the nondimensionalize_hydro_coeffs to do so')
-
-
+        
         self.rd.irf.t = np.linspace(0,t_end,n_t)
         self.rd.irf.w = np.linspace(self.w.min(),self.w.max(),n_w)
 
@@ -165,9 +162,20 @@ class HydrodynamicData(object):
                 for j in xrange(self.rd.all.shape[1]):
                     # Radiation damping calculation method
                     tmpL = 2./np.pi*rd_interp[i,j,:]*np.sin(self.rd.irf.w*t)
-                    tmpK = 2./np.pi*rd_interp[i,j,:]*np.cos(self.rd.irf.w*t)*self.rd.irf.w # is this correct or should it be '/self.rd.irf.w' ?
+                    tmpK = 2./np.pi*rd_interp[i,j,:]*np.cos(self.rd.irf.w*t)
+
+                    # Different IRF calculation methods are needed for dimensional and nondimensional hydro coefficients 
+                    if self.dimensional is False:
+
+                        tmpK *= self.rd.irf.w
+
+                    elif self.dimensional is True:
+
+                        tmpL /= self.rd.irf.w
+
                     self.rd.irf.K[i,j,t_ind] = np.trapz(y=tmpK,x=self.rd.irf.w)
                     self.rd.irf.L[i,j,t_ind] = np.trapz(y=tmpL,x=self.rd.irf.w)
+
                     pbar.update(count)
                     count += 1
 
@@ -441,9 +449,6 @@ class HydrodynamicData(object):
             print 'Nondimesionailzing hydro coefficients...'
 
             print 'Added mass, radiation damping, hydrodynamic excitation, and spring stiffness coefficients are nondimensional'
-
-        else:
-            print 'No dimensionalzation or nondimensionalization performed'
             
 
 def interpolate_for_irf(w_orig,w_interp,mat_in):

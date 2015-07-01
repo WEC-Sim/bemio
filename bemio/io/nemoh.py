@@ -13,8 +13,10 @@
 # limitations under the License.
 
 # This class contains a structure to store hydrodynamic data from WAMTI,
-# AQWA, Nemoh, or another code that calculates hydrodynamic coefficinets
+# AQWA, Nemoh, or another code that calculates hydrodynamic coefficients
 # and excitation forces
+
+from __future__ import division
 
 import os
 
@@ -234,9 +236,9 @@ def _read_tec(file,data_type=0):
             a[i,j,:] = proc[zone].field(1+j*2)     
             b[i,j,:] = proc[zone].field(2+j*2)
 
-    if data_type == 1:
-        a = _reshape_tec(a)
-        b = _reshape_tec(b)
+    # if data_type == 1:
+    #     a = _reshape_tec(a)
+    #     b = _reshape_tec(b)
 
     return (a, b, w, raw)
 

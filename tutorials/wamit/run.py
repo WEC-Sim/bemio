@@ -14,6 +14,8 @@ from bemio.io.output import write_hdf5
 # three-body oscillating flap is loaded into wamit_data.data[0], wamit_data.data[1],
 # and wamit_data.data[2]
 wamit_data = WamitOutput(out_file='./wec3/wec3.out')
+wamit_data = WamitOutput(out_file='./rm3/rm3.out')
+wamit_data = WamitOutput(out_file='./oswec/oswec.out')
 
 # Calculate IRF and plot using the wamit module
 # The loop below loops through each of the bodies and calculates the impulse response function
@@ -31,5 +33,5 @@ for i in xrange(wamit_data.data[0].num_bodies): #wamit_data.data[0].num_bodies
 # The data is written to the file name specified by the out_file string. The wamit_data
 # contains a dictionary named 'files' with an entry 'hdf5' which contains the default file name
 # wec3.h5
-# write_hdf5(wamit_data)
+write_hdf5(wamit_data)
 
