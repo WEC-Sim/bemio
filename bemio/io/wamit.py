@@ -25,7 +25,7 @@ class WamitOutput(object):
     * density: fluid denisty (default:1000.)
 
     '''
-    def __init__(self, out_file, density=1000., gravity=9.81):
+    def __init__(self, out_file, density=1000., gravity=9.81, dimensionalize=False):
 
         self.files = bem.generate_file_names(out_file)
         
@@ -33,12 +33,15 @@ class WamitOutput(object):
         self.g = gravity
 
         self.data = {}
+        self.dimensionalize = dimensionalize
+        self.dimensional = False
         self._read()
 
     def _read(self):
         '''
         Internal function to read WAMIT output file into the class. that is called during __init__
         '''
+
         with open(self.files['out'],'rU') as fid:
 
             raw = fid.readlines()
@@ -46,7 +49,6 @@ class WamitOutput(object):
         code = 'WAMIT'
         num_bodies = 0 # Total number of bodies
         bod_count = 0 # Counter for bodies
-        freq_count = 0
         T = []
         cg = {}
         cb = {}
@@ -58,7 +60,6 @@ class WamitOutput(object):
 
         
         for i, line in enumerate(raw):
-
 
 
             if "POTEN run date and starting time:" in line:
@@ -303,16 +304,17 @@ class WamitOutput(object):
         # Load data into the hydrodata structure
         for i in xrange(num_bodies):       
             self.data[i] = bem.HydrodynamicData() 
-            self.data[i].name = name[i][0:-4]
+            self.data[i].dimensional = self.dimensional
+            self.data[i].dimensionalize = self.dimensionalize
             self.data[i].g = self.g
+            self.data[i].rho = self.rho
+            self.data[i].body_num = i  
+            self.data[i].name = name[i][0:-4]
             self.data[i].water_depth = water_depth
-            self.data[i].rho = self.rho            
             self.data[i].num_bodies = num_bodies
-            self.data[i].body_num = i
             self.data[i].cg = cg[i] 
             self.data[i].cb = cb[i]
             self.data[i].k = k[i]
-            #self.data[i].k = self.data[i].k*self.rho*self.g
             self.data[i].disp_vol = disp_vol[i]
             self.data[i].wave_dir = wave_dir
             self.data[i].T = T
@@ -396,9 +398,7 @@ class WamitOutput(object):
 
                 print 'Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain any rao data'
 
-
             self.data[i].bem_raw_data = raw
             self.data[i].bem_code = code
 
-        # print 'Dimensionalized WAMIT Hydrodynamic coefficients with g = ' + str(self.g) + ' and rho = ' + str(self.rho)
-        print 'Successfully read WAMIT coefficients' 
+            self.data[i].dimensionalize_nondimensionalize()
