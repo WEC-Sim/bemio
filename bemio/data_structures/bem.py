@@ -25,8 +25,6 @@ import numpy as np
 
 import os
 
-import matplotlib.pyplot as plt
-
 from scipy import interpolate
 
 from scipy.linalg import hankel, expm
@@ -293,125 +291,7 @@ class HydrodynamicData(object):
 
         pbar.finish()
         
-    def plot_irf_rdiation(self,components):
-        '''
-        Function to plot the IRF
-
-        Inputs:
-        components -- A list of components to plot. E.g [[0,0],[1,1],[2,2]]
-        
-        Outputs:
-        None -- A plot is displayed. The plt.show() command may need to be used
-        depending on your python env settings
-        '''  
-        
-        f, ax = plt.subplots(components.shape[0], sharex=True, figsize=(8,10))
-                
-        # Plot added mass and damping
-        for i,comp in enumerate(components):
-            
-            x = comp[0]
-            y = comp[1]
-            t = self.rd.irf.t
-            L = self.rd.irf.L[x,y,:]
-            K = self.rd.irf.K[x,y,:]
-
-            ax[i].set_ylabel('comp ' + str(x) + ',' + str(y))
-
-            ax[i].plot(t,L,label='L')
-            ax[i].plot(t,K,label='K ddt(L)')
-                  
-        ax[0].set_title('IRF for ' + str(self.name))
-        ax[0].legend()
-        ax[i].set_xlabel('Time (s)')
-        
-    def plot_am_rd(self,components):
-        '''
-        Function to plot the added mass and radiation damping coefficients
-
-        Inputs:
-        components -- A list of components to plot. E.g [[0,0],[1,1],[2,2]]
-        
-        Outputs:
-        None -- A plot is displayed. The plt.show() command may need to be used
-        depending on your python env settings
-        '''                        
-        
-        f, ax = plt.subplots(2, sharex=True, figsize=(8,10))
-        
-        # Frame 0 - added mass
-        ax[0].plot()
-        ax[0].set_title('Hydrodynamic coefficients for ' + str(self.name))    
-        ax[0].set_ylabel('Added mass')
-        
-        # Frame 1 - radiation damping
-        ax[1].plot()
-        ax[1].set_xlabel('Wave frequency (rad/s)')
-        ax[1].set_ylabel('Radiation damping')
-        
-        # Plot added mass and damping
-        for i,comp in enumerate(components):
-            
-            x = comp[0]
-            y = comp[1]
-            w = self.w
-            rd = self.rd.all[x,y,:]
-            am = self.am.all[x,y,:]
-
-            ax[0].plot(w,am,'x-',label='Component (' + str(x) + ', ' + str(y) + ')')
-            ax[1].plot(w,rd,'x-',label='Component (' + str(x) + ', ' + str(y) + ')')
-            
-        # Show legend on frame 0
-        ax[0].legend(loc=0)
-
-    def plot_excitation(self,components):
-        '''
-        Function to plot wave excitation coefficients
-        
-        Inputs:
-        components -- A list of components to plot. E.g [0,1,2,5]
-        
-        Outputs:
-        None -- A plot is displayed. The plt.show() command may need to be used
-        depending on your python env settings
-        '''
-        
-        f, ax = plt.subplots(4, sharex=True,figsize=(8,10))
-
-        # Frame 0 - magnitude
-        ax[0].plot()
-        ax[0].set_ylabel('Ex force - mag')
-        ax[0].set_title('Excitation force for ' + str(self.name))    
-
-        # Frame 1 - phase
-        ax[1].plot()        
-        ax[1].set_xlabel('Wave frequency (rad/s)')        
-        ax[1].set_ylabel('Ex force - phase')
-
-        # Frame 2 - real
-        ax[2].plot()
-        ax[2].set_ylabel('Ex force - real')
-        
-        # Frame 3 - imaginary
-        ax[3].plot()
-        ax[3].set_ylabel('Ex force - imaginary')
-        
-        for i,comp in enumerate(components):
-            
-            m = comp
-            w = self.w
-            re = self.ex.re[:,m]
-            im = self.ex.im[:,m]
-            mag = self.ex.mag[:,m]
-            phase = self.ex.phase[:,m]
-
-            ax[0].plot(w,mag,'x-',label='Component (' + str(m+1) + ')')
-            ax[1].plot(w,phase,'x-',label='Component (' + str(m+1) + ')')
-            ax[2].plot(w,re,'x-',label='Component (' + str(m+1) + ')')
-            ax[3].plot(w,im,'x-',label='Component (' + str(m+1) + ')')
-
-            ax[0].legend(loc=0)
-
+  
     def dimensionalize_nondimensionalize(self):
 
         if self.dimensionalize is True and self.dimensional is False:

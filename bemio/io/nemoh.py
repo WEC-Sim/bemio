@@ -39,13 +39,13 @@ class NemohOutput(object):
     Inputs:
     results_dir -- the directory with the Nemoh results files (e.g. CA.dat)
     '''
-    def __init__(self, sim_dir='./', cal_file='Nemoh.cal', results_dir = 'Results', mesh_dir='Mesh', out_name='nemoh_bemio.out', dimensionalize=False):
+    def __init__(self, sim_dir='./', cal_file='Nemoh.cal', results_dir = 'Results', mesh_dir='Mesh', dimensionalize=False):
 
         # Set files
         self.dimensionalize = dimensionalize
         self.dimensional = True
         self.dir = os.path.abspath(sim_dir)
-        self.files = bem.generate_file_names(out_name)
+        self.files = bem.generate_file_names(os.path.join(self.dir,cal_file))
         self.files['Nemoh']     = os.path.join(self.dir,cal_file)
         self.files['RadiationCoefficients'] = os.path.join(self.dir,results_dir,'RadiationCoefficients.tec')
 

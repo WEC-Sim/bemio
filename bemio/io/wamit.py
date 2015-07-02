@@ -64,14 +64,20 @@ class WamitOutput(object):
 
             if "POTEN run date and starting time:" in line:
 
-                data = raw[i+4]
+                skip = 2
+                data = raw[i+skip]
                 count = 0
 
                 while data != empty_line:
 
-                    count += 1
-                    T.append(float(data.split()[0]))
-                    data = raw[i+count+4]
+                    if float(data.split()[0]) == 0. or float(data.split()[0]) == -1.:
+                        count += 1
+                        data = raw[i+count+skip]
+
+                    else:
+                        count += 1
+                        T.append(float(data.split()[0]))
+                        data = raw[i+count+skip]
 
             if "Wave Heading (deg)" in line:
                 wave_dir.append(float(line.split()[-1]))       
