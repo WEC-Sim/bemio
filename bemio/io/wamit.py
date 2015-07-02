@@ -317,8 +317,8 @@ class WamitOutput(object):
             self.data[i].body_num = i
             self.data[i].cg = cg[i] 
             self.data[i].cb = cb[i]
-            self.data[i].k = k[i]
-            #self.data[i].k = self.data[i].k*self.rho*self.g
+            #self.data[i].k = k[i]
+            self.data[i].k = self.data[i].k*self.rho*self.g
             self.data[i].disp_vol = disp_vol[i]
             self.data[i].wave_dir = wave_dir
             self.data[i].T = T
@@ -327,7 +327,7 @@ class WamitOutput(object):
             if 'am_inf' in locals():
 
                 self.data[i].am.inf = am_inf[6*i:6+6*i,:]
-                # self.data[i].am.inf = self.data[i].am.inf*self.rho
+                self.data[i].am.inf = self.data[i].am.inf*self.rho
 
             else:
 
@@ -338,7 +338,7 @@ class WamitOutput(object):
             if 'am_zero' in locals():
 
                 self.data[i].am.zero = am_zero[6*i:6+6*i,:]
-                # self.data[i].am.zero = self.data[i].am.zero*self.rho
+                self.data[i].am.zero = self.data[i].am.zero*self.rho
 
             else:
 
@@ -349,7 +349,7 @@ class WamitOutput(object):
             if 'am_all' in locals():
             
                 self.data[i].am.all = am_all[6*i:6+6*i,:,:]
-                # self.data[i].am.all = self.data[i].am.all*self.rho
+                self.data[i].am.all = self.data[i].am.all*self.rho
             
             else:
 
@@ -360,8 +360,8 @@ class WamitOutput(object):
             if 'rd_all' in locals():
 
                 self.data[i].rd.all = rd_all[6*i:6+6*i,:,:]
-                # for j in xrange(np.shape(self.data[i].rd.all)[2]):
-                    # self.data[i].rd.all[:,:,j] = self.data[i].rd.all[:,:,j]*self.rho*self.data[i].w[j]
+                for j in xrange(np.shape(self.data[i].rd.all)[2]):
+                    self.data[i].rd.all[:,:,j] = self.data[i].rd.all[:,:,j]*self.rho*self.data[i].w[j]
 
             else:
 
@@ -370,7 +370,7 @@ class WamitOutput(object):
 
             if 'ex_all' in locals():
 
-                self.data[i].ex.mag = ex_all[6*i:6+6*i,:,:]#*self.rho*self.g
+                self.data[i].ex.mag = ex_all[6*i:6+6*i,:,:]*self.rho*self.g
                 self.data[i].ex.phase = np.deg2rad(phase_all[6*i:6+6*i,:,:])
                 self.data[i].ex.re = self.data[i].ex.mag*np.cos(self.data[i].ex.phase)
                 self.data[i].ex.im = self.data[i].ex.mag*np.sin(self.data[i].ex.phase)
@@ -406,5 +406,5 @@ class WamitOutput(object):
             self.data[i].bem_raw_data = raw
             self.data[i].bem_code = code
 
-        # print 'Dimensionalized WAMIT Hydrodynamic coefficients with g = ' + str(self.g) + ' and rho = ' + str(self.rho)
-        print 'Successfully read WAMIT coefficients' 
+        print 'Dimensionalized WAMIT Hydrodynamic coefficients with g = ' + str(self.g) + ' and rho = ' + str(self.rho)
+        
