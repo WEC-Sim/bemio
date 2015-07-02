@@ -13,8 +13,8 @@ from bemio.io.output import write_hdf5
 # the data read from the wec3.out file. The data for each of the three bodies of the floating 
 # three-body oscillating flap is loaded into wamit_data.data[0], wamit_data.data[1],
 # and wamit_data.data[2]
-wamit_data = WamitOutput(out_file='./wec3/wec3.out')
-wamit_data = WamitOutput(out_file='./rm3/rm3.out')
+# wamit_data = WamitOutput(out_file='./wec3/wec3.out')
+# wamit_data = WamitOutput(out_file='./rm3/rm3.out')
 wamit_data = WamitOutput(out_file='./oswec/oswec.out')
 
 # Calculate IRF and plot using the wamit module
