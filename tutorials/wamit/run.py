@@ -13,7 +13,7 @@ from bemio.io.output import write_hdf5
 # the data read from the wec3.out file. The data for each of the three bodies of the floating 
 # three-body oscillating flap is loaded into wamit_data.data[0], wamit_data.data[1],
 # and wamit_data.data[2]
-wamit_data = WamitOutput(out_file='./rm3/rm3.out')
+wamit_data = WamitOutput(out_file='./plate/plate.out')
 
 # Calculate IRF and plot using the wamit module
 # The loop below loops through each of the bodies and calculates the impulse response function
