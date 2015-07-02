@@ -13,7 +13,9 @@ nemoh_data = NemohOutput(sim_dir='./data/two_body', cal_file='Nemoh.cal', result
 nemoh_data.read_hydrostatics(body_num=1,file='./data/two_body/Mesh/Hydrostatics_1.dat')
 nemoh_data.read_kh(body_num=1, file='./data/two_body/Mesh/KH_1.dat')
 
+
 for i in xrange(nemoh_data.data[0].num_bodies):
+	nemoh_data.data[i].nondimensionalize_hydro_coeffs()
 	nemoh_data.data[i].calc_irf_radiation(t_end=50, n_t=101, n_w=201)
 	nemoh_data.data[i].calc_ss_radiation()
 
