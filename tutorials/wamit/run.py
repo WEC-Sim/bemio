@@ -15,7 +15,8 @@ from bemio.io.output import write_hdf5
 # and wamit_data.data[2]
 # wamit_data = WamitOutput(out_file='./wec3/wec3.out')
 # wamit_data = WamitOutput(out_file='./rm3/rm3.out')
-wamit_data = WamitOutput(out_file='./oswec/oswec.out')
+# wamit_data = WamitOutput(out_file='./oswec/oswec.out')
+wamit_data = WamitOutput(out_file='./ecm_ellipsoid/ecm_ellipsoid.out')
 
 # Calculate IRF and plot using the wamit module
 # The loop below loops through each of the bodies and calculates the impulse response function

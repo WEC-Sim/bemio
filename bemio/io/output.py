@@ -1,5 +1,5 @@
 import h5py
-
+import numpy as np
 def write_hdf5(data_obj,out_file=None):
     '''
     Writes hydrodynamic data to a HDF5 file structure.
@@ -60,7 +60,7 @@ def write_hdf5(data_obj,out_file=None):
 
                 irf_rad_l = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/impulse_response_fun/L',data=data_obj.data[key].rd.irf.L)
                 irf_rad_l.attrs['units'] = ''
-                irf_rad_l.attrs['description'] = 'Time derivatitive of the impulse response functiuon' 
+                irf_rad_l.attrs['description'] = 'Time derivative of the impulse response function' 
 
                 for m in xrange(data_obj.data[key].am.all.shape[0]):
             
@@ -183,11 +183,11 @@ def write_hdf5(data_obj,out_file=None):
             
                 for n in xrange(data_obj.data[key].am.all.shape[1]):
 
-                    amComp = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/added_mass/comps/comp_' + str(m+1) + '_' + str(n+1),data=data_obj.data[key].am.all[m,n,:])
+                    amComp = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/added_mass/comps/comp_' + str(m+1) + '_' + str(n+1),data=np.array([data_obj.data[key].T, data_obj.data[key].am.all[m,n,:]]).transpose())
                     amComp.attrs['units'] = ''
                     amComp.attrs['description'] = 'Added mass components as a function of frequency'
 
-                    radComp = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/radiation_damping/comps/' + str(m+1) + '_' + str(n+1),data=data_obj.data[key].rd.all[m,n,:])
+                    radComp = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/radiation_damping/comps/' + str(m+1) + '_' + str(n+1),data=np.array([data_obj.data[key].T, data_obj.data[key].rd.all[m,n,:]]).transpose())
                     radComp.attrs['units'] = ''
                     radComp.attrs['description'] = 'Radiation damping components as a function of frequency'
             
