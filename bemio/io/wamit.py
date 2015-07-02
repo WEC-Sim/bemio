@@ -317,7 +317,7 @@ class WamitOutput(object):
             self.data[i].body_num = i
             self.data[i].cg = cg[i] 
             self.data[i].cb = cb[i]
-            #self.data[i].k = k[i]
+            self.data[i].k = k[i]
             self.data[i].k = self.data[i].k*self.rho*self.g
             self.data[i].disp_vol = disp_vol[i]
             self.data[i].wave_dir = wave_dir
