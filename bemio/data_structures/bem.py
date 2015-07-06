@@ -321,6 +321,8 @@ class HydrodynamicData(object):
             self.am.inf = self.am.inf/self.rho
             self.am.zero = self.am.zero/self.rho
             self.ex.mag = self.ex.mag/(self.rho*self.g)
+            self.ex.im = self.ex.im/(self.rho*self.g)
+            self.ex.re = self.ex.re/(self.rho*self.g)
 
             for j in xrange(self.rd.all.shape[2]):
 
