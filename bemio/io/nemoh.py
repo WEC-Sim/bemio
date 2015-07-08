@@ -80,7 +80,7 @@ class NemohOutput(object):
         for i in xrange(self.cal.n_bods):
             self.data[i] = bem.HydrodynamicData()
             self.data[i].am.all = self.am[0+6*i:6+6*i,:]
-            self.data[i].rd.all = self.am[0+6*i:6+6*i,:]
+            self.data[i].rd.all = self.rd[0+6*i:6+6*i,:]
 
             self.data[i].ex.mag = self.ex_mag[:,0+6*i:6+6*i]
             self.data[i].ex.phase = self.ex_phase[:,0+6*i:6+6*i]
