@@ -1,18 +1,16 @@
-"""
-Copyright 2014 the National Renewable Energy Laboratory
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-"""
+# Copyright 2014 the National Renewable Energy Laboratory
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 """
 This module serves the purpose of reading and writing  surface meshes from the
@@ -21,7 +19,7 @@ following mesh formats:
     * Nemoh
     * VTK Polydata (*.vtp)
     * STL files
-        
+
 Limitations: Currentoy the writing functions assume that all meshes are quad
 meshes. A few simple improvements (i.e. if tests) to the writing functions can fix this.
 
@@ -55,7 +53,20 @@ class PanelMesh(object):
         self.num_faces = None
         self.num_points = None
         self.orig_type = None
-        
+        self._center_of_gravity = None
+        self._center_of_buoyancy = None
+        self._volume = None
+        self._volume_x = None
+        self._volume_y = None
+        self._volume_z = None
+        self._surface_area = None
+        self._normals = None
+        self._cell_surface_area = None
+        self._centroid = None
+        self._hydrostatic_stiffness = None
+
+        self.water_density = 1000.
+
         if os.path.isfile(file_name) is False:
 
             raise Exception('The file ' + file_name + ' does not exist')
@@ -70,11 +81,171 @@ class PanelMesh(object):
 
         return out_string
 
+    # @property
+    # def center_of_gravity(self, ):
+    #     if self._center_of_mass is None:
+    #
+    #         # com = vtk.vtkCenterOfMass()
+    #         # com.SetInputData(self.vtp_mesh)
+    #         # com.Update()
+    #         # self._center_of_mass = com.GetCenter()
+    #
+    #     return self._center_of_mass
+
+    @property
+    def hydrostatic_stiffness(self, ):
+        if self._hydrostatic_stiffness is None:
+
+            self._hydrostatic_stiffness = np.zeros([6,6])
+
+            for face_n,face in enumerate(self.faces):
+                if np.sum(self.points[face[0]][2]+self.points[face[1]][2]+self.points[face[2]][2]+self.points[face[3]][2]) != 0.:
+                    self._hydrostatic_stiffness[2,2] += -self.normals[face_n][2] * self.cell_surface_area[face_n]
+                    self._hydrostatic_stiffness[2,3] += -self.centroid[face_n][1] * self.normals[face_n][2] * self.cell_surface_area[face_n]
+                    self._hydrostatic_stiffness[2,4] += self.centroid[face_n][0] * self.normals[face_n][2] * self.cell_surface_area[face_n]
+                    self._hydrostatic_stiffness[3,3] += -self.centroid[face_n][1]**2 * self.normals[face_n][2] * self.cell_surface_area[face_n]
+                    self._hydrostatic_stiffness[3,4] += self.centroid[face_n][0] * self.centroid[face_n][1] * self.normals[face_n][2] * self.cell_surface_area[face_n]
+                    self._hydrostatic_stiffness[4,4] += -self.centroid[face_n][0]**2 * self.normals[face_n][2] * self.cell_surface_area[face_n]
+
+            self._hydrostatic_stiffness[3,3] += self.volume * self.center_of_buoyancy[2] - self.volume * self.center_of_gravity[2]
+            self._hydrostatic_stiffness[3,5] += -self.volume * self.center_of_buoyancy[0] + self.volume * self.center_of_gravity[0]
+            self._hydrostatic_stiffness[4,4] += self.volume * self.center_of_buoyancy[2] - self.volume * self.center_of_gravity[2]
+            self._hydrostatic_stiffness[4,5] += -self.volume * self.center_of_buoyancy[1] + self.volume * self.center_of_gravity[1]
+
+        return self._hydrostatic_stiffness
+
+    @property
+    def center_of_buoyancy(self, ):
+        if self._center_of_buoyancy is None:
+            x_b = 0.
+            y_b = 0.
+            z_b = 0.
+            self._center_of_buoyancy = 0.
+
+            for face_n in xrange(self.num_faces):
+                x_b += self.normals[face_n][0]*self.centroid[face_n][0]**2*self.cell_surface_area[face_n]
+                y_b += self.normals[face_n][1]*self.centroid[face_n][1]**2*self.cell_surface_area[face_n]
+                z_b += self.normals[face_n][2]*self.centroid[face_n][2]**2*self.cell_surface_area[face_n]
+            self._center_of_buoyancy = 1./(2.*self.volume)*np.array([x_b, y_b, z_b])
+
+        return self._center_of_buoyancy
+
+    @property
+    def normals(self, ):
+        if self._normals is None:
+            self._normals = {}
+            for face_n in xrange(self.num_faces):
+                a = self.points[self.faces[face_n][1]] - self.points[self.faces[face_n][0]]
+                b = self.points[self.faces[face_n][2]] - self.points[self.faces[face_n][1]]
+                self._normals[face_n] = np.cross(a,b)
+
+                if self._normals[face_n][0] == 0. and  self._normals[face_n][1] == 0. and self._normals[face_n][2] == 0.:
+                    a = self.points[self.faces[face_n][2]] - self.points[self.faces[face_n][1]]
+                    b = self.points[self.faces[face_n][3]] - self.points[self.faces[face_n][2]]
+                    self._normals[face_n] = np.cross(a,b)
+
+                if self._normals[face_n][0] == 0. and  self._normals[face_n][1] == 0. and self._normals[face_n][2] == 0.:
+                    a = self.points[self.faces[face_n][2]] - self.points[self.faces[face_n][0]]
+                    b = self.points[self.faces[face_n][3]] - self.points[self.faces[face_n][2]]
+                    self._normals[face_n] = np.cross(a,b)
+
+                self._normals[face_n] /= np.linalg.norm(self._normals[face_n])
+
+        return self._normals
+
+    @property
+    def cell_surface_area(self):
+        if self._cell_surface_area is None:
+            self._cell_surface_area = {}
+            for face_n in xrange(self.num_faces):
+                a = self.points[self.faces[face_n][1]] - self.points[self.faces[face_n][0]]
+                b = self.points[self.faces[face_n][2]] - self.points[self.faces[face_n][1]]
+                c = self.points[self.faces[face_n][3]] - self.points[self.faces[face_n][2]]
+                d = self.points[self.faces[face_n][0]] - self.points[self.faces[face_n][3]]
+                self._cell_surface_area[face_n] = 1./2. * ( np.linalg.norm(np.cross(a,b)) + np.linalg.norm(np.cross(c,d)) )
+
+        return self._cell_surface_area
+
+    @property
+    def volume(self):
+        if self._volume is None:
+            tri_converter = vtk.vtkTriangleFilter()
+            tri_converter.SetInputDataObject(self.vtp_mesh)
+            tri_converter.Update()
+            tri_mesh = tri_converter.GetOutput()
+            mass_props = vtk.vtkMassProperties()
+            mass_props.SetInputDataObject(tri_mesh)
+            self._volume = mass_props.GetVolume()
+
+        return self._volume
+
+    @property
+    def centroid(self):
+
+        if self._centroid is None:
+            self._centroid = {}
+
+            for face_n,face in enumerate(self.faces):
+                points = [self.points[face[0]],
+                          self.points[face[1]],
+                          self.points[face[2]],
+                          self.points[face[3]]]
+
+                points = map(np.asarray, set(map(tuple, points))) # This removes duplicate points
+                self._centroid[face_n] = np.mean(points,axis=0)
+
+        return self._centroid
+
+    @property
+    def volume_x(self):
+        if self._volume_x is None:
+            self._calc_component_vol()
+        return self._volume_x
+
+    @property
+    def volume_y(self):
+        if self._volume_y is None:
+            self._calc_component_vol()
+        return self._volume_y
+
+    @property
+    def volume_z(self):
+        if self._volume_z is None:
+            self._calc_component_vol()
+        return self._volume_z
+
+    def _calc_component_vol(self, ):
+        self._volume_x = 0.
+        self._volume_y = 0.
+        self._volume_z = 0.
+        volume = 0.
+
+        for face_n in xrange(self.num_faces):
+            volume += self.normals[face_n]*self.centroid[face_n]*self.cell_surface_area[face_n]
+            # self._volume_x += self.normals[face_n][0]*self.centroid[face_n][0]*self.cell_surface_area[face_n]
+            # self._volume_y += self.normals[face_n][1]*self.centroid[face_n][1]*self.cell_surface_area[face_n]
+            # self._volume_z += self.normals[face_n][2]*self.centroid[face_n][2]*self.cell_surface_area[face_n]
+
+        self._volume_x = volume[0]
+        self._volume_y = volume[1]
+        self._volume_z = volume[2]
+
+    @property
+    def surface_area(self):
+        tri_converter = vtk.vtkTriangleFilter()
+        tri_converter.SetInputDataObject(self.vtp_mesh)
+        tri_converter.Update()
+        tri_mesh = tri_converter.GetOutput()
+        mass_props = vtk.vtkMassProperties()
+        mass_props.SetInputDataObject(tri_mesh)
+        self._surface_area = mass_props.GetSurfaceArea()
+        return self._surface_area
+
     def _create_vtp_mesh(self):
         self.vtp_mesh    = vtk.vtkPolyData()
         points  = vtk.vtkPoints()
         polys   = vtk.vtkCellArray()
-        
+
         for i in range(self.num_points):
 
             points.InsertPoint(i, self.points[i])
@@ -83,7 +254,7 @@ class PanelMesh(object):
         for i in range(self.num_faces):
 
             polys.InsertNextCell(_mk_vtk_id_list(self.faces[i]))
-            
+
         self.vtp_mesh.SetPoints(points)
         self.vtp_mesh.SetPolys(polys)
 
@@ -118,7 +289,7 @@ class PanelMesh(object):
 
 
     def _write_vtp(self):
-        
+
         writer = vtk.vtkXMLPolyDataWriter()
         writer.SetFileName(self.out_file)
         writer.SetInputData(self.vtp_mesh)
@@ -126,9 +297,9 @@ class PanelMesh(object):
         writer.Write()
 
         print 'Wrote VTK PolyData mesh to ' + str(self.out_file)
-        
+
     def _write_nemoh(self):
-        
+
         with open(self.out_file,'w') as fid:
             fid.write('2 0') # This should not be hard coded
             fid.write('\n')
@@ -143,10 +314,10 @@ class PanelMesh(object):
             fid.write('0 0 0 0')
 
         print 'Wrote NEMOH mesh to ' + str(self.out_file)
-                
+
 
     def _write_gdf(self,out_file=None):
-        
+
         with open(self.out_file,'w') as fid:
             fid.write('Mesh file written by meshio.py')
             fid.write('\n')
@@ -166,8 +337,8 @@ class PanelMesh(object):
                         fid.write(str(self.points[pointKey]).replace(',','').replace('[','').replace(']','') + '\n')
 
         print 'Wrote WAMIT mesh to ' + str(self.out_file)
-                
-    
+
+
     def cut(self,plane=2,value=0.0,direction=1):
         self.collapse(plane,value,direction)
 
@@ -182,7 +353,7 @@ class PanelMesh(object):
 
                p = self.faces[i][j]
                z = float(self.cords[int(p)][2])
-           
+
                if z == 0.:
                    delete_face += 1
 
@@ -219,7 +390,7 @@ class PanelMesh(object):
         renWin = vtk.vtkRenderWindow()
         renWin.AddRenderer(ren)
         renWin.SetSize(600, 600)
-        
+
         # Start the visiuilization
         iren = vtk.vtkRenderWindowInteractor()
         iren.SetRenderWindow(renWin)
@@ -256,7 +427,7 @@ class PanelMesh(object):
 def _read_gdf(file_name):
     '''
     Function to read WAMIT GDF meshes
-    
+
     Inputs:
         file_name: name of the mesh file to be read
     Outputs:
@@ -266,12 +437,12 @@ def _read_gdf(file_name):
     with open(file_name,'r') as fid:
 
         lines = fid.readlines()
-        
+
     mesh_data = PanelMesh(file_name)
     mesh_data.orig_type = 'WAMIT (.gdf)'
-        
+
     mesh_data.gdfLines = lines
-    mesh_data.uLen = int(lines[1].split()[0])  
+    mesh_data.uLen = int(lines[1].split()[0])
     mesh_data.gravity = float(lines[1].split()[1])
     mesh_data.isx = float(lines[2].split()[0])
     mesh_data.isy = float(lines[2].split()[1])
@@ -293,7 +464,7 @@ def _read_gdf(file_name):
 def _read_stl(file_name):
     '''
     Function to read STL meshes
-    
+
     Inputs:
         file_name: name of the mesh file to be read
     Outputs:
@@ -303,7 +474,7 @@ def _read_stl(file_name):
     reader = vtk.vtkSTLReader()
     reader.SetFileName(file_name)
     reader.Update()
-    
+
     mesh_data = PanelMesh(file_name)
     mesh_data.orig_type = 'Stereolithography (.stl)'
     mesh_data.num_faces = int(reader.GetOutput().GetNumberOfCells())
@@ -313,18 +484,18 @@ def _read_stl(file_name):
         mesh_data.faces.append(np.array([n,n+1,n+2,n+2]))
         mesh_data.points.append(np.array(vtk_to_numpy(reader.GetOutput().GetCell(i).GetPoints().GetData())))
     mesh_data.points = np.array(mesh_data.points).reshape([mesh_data.num_faces*3,3])
-    
+
 
     print 'Successfully read STL mesh ' + str(file_name)
 
 
     return mesh_data
-    
+
 
 def _read_vtp(file_name):
     '''
     Function to read VTK Polydata meshes
-    
+
     Inputs:
         file_name: name of the mesh file to be read
     Outputs:
@@ -334,13 +505,13 @@ def _read_vtp(file_name):
     reader = vtk.vtkXMLPolyDataReader()
     reader.SetFileName(file_name)
     reader.Update()
-    
+
     mesh_data = PanelMesh(file_name)
     mesh_data.orig_type = 'VTK Polydata (.vtp)'
     readerOut = reader.GetOutput()
     mesh_data.num_faces =    int(readerOut.GetNumberOfCells())
     mesh_data.num_points =   int(readerOut.GetNumberOfPoints())
- 
+
     for i in xrange(mesh_data.num_points):
         mesh_data.points.append(readerOut.GetPoint(i))
     mesh_data.points = np.array(mesh_data.points)
@@ -352,17 +523,17 @@ def _read_vtp(file_name):
         for i in xrange(numCellPoints):
             idsTemp.append(int(c.GetPointId(i)))
         mesh_data.faces.append(np.array(idsTemp))
-    
+
 
     print 'Successfully read VTP mesh ' + str(file_name)
 
     return mesh_data
-    
+
 
 def _read_nemoh(file_name):
     '''
     Function to read nemoh meshes
-    
+
     Inputs:
         file_name: name of the mesh file to be read
     Outputs:
@@ -374,10 +545,10 @@ def _read_nemoh(file_name):
         lines = fid.readlines()
     temp = np.array([np.array(str(lines[i]).split()).astype(float) for i in range(1,np.size(lines))])
     count = 0
-    
+
     mesh_data = PanelMesh(file_name)
     mesh_data.orig_type = 'NEMOH (.dat)'
-    
+
     while temp[count,0] != 0.:
 
         mesh_data.points.append(temp[count,1:])
@@ -391,15 +562,15 @@ def _read_nemoh(file_name):
     mesh_data.faces = np.array(mesh_data.faces)-1
     mesh_data.num_points = np.shape(mesh_data.points)[0]
     mesh_data.num_faces = np.shape(mesh_data.faces)[0]
-    
+
     print 'Successfully read NEMOH mesh ' + str(file_name)
 
     return mesh_data
-    
+
 def _mk_vtk_id_list(it):
     '''
     Function to make vtk id list object
-    
+
     Inputs:
         it: list of nodes for the face
     Outputs:
@@ -410,14 +581,14 @@ def _mk_vtk_id_list(it):
     for i in it:
 
         vil.InsertNextId(int(i))
-        
+
     return vil
 
 
 #def removeSurfacePanels(self):
 #    tempFaces = []
 #    count = 0
-#    
+#
 #    for i in xrange(self.num_faces):
 #        deleteFace = 0
 #        p0 = self.faces[i][0]
@@ -428,7 +599,7 @@ def _mk_vtk_id_list(it):
 #        z1 = float(self.cords[int(p1)][2])
 #        z2 = float(self.cords[int(p2)][2])
 #        z3 = float(self.cords[int(p3)][2])
-#        
+#
 #        if z0 == 0.:
 #            deleteFace += 1
 #        if z1 == 0.:

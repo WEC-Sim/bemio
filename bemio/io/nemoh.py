@@ -27,10 +27,10 @@ from bemio.data_structures import bem
 try:
 
     from astropy.io import ascii
- 
+
 except:
 
-    raise Exception('The astropy module must be installed. Try "pip install astropy"')   
+    raise Exception('The astropy module must be installed. Try "pip install astropy"')
 
 class NemohOutput(object):
     '''
@@ -52,7 +52,7 @@ class NemohOutput(object):
         self.files['ExcitationForce'] = os.path.join(self.dir,results_dir,'ExcitationForce.tec')
         self.files['DiffractionForce'] = os.path.join(self.dir,results_dir,'DiffractionForce.tec')
         self.files['FKForce'] = os.path.join(self.dir,results_dir,'FKForce.tec')
-        
+
         # Initialize data ovject
         self.data = {}
 
@@ -76,7 +76,7 @@ class NemohOutput(object):
         self.raw_output = f_break + raw_rad + f_break + raw_diff + f_break + raw_ex + f_break + raw_fk + f_break
 
         self._create_and_load_hydro_data_obj()
-        
+
     def _create_and_load_hydro_data_obj(self):
         '''
         Function to load hydrodynamic data into HydrodynamicData object
@@ -84,7 +84,7 @@ class NemohOutput(object):
         for i in xrange(self.cal.n_bods):
             self.data[i] = bem.HydrodynamicData()
             self.data[i].am.all = self.am[0+6*i:6+6*i,:]
-            self.data[i].rd.all = self.am[0+6*i:6+6*i,:]
+            self.data[i].rd.all = self.rd[0+6*i:6+6*i,:]
 
             self.data[i].ex.mag = self.ex_mag[:,0+6*i:6+6*i]
             self.data[i].ex.phase = self.ex_phase[:,0+6*i:6+6*i]
@@ -135,7 +135,7 @@ class NemohOutput(object):
 
         xf = np.float(hydrostatics[0].split()[2])
         yf = np.float(hydrostatics[1].split()[2])
-        zf = np.float(hydrostatics[2].split()[2])    
+        zf = np.float(hydrostatics[2].split()[2])
 
         self.data[body_num].cg  = np.array([xf, yf, zf])
 
@@ -172,7 +172,7 @@ class NemohOutput(object):
             add_lines += int(cal[24+18*i+add_lines].split()[0])
 
 
-            
+
 
 
 def _reshape_tec(data):
@@ -197,7 +197,7 @@ def _read_tec(file):
     Need to describe data_type
     '''
 
-    # Read added mass and damping 
+    # Read added mass and damping
     with open(file) as fid:
 
         raw = fid.readlines()
@@ -216,8 +216,8 @@ def _read_tec(file):
             zone_length = int(line.split(',')[-2].split()[-1])
             proc[i] = ascii.read(raw[i+1:i+zone_length+1])
 
-    
-    # Sort the zones from the .tec file        
+
+    # Sort the zones from the .tec file
     zones = proc.keys()
     zones.sort()
 
@@ -233,8 +233,7 @@ def _read_tec(file):
     for i, zone in enumerate(zones):
 
         for j in xrange(n_vars):
-            a[i,j,:] = proc[zone].field(1+j*2)     
+            a[i,j,:] = proc[zone].field(1+j*2)
             b[i,j,:] = proc[zone].field(2+j*2)
 
     return (a, b, w, raw)
-
