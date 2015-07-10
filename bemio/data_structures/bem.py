@@ -111,6 +111,8 @@ class HydrodynamicData(object):
     self.am = HydrodynamicCoefficients()
     self.rd = HydrodynamicCoefficients()
     self.ex = HydrodynamicCoefficients()
+    self.ex.sc = HydrodynamicCoefficients()
+    self.ex.fk = HydrodynamicCoefficients()
     self.rao = HydrodynamicCoefficients()
     self.ssy = HydrodynamicCoefficients()
 
@@ -339,9 +341,19 @@ class HydrodynamicData(object):
       self.am.all = self.am.all * self.rho
       self.am.inf = self.am.inf * self.rho
       self.am.zero = self.am.zero * self.rho
+      
       self.ex.mag = self.ex.mag * self.rho * self.g
       self.ex.im = self.ex.im * self.rho * self.g
       self.ex.re = self.ex.re * self.rho * self.g
+
+      self.ex.re = self.ex.sc.mag * self.rho * self.g
+      self.ex.re = self.ex.sc.re * self.rho * self.g
+      self.ex.re = self.ex.sc.im * self.rho * self.g
+
+      self.ex.re = self.ex.fk.mag * self.rho * self.g
+      self.ex.re = self.ex.fk.re * self.rho * self.g
+      self.ex.re = self.ex.fk.im * self.rho * self.g
+
 
       for j in xrange(self.rd.all.shape[2]):
 
@@ -359,9 +371,18 @@ class HydrodynamicData(object):
       self.am.all = self.am.all / self.rho
       self.am.inf = self.am.inf / self.rho
       self.am.zero = self.am.zero / self.rho
+
       self.ex.mag = self.ex.mag / (self.rho * self.g)
       self.ex.im = self.ex.im / (self.rho * self.g)
       self.ex.re = self.ex.re / (self.rho * self.g)
+
+      self.ex.mag = self.ex.sc.mag / (self.rho * self.g)
+      self.ex.im = self.ex.sc.re / (self.rho * self.g)
+      self.ex.re = self.ex.sc.im / (self.rho * self.g)
+
+      self.ex.mag = self.ex.fk.mag / (self.rho * self.g)
+      self.ex.im = self.ex.fk.re / (self.rho * self.g)
+      self.ex.re = self.ex.fk.im / (self.rho * self.g)
 
       for j in xrange(self.rd.all.shape[2]):
 
@@ -419,11 +440,13 @@ def generate_file_names(out_file):
   files -- a dictionary of file generate_file_names
   '''
   out_file = os.path.abspath(out_file)
-  (path, file) = os.path.split(out_file)
+  (path, file_name) = os.path.split(out_file)
+  file_name_raw, file_extension =  os.path.splitext(file_name)
 
   files = {}
-  files['out'] = os.path.join(path, file)
-  files['hdf5'] = os.path.join(path, file[0:-4] + '.h5')
-  files['pickle'] = os.path.join(path, file[0:-4] + '.p')
+  files['base_name'] = os.path.join(path, file_name_raw)
+  files['out'] = os.path.join(path, file_name)
+  files['hdf5'] = os.path.join(path, file_name_raw + '.h5')
+  files['pickle'] = os.path.join(path, file_name_raw + '.p')
 
   return files

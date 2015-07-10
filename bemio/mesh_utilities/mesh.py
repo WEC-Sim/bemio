@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """
 This module serves the purpose of reading and writing  surface meshes from the
 following mesh formats:
@@ -65,11 +64,10 @@ class PanelMesh(object):
         self._centroid = None
         self._hydrostatic_stiffness = None
 
-        self.water_density = 1000.
-
         if os.path.isfile(file_name) is False:
 
             raise Exception('The file ' + file_name + ' does not exist')
+
 
     def __repr__(self):
 
@@ -81,16 +79,6 @@ class PanelMesh(object):
 
         return out_string
 
-    # @property
-    # def center_of_gravity(self, ):
-    #     if self._center_of_mass is None:
-    #
-    #         # com = vtk.vtkCenterOfMass()
-    #         # com.SetInputData(self.vtp_mesh)
-    #         # com.Update()
-    #         # self._center_of_mass = com.GetCenter()
-    #
-    #     return self._center_of_mass
 
     @property
     def hydrostatic_stiffness(self, ):
@@ -114,6 +102,7 @@ class PanelMesh(object):
 
         return self._hydrostatic_stiffness
 
+
     @property
     def center_of_buoyancy(self, ):
         if self._center_of_buoyancy is None:
@@ -129,6 +118,7 @@ class PanelMesh(object):
             self._center_of_buoyancy = 1./(2.*self.volume)*np.array([x_b, y_b, z_b])
 
         return self._center_of_buoyancy
+
 
     @property
     def normals(self, ):
@@ -153,6 +143,7 @@ class PanelMesh(object):
 
         return self._normals
 
+
     @property
     def cell_surface_area(self):
         if self._cell_surface_area is None:
@@ -166,6 +157,7 @@ class PanelMesh(object):
 
         return self._cell_surface_area
 
+
     @property
     def volume(self):
         if self._volume is None:
@@ -178,6 +170,7 @@ class PanelMesh(object):
             self._volume = mass_props.GetVolume()
 
         return self._volume
+
 
     @property
     def centroid(self):
@@ -196,11 +189,13 @@ class PanelMesh(object):
 
         return self._centroid
 
+
     @property
     def volume_x(self):
         if self._volume_x is None:
             self._calc_component_vol()
         return self._volume_x
+
 
     @property
     def volume_y(self):
@@ -208,27 +203,14 @@ class PanelMesh(object):
             self._calc_component_vol()
         return self._volume_y
 
+
     @property
     def volume_z(self):
         if self._volume_z is None:
             self._calc_component_vol()
         return self._volume_z
 
-    def _calc_component_vol(self, ):
-        self._volume_x = 0.
-        self._volume_y = 0.
-        self._volume_z = 0.
-        volume = 0.
 
-        for face_n in xrange(self.num_faces):
-            volume += self.normals[face_n]*self.centroid[face_n]*self.cell_surface_area[face_n]
-            # self._volume_x += self.normals[face_n][0]*self.centroid[face_n][0]*self.cell_surface_area[face_n]
-            # self._volume_y += self.normals[face_n][1]*self.centroid[face_n][1]*self.cell_surface_area[face_n]
-            # self._volume_z += self.normals[face_n][2]*self.centroid[face_n][2]*self.cell_surface_area[face_n]
-
-        self._volume_x = volume[0]
-        self._volume_y = volume[1]
-        self._volume_z = volume[2]
 
     @property
     def surface_area(self):
@@ -287,7 +269,6 @@ class PanelMesh(object):
             self.out_file = out_file_base + '.dat'
             self._write_nemoh()
 
-
     def _write_vtp(self):
 
         writer = vtk.vtkXMLPolyDataWriter()
@@ -338,6 +319,25 @@ class PanelMesh(object):
 
         print 'Wrote WAMIT mesh to ' + str(self.out_file)
 
+    def _calc_component_vol(self, ):
+        self._volume_x = 0.
+        self._volume_y = 0.
+        self._volume_z = 0.
+        volume = 0.
+
+        for face_n in xrange(self.num_faces):
+            volume += self.normals[face_n]*self.centroid[face_n]*self.cell_surface_area[face_n]
+
+        self._volume_x = volume[0]
+        self._volume_y = volume[1]
+        self._volume_z = volume[2]
+
+    def calculate_center_of_gravity(self, ):
+        print 'Calculating center of gravity assuming uniform material density'
+        com = vtk.vtkCenterOfMass()
+        com.SetInputData(self.vtp_mesh)
+        com.Update()
+        self.center_of_gravity = com.GetCenter()
 
     def cut(self,plane=2,value=0.0,direction=1):
         self.collapse(plane,value,direction)
@@ -400,38 +400,42 @@ class PanelMesh(object):
 
         vtk.vtkPolyDataMapper().SetResolveCoincidentTopologyToPolygonOffset()
 
-    def paraview(self):
-        '''
-        Visualize the geometry in paraview - this is kind of a hack function
-
-        To use this function make a symbolic link to the paraview.app folder
-        on your system to ~/bin. Or alternatively change this function
-        '''
-
-        file_name = self.file_name[:-3] + 'vis-temp.vtp'
-        if _platform == 'darwin':
-
-
-            self.write_vtp(out_file=file_name)
-            try:
-
-                os.system('open ~/bin/paraview ' + file_name + ' &')
-            except:
-
-                raise Exception('~/bin/paraview not found')
-        else:
-
-            print 'paraview() function only supported for osx'
-
+        def removeSurfacePanels(self):
+        #    tempFaces = []
+        #    count = 0
+        #
+        #    for i in xrange(self.num_faces):
+        #        deleteFace = 0
+        #        p0 = self.faces[i][0]
+        #        p1 = self.faces[i][1]
+        #        p2 = self.faces[i][2]
+        #        p3 = self.faces[i][3]
+        #        z0 = float(self.cords[int(p0)][2])
+        #        z1 = float(self.cords[int(p1)][2])
+        #        z2 = float(self.cords[int(p2)][2])
+        #        z3 = float(self.cords[int(p3)][2])
+        #
+        #        if z0 == 0.:
+        #            deleteFace += 1
+        #        if z1 == 0.:
+        #            deleteFace += 1
+        #        if z2 == 0.:
+        #            deleteFace += 1
+        #        if z3 == 0.:
+        #            deleteFace += 1
+        #        if deleteFace != 4:
+        #            tempFaces.append(self.faces[i])
+        #            count  += 1
+        #    print 'removed ' + str(count) + ' surface faces'
+        #    self.faces = []
+        #    self.faces = tempFaces
+        #    self.num_faces = np.shape(self.faces)[0]
+        #    os.remove(self.files['MeshInputVtp'])
+        #    self.write_nemohMeshInputVtp()
+            pass
 
 def _read_gdf(file_name):
-    '''
-    Function to read WAMIT GDF meshes
-
-    Inputs:
-        file_name: name of the mesh file to be read
-    Outputs:
-        mesh_data: panelMesh object containing the mesh data
+    '''Internal function to read gdf wamit meshes
     '''
 
     with open(file_name,'r') as fid:
@@ -460,15 +464,8 @@ def _read_gdf(file_name):
 
     return mesh_data
 
-
 def _read_stl(file_name):
-    '''
-    Function to read STL meshes
-
-    Inputs:
-        file_name: name of the mesh file to be read
-    Outputs:
-        mesh_data: panelMesh object containing the mesh data
+    '''Internal function to read stl mesh files
     '''
 
     reader = vtk.vtkSTLReader()
@@ -491,15 +488,8 @@ def _read_stl(file_name):
 
     return mesh_data
 
-
 def _read_vtp(file_name):
-    '''
-    Function to read VTK Polydata meshes
-
-    Inputs:
-        file_name: name of the mesh file to be read
-    Outputs:
-        mesh_data: panelMesh object containing the mesh data
+    '''Internal function to read vtp mesh files
     '''
 
     reader = vtk.vtkXMLPolyDataReader()
@@ -529,15 +519,8 @@ def _read_vtp(file_name):
 
     return mesh_data
 
-
 def _read_nemoh(file_name):
-    '''
-    Function to read nemoh meshes
-
-    Inputs:
-        file_name: name of the mesh file to be read
-    Outputs:
-        mesh_data: panelMesh object containing the mesh data
+    '''Internal function to read nemoh mesh
     '''
 
     with open(file_name,'r') as fid:
@@ -567,56 +550,8 @@ def _read_nemoh(file_name):
 
     return mesh_data
 
-def _mk_vtk_id_list(it):
-    '''
-    Function to make vtk id list object
-
-    Inputs:
-        it: list of nodes for the face
-    Outputs:
-        vil: vtk id list
-    '''
-    vil = vtk.vtkIdList()
-
-    for i in it:
-
-        vil.InsertNextId(int(i))
-
-    return vil
 
 
-#def removeSurfacePanels(self):
-#    tempFaces = []
-#    count = 0
-#
-#    for i in xrange(self.num_faces):
-#        deleteFace = 0
-#        p0 = self.faces[i][0]
-#        p1 = self.faces[i][1]
-#        p2 = self.faces[i][2]
-#        p3 = self.faces[i][3]
-#        z0 = float(self.cords[int(p0)][2])
-#        z1 = float(self.cords[int(p1)][2])
-#        z2 = float(self.cords[int(p2)][2])
-#        z3 = float(self.cords[int(p3)][2])
-#
-#        if z0 == 0.:
-#            deleteFace += 1
-#        if z1 == 0.:
-#            deleteFace += 1
-#        if z2 == 0.:
-#            deleteFace += 1
-#        if z3 == 0.:
-#            deleteFace += 1
-#        if deleteFace != 4:
-#            tempFaces.append(self.faces[i])
-#            count  += 1
-#    print 'removed ' + str(count) + ' surface faces'
-#    self.faces = []
-#    self.faces = tempFaces
-#    self.num_faces = np.shape(self.faces)[0]
-#    os.remove(self.files['MeshInputVtp'])
-#    self.write_nemohMeshInputVtp()
 
 def read(file_name):
     file_name = os.path.abspath(file_name)
@@ -647,3 +582,20 @@ def read(file_name):
     mesh_data._create_vtp_mesh()
 
     return mesh_data
+
+def _mk_vtk_id_list(it):
+    '''
+    Function to make vtk id list object
+
+    Inputs:
+        it: list of nodes for the face
+    Outputs:
+        vil: vtk id list
+    '''
+    vil = vtk.vtkIdList()
+
+    for i in it:
+
+        vil.InsertNextId(int(i))
+
+    return vil
