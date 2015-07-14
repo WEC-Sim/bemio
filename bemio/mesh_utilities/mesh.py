@@ -30,6 +30,10 @@ import os
 
 from sys import platform as _platform
 
+from copy import copy
+
+import matplotlib.pyplot as plt
+
 try:
 
     import vtk
@@ -39,6 +43,7 @@ except:
 
     raise Exception('The VTK Python module is required to use this module.')
 
+plt.interactive(True)
 
 class PanelMesh(object):
     ''' Class to handle surface meshes. The class currently handles quad or tri
@@ -49,10 +54,8 @@ class PanelMesh(object):
         self.file_name = file_name
         self.faces = []
         self.points = []
-        self.num_faces = None
-        self.num_points = None
         self.orig_type = None
-        self._center_of_gravity = None
+        self.center_of_gravity = np.array([0., 0., 0.])
         self._center_of_buoyancy = None
         self._volume = None
         self._volume_x = None
@@ -64,6 +67,8 @@ class PanelMesh(object):
         self._centroid = None
         self._hydrostatic_stiffness = None
 
+        self.zero_tol = -1.e-3
+
         if os.path.isfile(file_name) is False:
 
             raise Exception('The file ' + file_name + ' does not exist')
@@ -71,23 +76,35 @@ class PanelMesh(object):
 
     def __repr__(self):
 
-        out_string = 'File name: ' + str(self.file_name) + \
-        '\nNumber of points: ' + str(self.num_points) + \
-        '\nNumber of faces: ' + str(self.num_faces) + \
+        out_string = 'Object type: bemio.mesh_utilities.mesh.PanelMesh' + \
+        '\nFile name: ' + str(self.file_name) + \
+        '\nNumber of points: ' + str(self.points.shape[0]) + \
+        '\nNumber of faces: ' + str(self.faces.shape[0]) + \
         '\nOriginal mesh type: ' + str(self.orig_type) + \
-        '\nObject type: bemio.mesh_utilities.mesh.PanelMesh'
+        '\nCenter of mass: ' + str(self.center_of_gravity) + \
+        '\nCenter of buoyancy: ' + str(self.center_of_buoyancy) + \
+        '\nMesh volume [volume_x, volume_y, volume_z]: [' + str(self.volume_x) + ', ' + str(self.volume_y) + ', ' + str(self.volume_z) + ']' + \
+        '\nMesh surface area: ' + str(self.surface_area) + \
+        '\nHydrostatic stiffness: ' + \
+        '\n\tC[3,3], C[3,4], C[3,5]: '  +  str(self.hydrostatic_stiffness[2,2]) + ', ' + str(self.hydrostatic_stiffness[2,3]) + ', ' + str(self.hydrostatic_stiffness[2,4]) + \
+        '\n\tC[4,4], C[4,5], C[4,6]: '  +  str(self.hydrostatic_stiffness[3,3]) + ', ' + str(self.hydrostatic_stiffness[3,4]) + ', ' + str(self.hydrostatic_stiffness[3,5]) + \
+        '\n\tC[5,5], C[5,6]:         '  +  str(self.hydrostatic_stiffness[4,4]) + ', ' + str(self.hydrostatic_stiffness[4,5])
 
         return out_string
 
 
     @property
     def hydrostatic_stiffness(self, ):
+
         if self._hydrostatic_stiffness is None:
 
             self._hydrostatic_stiffness = np.zeros([6,6])
-
             for face_n,face in enumerate(self.faces):
-                if np.sum(self.points[face[0]][2]+self.points[face[1]][2]+self.points[face[2]][2]+self.points[face[3]][2]) != 0.:
+
+                if self.points[face[0]][2] <= self.zero_tol or \
+                self.points[face[1]][2] <= self.zero_tol or \
+                self.points[face[2]][2] <= self.zero_tol or \
+                self.points[face[3]][2] <= self.zero_tol:
                     self._hydrostatic_stiffness[2,2] += -self.normals[face_n][2] * self.cell_surface_area[face_n]
                     self._hydrostatic_stiffness[2,3] += -self.centroid[face_n][1] * self.normals[face_n][2] * self.cell_surface_area[face_n]
                     self._hydrostatic_stiffness[2,4] += self.centroid[face_n][0] * self.normals[face_n][2] * self.cell_surface_area[face_n]
@@ -100,8 +117,9 @@ class PanelMesh(object):
             self._hydrostatic_stiffness[4,4] += self.volume * self.center_of_buoyancy[2] - self.volume * self.center_of_gravity[2]
             self._hydrostatic_stiffness[4,5] += -self.volume * self.center_of_buoyancy[1] + self.volume * self.center_of_gravity[1]
 
-        return self._hydrostatic_stiffness
+            print 'Calculated hydorstatic stiffness'
 
+        return self._hydrostatic_stiffness
 
     @property
     def center_of_buoyancy(self, ):
@@ -111,11 +129,17 @@ class PanelMesh(object):
             z_b = 0.
             self._center_of_buoyancy = 0.
 
-            for face_n in xrange(self.num_faces):
-                x_b += self.normals[face_n][0]*self.centroid[face_n][0]**2*self.cell_surface_area[face_n]
-                y_b += self.normals[face_n][1]*self.centroid[face_n][1]**2*self.cell_surface_area[face_n]
-                z_b += self.normals[face_n][2]*self.centroid[face_n][2]**2*self.cell_surface_area[face_n]
+            for face_n,face in enumerate(self.faces):
+                if self.points[face[0]][2] <= self.zero_tol or \
+                self.points[face[1]][2] <= self.zero_tol or \
+                self.points[face[2]][2] <= self.zero_tol or \
+                self.points[face[3]][2] <= self.zero_tol:
+                    x_b += self.normals[face_n][0]*self.centroid[face_n][0]**2*self.cell_surface_area[face_n]
+                    y_b += self.normals[face_n][1]*self.centroid[face_n][1]**2*self.cell_surface_area[face_n]
+                    z_b += self.normals[face_n][2]*self.centroid[face_n][2]**2*self.cell_surface_area[face_n]
             self._center_of_buoyancy = 1./(2.*self.volume)*np.array([x_b, y_b, z_b])
+
+            print 'Calculated the center of buoyancy'
 
         return self._center_of_buoyancy
 
@@ -124,7 +148,7 @@ class PanelMesh(object):
     def normals(self, ):
         if self._normals is None:
             self._normals = {}
-            for face_n in xrange(self.num_faces):
+            for face_n in xrange(self.faces.shape[0]):
                 a = self.points[self.faces[face_n][1]] - self.points[self.faces[face_n][0]]
                 b = self.points[self.faces[face_n][2]] - self.points[self.faces[face_n][1]]
                 self._normals[face_n] = np.cross(a,b)
@@ -141,6 +165,8 @@ class PanelMesh(object):
 
                 self._normals[face_n] /= np.linalg.norm(self._normals[face_n])
 
+            print 'Calculated mesh cell normals'
+
         return self._normals
 
 
@@ -148,12 +174,14 @@ class PanelMesh(object):
     def cell_surface_area(self):
         if self._cell_surface_area is None:
             self._cell_surface_area = {}
-            for face_n in xrange(self.num_faces):
+            for face_n in xrange(self.faces.shape[0]):
                 a = self.points[self.faces[face_n][1]] - self.points[self.faces[face_n][0]]
                 b = self.points[self.faces[face_n][2]] - self.points[self.faces[face_n][1]]
                 c = self.points[self.faces[face_n][3]] - self.points[self.faces[face_n][2]]
                 d = self.points[self.faces[face_n][0]] - self.points[self.faces[face_n][3]]
                 self._cell_surface_area[face_n] = 1./2. * ( np.linalg.norm(np.cross(a,b)) + np.linalg.norm(np.cross(c,d)) )
+
+            print 'Calculated surface cell area'
 
         return self._cell_surface_area
 
@@ -168,6 +196,8 @@ class PanelMesh(object):
             mass_props = vtk.vtkMassProperties()
             mass_props.SetInputDataObject(tri_mesh)
             self._volume = mass_props.GetVolume()
+
+            print 'Calculated mesh volume using VTK library'
 
         return self._volume
 
@@ -211,16 +241,19 @@ class PanelMesh(object):
         return self._volume_z
 
 
-
     @property
     def surface_area(self):
-        tri_converter = vtk.vtkTriangleFilter()
-        tri_converter.SetInputDataObject(self.vtp_mesh)
-        tri_converter.Update()
-        tri_mesh = tri_converter.GetOutput()
-        mass_props = vtk.vtkMassProperties()
-        mass_props.SetInputDataObject(tri_mesh)
-        self._surface_area = mass_props.GetSurfaceArea()
+        if self._surface_area is None:
+            tri_converter = vtk.vtkTriangleFilter()
+            tri_converter.SetInputDataObject(self.vtp_mesh)
+            tri_converter.Update()
+            tri_mesh = tri_converter.GetOutput()
+            mass_props = vtk.vtkMassProperties()
+            mass_props.SetInputDataObject(tri_mesh)
+            self._surface_area = mass_props.GetSurfaceArea()
+
+            print 'Calculated mesh surface area'
+
         return self._surface_area
 
     def _create_vtp_mesh(self):
@@ -228,12 +261,12 @@ class PanelMesh(object):
         points  = vtk.vtkPoints()
         polys   = vtk.vtkCellArray()
 
-        for i in range(self.num_points):
+        for i in range(self.points.shape[0]):
 
             points.InsertPoint(i, self.points[i])
 
 
-        for i in range(self.num_faces):
+        for i in range(self.faces.shape[0]):
 
             polys.InsertNextCell(_mk_vtk_id_list(self.faces[i]))
 
@@ -243,7 +276,7 @@ class PanelMesh(object):
     def _collapse(self,plane=2,value=0.0,direction=1):
         '''Collapse points
         '''
-        for i in xrange(self.num_faces):
+        for i in xrange(self.faces.shape[0]):
 
             for j in xrange(self.faces[i].size):
 
@@ -255,18 +288,16 @@ class PanelMesh(object):
 
     def write(self,mesh_format='VTK'):
 
-        out_file_base = os.path.splitext(self.file_name)[0] + '_bemio_output'
-
         if mesh_format == 'VTK' or mesh_format == 'VTP':
-            self.out_file = out_file_base + '.vtp'
+            self.out_file = self.out_file_base + '.vtp'
             self._write_vtp()
 
         if mesh_format == 'WAMIT' or mesh_format == 'GDF':
-            self.out_file = out_file_base + '.gdf'
+            self.out_file = self.out_file_base + '.gdf'
             self._write_gdf()
 
         if mesh_format == 'NEMOH':
-            self.out_file = out_file_base + '.dat'
+            self.out_file = self.out_file_base + '.dat'
             self._write_nemoh()
 
     def _write_vtp(self):
@@ -284,12 +315,12 @@ class PanelMesh(object):
         with open(self.out_file,'w') as fid:
             fid.write('2 0') # This should not be hard coded
             fid.write('\n')
-            for i in xrange(self.num_points):
+            for i in xrange(self.points.shape[0]):
                 fid.write(str(i+1) + ' ' +str(self.points[i]).replace('[','').replace(']',''))
                 fid.write('\n')
             fid.write('0 0 0 0')
             fid.write('\n')
-            for i in xrange(self.num_faces):
+            for i in xrange(self.faces.shape[0]):
                 fid.write(str(self.faces[i]+1).replace('[','').replace(']','').replace('.',''))
                 fid.write('\n')
             fid.write('0 0 0 0')
@@ -306,7 +337,7 @@ class PanelMesh(object):
             fid.write('\n')
             fid.write('0  0    ISX  ISY')
             fid.write('\n')
-            fid.write(str(self.num_faces))
+            fid.write(str(self.faces.shape[0]))
             fid.write('\n')
             for i,face in enumerate(self.faces):
                 if np.size(face) is 4: # if the mesh element is a quad
@@ -325,19 +356,23 @@ class PanelMesh(object):
         self._volume_z = 0.
         volume = 0.
 
-        for face_n in xrange(self.num_faces):
+        for face_n in xrange(self.faces.shape[0]):
             volume += self.normals[face_n]*self.centroid[face_n]*self.cell_surface_area[face_n]
 
         self._volume_x = volume[0]
         self._volume_y = volume[1]
         self._volume_z = volume[2]
 
+        print 'Calculated x y and z mesh volumes'
+
     def calculate_center_of_gravity(self, ):
-        print 'Calculating center of gravity assuming uniform material density'
+
         com = vtk.vtkCenterOfMass()
         com.SetInputData(self.vtp_mesh)
         com.Update()
         self.center_of_gravity = com.GetCenter()
+
+        print 'Calculated center of gravity assuming uniform material density'
 
     def cut(self,plane=2,value=0.0,direction=1):
         self.collapse(plane,value,direction)
@@ -345,7 +380,7 @@ class PanelMesh(object):
         tempFaces = []
         count = 0
 
-        for i in xrange(self.num_faces):
+        for i in xrange(self.faces.shape[0]):
 
            delete_face = 0
 
@@ -363,7 +398,7 @@ class PanelMesh(object):
 
         print 'removed ' + str(count) + ' surface faces'
         self.faces = tempFaces
-        self.num_faces = self.faces.shape[0]
+        self.faces.shape[0] = self.faces.shape[0]
 
     def view(self,color=[0.5,1,0.5],opacity=1.0):
 
@@ -400,39 +435,7 @@ class PanelMesh(object):
 
         vtk.vtkPolyDataMapper().SetResolveCoincidentTopologyToPolygonOffset()
 
-        def removeSurfacePanels(self):
-        #    tempFaces = []
-        #    count = 0
-        #
-        #    for i in xrange(self.num_faces):
-        #        deleteFace = 0
-        #        p0 = self.faces[i][0]
-        #        p1 = self.faces[i][1]
-        #        p2 = self.faces[i][2]
-        #        p3 = self.faces[i][3]
-        #        z0 = float(self.cords[int(p0)][2])
-        #        z1 = float(self.cords[int(p1)][2])
-        #        z2 = float(self.cords[int(p2)][2])
-        #        z3 = float(self.cords[int(p3)][2])
-        #
-        #        if z0 == 0.:
-        #            deleteFace += 1
-        #        if z1 == 0.:
-        #            deleteFace += 1
-        #        if z2 == 0.:
-        #            deleteFace += 1
-        #        if z3 == 0.:
-        #            deleteFace += 1
-        #        if deleteFace != 4:
-        #            tempFaces.append(self.faces[i])
-        #            count  += 1
-        #    print 'removed ' + str(count) + ' surface faces'
-        #    self.faces = []
-        #    self.faces = tempFaces
-        #    self.num_faces = np.shape(self.faces)[0]
-        #    os.remove(self.files['MeshInputVtp'])
-        #    self.write_nemohMeshInputVtp()
-            pass
+
 
 def _read_gdf(file_name):
     '''Internal function to read gdf wamit meshes
@@ -460,8 +463,7 @@ def _read_gdf(file_name):
 
         mesh_data.faces.append(np.array([i-4,i-3,i-2,i-1]))
 
-    print 'Successfully read WAMIT mesh ' + str(file_name)
-
+    mesh_data.faces = np.array(mesh_data.faces)
     return mesh_data
 
 def _read_stl(file_name):
@@ -481,10 +483,6 @@ def _read_stl(file_name):
         mesh_data.faces.append(np.array([n,n+1,n+2,n+2]))
         mesh_data.points.append(np.array(vtk_to_numpy(reader.GetOutput().GetCell(i).GetPoints().GetData())))
     mesh_data.points = np.array(mesh_data.points).reshape([mesh_data.num_faces*3,3])
-
-
-    print 'Successfully read STL mesh ' + str(file_name)
-
 
     return mesh_data
 
@@ -513,9 +511,8 @@ def _read_vtp(file_name):
         for i in xrange(numCellPoints):
             idsTemp.append(int(c.GetPointId(i)))
         mesh_data.faces.append(np.array(idsTemp))
+        mesh_data.faces = np.array(mesh_data.faces)
 
-
-    print 'Successfully read VTP mesh ' + str(file_name)
 
     return mesh_data
 
@@ -546,14 +543,13 @@ def _read_nemoh(file_name):
     mesh_data.num_points = np.shape(mesh_data.points)[0]
     mesh_data.num_faces = np.shape(mesh_data.faces)[0]
 
-    print 'Successfully read NEMOH mesh ' + str(file_name)
-
     return mesh_data
 
 
 
 
-def read(file_name):
+def read(file_name, translate=None, translate_cog=True):
+    print '\nReading mesh file: ' + str(file_name)
     file_name = os.path.abspath(file_name)
     (f_name,f_ext) = os.path.splitext(file_name)
 
@@ -579,7 +575,22 @@ def read(file_name):
     else:
         raise Exception(f_ext + ' is an unsupported file mesh file type')
 
+    # Translate the mesh points as specified by the user
+    if translate is not None:
+
+        mesh_data.points += translate
+
+        if translate_cog is True:
+
+            mesh_data.center_of_gravity += translate
+
+        print 'Translated mesh by: ' + str(translate) + '\nCenter of gravity is: ' + str(mesh_data.center_of_gravity)
+
     mesh_data._create_vtp_mesh()
+
+    mesh_data.out_file_base = os.path.splitext(file_name)[0] + '_bemio_output'
+
+    print 'Successfully read mesh file: ' + str(file_name)
 
     return mesh_data
 
@@ -599,3 +610,38 @@ def _mk_vtk_id_list(it):
         vil.InsertNextId(int(i))
 
     return vil
+
+def cut_mesh(mesh_obj, plane_ind=2, plane_loc=-1e-5, cut_dir=1.):
+    '''Function to remove cells on one side of plane
+    '''
+    mesh_obj_new = copy(mesh_obj)
+    tempFaces = []
+    mesh_obj_new.removed_faces = []
+    mesh_obj_new.removed_points = []
+
+    for face_n,face in enumerate(mesh_obj_new.faces):
+        if mesh_obj_new.points[face[0]][plane_ind] <= plane_loc*cut_dir or \
+        mesh_obj_new.points[face[1]][plane_ind] <= plane_loc*cut_dir or \
+        mesh_obj_new.points[face[2]][plane_ind] <= plane_loc*cut_dir or \
+        mesh_obj_new.points[face[3]][plane_ind] <= plane_loc*cut_dir:
+
+            tempFaces.append(face)
+
+        else:
+            mesh_obj_new.removed_faces.append(face)
+            mesh_obj_new.removed_points.append(mesh_obj_new.points[face[0]])
+            mesh_obj_new.removed_points.append(mesh_obj_new.points[face[1]])
+            mesh_obj_new.removed_points.append(mesh_obj_new.points[face[2]])
+            mesh_obj_new.removed_points.append(mesh_obj_new.points[face[3]])
+
+
+    mesh_obj_new.faces = np.array(tempFaces)
+    mesh_obj_new.removed_faces = np.array(mesh_obj_new.removed_faces)
+    mesh_obj_new.removed_points = np.array(mesh_obj_new.removed_points)
+    mesh_obj_new._create_vtp_mesh()
+
+    mesh_obj_new.out_file_base = os.path.splitext(mesh_obj_new.file_name)[0] + '_cut_mesh_bemio_output'
+
+    print 'Cut mesh in direction [' + str(plane_ind) + '] in direction [' + str(cut_dir) + '] at the location [' + str(cut_dir) + ']'
+
+    return mesh_obj_new
