@@ -642,6 +642,6 @@ def cut_mesh(mesh_obj, plane_ind=2, plane_loc=-1e-5, cut_dir=1.):
 
     mesh_obj_new.out_file_base = os.path.splitext(mesh_obj_new.file_name)[0] + '_cut_mesh_bemio_output'
 
-    print 'Cut mesh in direction [' + str(plane_ind) + '] in direction [' + str(cut_dir) + '] at the location [' + str(cut_dir) + ']'
+    print 'Cut mesh in direction [' + str(plane_ind) + '] in direction [' + str(cut_dir) + '] at the location [' + str(plane_loc) + ']'
 
     return mesh_obj_new
