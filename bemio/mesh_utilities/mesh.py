@@ -26,24 +26,26 @@ Author: Michael Lawson
 """
 import numpy as np
 
+import imp
+
 import os
 
 from sys import platform as _platform
 
 from copy import copy
 
-import matplotlib.pyplot as plt
-
 try:
 
     import vtk
     from vtk.util.numpy_support import vtk_to_numpy
 
+
 except:
 
-    raise Exception('The VTK Python module is required to use this module.')
+    print 'The VTK Python module is required for a significant amnount of functionality in this module. Many functions will not be available for use.'
 
-plt.interactive(True)
+class VTK_Exception(Exception):
+    pass
 
 class PanelMesh(object):
     ''' Class to handle surface meshes. The class currently handles quad or tri
@@ -62,12 +64,22 @@ class PanelMesh(object):
         self._volume_y = None
         self._volume_z = None
         self._surface_area = None
+        self._surface_area_vtk = None
         self._normals = None
         self._cell_surface_area = None
         self._centroid = None
         self._hydrostatic_stiffness = None
 
         self.zero_tol = -1.e-3
+
+        try:
+
+            imp.find_module('vtk')
+            self.VTK_installed = True
+
+        except :
+
+            self.VTK_installed = False
 
         if os.path.isfile(file_name) is False:
 
@@ -185,9 +197,21 @@ class PanelMesh(object):
 
         return self._cell_surface_area
 
+    @property
+    def surface_area(self):
+        if self._surface_area is None:
+
+            self._surface_area = sum(self.cell_surface_area.values())
+
+            print 'Calculated surface area'
+
+        return self._surface_area
 
     @property
-    def volume(self):
+    def volume_vtk(self):
+        if self.VTK_installed is False:
+            raise VTK_Exception('VTK must be installed to access the volume_vtk property')
+
         if self._volume is None:
             tri_converter = vtk.vtkTriangleFilter()
             tri_converter.SetInputDataObject(self.vtp_mesh)
@@ -200,7 +224,6 @@ class PanelMesh(object):
             print 'Calculated mesh volume using VTK library'
 
         return self._volume
-
 
     @property
     def centroid(self):
@@ -242,36 +265,41 @@ class PanelMesh(object):
 
 
     @property
-    def surface_area(self):
-        if self._surface_area is None:
+    def surface_area_vtk(self):
+        if self.VTK_installed is False:
+            raise VTK_Exception('VTK must be installed to access the surface_area_vtk property')
+        if self._surface_area_vtk is None:
             tri_converter = vtk.vtkTriangleFilter()
             tri_converter.SetInputDataObject(self.vtp_mesh)
             tri_converter.Update()
             tri_mesh = tri_converter.GetOutput()
             mass_props = vtk.vtkMassProperties()
             mass_props.SetInputDataObject(tri_mesh)
-            self._surface_area = mass_props.GetSurfaceArea()
+            self._surface_area_vtk = mass_props.GetSurfaceArea()
 
             print 'Calculated mesh surface area'
 
-        return self._surface_area
+        return self._surface_area_vtk
 
     def _create_vtp_mesh(self):
-        self.vtp_mesh    = vtk.vtkPolyData()
-        points  = vtk.vtkPoints()
-        polys   = vtk.vtkCellArray()
 
-        for i in range(self.points.shape[0]):
+        if self.VTK_installed is True:
 
-            points.InsertPoint(i, self.points[i])
+            self.vtp_mesh    = vtk.vtkPolyData()
+            points  = vtk.vtkPoints()
+            polys   = vtk.vtkCellArray()
+
+            for i in range(self.points.shape[0]):
+
+                points.InsertPoint(i, self.points[i])
 
 
-        for i in range(self.faces.shape[0]):
+            for i in range(self.faces.shape[0]):
 
-            polys.InsertNextCell(_mk_vtk_id_list(self.faces[i]))
+                polys.InsertNextCell(_mk_vtk_id_list(self.faces[i]))
 
-        self.vtp_mesh.SetPoints(points)
-        self.vtp_mesh.SetPolys(polys)
+            self.vtp_mesh.SetPoints(points)
+            self.vtp_mesh.SetPolys(polys)
 
     def _collapse(self,plane=2,value=0.0,direction=1):
         '''Collapse points
@@ -301,6 +329,9 @@ class PanelMesh(object):
             self._write_nemoh()
 
     def _write_vtp(self):
+        if self.VTK_installed is False:
+
+            raise VTK_Exception('VTK must be installed write VTP/VTK meshes, please select a different output mesh_format')
 
         writer = vtk.vtkXMLPolyDataWriter()
         writer.SetFileName(self.out_file)
@@ -401,6 +432,8 @@ class PanelMesh(object):
         self.faces.shape[0] = self.faces.shape[0]
 
     def view(self,color=[0.5,1,0.5],opacity=1.0):
+        if self.VTK_installed is False:
+            raise VTK_Exception('VTK must be installed to use the view function')
 
         # Create a mapper and load VTP data into the mapper
         mapper=vtk.vtkPolyDataMapper()
@@ -464,6 +497,7 @@ def _read_gdf(file_name):
         mesh_data.faces.append(np.array([i-4,i-3,i-2,i-1]))
 
     mesh_data.faces = np.array(mesh_data.faces)
+
     return mesh_data
 
 def _read_stl(file_name):
@@ -489,6 +523,8 @@ def _read_stl(file_name):
 def _read_vtp(file_name):
     '''Internal function to read vtp mesh files
     '''
+    if self.VTK_installed is False:
+        raise VTK_Exception('VTK must be installed to reade VTK/VTP meshes')
 
     reader = vtk.vtkXMLPolyDataReader()
     reader.SetFileName(file_name)
@@ -586,8 +622,6 @@ def read(file_name, translate=None, translate_cog=True):
 
         print 'Translated mesh by: ' + str(translate) + '\nCenter of gravity is: ' + str(mesh_data.center_of_gravity)
 
-    mesh_data._create_vtp_mesh()
-
     mesh_data.out_file_base = os.path.splitext(file_name)[0] + '_bemio_output'
 
     print 'Successfully read mesh file: ' + str(file_name)
@@ -610,6 +644,12 @@ def _mk_vtk_id_list(it):
         vil.InsertNextId(int(i))
 
     return vil
+
+def collapse_to_plane(mesh_obj, plane_ind=2, plane_loc=-1e-5, cut_dir=1.):
+    '''Function to collapse points to a given plane
+    '''
+    mesh_obj_new = copy(mesh_obj)
+
 
 def cut_mesh(mesh_obj, plane_ind=2, plane_loc=-1e-5, cut_dir=1.):
     '''Function to remove cells on one side of plane

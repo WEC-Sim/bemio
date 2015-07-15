@@ -161,7 +161,7 @@ class HydrodynamicData(object):
   def calc_ss_excitation(self):
     raise Exception('The calc_ss_excitation function is not yet implemented')
 
-  def calc_irf_radiation(self, t_end=100, n_t=1001, n_w=1001):
+  def calc_irf_radiation(self, t_end=20, n_t=1001, n_w=1001):
     '''Function to calculate the wave radiation impulse response function
     '''
 
@@ -341,18 +341,20 @@ class HydrodynamicData(object):
       self.am.all = self.am.all * self.rho
       self.am.inf = self.am.inf * self.rho
       self.am.zero = self.am.zero * self.rho
-      
+
       self.ex.mag = self.ex.mag * self.rho * self.g
-      self.ex.im = self.ex.im * self.rho * self.g
       self.ex.re = self.ex.re * self.rho * self.g
+      self.ex.im = self.ex.im * self.rho * self.g
 
-      self.ex.re = self.ex.sc.mag * self.rho * self.g
-      self.ex.re = self.ex.sc.re * self.rho * self.g
-      self.ex.re = self.ex.sc.im * self.rho * self.g
+      if hasattr(self.ex.sc,'mag') is True:
+          self.ex.sc.mag = self.ex.sc.mag * self.rho * self.g
+          self.ex.sc.re = self.ex.sc.re * self.rho * self.g
+          self.ex.sc.im = self.ex.sc.im * self.rho * self.g
 
-      self.ex.re = self.ex.fk.mag * self.rho * self.g
-      self.ex.re = self.ex.fk.re * self.rho * self.g
-      self.ex.re = self.ex.fk.im * self.rho * self.g
+      if hasattr(self.ex.fk,'mag') is True:
+          self.ex.fk.mag = self.ex.fk.mag * self.rho * self.g
+          self.ex.fk.re = self.ex.fk.re * self.rho * self.g
+          self.ex.fk.im = self.ex.fk.im * self.rho * self.g
 
 
       for j in xrange(self.rd.all.shape[2]):
@@ -373,16 +375,16 @@ class HydrodynamicData(object):
       self.am.zero = self.am.zero / self.rho
 
       self.ex.mag = self.ex.mag / (self.rho * self.g)
-      self.ex.im = self.ex.im / (self.rho * self.g)
       self.ex.re = self.ex.re / (self.rho * self.g)
+      self.ex.im = self.ex.im / (self.rho * self.g)
 
-      self.ex.mag = self.ex.sc.mag / (self.rho * self.g)
-      self.ex.im = self.ex.sc.re / (self.rho * self.g)
-      self.ex.re = self.ex.sc.im / (self.rho * self.g)
+      self.ex.sc.mag = self.ex.sc.mag / (self.rho * self.g)
+      self.ex.sc.re = self.ex.sc.re / (self.rho * self.g)
+      self.ex.sc.im = self.ex.sc.im / (self.rho * self.g)
 
-      self.ex.mag = self.ex.fk.mag / (self.rho * self.g)
-      self.ex.im = self.ex.fk.re / (self.rho * self.g)
-      self.ex.re = self.ex.fk.im / (self.rho * self.g)
+      self.ex.fk.mag = self.ex.fk.mag / (self.rho * self.g)
+      self.ex.fk.re = self.ex.fk.re / (self.rho * self.g)
+      self.ex.fk.im = self.ex.fk.im / (self.rho * self.g)
 
       for j in xrange(self.rd.all.shape[2]):
 

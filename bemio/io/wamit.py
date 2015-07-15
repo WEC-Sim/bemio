@@ -350,12 +350,6 @@ class WamitOutput(object):
                     wave_dir_hold =  scattering[line_count][1]
                     while line_count < scattering.shape[0] and scattering[line_count][1] == wave_dir_hold:
                         comp = int(scattering[line_count][2])-1
-                        print 'freq_n ' + str(freq_n)
-                        print 'beta_n ' + str(beta_n)
-                        print 'comp ' + str(comp)
-                        print 'line_count ' + str(line_count)
-
-
                         sc_mag[comp,beta_n,freq_n] = scattering[line_count][3]
                         sc_phase[comp,beta_n,freq_n] = scattering[line_count][4]
                         sc_re[comp,beta_n,freq_n] = scattering[line_count][5]
@@ -380,12 +374,6 @@ class WamitOutput(object):
                     wave_dir_hold =  fk[line_count][1]
                     while line_count < fk.shape[0] and fk[line_count][1] == wave_dir_hold:
                         comp = int(fk[line_count][2])-1
-                        print 'freq_n ' + str(freq_n)
-                        print 'beta_n ' + str(beta_n)
-                        print 'comp ' + str(comp)
-                        print 'line_count ' + str(line_count)
-
-
                         fk_mag[comp,beta_n,freq_n] = fk[line_count][3]
                         fk_phase[comp,beta_n,freq_n] = fk[line_count][4]
                         fk_re[comp,beta_n,freq_n] = fk[line_count][5]
