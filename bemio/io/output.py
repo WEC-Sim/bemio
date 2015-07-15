@@ -61,21 +61,23 @@ def write_hdf5(data_obj,out_file=None):
                 irf_rad_l = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/impulse_response_fun/L',data=data_obj.data[key].rd.irf.L)
                 irf_rad_l.attrs['units'] = ''
                 irf_rad_l.attrs['description'] = 'Time derivative of the impulse response function'
-
-                for m in xrange(data_obj.data[key].am.all.shape[0]):
-
-                    for n in xrange(data_obj.data[key].am.all.shape[1]):
-
-                        irf_rad_l_comp = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/impulse_response_fun/comps/L/comp_' + str(m+1) + '_' + str(n+1),data=data_obj.data[key].rd.irf.L[m,n,:])
-                        irf_rad_l_comp.attrs['units'] = ''
-                        irf_rad_l_comp.attrs['description'] = 'Components of the IRF'
-
-                        irf_rad_k_comp = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/impulse_response_fun/comps/K/comp_' + str(m+1) + '_' + str(n+1),data=data_obj.data[key].rd.irf.K[m,n,:])
-                        irf_rad_k_comp.attrs['units'] = ''
-                        irf_rad_k_comp.attrs['description'] = 'Components of the ddt(IRF): K'
             except:
+                pass
 
-                print '\tRadiation IRF functions for ' + data_obj.data[key].name + ' were not written.'
+            for m in xrange(data_obj.data[key].am.all.shape[0]):
+
+                for n in xrange(data_obj.data[key].am.all.shape[1]):
+
+                    irf_rad_l_comp = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/impulse_response_fun/comps/L/comp_' + str(m+1) + '_' + str(n+1),data=np.array([data_obj.data[key].rd.irf.t,data_obj.data[key].rd.irf.L[m,n,:]]).transpose())
+                    irf_rad_l_comp.attrs['units'] = ''
+                    irf_rad_l_comp.attrs['description'] = 'Components of the IRF'
+
+                    irf_rad_k_comp = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/impulse_response_fun/comps/K/comp_' + str(m+1) + '_' + str(n+1),data=data_obj.data[key].rd.irf.K[m,n,:])
+                    irf_rad_k_comp.attrs['units'] = ''
+                    irf_rad_k_comp.attrs['description'] = 'Components of the ddt(IRF): K'
+            # except:
+            #
+            #     print '\tRadiation IRF functions for ' + data_obj.data[key].name + ' were not written.'
 
             # Excitation IRF
             try:
@@ -170,37 +172,41 @@ def write_hdf5(data_obj,out_file=None):
             exIm.attrs['description'] = 'Imaginary component of excitation force'
 
             # Scattering and FK forces
-            ex_sc_Mag = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/excitation/scattering/mag',data=data_obj.data[key].ex.sc.mag)
-            ex_sc_Mag.attrs['units'] = ''
-            ex_sc_Mag.attrs['description'] = 'Magnitude of excitation force'
+            try:
+                ex_sc_Mag = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/excitation/scattering/mag',data=data_obj.data[key].ex.sc.mag)
+                ex_sc_Mag.attrs['units'] = ''
+                ex_sc_Mag.attrs['description'] = 'Magnitude of excitation force'
 
-            ex_sc_Phase = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/excitation/scattering/phase',data=data_obj.data[key].ex.sc.phase)
-            ex_sc_Phase.attrs['units'] = 'rad'
-            ex_sc_Phase.attrs['description'] = 'Phase angle of excitation force'
+                ex_sc_Phase = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/excitation/scattering/phase',data=data_obj.data[key].ex.sc.phase)
+                ex_sc_Phase.attrs['units'] = 'rad'
+                ex_sc_Phase.attrs['description'] = 'Phase angle of excitation force'
 
-            ex_sc_Re = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/excitation/scattering/re',data=data_obj.data[key].ex.sc.re)
-            ex_sc_Re.attrs['units'] = ''
-            ex_sc_Re.attrs['description'] = 'Real component of excitation force'
+                ex_sc_Re = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/excitation/scattering/re',data=data_obj.data[key].ex.sc.re)
+                ex_sc_Re.attrs['units'] = ''
+                ex_sc_Re.attrs['description'] = 'Real component of excitation force'
 
-            ex_sc_Im = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/excitation/scattering/im',data=data_obj.data[key].ex.sc.im)
-            ex_sc_Im.attrs['units'] = ''
-            ex_sc_Im.attrs['description'] = 'Imaginary component of excitation force'
+                ex_sc_Im = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/excitation/scattering/im',data=data_obj.data[key].ex.sc.im)
+                ex_sc_Im.attrs['units'] = ''
+                ex_sc_Im.attrs['description'] = 'Imaginary component of excitation force'
 
-            ex_fk_Mag = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/excitation/froud_krylof/mag',data=data_obj.data[key].ex.fk.mag)
-            ex_fk_Mag.attrs['units'] = ''
-            ex_fk_Mag.attrs['description'] = 'Magnitude of excitation force'
+                ex_fk_Mag = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/excitation/froud_krylof/mag',data=data_obj.data[key].ex.fk.mag)
+                ex_fk_Mag.attrs['units'] = ''
+                ex_fk_Mag.attrs['description'] = 'Magnitude of excitation force'
 
-            ex_fk_Phase = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/excitation/froud_krylof/phase',data=data_obj.data[key].ex.fk.phase)
-            ex_fk_Phase.attrs['units'] = 'rad'
-            ex_fk_Phase.attrs['description'] = 'Phase angle of excitation force'
+                ex_fk_Phase = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/excitation/froud_krylof/phase',data=data_obj.data[key].ex.fk.phase)
+                ex_fk_Phase.attrs['units'] = 'rad'
+                ex_fk_Phase.attrs['description'] = 'Phase angle of excitation force'
 
-            ex_fk_Re = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/excitation/froud_krylof/re',data=data_obj.data[key].ex.fk.re)
-            ex_fk_Re.attrs['units'] = ''
-            ex_fk_Re.attrs['description'] = 'Real component of excitation force'
+                ex_fk_Re = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/excitation/froud_krylof/re',data=data_obj.data[key].ex.fk.re)
+                ex_fk_Re.attrs['units'] = ''
+                ex_fk_Re.attrs['description'] = 'Real component of excitation force'
 
-            ex_fk_Im = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/excitation/froud_krylof/im',data=data_obj.data[key].ex.fk.im)
-            ex_fk_Im.attrs['units'] = ''
-            ex_fk_Im.attrs['description'] = 'Imaginary component of excitation force'
+                ex_fk_Im = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/excitation/froud_krylof/im',data=data_obj.data[key].ex.fk.im)
+                ex_fk_Im.attrs['units'] = ''
+                ex_fk_Im.attrs['description'] = 'Imaginary component of excitation force'
+
+            except:
+                pass
 
             # Write added mass information
             amInf = f.create_dataset('body' + str(key+1) + '/hydro_coeffs/added_mass/inf_freq',data=data_obj.data[key].am.inf)
@@ -258,3 +264,6 @@ def write_hdf5(data_obj,out_file=None):
 
         code = f.create_dataset('simulation_parameters/bem_code',data=data_obj.data[key].bem_code)
         code.attrs['description'] = 'BEM code'
+
+        dimensional = f.create_dataset('simulation_parameters/dimensional',data=data_obj.data[key].dimensional)
+        dimensional.attrs['description'] = 'True: The data is dimensional, False: The data is nondimensional'
