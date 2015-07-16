@@ -100,3 +100,6 @@ wec3.hst
 */output/
 */output_previous/
 */slprj/
+
+# WAMTI
+*.p2f

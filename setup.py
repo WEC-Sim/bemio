@@ -8,7 +8,7 @@ setup(
 
     name='bemio',
 
-    version='1.0',
+    version='1.1',
 
     description='bemio',
 
@@ -23,8 +23,8 @@ setup(
     license='Apache 2.0',
 
     classifiers=[
-        'Development Status :: 3 - Alpha',
-        'Intended Audience :: Wave Energy Research Community',
+        'Development Status :: Release',
+        'Intended Audience :: Ocean research community',
         'License ::Apache 2.0',
         'Programming Language :: Python :: 2.7'
     ],
