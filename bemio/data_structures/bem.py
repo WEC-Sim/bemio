@@ -378,13 +378,15 @@ class HydrodynamicData(object):
       self.ex.re = self.ex.re / (self.rho * self.g)
       self.ex.im = self.ex.im / (self.rho * self.g)
 
-      self.ex.sc.mag = self.ex.sc.mag / (self.rho * self.g)
-      self.ex.sc.re = self.ex.sc.re / (self.rho * self.g)
-      self.ex.sc.im = self.ex.sc.im / (self.rho * self.g)
+      if hasattr(self.ex.sc,'mag') is True:
+          self.ex.sc.mag = self.ex.sc.mag / (self.rho * self.g)
+          self.ex.sc.re = self.ex.sc.re / (self.rho * self.g)
+          self.ex.sc.im = self.ex.sc.im / (self.rho * self.g)
 
-      self.ex.fk.mag = self.ex.fk.mag / (self.rho * self.g)
-      self.ex.fk.re = self.ex.fk.re / (self.rho * self.g)
-      self.ex.fk.im = self.ex.fk.im / (self.rho * self.g)
+      if hasattr(self.ex.fk,'mag') is True:
+          self.ex.fk.mag = self.ex.fk.mag / (self.rho * self.g)
+          self.ex.fk.re = self.ex.fk.re / (self.rho * self.g)
+          self.ex.fk.im = self.ex.fk.im / (self.rho * self.g)
 
       for j in xrange(self.rd.all.shape[2]):
 
