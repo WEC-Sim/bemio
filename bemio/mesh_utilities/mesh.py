@@ -468,6 +468,26 @@ class PanelMesh(object):
 
         vtk.vtkPolyDataMapper().SetResolveCoincidentTopologyToPolygonOffset()
 
+    def scale(self,scale):
+        scale = np.array(scale)
+        if scale.size != 3:
+            raise Exception('The scale input must be a length 3 vector')
+        self.points *= scale
+        self.scale = scale
+        print 'Scaled mesh by: ' + str(scale)
+
+    def translate(self,translate,translate_cog=True):
+        translate = np.array(translate)
+        if translate.size != 3:
+            raise Exception('The translate input must be a length 3 vector')
+        self.points += translate
+        self.translate = translate
+
+        if translate_cog is True:
+            self.center_of_gravity += translate
+
+        print 'Translated mesh by: ' + str(translate) + '\nCenter of gravity is: ' + str(self.center_of_gravity)
+
 
 
 def _read_gdf(file_name):
@@ -584,45 +604,33 @@ def _read_nemoh(file_name):
 
 
 
-def read(file_name, translate=None, translate_cog=True):
+def read(file_name):
+
     print '\nReading mesh file: ' + str(file_name)
+
     file_name = os.path.abspath(file_name)
     (f_name,f_ext) = os.path.splitext(file_name)
 
     if f_ext == '.GDF' or f_ext == '.gdf':
-
         mesh_data = _read_gdf(file_name)
 
-
     elif f_ext == '.stl':
-
         mesh_data = _read_stl(file_name)
 
-
     elif f_ext == '.vtp':
-
         mesh_data = _read_vtp(file_name)
 
-
     elif f_ext == '.dat':
-
         mesh_data = _read_nemoh(file_name)
 
     else:
         raise Exception(f_ext + ' is an unsupported file mesh file type')
 
-    # Translate the mesh points as specified by the user
-    if translate is not None:
-
-        mesh_data.points += translate
-
-        if translate_cog is True:
-
-            mesh_data.center_of_gravity += translate
-
-        print 'Translated mesh by: ' + str(translate) + '\nCenter of gravity is: ' + str(mesh_data.center_of_gravity)
-
     mesh_data.out_file_base = os.path.splitext(file_name)[0] + '_bemio_output'
+
+    if mesh_data.VTK_installed is True:
+
+        mesh_data._create_vtp_mesh()
 
     print 'Successfully read mesh file: ' + str(file_name)
 
