@@ -1,0 +1,11 @@
+ecm_ellipsoid_cut
+0.                HBOT
+1           1     IRAD, IDIFF
+ -400            NPER         
+ -0.02 0.02       PER          
+ -36               NBETA         
+0.0 10.0               BETA          
+ 1 				  NBODY
+ellipsoid.gdf
+  0.0 0.0 0.0 0.0   XBODY(1-4)
+ 1  1  1  1  1  1               IMODE(1-6)
