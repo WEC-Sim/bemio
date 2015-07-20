@@ -12,7 +12,7 @@ from bemio.io.output import write_hdf5
 # the data read from the wec3.out file. The data for each of the three bodies of the floating
 # three-body oscillating flap is loaded into wamit_data.data[0], wamit_data.data[1],
 # and wamit_data.data[2]
-wamit_data = WamitOutput(out_file='./ecm_ellipsoid/ecm_ellipsoid.out')
+wamit_data = WamitOutput(out_file='./coer_comp.out')
 
 
 # Calculate IRF and plot using the wamit module
@@ -21,10 +21,9 @@ wamit_data = WamitOutput(out_file='./ecm_ellipsoid/ecm_ellipsoid.out')
 # 0 to 50 seconds by setting t_end=50, using 101 timesteps n_t=101, and using 201 frequency steps
 # n_w = 201
 for i in xrange(wamit_data.data[0].num_bodies): #wamit_data.data[0].num_bodies
- 	wamit_data.data[i].calc_irf_radiation(t_end=100,n_t=201,n_w=201)
+ 	wamit_data.data[i].calc_irf_radiation()
 	#wamit_data.data[i].calc_ss_radiation(max_order=5, r2_thresh=0.90)
-	wamit_data.data[i].calc_irf_excitation(t_end=50,n_t=101,n_w=101)
-
+	wamit_data.data[i].calc_irf_excitation()
 
 # Save the data in the hdf5 format.
 write_hdf5(wamit_data)
