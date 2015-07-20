@@ -34,6 +34,8 @@ from sys import platform as _platform
 
 from copy import copy
 
+from platform import system as _system
+
 try:
 
     import vtk
@@ -69,6 +71,7 @@ class PanelMesh(object):
         self._cell_surface_area = None
         self._centroid = None
         self._hydrostatic_stiffness = None
+        self._bounds = None
 
         self.zero_tol = -1.e-3
 
@@ -93,6 +96,9 @@ class PanelMesh(object):
         '\nNumber of points: ' + str(self.points.shape[0]) + \
         '\nNumber of faces: ' + str(self.faces.shape[0]) + \
         '\nOriginal mesh type: ' + str(self.orig_type) + \
+        '\nMesh bounds:' + \
+        '\n\tMax: ' + str(self.bounds['max']) + \
+        '\n\tMin: ' + str(self.bounds['min']) + \
         '\nCenter of mass: ' + str(self.center_of_gravity) + \
         '\nCenter of buoyancy: ' + str(self.center_of_buoyancy) + \
         '\nMesh volume [volume_x, volume_y, volume_z]: [' + str(self.volume_x) + ', ' + str(self.volume_y) + ', ' + str(self.volume_z) + ']' + \
@@ -104,6 +110,14 @@ class PanelMesh(object):
 
         return out_string
 
+    @ property
+    def bounds(self, ):
+        if self._bounds is None:
+            self._bounds = {}
+            self._bounds['max'] = self.points.max(axis=0)
+            self._bounds['min'] = self.points.min(axis=0)
+
+        return self._bounds
 
     @property
     def hydrostatic_stiffness(self, ):
@@ -124,10 +138,10 @@ class PanelMesh(object):
                     self._hydrostatic_stiffness[3,4] += self.centroid[face_n][0] * self.centroid[face_n][1] * self.normals[face_n][2] * self.cell_surface_area[face_n]
                     self._hydrostatic_stiffness[4,4] += -self.centroid[face_n][0]**2 * self.normals[face_n][2] * self.cell_surface_area[face_n]
 
-            self._hydrostatic_stiffness[3,3] += self.volume * self.center_of_buoyancy[2] - self.volume * self.center_of_gravity[2]
-            self._hydrostatic_stiffness[3,5] += -self.volume * self.center_of_buoyancy[0] + self.volume * self.center_of_gravity[0]
-            self._hydrostatic_stiffness[4,4] += self.volume * self.center_of_buoyancy[2] - self.volume * self.center_of_gravity[2]
-            self._hydrostatic_stiffness[4,5] += -self.volume * self.center_of_buoyancy[1] + self.volume * self.center_of_gravity[1]
+            self._hydrostatic_stiffness[3,3] += self.volume_x * self.center_of_buoyancy[2] - self.volume_x * self.center_of_gravity[2]
+            self._hydrostatic_stiffness[3,5] += -self.volume_x * self.center_of_buoyancy[0] + self.volume_x * self.center_of_gravity[0]
+            self._hydrostatic_stiffness[4,4] += self.volume_x * self.center_of_buoyancy[2] - self.volume_x * self.center_of_gravity[2]
+            self._hydrostatic_stiffness[4,5] += -self.volume_x * self.center_of_buoyancy[1] + self.volume_x * self.center_of_gravity[1]
 
             print 'Calculated hydorstatic stiffness'
 
@@ -149,7 +163,7 @@ class PanelMesh(object):
                     x_b += self.normals[face_n][0]*self.centroid[face_n][0]**2*self.cell_surface_area[face_n]
                     y_b += self.normals[face_n][1]*self.centroid[face_n][1]**2*self.cell_surface_area[face_n]
                     z_b += self.normals[face_n][2]*self.centroid[face_n][2]**2*self.cell_surface_area[face_n]
-            self._center_of_buoyancy = 1./(2.*self.volume)*np.array([x_b, y_b, z_b])
+            self._center_of_buoyancy = 1./(2.*self.volume_x )*np.array([x_b, y_b, z_b])
 
             print 'Calculated the center of buoyancy'
 
@@ -281,120 +295,19 @@ class PanelMesh(object):
 
         return self._surface_area_vtk
 
-    def _create_vtp_mesh(self):
-
-        if self.VTK_installed is True:
-
-            self.vtp_mesh    = vtk.vtkPolyData()
-            points  = vtk.vtkPoints()
-            polys   = vtk.vtkCellArray()
-
-            for i in range(self.points.shape[0]):
-
-                points.InsertPoint(i, self.points[i])
-
-
-            for i in range(self.faces.shape[0]):
-
-                polys.InsertNextCell(_mk_vtk_id_list(self.faces[i]))
-
-            self.vtp_mesh.SetPoints(points)
-            self.vtp_mesh.SetPolys(polys)
-
-    def _collapse(self,plane=2,value=0.0,direction=1):
-        '''Collapse points
-        '''
-        for i in xrange(self.faces.shape[0]):
-
-            for j in xrange(self.faces[i].size):
-
-                p = int(self.faces[i][j])
-
-                if self.points[p][plane] > value*direction:
-
-                    self.points[p][plane] = value
-
     def write(self,mesh_format='VTK'):
-
+        self.out_file = {}
         if mesh_format == 'VTK' or mesh_format == 'VTP':
-            self.out_file = self.out_file_base + '.vtp'
+            self.out_file['vtp'] = self.out_file_base + '.vtp'
             self._write_vtp()
 
         if mesh_format == 'WAMIT' or mesh_format == 'GDF':
-            self.out_file = self.out_file_base + '.gdf'
+            self.out_file['wamit'] = self.out_file_base + '.gdf'
             self._write_gdf()
 
         if mesh_format == 'NEMOH':
-            self.out_file = self.out_file_base + '.dat'
+            self.out_file['nemoh'] = self.out_file_base + '.dat'
             self._write_nemoh()
-
-    def _write_vtp(self):
-        if self.VTK_installed is False:
-
-            raise VTK_Exception('VTK must be installed write VTP/VTK meshes, please select a different output mesh_format')
-
-        writer = vtk.vtkXMLPolyDataWriter()
-        writer.SetFileName(self.out_file)
-        writer.SetInputData(self.vtp_mesh)
-        writer.SetDataModeToAscii()
-        writer.Write()
-
-        print 'Wrote VTK PolyData mesh to ' + str(self.out_file)
-
-    def _write_nemoh(self):
-
-        with open(self.out_file,'w') as fid:
-            fid.write('2 0') # This should not be hard coded
-            fid.write('\n')
-            for i in xrange(self.points.shape[0]):
-                fid.write(str(i+1) + ' ' +str(self.points[i]).replace('[','').replace(']',''))
-                fid.write('\n')
-            fid.write('0 0 0 0')
-            fid.write('\n')
-            for i in xrange(self.faces.shape[0]):
-                fid.write(str(self.faces[i]+1).replace('[','').replace(']','').replace('.',''))
-                fid.write('\n')
-            fid.write('0 0 0 0')
-
-        print 'Wrote NEMOH mesh to ' + str(self.out_file)
-
-
-    def _write_gdf(self,out_file=None):
-
-        with open(self.out_file,'w') as fid:
-            fid.write('Mesh file written by meshio.py')
-            fid.write('\n')
-            fid.write('1 9.80665       ULEN GRAV')
-            fid.write('\n')
-            fid.write('0  0    ISX  ISY')
-            fid.write('\n')
-            fid.write(str(self.faces.shape[0]))
-            fid.write('\n')
-            for i,face in enumerate(self.faces):
-                if np.size(face) is 4: # if the mesh element is a quad
-                    for j,pointKey in enumerate(face):
-                        fid.write(str(self.points[pointKey]).replace(',','').replace('[','').replace(']','') + '\n')
-                if np.size(face) is 3: # if the mesh element is a tri
-                    faceMod = np.append(face,face[-1])
-                    for j,pointKey in enumerate(faceMod):
-                        fid.write(str(self.points[pointKey]).replace(',','').replace('[','').replace(']','') + '\n')
-
-        print 'Wrote WAMIT mesh to ' + str(self.out_file)
-
-    def _calc_component_vol(self, ):
-        self._volume_x = 0.
-        self._volume_y = 0.
-        self._volume_z = 0.
-        volume = 0.
-
-        for face_n in xrange(self.faces.shape[0]):
-            volume += self.normals[face_n]*self.centroid[face_n]*self.cell_surface_area[face_n]
-
-        self._volume_x = volume[0]
-        self._volume_y = volume[1]
-        self._volume_z = volume[2]
-
-        print 'Calculated x y and z mesh volumes'
 
     def calculate_center_of_gravity(self, ):
 
@@ -405,31 +318,33 @@ class PanelMesh(object):
 
         print 'Calculated center of gravity assuming uniform material density'
 
-    def cut(self,plane=2,value=0.0,direction=1):
-        self.collapse(plane,value,direction)
-
-        tempFaces = []
-        count = 0
-
-        for i in xrange(self.faces.shape[0]):
-
-           delete_face = 0
-
-           for j in xrange(4):
-
-               p = self.faces[i][j]
-               z = float(self.cords[int(p)][2])
-
-               if z == 0.:
-                   delete_face += 1
-
-           if delete_face != 4:
-               tempFaces.append(self.faces[i])
-               count  += 1
-
-        print 'removed ' + str(count) + ' surface faces'
-        self.faces = tempFaces
-        self.faces.shape[0] = self.faces.shape[0]
+    # def cut(self,plane=2,value=0.0,direction=1):
+    '''This function is not currently working 100%
+    '''
+    #     self.collapse(plane,value,direction)
+    #
+    #     tempFaces = []
+    #     count = 0
+    #
+    #     for i in xrange(self.faces.shape[0]):
+    #
+    #        delete_face = 0
+    #
+    #        for j in xrange(4):
+    #
+    #            p = self.faces[i][j]
+    #            z = float(self.cords[int(p)][2])
+    #
+    #            if z == 0.:
+    #                delete_face += 1
+    #
+    #        if delete_face != 4:
+    #            tempFaces.append(self.faces[i])
+    #            count  += 1
+    #
+    #     print 'removed ' + str(count) + ' surface faces'
+    #     self.faces = tempFaces
+    #     self.faces.shape[0] = self.faces.shape[0]
 
     def view(self,color=[0.5,1,0.5],opacity=1.0):
         if self.VTK_installed is False:
@@ -468,27 +383,141 @@ class PanelMesh(object):
 
         vtk.vtkPolyDataMapper().SetResolveCoincidentTopologyToPolygonOffset()
 
-    def scale(self,scale):
-        scale = np.array(scale)
-        if scale.size != 3:
-            raise Exception('The scale input must be a length 3 vector')
-        self.points *= scale
-        self.scale = scale
-        print 'Scaled mesh by: ' + str(scale)
+    def scale(self,scale_vect):
+        scale_vect = np.array(scale_vect)
+        if scale_vect.size != 3:
+            raise Exception('The scale_vect input must be a length 3 vector')
+        self.points = self.points*scale_vect
+        self.scale_vect = scale_vect
+        self._create_vtp_mesh()
+        print 'Scaled mesh by: ' + str(scale_vect)
 
-    def translate(self,translate,translate_cog=True):
-        translate = np.array(translate)
-        if translate.size != 3:
-            raise Exception('The translate input must be a length 3 vector')
-        self.points += translate
-        self.translate = translate
+    def translate(self,translation_vect,translate_cog=True):
+        translation_vect = np.array(translation_vect)
+        if translation_vect.size != 3:
+            raise Exception('The translation_vect input must be a length 3 vector')
+        self.points += translation_vect
+        self.translation_vect = translation_vect
 
         if translate_cog is True:
-            self.center_of_gravity += translate
+            self.center_of_gravity += translation_vect
 
-        print 'Translated mesh by: ' + str(translate) + '\nCenter of gravity is: ' + str(self.center_of_gravity)
+        print 'Translated mesh by: ' + str(translation_vect) + '\nCenter of gravity is: ' + str(self.center_of_gravity)
+
+    def open(self):
+        self.write(mesh_format='VTP')
+        if _system() == 'Darwin':
+            os.system('open ' + self.out_file['vtp'])
+
+        elif _system() == 'Linux':
+            os.system('xdg ' + self.out_file['vtp'])
+
+        else:
+            raise Exception('The open function is only supported for OSX')
 
 
+    def _create_vtp_mesh(self):
+
+        if self.VTK_installed is True:
+
+            self.vtp_mesh    = vtk.vtkPolyData()
+            points  = vtk.vtkPoints()
+            polys   = vtk.vtkCellArray()
+
+            for i in range(self.points.shape[0]):
+
+                points.InsertPoint(i, self.points[i])
+
+
+            for i in range(self.faces.shape[0]):
+
+                polys.InsertNextCell(_mk_vtk_id_list(self.faces[i]))
+
+            self.vtp_mesh.SetPoints(points)
+            self.vtp_mesh.SetPolys(polys)
+
+    # def _collapse(self,plane=2,value=0.0,direction=1):
+    '''This function is not yet working 100%
+    '''
+    #     '''Collapse points
+    #     '''
+    #     for face,face_n in xrange(self.faces.shape[0]):
+    #
+    #         for j in xrange(self.faces[i].size):
+    #
+    #             p = int(self.faces[i][j])
+    #
+    #             if self.points[p][plane] > value*direction:
+    #
+    #                 self.points[p][plane] = value
+
+    def _write_vtp(self):
+        if self.VTK_installed is False:
+
+            raise VTK_Exception('VTK must be installed write VTP/VTK meshes, please select a different output mesh_format')
+
+        writer = vtk.vtkXMLPolyDataWriter()
+        writer.SetFileName(self.out_file['vtp'])
+        writer.SetInputData(self.vtp_mesh)
+        writer.SetDataModeToAscii()
+        writer.Write()
+
+        print 'Wrote VTK PolyData mesh to ' + str(self.out_file['vtp'])
+
+    def _write_nemoh(self):
+
+        with open(self.out_file['nemoh'],'w') as fid:
+            fid.write('2 0') # This should not be hard coded
+            fid.write('\n')
+            for i in xrange(self.points.shape[0]):
+                fid.write(str(i+1) + ' ' +str(self.points[i]).replace('[','').replace(']',''))
+                fid.write('\n')
+            fid.write('0 0 0 0')
+            fid.write('\n')
+            for i in xrange(self.faces.shape[0]):
+                fid.write(str(self.faces[i]+1).replace('[','').replace(']','').replace('.',''))
+                fid.write('\n')
+            fid.write('0 0 0 0')
+
+        print 'Wrote NEMOH mesh to ' + str(self.out_file['nemoh'])
+
+
+    def _write_gdf(self,out_file=None):
+
+        with open(self.out_file['wamit'],'w') as fid:
+            fid.write('Mesh file written by meshio.py')
+            fid.write('\n')
+            fid.write('1 9.80665       ULEN GRAV')
+            fid.write('\n')
+            fid.write('0  0    ISX  ISY')
+            fid.write('\n')
+            fid.write(str(self.faces.shape[0]))
+            fid.write('\n')
+            for i,face in enumerate(self.faces):
+                if np.size(face) is 4: # if the mesh element is a quad
+                    for j,pointKey in enumerate(face):
+                        fid.write(str(self.points[pointKey]).replace(',','').replace('[','').replace(']','') + '\n')
+                if np.size(face) is 3: # if the mesh element is a tri
+                    faceMod = np.append(face,face[-1])
+                    for j,pointKey in enumerate(faceMod):
+                        fid.write(str(self.points[pointKey]).replace(',','').replace('[','').replace(']','') + '\n')
+
+        print 'Wrote WAMIT mesh to ' + str(self.out_file['wamit'])
+
+    def _calc_component_vol(self, ):
+        self._volume_x = 0.
+        self._volume_y = 0.
+        self._volume_z = 0.
+        volume = 0.
+
+        for face_n in xrange(self.faces.shape[0]):
+            volume += self.normals[face_n]*self.centroid[face_n]*self.cell_surface_area[face_n]
+
+        self._volume_x = volume[0]
+        self._volume_y = volume[1]
+        self._volume_z = volume[2]
+
+        print 'Calculated x y and z mesh volumes'
 
 def _read_gdf(file_name):
     '''Internal function to read gdf wamit meshes
@@ -646,9 +675,7 @@ def _mk_vtk_id_list(it):
         vil: vtk id list
     '''
     vil = vtk.vtkIdList()
-
     for i in it:
-
         vil.InsertNextId(int(i))
 
     return vil
@@ -681,7 +708,6 @@ def cut_mesh(mesh_obj, plane_ind=2, plane_loc=-1e-5, cut_dir=1.):
             mesh_obj_new.removed_points.append(mesh_obj_new.points[face[1]])
             mesh_obj_new.removed_points.append(mesh_obj_new.points[face[2]])
             mesh_obj_new.removed_points.append(mesh_obj_new.points[face[3]])
-
 
     mesh_obj_new.faces = np.array(tempFaces)
     mesh_obj_new.removed_faces = np.array(mesh_obj_new.removed_faces)
