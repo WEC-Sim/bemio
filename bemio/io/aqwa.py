@@ -24,17 +24,17 @@ class AqwaOutput(object):
     **Inputs:**
 
     * out_file: name of the AQWA output file
-    
+
     **Outputs:**
-    
+
     * None
-    
+
     '''
     def __init__(self, hydro_file, list_file, dimensionalize=False):
         self.files = bem.generate_file_names(hydro_file)
-        self.dimensionalize = dimensionalize
+        self.dimensionalize_at_read = dimensionalize
         self.dimensonal = True
-        self.data = {}        
+        self.data = {}
 
         self._read(list_file)
 
@@ -50,7 +50,7 @@ class AqwaOutput(object):
 
             if (first_line == 0) and (line[0] == "*"):
                 continue
-            else: 
+            else:
                 first_line += 1
             if first_line == 1:
                 tmp = np.array(raw[i].split()).astype(np.float)
@@ -129,7 +129,7 @@ class AqwaOutput(object):
                                     added_mass[tmp2[0]][:,iBod2*6+iRow,iFreq] = tmp[3:]
                                 elif iRow == 0:
                                     tmp2 = tmp[0:3].astype(np.float).astype(np.int)
-                                    added_mass[tmp2[0]][:,iBod2*6+iRow,iFreq] = tmp[3:] 
+                                    added_mass[tmp2[0]][:,iBod2*6+iRow,iFreq] = tmp[3:]
                                 else:
                                     added_mass[tmp2[0]][:,iBod2*6+iRow,iFreq] = tmp
 
@@ -146,7 +146,7 @@ class AqwaOutput(object):
                                     radiation_damping[tmp2[0]][:,iBod2*6+iRow,iFreq] = tmp[3:]
                                 elif iRow == 0:
                                     tmp2 = tmp[0:3].astype(np.float).astype(np.int)
-                                    radiation_damping[tmp2[0]][:,iBod2*6+iRow,iFreq] = tmp[3:] 
+                                    radiation_damping[tmp2[0]][:,iBod2*6+iRow,iFreq] = tmp[3:]
                                 else:
                                     radiation_damping[tmp2[0]][:,iBod2*6+iRow,iFreq] = tmp
 
@@ -181,34 +181,33 @@ class AqwaOutput(object):
             if 'MESH BASED DISPLACEMENT' in line:
                 disp_vol[bod_count] = np.array(line.split())[-1].astype(float)
                 bod_count += 1
-        
+
 
         for i in xrange(num_bodies):
 
 
-            print 'body' + str(i+1) + ':' 
-            
+            print 'body' + str(i+1) + ':'
+
             self.data[i] = bem.HydrodynamicData()
             self.data[i].dimensional = self.dimensonal
-            self.data[i].dimensionalize = self.dimensionalize 
 
             self.data[i].rho = density
             self.data[i].g = gravity
             self.data[i].wave_dir = wave_directions
             self.data[i].num_bodies = num_bodies
-            
+
             self.data[i].cg = cg[i+1]
             self.data[i].cb = 'not_defined'
             self.data[i].k = stiffness_matrix[i+1]
             self.data[i].T = 2*np.pi/frequencies
-            self.data[i].w = frequencies 
-            
-            self.data[i].wp_area = 'not_defined' 
+            self.data[i].w = frequencies
+
+            self.data[i].wp_area = 'not_defined'
             self.data[i].buoy_force = 'not_defined'
             self.data[i].disp_vol = disp_vol[i+1]
             self.data[i].water_depth = water_depth
             self.data[i].body_num = i
-            
+
             self.data[i].name = 'body' + str(i+1)
             self.data[i].bem_code = code
             self.data[i].bem_raw_data = raw
@@ -225,5 +224,4 @@ class AqwaOutput(object):
             self.data[i].ex.re = self.data[i].ex.mag * np.cos(self.data[i].ex.phase)
             self.data[i].ex.im = self.data[i].ex.mag * np.sin(self.data[i].ex.phase)
 
-            self.data[i].dimensionalize_nondimensionalize()
-        
+            self.data[i].dimensionalize(self.dimensionalize_at_read)

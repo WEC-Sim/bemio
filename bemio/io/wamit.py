@@ -36,13 +36,15 @@ class WamitOutput(object):
         self.g = gravity
 
         self.data = {}
-        self.dimensionalize = dimensionalize
+        self.dimensionalize_at_read = dimensionalize
         self.dimensional = False
         self._read()
 
     def _read(self):
         '''Internal function to read WAMIT output file into the class. that is called during __init__
         '''
+
+        print 'Reading ' + self.files['out']
 
         with open(self.files['out'],'rU') as fid:
 
@@ -358,7 +360,7 @@ class WamitOutput(object):
                         line_count += 1
 
         else:
-            print 'The file ' + self.files['3sc'] + ' does not exist. Not reading scattering coeffcients'
+            print '\tThe file ' + self.files['3sc'] + ' does not exist... not reading scattering coeffcients.'
 
         if os.path.exists(self.files['3fk']):
             fk_re = np.zeros([6*num_bodies,wave_dir.size,T.size])
@@ -382,13 +384,12 @@ class WamitOutput(object):
                         line_count += 1
 
         else:
-            print 'The file ' + self.files['3fk'] + ' does not exist. Not reading froud krylof coeffcients'
+            print '\tThe file ' + self.files['3fk'] + ' does not exist... not reading froud krylof coeffcients.'
 
         # Load data into the hydrodata structure
         for i in xrange(num_bodies):
             self.data[i] = bem.HydrodynamicData()
             self.data[i].dimensional = self.dimensional
-            self.data[i].dimensionalize = self.dimensionalize
             self.data[i].g = self.g
             self.data[i].rho = self.rho
             self.data[i].body_num = i
@@ -459,8 +460,8 @@ class WamitOutput(object):
                 self.data[i].ex.sc.im = sc_im[6*i:6+6*i,:,:]
 
             else:
-
-                print 'Warning: body ' + str(i) + ' - The WAMTI .3sc file specified does not contain any scattering coefficients'
+                pass
+                # print 'Warning: body ' + str(i) + ' - The WAMTI .3sc file specified does not contain any scattering coefficients'
 
             if 'fk_mag' in locals():
                 self.data[i].ex.fk.mag = fk_mag[6*i:6+6*i,:,:]
@@ -469,8 +470,8 @@ class WamitOutput(object):
                 self.data[i].ex.fk.im = fk_im[6*i:6+6*i,:,:]
 
             else:
-
-                print 'Warning: body ' + str(i) + ' - The WAMTI .3fk file specified does not contain any froude krylof'
+                pass
+                # print 'Warning: body ' + str(i) + ' - The WAMTI .3fk file specified does not contain any froude krylof coefficients'
 
             if 'rao_all' in locals():
 
@@ -497,4 +498,4 @@ class WamitOutput(object):
             self.data[i].bem_raw_data = raw
             self.data[i].bem_code = code
 
-            self.data[i].dimensionalize_nondimensionalize()
+            self.data[i].dimensionalize(self.dimensionalize_at_read)
