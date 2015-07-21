@@ -56,8 +56,10 @@ class PanelMesh(object):
     def __init__(self,file_name):
 
         self.file_name = file_name
+
         self.faces = []
         self.points = []
+        self.out_file = {}
         self.orig_type = None
         self.center_of_gravity = np.array([0., 0., 0.])
         self._center_of_buoyancy = None
@@ -296,18 +298,16 @@ class PanelMesh(object):
         return self._surface_area_vtk
 
     def write(self,mesh_format='VTK'):
-        self.out_file = {}
         if mesh_format == 'VTK' or mesh_format == 'VTP':
-            self.out_file['vtp'] = self.out_file_base + '.vtp'
             self._write_vtp()
 
         if mesh_format == 'WAMIT' or mesh_format == 'GDF':
-            self.out_file['wamit'] = self.out_file_base + '.gdf'
             self._write_gdf()
 
         if mesh_format == 'NEMOH':
-            self.out_file['nemoh'] = self.out_file_base + '.dat'
             self._write_nemoh()
+
+
 
     def calculate_center_of_gravity(self, ):
 
@@ -346,7 +346,7 @@ class PanelMesh(object):
     #     self.faces = tempFaces
     #     self.faces.shape[0] = self.faces.shape[0]
 
-    def view(self,color=[0.5,1,0.5],opacity=1.0):
+    def view(self, color=[0.5,1,0.5], opacity=1.0, save_png=False, interact=True, camera_pos=[50,50,50]):
         if self.VTK_installed is False:
             raise VTK_Exception('VTK must be installed to use the view function')
 
@@ -356,10 +356,15 @@ class PanelMesh(object):
 
         # Create an actor that contains the data in the mapper
         actor=vtk.vtkActor()
-        actor.GetProperty().SetColor([0.5,1,0.5])
-        actor.GetProperty().SetOpacity(1.0)
+        actor.GetProperty().SetColor(color)
+        actor.GetProperty().SetOpacity(opacity)
         actor.SetMapper(mapper)
         actor.GetProperty().EdgeVisibilityOn()
+
+        # Camera
+        camera = vtk.vtkCamera();
+        camera.SetPosition(camera_pos)
+        camera.SetFocalPoint(0, 0, 0)
 
         # Add axes
         axes = vtk.vtkAxesActor()
@@ -368,22 +373,38 @@ class PanelMesh(object):
         ren = vtk.vtkRenderer()
         ren.AddActor(actor)
         ren.AddActor(axes)
+        ren.SetActiveCamera(camera)
 
         # Create a render window
         renWin = vtk.vtkRenderWindow()
         renWin.AddRenderer(ren)
-        renWin.SetSize(600, 600)
+        renWin.SetSize(800, 800)
 
         # Start the visiuilization
         iren = vtk.vtkRenderWindowInteractor()
         iren.SetRenderWindow(renWin)
         ren.SetBackground(0,0,0)
         renWin.Render()
-        iren.Start()
+
 
         vtk.vtkPolyDataMapper().SetResolveCoincidentTopologyToPolygonOffset()
 
-    def scale(self,scale_vect):
+        if save_png is True:
+            w2if = vtk.vtkWindowToImageFilter()
+            w2if.SetInput(renWin)
+            w2if.Update()
+
+            writer = vtk.vtkPNGWriter()
+            writer.SetFileName(self.out_file['png'])
+            writer.SetInputDataObject(w2if.GetOutput())
+            writer.Write()
+
+            print 'Wrote mesh image to: ' + self.out_file['png']
+
+        if interact is True:
+            iren.Start()
+
+    def scale(self, scale_vect):
         scale_vect = np.array(scale_vect)
         if scale_vect.size != 3:
             raise Exception('The scale_vect input must be a length 3 vector')
@@ -462,7 +483,7 @@ class PanelMesh(object):
         writer.SetDataModeToAscii()
         writer.Write()
 
-        print 'Wrote VTK PolyData mesh to ' + str(self.out_file['vtp'])
+        print 'Wrote VTK PolyData mesh to: ' + str(self.out_file['vtp'])
 
     def _write_nemoh(self):
 
@@ -479,7 +500,7 @@ class PanelMesh(object):
                 fid.write('\n')
             fid.write('0 0 0 0')
 
-        print 'Wrote NEMOH mesh to ' + str(self.out_file['nemoh'])
+        print 'Wrote NEMOH mesh to: ' + str(self.out_file['nemoh'])
 
 
     def _write_gdf(self,out_file=None):
@@ -502,7 +523,7 @@ class PanelMesh(object):
                     for j,pointKey in enumerate(faceMod):
                         fid.write(str(self.points[pointKey]).replace(',','').replace('[','').replace(']','') + '\n')
 
-        print 'Wrote WAMIT mesh to ' + str(self.out_file['wamit'])
+        print 'Wrote WAMIT mesh to: ' + str(self.out_file['wamit'])
 
     def _calc_component_vol(self, ):
         self._volume_x = 0.
@@ -631,11 +652,9 @@ def _read_nemoh(file_name):
     return mesh_data
 
 
-
-
 def read(file_name):
 
-    print '\nReading mesh file: ' + str(file_name)
+    print 'Reading mesh file: ' + str(file_name)
 
     file_name = os.path.abspath(file_name)
     (f_name,f_ext) = os.path.splitext(file_name)
@@ -655,7 +674,12 @@ def read(file_name):
     else:
         raise Exception(f_ext + ' is an unsupported file mesh file type')
 
+
     mesh_data.out_file_base = os.path.splitext(file_name)[0] + '_bemio_output'
+    mesh_data.out_file['vtp'] = mesh_data.out_file_base + '.vtp'
+    mesh_data.out_file['wamit'] = mesh_data.out_file_base + '.gdf'
+    mesh_data.out_file['nemoh'] = mesh_data.out_file_base + '.dat'
+    mesh_data.out_file['png'] = os.path.splitext(file_name)[0] + '.png'
 
     if mesh_data.VTK_installed is True:
 
