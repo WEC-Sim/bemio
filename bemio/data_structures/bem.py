@@ -101,7 +101,6 @@ class HydrodynamicData(object):
     self.dimensional = 'not_defined'
     # Flag to determine if the hydrodynamic coefficients should be output in
     # dimensional or nondimensional form
-    self.dimensionalize = 'not_defined'
     self.name = 'not_defined'  # Body name
     # Name of the code used to produce the hydrodynamic coefficients
     self.bem_code = 'not_defined'
@@ -333,14 +332,18 @@ class HydrodynamicData(object):
 
     pbar.finish()
 
-  def dimensionalize_nondimensionalize(self):
+  def dimensionalize(self, dimensionalize):
+    if dimensionalize is True and self.dimensional is False:
+      print 'Dimensionalizing hydro coefficients...'
+      try:
+          self.k = self.k * self.rho * self.g
+      except:
+          print '\tSpring stiffness not dimensionalized'
 
-    if self.dimensionalize is True and self.dimensional is False:
-
-      self.k = self.k * self.rho * self.g
       self.am.all = self.am.all * self.rho
       self.am.inf = self.am.inf * self.rho
-      self.am.zero = self.am.zero * self.rho
+      if hasattr(self.am,'zero') is True:
+          self.am.zero = self.am.zero * self.rho
 
       self.ex.mag = self.ex.mag * self.rho * self.g
       self.ex.re = self.ex.re * self.rho * self.g
@@ -363,16 +366,18 @@ class HydrodynamicData(object):
 
       self.dimensional = True
 
-      print 'Dimensionalizing hydro coefficients...'
 
-      print 'Added mass, radiation damping, hydrodynamic excitation, and spring stiffness coefficients are dimensional'
 
-    elif self.dimensionalize is False and self.dimensional is True:
-
-      self.k = self.k / (self.rho * self.g)
+    elif dimensionalize is False and self.dimensional is True:
+      print 'Nondimesionailzing hydro coefficients...'
+      try:
+          self.k = self.k / (self.rho * self.g)
+      except:
+          print '\tSpring stiffness not nondimensionalized'
       self.am.all = self.am.all / self.rho
       self.am.inf = self.am.inf / self.rho
-      self.am.zero = self.am.zero / self.rho
+      if hasattr(self.am,'zero') is True:
+          self.am.zero = self.am.zero / self.rho
 
       self.ex.mag = self.ex.mag / (self.rho * self.g)
       self.ex.re = self.ex.re / (self.rho * self.g)
@@ -394,9 +399,7 @@ class HydrodynamicData(object):
 
       self.dimensional = False
 
-      print 'Nondimesionailzing hydro coefficients...'
 
-      print 'Added mass, radiation damping, hydrodynamic excitation, and spring stiffness coefficients are nondimensional'
 
 
 def interpolate_for_irf(w_orig, w_interp, mat_in):

@@ -14,8 +14,12 @@ def run_test_case(test_case):
 
 if __name__ == "__main__":
 
-	run_test_case('tutorials/wamit')
-	run_test_case('tutorials/aqwa')
+	run_test_case('tutorials/wamit/COER_hydrodynamic_modeling_comp')
+	run_test_case('tutorials/wamit/ecm_ellipsoid')
+	run_test_case('tutorials/wamit/oswec')
+	run_test_case('tutorials/wamit/rm3')
+	run_test_case('tutorials/wamit/sphere')
+	run_test_case('tutorials/wamit/wec3')
 	run_test_case('tutorials/nemoh')
 	run_test_case('tutorials/mesh/scale_and_translate')
 	run_test_case('tutorials/mesh/wamit_to_nemoh')

@@ -21,9 +21,9 @@ wamit_data = WamitOutput(out_file='./coer_comp.out')
 # 0 to 50 seconds by setting t_end=50, using 101 timesteps n_t=101, and using 201 frequency steps
 # n_w = 201
 for i in xrange(wamit_data.data[0].num_bodies): #wamit_data.data[0].num_bodies
- 	wamit_data.data[i].calc_irf_radiation()
-	#wamit_data.data[i].calc_ss_radiation(max_order=5, r2_thresh=0.90)
-	wamit_data.data[i].calc_irf_excitation()
+ 	wamit_data.data[i].calc_irf_radiation(t_end=20.0, n_t=2001, n_w=4001)
+	# wamit_data.data[i].calc_ss_radiation(max_order=7, r2_thresh=0.95)
+	wamit_data.data[i].calc_irf_excitation(t_end=20.0, n_t=2001, n_w=4001)
 
 # Save the data in the hdf5 format.
 write_hdf5(wamit_data)
