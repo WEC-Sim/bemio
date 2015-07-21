@@ -34,6 +34,8 @@ from sys import platform as _platform
 
 from copy import copy
 
+from platform import system as _system
+
 try:
 
     import vtk
@@ -54,8 +56,10 @@ class PanelMesh(object):
     def __init__(self,file_name):
 
         self.file_name = file_name
+
         self.faces = []
         self.points = []
+        self.out_file = {}
         self.orig_type = None
         self.center_of_gravity = np.array([0., 0., 0.])
         self._center_of_buoyancy = None
@@ -69,6 +73,7 @@ class PanelMesh(object):
         self._cell_surface_area = None
         self._centroid = None
         self._hydrostatic_stiffness = None
+        self._bounds = None
 
         self.zero_tol = -1.e-3
 
@@ -93,6 +98,9 @@ class PanelMesh(object):
         '\nNumber of points: ' + str(self.points.shape[0]) + \
         '\nNumber of faces: ' + str(self.faces.shape[0]) + \
         '\nOriginal mesh type: ' + str(self.orig_type) + \
+        '\nMesh bounds:' + \
+        '\n\tMax: ' + str(self.bounds['max']) + \
+        '\n\tMin: ' + str(self.bounds['min']) + \
         '\nCenter of mass: ' + str(self.center_of_gravity) + \
         '\nCenter of buoyancy: ' + str(self.center_of_buoyancy) + \
         '\nMesh volume [volume_x, volume_y, volume_z]: [' + str(self.volume_x) + ', ' + str(self.volume_y) + ', ' + str(self.volume_z) + ']' + \
@@ -104,6 +112,14 @@ class PanelMesh(object):
 
         return out_string
 
+    @ property
+    def bounds(self, ):
+        if self._bounds is None:
+            self._bounds = {}
+            self._bounds['max'] = self.points.max(axis=0)
+            self._bounds['min'] = self.points.min(axis=0)
+
+        return self._bounds
 
     @property
     def hydrostatic_stiffness(self, ):
@@ -124,10 +140,10 @@ class PanelMesh(object):
                     self._hydrostatic_stiffness[3,4] += self.centroid[face_n][0] * self.centroid[face_n][1] * self.normals[face_n][2] * self.cell_surface_area[face_n]
                     self._hydrostatic_stiffness[4,4] += -self.centroid[face_n][0]**2 * self.normals[face_n][2] * self.cell_surface_area[face_n]
 
-            self._hydrostatic_stiffness[3,3] += self.volume * self.center_of_buoyancy[2] - self.volume * self.center_of_gravity[2]
-            self._hydrostatic_stiffness[3,5] += -self.volume * self.center_of_buoyancy[0] + self.volume * self.center_of_gravity[0]
-            self._hydrostatic_stiffness[4,4] += self.volume * self.center_of_buoyancy[2] - self.volume * self.center_of_gravity[2]
-            self._hydrostatic_stiffness[4,5] += -self.volume * self.center_of_buoyancy[1] + self.volume * self.center_of_gravity[1]
+            self._hydrostatic_stiffness[3,3] += self.volume_x * self.center_of_buoyancy[2] - self.volume_x * self.center_of_gravity[2]
+            self._hydrostatic_stiffness[3,5] += -self.volume_x * self.center_of_buoyancy[0] + self.volume_x * self.center_of_gravity[0]
+            self._hydrostatic_stiffness[4,4] += self.volume_x * self.center_of_buoyancy[2] - self.volume_x * self.center_of_gravity[2]
+            self._hydrostatic_stiffness[4,5] += -self.volume_x * self.center_of_buoyancy[1] + self.volume_x * self.center_of_gravity[1]
 
             print 'Calculated hydorstatic stiffness'
 
@@ -149,7 +165,7 @@ class PanelMesh(object):
                     x_b += self.normals[face_n][0]*self.centroid[face_n][0]**2*self.cell_surface_area[face_n]
                     y_b += self.normals[face_n][1]*self.centroid[face_n][1]**2*self.cell_surface_area[face_n]
                     z_b += self.normals[face_n][2]*self.centroid[face_n][2]**2*self.cell_surface_area[face_n]
-            self._center_of_buoyancy = 1./(2.*self.volume)*np.array([x_b, y_b, z_b])
+            self._center_of_buoyancy = 1./(2.*self.volume_x )*np.array([x_b, y_b, z_b])
 
             print 'Calculated the center of buoyancy'
 
@@ -281,6 +297,146 @@ class PanelMesh(object):
 
         return self._surface_area_vtk
 
+    def write(self,mesh_format='VTK'):
+        if mesh_format == 'VTK' or mesh_format == 'VTP':
+            self._write_vtp()
+
+        if mesh_format == 'WAMIT' or mesh_format == 'GDF':
+            self._write_gdf()
+
+        if mesh_format == 'NEMOH':
+            self._write_nemoh()
+
+
+
+    def calculate_center_of_gravity(self, ):
+
+        com = vtk.vtkCenterOfMass()
+        com.SetInputData(self.vtp_mesh)
+        com.Update()
+        self.center_of_gravity = com.GetCenter()
+
+        print 'Calculated center of gravity assuming uniform material density'
+
+    # def cut(self,plane=2,value=0.0,direction=1):
+    '''This function is not currently working 100%
+    '''
+    #     self.collapse(plane,value,direction)
+    #
+    #     tempFaces = []
+    #     count = 0
+    #
+    #     for i in xrange(self.faces.shape[0]):
+    #
+    #        delete_face = 0
+    #
+    #        for j in xrange(4):
+    #
+    #            p = self.faces[i][j]
+    #            z = float(self.cords[int(p)][2])
+    #
+    #            if z == 0.:
+    #                delete_face += 1
+    #
+    #        if delete_face != 4:
+    #            tempFaces.append(self.faces[i])
+    #            count  += 1
+    #
+    #     print 'removed ' + str(count) + ' surface faces'
+    #     self.faces = tempFaces
+    #     self.faces.shape[0] = self.faces.shape[0]
+
+    def view(self, color=[0.5,1,0.5], opacity=1.0, save_png=False, interact=True, camera_pos=[50,50,50]):
+        if self.VTK_installed is False:
+            raise VTK_Exception('VTK must be installed to use the view function')
+
+        # Create a mapper and load VTP data into the mapper
+        mapper=vtk.vtkPolyDataMapper()
+        mapper.SetInputData(self.vtp_mesh)
+
+        # Create an actor that contains the data in the mapper
+        actor=vtk.vtkActor()
+        actor.GetProperty().SetColor(color)
+        actor.GetProperty().SetOpacity(opacity)
+        actor.SetMapper(mapper)
+        actor.GetProperty().EdgeVisibilityOn()
+
+        # Camera
+        camera = vtk.vtkCamera();
+        camera.SetPosition(camera_pos)
+        camera.SetFocalPoint(0, 0, 0)
+
+        # Add axes
+        axes = vtk.vtkAxesActor()
+
+        # Render the data
+        ren = vtk.vtkRenderer()
+        ren.AddActor(actor)
+        ren.AddActor(axes)
+        ren.SetActiveCamera(camera)
+
+        # Create a render window
+        renWin = vtk.vtkRenderWindow()
+        renWin.AddRenderer(ren)
+        renWin.SetSize(800, 800)
+
+        # Start the visiuilization
+        iren = vtk.vtkRenderWindowInteractor()
+        iren.SetRenderWindow(renWin)
+        ren.SetBackground(0,0,0)
+        renWin.Render()
+
+
+        vtk.vtkPolyDataMapper().SetResolveCoincidentTopologyToPolygonOffset()
+
+        if save_png is True:
+            w2if = vtk.vtkWindowToImageFilter()
+            w2if.SetInput(renWin)
+            w2if.Update()
+
+            writer = vtk.vtkPNGWriter()
+            writer.SetFileName(self.out_file['png'])
+            writer.SetInputDataObject(w2if.GetOutput())
+            writer.Write()
+
+            print 'Wrote mesh image to: ' + self.out_file['png']
+
+        if interact is True:
+            iren.Start()
+
+    def scale(self, scale_vect):
+        scale_vect = np.array(scale_vect)
+        if scale_vect.size != 3:
+            raise Exception('The scale_vect input must be a length 3 vector')
+        self.points = self.points*scale_vect
+        self.scale_vect = scale_vect
+        self._create_vtp_mesh()
+        print 'Scaled mesh by: ' + str(scale_vect)
+
+    def translate(self,translation_vect,translate_cog=True):
+        translation_vect = np.array(translation_vect)
+        if translation_vect.size != 3:
+            raise Exception('The translation_vect input must be a length 3 vector')
+        self.points += translation_vect
+        self.translation_vect = translation_vect
+
+        if translate_cog is True:
+            self.center_of_gravity += translation_vect
+
+        print 'Translated mesh by: ' + str(translation_vect) + '\nCenter of gravity is: ' + str(self.center_of_gravity)
+
+    def open(self):
+        self.write(mesh_format='VTP')
+        if _system() == 'Darwin':
+            os.system('open ' + self.out_file['vtp'])
+
+        elif _system() == 'Linux':
+            os.system('xdg ' + self.out_file['vtp'])
+
+        else:
+            raise Exception('The open function is only supported for OSX')
+
+
     def _create_vtp_mesh(self):
 
         if self.VTK_installed is True:
@@ -301,32 +457,20 @@ class PanelMesh(object):
             self.vtp_mesh.SetPoints(points)
             self.vtp_mesh.SetPolys(polys)
 
-    def _collapse(self,plane=2,value=0.0,direction=1):
-        '''Collapse points
-        '''
-        for i in xrange(self.faces.shape[0]):
-
-            for j in xrange(self.faces[i].size):
-
-                p = int(self.faces[i][j])
-
-                if self.points[p][plane] > value*direction:
-
-                    self.points[p][plane] = value
-
-    def write(self,mesh_format='VTK'):
-
-        if mesh_format == 'VTK' or mesh_format == 'VTP':
-            self.out_file = self.out_file_base + '.vtp'
-            self._write_vtp()
-
-        if mesh_format == 'WAMIT' or mesh_format == 'GDF':
-            self.out_file = self.out_file_base + '.gdf'
-            self._write_gdf()
-
-        if mesh_format == 'NEMOH':
-            self.out_file = self.out_file_base + '.dat'
-            self._write_nemoh()
+    # def _collapse(self,plane=2,value=0.0,direction=1):
+    '''This function is not yet working 100%
+    '''
+    #     '''Collapse points
+    #     '''
+    #     for face,face_n in xrange(self.faces.shape[0]):
+    #
+    #         for j in xrange(self.faces[i].size):
+    #
+    #             p = int(self.faces[i][j])
+    #
+    #             if self.points[p][plane] > value*direction:
+    #
+    #                 self.points[p][plane] = value
 
     def _write_vtp(self):
         if self.VTK_installed is False:
@@ -334,16 +478,16 @@ class PanelMesh(object):
             raise VTK_Exception('VTK must be installed write VTP/VTK meshes, please select a different output mesh_format')
 
         writer = vtk.vtkXMLPolyDataWriter()
-        writer.SetFileName(self.out_file)
+        writer.SetFileName(self.out_file['vtp'])
         writer.SetInputData(self.vtp_mesh)
         writer.SetDataModeToAscii()
         writer.Write()
 
-        print 'Wrote VTK PolyData mesh to ' + str(self.out_file)
+        print 'Wrote VTK PolyData mesh to: ' + str(self.out_file['vtp'])
 
     def _write_nemoh(self):
 
-        with open(self.out_file,'w') as fid:
+        with open(self.out_file['nemoh'],'w') as fid:
             fid.write('2 0') # This should not be hard coded
             fid.write('\n')
             for i in xrange(self.points.shape[0]):
@@ -356,12 +500,12 @@ class PanelMesh(object):
                 fid.write('\n')
             fid.write('0 0 0 0')
 
-        print 'Wrote NEMOH mesh to ' + str(self.out_file)
+        print 'Wrote NEMOH mesh to: ' + str(self.out_file['nemoh'])
 
 
     def _write_gdf(self,out_file=None):
 
-        with open(self.out_file,'w') as fid:
+        with open(self.out_file['wamit'],'w') as fid:
             fid.write('Mesh file written by meshio.py')
             fid.write('\n')
             fid.write('1 9.80665       ULEN GRAV')
@@ -379,7 +523,7 @@ class PanelMesh(object):
                     for j,pointKey in enumerate(faceMod):
                         fid.write(str(self.points[pointKey]).replace(',','').replace('[','').replace(']','') + '\n')
 
-        print 'Wrote WAMIT mesh to ' + str(self.out_file)
+        print 'Wrote WAMIT mesh to: ' + str(self.out_file['wamit'])
 
     def _calc_component_vol(self, ):
         self._volume_x = 0.
@@ -395,100 +539,6 @@ class PanelMesh(object):
         self._volume_z = volume[2]
 
         print 'Calculated x y and z mesh volumes'
-
-    def calculate_center_of_gravity(self, ):
-
-        com = vtk.vtkCenterOfMass()
-        com.SetInputData(self.vtp_mesh)
-        com.Update()
-        self.center_of_gravity = com.GetCenter()
-
-        print 'Calculated center of gravity assuming uniform material density'
-
-    def cut(self,plane=2,value=0.0,direction=1):
-        self.collapse(plane,value,direction)
-
-        tempFaces = []
-        count = 0
-
-        for i in xrange(self.faces.shape[0]):
-
-           delete_face = 0
-
-           for j in xrange(4):
-
-               p = self.faces[i][j]
-               z = float(self.cords[int(p)][2])
-
-               if z == 0.:
-                   delete_face += 1
-
-           if delete_face != 4:
-               tempFaces.append(self.faces[i])
-               count  += 1
-
-        print 'removed ' + str(count) + ' surface faces'
-        self.faces = tempFaces
-        self.faces.shape[0] = self.faces.shape[0]
-
-    def view(self,color=[0.5,1,0.5],opacity=1.0):
-        if self.VTK_installed is False:
-            raise VTK_Exception('VTK must be installed to use the view function')
-
-        # Create a mapper and load VTP data into the mapper
-        mapper=vtk.vtkPolyDataMapper()
-        mapper.SetInputData(self.vtp_mesh)
-
-        # Create an actor that contains the data in the mapper
-        actor=vtk.vtkActor()
-        actor.GetProperty().SetColor([0.5,1,0.5])
-        actor.GetProperty().SetOpacity(1.0)
-        actor.SetMapper(mapper)
-        actor.GetProperty().EdgeVisibilityOn()
-
-        # Add axes
-        axes = vtk.vtkAxesActor()
-
-        # Render the data
-        ren = vtk.vtkRenderer()
-        ren.AddActor(actor)
-        ren.AddActor(axes)
-
-        # Create a render window
-        renWin = vtk.vtkRenderWindow()
-        renWin.AddRenderer(ren)
-        renWin.SetSize(600, 600)
-
-        # Start the visiuilization
-        iren = vtk.vtkRenderWindowInteractor()
-        iren.SetRenderWindow(renWin)
-        ren.SetBackground(0,0,0)
-        renWin.Render()
-        iren.Start()
-
-        vtk.vtkPolyDataMapper().SetResolveCoincidentTopologyToPolygonOffset()
-
-    def scale(self,scale):
-        scale = np.array(scale)
-        if scale.size != 3:
-            raise Exception('The scale input must be a length 3 vector')
-        self.points *= scale
-        self.scale = scale
-        print 'Scaled mesh by: ' + str(scale)
-
-    def translate(self,translate,translate_cog=True):
-        translate = np.array(translate)
-        if translate.size != 3:
-            raise Exception('The translate input must be a length 3 vector')
-        self.points += translate
-        self.translate = translate
-
-        if translate_cog is True:
-            self.center_of_gravity += translate
-
-        print 'Translated mesh by: ' + str(translate) + '\nCenter of gravity is: ' + str(self.center_of_gravity)
-
-
 
 def _read_gdf(file_name):
     '''Internal function to read gdf wamit meshes
@@ -602,11 +652,9 @@ def _read_nemoh(file_name):
     return mesh_data
 
 
-
-
 def read(file_name):
 
-    print '\nReading mesh file: ' + str(file_name)
+    print 'Reading mesh file: ' + str(file_name)
 
     file_name = os.path.abspath(file_name)
     (f_name,f_ext) = os.path.splitext(file_name)
@@ -626,7 +674,12 @@ def read(file_name):
     else:
         raise Exception(f_ext + ' is an unsupported file mesh file type')
 
+
     mesh_data.out_file_base = os.path.splitext(file_name)[0] + '_bemio_output'
+    mesh_data.out_file['vtp'] = mesh_data.out_file_base + '.vtp'
+    mesh_data.out_file['wamit'] = mesh_data.out_file_base + '.gdf'
+    mesh_data.out_file['nemoh'] = mesh_data.out_file_base + '.dat'
+    mesh_data.out_file['png'] = os.path.splitext(file_name)[0] + '.png'
 
     if mesh_data.VTK_installed is True:
 
@@ -646,9 +699,7 @@ def _mk_vtk_id_list(it):
         vil: vtk id list
     '''
     vil = vtk.vtkIdList()
-
     for i in it:
-
         vil.InsertNextId(int(i))
 
     return vil
@@ -681,7 +732,6 @@ def cut_mesh(mesh_obj, plane_ind=2, plane_loc=-1e-5, cut_dir=1.):
             mesh_obj_new.removed_points.append(mesh_obj_new.points[face[1]])
             mesh_obj_new.removed_points.append(mesh_obj_new.points[face[2]])
             mesh_obj_new.removed_points.append(mesh_obj_new.points[face[3]])
-
 
     mesh_obj_new.faces = np.array(tempFaces)
     mesh_obj_new.removed_faces = np.array(mesh_obj_new.removed_faces)

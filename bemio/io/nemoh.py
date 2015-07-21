@@ -42,7 +42,7 @@ class NemohOutput(object):
     def __init__(self, sim_dir='./', cal_file='Nemoh.cal', results_dir = 'Results', mesh_dir='Mesh', dimensionalize=False):
 
         # Set files
-        self.dimensionalize = dimensionalize
+        self.dimensionalize_at_read = dimensionalize
         self.dimensional = True
         self.dir = os.path.abspath(sim_dir)
         self.files = bem.generate_file_names(os.path.join(self.dir,cal_file))
@@ -107,9 +107,8 @@ class NemohOutput(object):
             self.data[i].name = self.cal.name[i]
             self.data[i].num_bodies = self.cal.n_bods
             self.data[i].dimensional = self.dimensional
-            self.data[i].dimensioanlize = self.dimensionalize
 
-            self.data[i].dimensionalize_nondimensionalize() # Note... this is missing the KH nondimensionalization
+            self.data[i].dimensionalize(self.dimensionalize_at_read) # Note... this is missing the KH nondimensionalization
 
 
     def read_kh(self,body_num,file):
