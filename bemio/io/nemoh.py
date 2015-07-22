@@ -13,10 +13,8 @@
 # limitations under the License.
 
 # This class contains a structure to store hydrodynamic data from WAMTI,
-# AQWA, Nemoh, or another code that calculates hydrodynamic coefficients
+# AQWA, Nemoh, or another code that calculates hydrodynamic coefficinets
 # and excitation forces
-
-from __future__ import division
 
 import os
 
@@ -27,10 +25,10 @@ from bemio.data_structures import bem
 try:
 
     from astropy.io import ascii
-
+ 
 except:
 
-    raise Exception('The astropy module must be installed. Try "pip install astropy"')
+    raise Exception('The astropy module must be installed. Try "pip install astropy"')   
 
 class NemohOutput(object):
     '''
@@ -39,20 +37,18 @@ class NemohOutput(object):
     Inputs:
     results_dir -- the directory with the Nemoh results files (e.g. CA.dat)
     '''
-    def __init__(self, sim_dir='./', cal_file='Nemoh.cal', results_dir = 'Results', mesh_dir='Mesh', dimensionalize=False):
+    def __init__(self, sim_dir='./', cal_file='Nemoh.cal', results_dir = 'Results', mesh_dir='Mesh', out_name='nemoh_bemio.out'):
 
         # Set files
-        self.dimensionalize_at_read = dimensionalize
-        self.dimensional = True
         self.dir = os.path.abspath(sim_dir)
-        self.files = bem.generate_file_names(os.path.join(self.dir,cal_file))
+        self.files = bem.generate_file_names(out_name)
         self.files['Nemoh']     = os.path.join(self.dir,cal_file)
         self.files['RadiationCoefficients'] = os.path.join(self.dir,results_dir,'RadiationCoefficients.tec')
 
         self.files['ExcitationForce'] = os.path.join(self.dir,results_dir,'ExcitationForce.tec')
         self.files['DiffractionForce'] = os.path.join(self.dir,results_dir,'DiffractionForce.tec')
         self.files['FKForce'] = os.path.join(self.dir,results_dir,'FKForce.tec')
-
+        
         # Initialize data ovject
         self.data = {}
 
@@ -63,11 +59,11 @@ class NemohOutput(object):
         self._read_cal()
 
         # Read tec plot output files
-        self.am, self.rd, self.w, raw_rad = _read_tec(self.files['RadiationCoefficients'])
+        self.am, self.rd, self.w, raw_rad = _read_tec(self.files['RadiationCoefficients'],data_type=0)
 
-        self.ex_mag, self.ex_phase, temp, raw_ex = _read_tec(self.files['ExcitationForce'])
-        self.dfr_mag, self.dfr_phase, temp, raw_diff = _read_tec(self.files['DiffractionForce'])
-        self.fk_mag, self.fk_phase, temp, raw_fk = _read_tec(self.files['FKForce'])
+        self.ex_mag, self.ex_phase, temp, raw_ex = _read_tec(self.files['ExcitationForce'],data_type=1)
+        self.dfr_mag, self.dfr_phase, temp, raw_diff = _read_tec(self.files['DiffractionForce'],data_type=1)
+        self.fk_mag, self.fk_phase, temp, raw_fk = _read_tec(self.files['FKForce'],data_type=1)
 
         self.ex_im = self.ex_mag*np.sin(self.ex_phase)
         self.ex_re = self.ex_mag*np.cos(self.ex_phase)
@@ -76,7 +72,7 @@ class NemohOutput(object):
         self.raw_output = f_break + raw_rad + f_break + raw_diff + f_break + raw_ex + f_break + raw_fk + f_break
 
         self._create_and_load_hydro_data_obj()
-
+        
     def _create_and_load_hydro_data_obj(self):
         '''
         Function to load hydrodynamic data into HydrodynamicData object
@@ -106,14 +102,12 @@ class NemohOutput(object):
             self.data[i].body_num = i
             self.data[i].name = self.cal.name[i]
             self.data[i].num_bodies = self.cal.n_bods
-            self.data[i].dimensional = self.dimensional
 
-            self.data[i].dimensionalize(self.dimensionalize_at_read) # Note... this is missing the KH nondimensionalization
-
+            self.data[i].nondimensionalize_hydro_coeffs()
 
     def read_kh(self,body_num,file):
         '''
-        Function to read KH.dat
+        Function to read HK.dat
 
         This function is not necessary for such a simple function, but we may
         need to make it more complicated in the future, so i'm leaving it as
@@ -133,8 +127,13 @@ class NemohOutput(object):
         self.data[body_num].wp_area = np.float(hydrostatics[4].split()[-1])
 
         xf = np.float(hydrostatics[0].split()[2])
+        # xg = np.float(hydrostatics[0].split()[-1])
+
         yf = np.float(hydrostatics[1].split()[2])
+        # yg = np.float(hydrostatics[1].split()[-1])
+
         zf = np.float(hydrostatics[2].split()[2])
+        # zg = np.float(hydrostatics[2].split()[-1])      
 
         self.data[body_num].cg  = np.array([xf, yf, zf])
 
@@ -171,7 +170,7 @@ class NemohOutput(object):
             add_lines += int(cal[24+18*i+add_lines].split()[0])
 
 
-
+            
 
 
 def _reshape_tec(data):
@@ -187,7 +186,7 @@ def _reshape_tec(data):
 
     return out
 
-def _read_tec(file):
+def _read_tec(file,data_type=0):
     '''
     Function to read read am and rd coefficients
 
@@ -196,7 +195,7 @@ def _read_tec(file):
     Need to describe data_type
     '''
 
-    # Read added mass and damping
+    # Read added mass and damping 
     with open(file) as fid:
 
         raw = fid.readlines()
@@ -215,8 +214,8 @@ def _read_tec(file):
             zone_length = int(line.split(',')[-2].split()[-1])
             proc[i] = ascii.read(raw[i+1:i+zone_length+1])
 
-
-    # Sort the zones from the .tec file
+    
+    # Sort the zones from the .tec file        
     zones = proc.keys()
     zones.sort()
 
@@ -232,7 +231,12 @@ def _read_tec(file):
     for i, zone in enumerate(zones):
 
         for j in xrange(n_vars):
-            a[i,j,:] = proc[zone].field(1+j*2)
+            a[i,j,:] = proc[zone].field(1+j*2)     
             b[i,j,:] = proc[zone].field(2+j*2)
 
+    if data_type == 1:
+        a = _reshape_tec(a)
+        b = _reshape_tec(b)
+
     return (a, b, w, raw)
+
