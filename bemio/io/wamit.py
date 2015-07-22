@@ -1,3 +1,4 @@
+
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -10,8 +11,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import os
-
 import numpy as np
 
 from bemio.data_structures import bem
@@ -19,51 +18,47 @@ from bemio.data_structures import bem
 class WamitOutput(object):
     '''
     Class to read and interact with WAMIT simulation data
-
+    
     **Inputs:**
 
     * out_file: Absolute or relative loaction and name of the WAMIT .out file
     * density: fluid denisty (default:1000.)
 
     '''
-    def __init__(self, out_file, density=1000., gravity=9.81, dimensionalize=False):
+    def __init__(self, out_file, density=1000., gravity=9.81):
 
         self.files = bem.generate_file_names(out_file)
-        self.files['3sc'] = self.files['base_name'] + '.3sc'
-        self.files['3fk'] = self.files['base_name'] + '.3fk'
-
+        
         self.rho = density
         self.g = gravity
 
         self.data = {}
-        self.dimensionalize_at_read = dimensionalize
-        self.dimensional = False
         self._read()
 
     def _read(self):
-        '''Internal function to read WAMIT output file into the class. that is called during __init__
         '''
-
-        print 'Reading ' + self.files['out']
-
+        Internal function to read WAMIT output file into the class. that is called during __init__
+        '''
         with open(self.files['out'],'rU') as fid:
 
             raw = fid.readlines()
-
+   
         code = 'WAMIT'
         num_bodies = 0 # Total number of bodies
         bod_count = 0 # Counter for bodies
+        freq_count = 0
         T = []
         cg = {}
         cb = {}
-        name = {}
+        name = {}    
         disp_vol = {}
         k = {}
         wave_dir = []
         empty_line = '\n'
 
-
+        
         for i, line in enumerate(raw):
+
 
 
             if "POTEN run date and starting time:" in line:
@@ -84,14 +79,14 @@ class WamitOutput(object):
                         data = raw[i+count+skip]
 
             if "Wave Heading (deg)" in line:
-                wave_dir.append(float(line.split()[-1]))
-
+                wave_dir.append(float(line.split()[-1]))       
+            
             if 'Water depth:' in line:
                 water_depth = raw[i].split()[2]
                 try:
                     water_depth = np.float(water_depth)
                 except:
-                    pass
+                    pass 
 
             # If there is one body in the WAMIT run
             if "Input from Geometric Data File:" in line:
@@ -99,7 +94,7 @@ class WamitOutput(object):
                 num_bodies = 1
                 name[0] = raw[i].split()[-1]
 
-
+            
             # If there are two bodies in the WAMIT run
             if "Input from Geometric Data Files:" in line:
 
@@ -123,17 +118,17 @@ class WamitOutput(object):
 
                         temp = raw[i+j].split()
                         cg[bod_count] = np.array([temp[2],temp[5],temp[8]]).astype(float)
-
+                        
                     if 'Volumes (VOLX,VOLY,VOLZ):' in raw[i+j]:
 
                         temp = raw[i+j].split()
                         disp_vol[bod_count] = float(temp[-1])
-
+                        
                     if 'Center of Buoyancy (Xb,Yb,Zb):' in raw[i+j]:
 
                         temp = raw[i+j].split()
                         cb[bod_count] = np.array([temp[-3],temp[-2],temp[-1]]).astype(float)
-
+                        
                     if 'C(3,3),C(3,4),C(3,5):' in raw[i+j]:
 
                         temp = np.zeros([6,6])
@@ -141,22 +136,22 @@ class WamitOutput(object):
                         temp[2,2] = np.float(temp2[1])
                         temp[2,3] = np.float(temp2[2])
                         temp[2,4] = np.float(temp2[3])
-
+                        
                         temp2 = raw[i+j+1].split()
                         temp[3,3] = np.float(temp2[1])
                         temp[3,4] = np.float(temp2[2])
                         temp[3,5] = np.float(temp2[3])
-
+                        
                         temp2 = raw[i+j+2].split()
                         temp[4,4] = np.float(temp2[1])
                         temp[4,5] = np.float(temp2[2])
-
+                        
                         k[bod_count] = temp
+                        
 
-
-                bod_count += 1
-
-        # Put things into numpy arrays
+                bod_count += 1      
+                        
+        # Put things into numpy arrays                               
         T = np.array(T).astype(float)
         wave_dir = np.array(wave_dir).astype(float)
 
@@ -185,7 +180,7 @@ class WamitOutput(object):
 
             # Read inf freq added mass
             if "Wave period = zero" in line:
-
+                
                 count = 7
                 temp_line = raw[count+i]
 
@@ -198,7 +193,7 @@ class WamitOutput(object):
 
             # Read zero freq added mass
             if "Wave period = infinite" in line:
-
+                
                 count = 7
                 temp_line = raw[count+i]
 
@@ -219,9 +214,9 @@ class WamitOutput(object):
 
                     am_all[int(temp_line.split()[0])-1,int(temp_line.split()[1])-1,count_freq] = temp_line.split()[2]
                     rd_all[int(temp_line.split()[0])-1,int(temp_line.split()[1])-1,count_freq] = temp_line.split()[3]
-                    count += 1
+                    count += 1 
                     temp_line = raw[count+i]
-
+                
                 count_freq += 1
 
 
@@ -232,18 +227,14 @@ class WamitOutput(object):
         rao_phase_all = ex_all.copy()
         ssy_all = ex_all.copy()
         ssy_phase_all = ex_all.copy()
-        haskind_all = ex_all.copy()
-        haskind_phase_all = ex_all.copy()
         count_diff2 = 0
         count_rao2 = 0
         count_ssy2 = 0
-        count_haskind2 = 0
         for i, line in enumerate(raw):
 
             count_diff = 0
             count_rao = 0
             count_ssy = 0
-            count_haskind = 0
 
             if "DIFFRACTION EXCITING FORCES AND MOMENTS" in line:
 
@@ -291,30 +282,6 @@ class WamitOutput(object):
                             rao_phase_all[int(temp_line.split()[0])-1,count_wave_dir-1,count_rao2-1] = float(temp_line.split()[2])
                             temp_line = raw[i+count_rao+count+4+count2]
 
-
-            if "HASKIND EXCITING FORCES AND MOMENTS" in line:
-
-                count_haskind += 1
-                count_haskind2 += 1
-                count_wave_dir = 0
-                count = 0
-
-                while count_wave_dir < wave_dir.size:
-
-                    count += 1
-
-                    if "Wave Heading (deg) :" in raw[i+count_haskind + count]:
-
-                        count_wave_dir += 1
-                        temp_line = raw[i+count_ssy+count+4]
-                        count2 = 0
-
-                        while temp_line != empty_line:
-                            count2 += 1
-                            haskind_all[int(temp_line.split()[0])-1,count_wave_dir-1,count_haskind2-1] = float(temp_line.split()[1])
-                            haskind_phase_all[int(temp_line.split()[0])-1,count_wave_dir-1,count_haskind2-1] = float(temp_line.split()[2])
-                            temp_line = raw[i+count_ssy+count+4+count2]
-
             if "SURGE, SWAY & YAW DRIFT FORCES (Momentum Conservation)" in line:
 
                 count_ssy += 1
@@ -338,75 +305,29 @@ class WamitOutput(object):
                             ssy_phase_all[int(temp_line.split()[0])-1,count_wave_dir-1,count_ssy2-1] = float(temp_line.split()[2])
                             temp_line = raw[i+count_ssy+count+4+count2]
 
-        if os.path.exists(self.files['3sc']):
-            sc_re = np.zeros([6*num_bodies,wave_dir.size,T.size])
-            sc_im = sc_re.copy()
-            sc_phase = sc_re.copy()
-            sc_mag = sc_re.copy()
-
-            scattering = np.loadtxt(self.files['3sc'],skiprows=1)
-            line_count = 0
-
-            for freq_n in xrange(T.size):
-                for beta_n in xrange(wave_dir.size):
-                    wave_dir_hold =  scattering[line_count][1]
-                    while line_count < scattering.shape[0] and scattering[line_count][1] == wave_dir_hold:
-                        comp = int(scattering[line_count][2])-1
-                        sc_mag[comp,beta_n,freq_n] = scattering[line_count][3]
-                        sc_phase[comp,beta_n,freq_n] = scattering[line_count][4]
-                        sc_re[comp,beta_n,freq_n] = scattering[line_count][5]
-                        sc_im[comp,beta_n,freq_n] = scattering[line_count][6]
-                        wave_dir_hold =  scattering[line_count][1]
-                        line_count += 1
-
-        else:
-            print '\tThe file ' + self.files['3sc'] + ' does not exist... not reading scattering coeffcients.'
-
-        if os.path.exists(self.files['3fk']):
-            fk_re = np.zeros([6*num_bodies,wave_dir.size,T.size])
-            fk_im = fk_re.copy()
-            fk_phase = fk_re.copy()
-            fk_mag = fk_re.copy()
-
-            fk = np.loadtxt(self.files['3fk'],skiprows=1)
-            line_count = 0
-
-            for freq_n in xrange(T.size):
-                for beta_n in xrange(wave_dir.size):
-                    wave_dir_hold =  fk[line_count][1]
-                    while line_count < fk.shape[0] and fk[line_count][1] == wave_dir_hold:
-                        comp = int(fk[line_count][2])-1
-                        fk_mag[comp,beta_n,freq_n] = fk[line_count][3]
-                        fk_phase[comp,beta_n,freq_n] = fk[line_count][4]
-                        fk_re[comp,beta_n,freq_n] = fk[line_count][5]
-                        fk_im[comp,beta_n,freq_n] = fk[line_count][6]
-                        wave_dir_hold =  scattering[line_count][1]
-                        line_count += 1
-
-        else:
-            print '\tThe file ' + self.files['3fk'] + ' does not exist... not reading froud krylof coeffcients.'
 
         # Load data into the hydrodata structure
-        for i in xrange(num_bodies):
-            self.data[i] = bem.HydrodynamicData()
-            self.data[i].dimensional = self.dimensional
-            self.data[i].g = self.g
-            self.data[i].rho = self.rho
-            self.data[i].body_num = i
+        for i in xrange(num_bodies):       
+            self.data[i] = bem.HydrodynamicData() 
             self.data[i].name = name[i][0:-4]
+            self.data[i].g = self.g
             self.data[i].water_depth = water_depth
+            self.data[i].rho = self.rho            
             self.data[i].num_bodies = num_bodies
-            self.data[i].cg = cg[i]
+            self.data[i].body_num = i
+            self.data[i].cg = cg[i] 
             self.data[i].cb = cb[i]
             self.data[i].k = k[i]
+            self.data[i].k = self.data[i].k*self.rho*self.g
             self.data[i].disp_vol = disp_vol[i]
             self.data[i].wave_dir = wave_dir
             self.data[i].T = T
             self.data[i].w = 2.0*np.pi/self.data[i].T
-
+            
             if 'am_inf' in locals():
 
                 self.data[i].am.inf = am_inf[6*i:6+6*i,:]
+                self.data[i].am.inf = self.data[i].am.inf*self.rho
 
             else:
 
@@ -417,25 +338,30 @@ class WamitOutput(object):
             if 'am_zero' in locals():
 
                 self.data[i].am.zero = am_zero[6*i:6+6*i,:]
+                self.data[i].am.zero = self.data[i].am.zero*self.rho
 
             else:
 
                 self.data[i].am.zero = np.nan*np.zeros([6*num_bodies,6*num_bodies,self.data[i].T.size])
                 print 'Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain zero frequency added mass coefficients'
-
+            
 
             if 'am_all' in locals():
-
+            
                 self.data[i].am.all = am_all[6*i:6+6*i,:,:]
+                self.data[i].am.all = self.data[i].am.all*self.rho
+            
             else:
 
                 self.data[i].am.all = np.nan*np.zeros([6*num_bodies,6*num_bodies,self.data[i].T.size])
                 print 'Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain any frequency dependent added mass coefficients'
 
-
+            
             if 'rd_all' in locals():
 
                 self.data[i].rd.all = rd_all[6*i:6+6*i,:,:]
+                for j in xrange(np.shape(self.data[i].rd.all)[2]):
+                    self.data[i].rd.all[:,:,j] = self.data[i].rd.all[:,:,j]*self.rho*self.data[i].w[j]
 
             else:
 
@@ -444,7 +370,7 @@ class WamitOutput(object):
 
             if 'ex_all' in locals():
 
-                self.data[i].ex.mag = ex_all[6*i:6+6*i,:,:]
+                self.data[i].ex.mag = ex_all[6*i:6+6*i,:,:]*self.rho*self.g
                 self.data[i].ex.phase = np.deg2rad(phase_all[6*i:6+6*i,:,:])
                 self.data[i].ex.re = self.data[i].ex.mag*np.cos(self.data[i].ex.phase)
                 self.data[i].ex.im = self.data[i].ex.mag*np.sin(self.data[i].ex.phase)
@@ -453,25 +379,6 @@ class WamitOutput(object):
 
                 print 'Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain any excitation coefficients'
 
-            if 'sc_mag' in locals():
-                self.data[i].ex.sc.mag = sc_mag[6*i:6+6*i,:,:]
-                self.data[i].ex.sc.phase = np.deg2rad(sc_phase[6*i:6+6*i,:,:])
-                self.data[i].ex.sc.re = sc_re[6*i:6+6*i,:,:]
-                self.data[i].ex.sc.im = sc_im[6*i:6+6*i,:,:]
-
-            else:
-                pass
-                # print 'Warning: body ' + str(i) + ' - The WAMTI .3sc file specified does not contain any scattering coefficients'
-
-            if 'fk_mag' in locals():
-                self.data[i].ex.fk.mag = fk_mag[6*i:6+6*i,:,:]
-                self.data[i].ex.fk.phase = np.deg2rad(fk_phase[6*i:6+6*i,:,:])
-                self.data[i].ex.fk.re = fk_re[6*i:6+6*i,:,:]
-                self.data[i].ex.fk.im = fk_im[6*i:6+6*i,:,:]
-
-            else:
-                pass
-                # print 'Warning: body ' + str(i) + ' - The WAMTI .3fk file specified does not contain any froude krylof coefficients'
 
             if 'rao_all' in locals():
 
@@ -495,7 +402,9 @@ class WamitOutput(object):
 
                 print 'Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain any rao data'
 
+
             self.data[i].bem_raw_data = raw
             self.data[i].bem_code = code
 
-            self.data[i].dimensionalize(self.dimensionalize_at_read)
+        print 'Dimensionalized WAMIT Hydrodynamic coefficients with g = ' + str(self.g) + ' and rho = ' + str(self.rho)
+        

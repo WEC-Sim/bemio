@@ -1,27 +1,25 @@
 #!/usr/bin/python
+
 import os
 
-def run_test_case(test_case):
-	print '****Running the ' + str(test_case) + ' case****'
+def run_test_case(test):
+	print '****Running the ' + str(test) + ' case****'
 	try:
-		starting_dir = os.path.abspath(os.curdir)
-		os.chdir(test_case)
+		os.chdir(test)
 		execfile('run.py')
-		os.chdir(starting_dir)
-		print '****The ' +  str(test_case) + ' test case ran successfully****\n'
+		os.chdir('..')
+		print '****The ' +  str(test) + ' test case ran successfully****\n'
 	except:
-		raise Exception('The ' +  str(test_case) + ' test case failed')
+		raise Exception('The ' +  str(test) + ' test case did not run successfully') 
+	
 
 if __name__ == "__main__":
 
-	run_test_case('tutorials/wamit/COER_hydrodynamic_modeling_comp')
-	run_test_case('tutorials/wamit/ecm_ellipsoid')
-	run_test_case('tutorials/wamit/oswec')
-	run_test_case('tutorials/wamit/rm3')
-	run_test_case('tutorials/wamit/sphere')
-	run_test_case('tutorials/wamit/wec3')
-	run_test_case('tutorials/nemoh')
-	run_test_case('tutorials/mesh/scale_and_translate')
-	run_test_case('tutorials/mesh/wamit_to_nemoh')
+	os.chdir('tutorials')
 
-	print '\nAll test cases ran successfully!'
+	run_test_case('wamit')
+	run_test_case('aqwa')
+	run_test_case('nemoh')
+	#run_test_case('mesh') # for code developers only
+	
+	os.chdir('..')

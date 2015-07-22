@@ -3,10 +3,14 @@ Downloading and Installing
 
 Downloading bemio
 -----------------
-bemio is distributed through the `bemio GitHub repositiory <https://github.com/WEC-Sim/bemio/>`_.
+bemio is distributed through the `bemio GitHub web page <https://github.com/WEC-Sim/bemio/>`_. The code can be obtained using one of the following methods:
+
+	* **Clone with GitHub GUI:** bemio can obtained by cloning the repository using the GitHub GUI (available for `Mac <https://mac.github.com/>`_ and `Windows <https://windows.github.com/>`_ ).
+	* **Clone from command line:** ``git clone https://github.com/WEC-Sim/bemio.git``
+	* **Download code archive:** `bemio-1.x.x <https://github.com/WEC-Sim/bemio/archive/master.zip>`_.
 
 .. note::
-
+	
 	The folder that contains the bemio source code will be referred to as the ``$BEMIO_SOURE`` folder.
 
 Dependencies
@@ -24,18 +28,18 @@ Dependencies
 
 **HDFVIEW:** Although not required, bemio users will benefit from installing `HDFVIEW <http://www.hdfgroup.org/products/java/hdfview/>`_. HDFVIEW allows bemio users to view and interact with the bemio output files.
 
-Installing: Quick Start for Python Beginners
+Installing: Quick Start for Python Beginners 
 --------------------------------------------
 **Step 1 - Install Python:** It can be a pain to install Python, NumPy, SciPy, Matplotlib, h5py and other dependencies that are needed to run bemio. If you're new to Python, the easiest approach is to start by installing one of the science and engineering oriented Python distributions:
-
+	
 	* `Anaconda <http://continuum.io/downloads>`_ (Linux, Mac, Windows)
 	* `PythonXY <https://code.google.com/p/pythonxy/>`_ (Windows)
-
+	
 .. Note::
 
 	If you are using Anaconda, PythonXY or another non-Python.org distribution, you may need to install one of the packages identified in the `Dependencies`_ section. If you need to do so, you should install any needed modules via your distribution's package manager.
 
-**Step 2 - Download bemio:** Download bemio from the `GitHub repositiory <https://github.com/WEC-Sim/bemio/>`_
+**Step 2 - Download bemio:** Download bemio as described in the `Downloading bemio`_ section
 
 **Step 3 - Install bemio:** Open a command window (Windows) or terminal window (OSX and Linux) and navigate to ``$BEMIO_SOURCE``. Once inside the ``$BEMIO_SOURCE`` folder execute the following command to install bemio::
 
@@ -43,9 +47,9 @@ Installing: Quick Start for Python Beginners
 
 **Step 4 - Test the instillation:** Test the bemio by running the following command from a command prompt inside the ``$BEMIO_SOURCE`` folder::
 
-	python install_test.py
+	python test.py
 
-If the tutorial cases (located in ``$BEMIO_SOURCE/tutorials``) run successfully you will receive a success messages.
+If the  WAMIT, AQWA, and NEMOH tutorial cases (located in ``$BEMIO_SOURCE/tutorials``)  run successfully, you will receive get a success messages for each case.
 
 
 Installing: For Experienced Python Users
@@ -54,12 +58,12 @@ These instructions assume the user has an advanced level of Python knowledge.
 
 **Step 1 - Install Python 2.7.x:** Install Python 2.7.x and the Python modules identified in the `Dependencies`_ section.
 
-**Step 2 - Download bemio:** Download bemio from the `GitHub repositiory <https://github.com/WEC-Sim/bemio/>`_
+**Step 2 - Download bemio:** See the `Downloading bemio`_ section
 
 **Step 3 - Install bemio:** Add the ``$BEMIO_SOURCE`` folder to your `PYTHONPATH <https://docs.python.org/2/using/cmdline.html#environment-variables>`_.
 
-**Step 4 - Test the instillation:** Test bemio by running the following command from a command prompt inside the ``$BEMIO_SOURCE`` folder::
+**Step 4 - Test the instillation:** Test the bemio by running the following command from a command prompt inside the ``$BEMIO_SOURCE`` folder::
 
-	python install_test.py
+	python test.py
 
-If the tutorial cases (located in ``$BEMIO_SOURCE/tutorials``) run successfully you will receive a success messages.
+If the  WAMIT, AQWA, and NEMOH tutorial cases (located in ``$BEMIO_SOURCE/tutorials``)  run successfully, you will receive get a success messages for each case.

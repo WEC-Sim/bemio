@@ -11,11 +11,10 @@ The hydrodynamic coefficients (or data) that describe the radiation damping, add
 
 What can bemio do?
 ------------------
-
 bemio provides the following functionality:
 	* **Mesh I/O:** Read, view, and convert between mesh formats used by BEM codes. Specifically, bemio can read STL, VTK, WAMIT, and NEMOH mesh formats and convert between them.
-	* **BEM code results I/O:** Read NEMOH, WAMIT, and AQWA simulation output files and save the data in a standardized human readable bemio format that uses the `Hierarchical Data Format 5 (HDF5) <http://www.hdfgroup.org/HDF5/>`_.
-	* **Calculation of impulse response function** Calculate the wave excitation and radiation dampinf impulse response functions (IRFs).
+	* **BEM code results I/O:** Read NEMOH, WAMIT, and AQWA simulation output files and save the data in a standardized human readable format that uses the `Hierarchical Data Format 5 (HDF5) <http://www.hdfgroup.org/HDF5/>`_.
+	* **Calculation of impulse response function** Calculate the wave excitation and radiation dampinf impulse response functions (IRFs). 
 	* **Calculation of state space realization coefficients:** Calculation of state space realization coefficients that represent the IRFs.
 
 Developers
@@ -28,7 +27,7 @@ Contents
 --------
 .. toctree::
    :maxdepth: 2
-
+   
    installing.rst
    vtk.rst
    api_io.rst
