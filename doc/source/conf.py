@@ -53,4 +53,4 @@ man_pages = [
 ]
 
 # Custom paths
-sys.path.insert(0,"/Users/mlawson/Applications/bemio")
+sys.path.insert(0,'/Users/mlawson/Applications/bemio_lawsonro3')

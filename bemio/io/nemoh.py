@@ -13,8 +13,10 @@
 # limitations under the License.
 
 # This class contains a structure to store hydrodynamic data from WAMTI,
-# AQWA, Nemoh, or another code that calculates hydrodynamic coefficinets
+# AQWA, Nemoh, or another code that calculates hydrodynamic coefficients
 # and excitation forces
+
+from __future__ import division
 
 import os
 
@@ -25,32 +27,52 @@ from bemio.data_structures import bem
 try:
 
     from astropy.io import ascii
- 
+
 except:
 
-    raise Exception('The astropy module must be installed. Try "pip install astropy"')   
+    raise Exception('The astropy module must be installed. Try "pip install astropy"')
 
 class NemohOutput(object):
     '''
-    Class that is used to read Nemoh results.
+    Class to read and interact with NEMOH simulation data
 
-    Inputs:
-    results_dir -- the directory with the Nemoh results files (e.g. CA.dat)
+    Parameters:
+        sim_dir : str, optional
+            Directory where NEMOH simulation results are located
+        cal_file : str, optional
+            Name of NEMOH .cal file
+        results_dir : float, optional
+            Name of the directory that contains the NEMOH results files
+        mesh_dir : str, optional
+            Name of the directory that contains the NEMOH mesh files
+        scale : bool, optional
+            Boolean value to determine if the hydrodynamic data is scaled.
+            See the bemio.data_structures.bem.scale function for more
+            information
+
+    Examples
+        The following example assumes that a NEMOH simulation was run and that
+        there is data ./Results and ./Mesh directories. The Nemoh.cal file is
+        assumed to be located at ./Nemoh.cal
+
+        >>> nemoh_data = NemohOtuput()
     '''
-    def __init__(self, sim_dir='./', cal_file='Nemoh.cal', results_dir = 'Results', mesh_dir='Mesh', out_name='nemoh_bemio.out'):
+    def __init__(self, sim_dir='./', cal_file='Nemoh.cal', results_dir = 'Results', mesh_dir='Mesh', scale=False):
 
         # Set files
+        self.scaled_at_read = scale
+        self.scaled = True
         self.dir = os.path.abspath(sim_dir)
-        self.files = bem.generate_file_names(out_name)
+        self.files = bem.generate_file_names(os.path.join(self.dir,cal_file))
         self.files['Nemoh']     = os.path.join(self.dir,cal_file)
         self.files['RadiationCoefficients'] = os.path.join(self.dir,results_dir,'RadiationCoefficients.tec')
 
         self.files['ExcitationForce'] = os.path.join(self.dir,results_dir,'ExcitationForce.tec')
         self.files['DiffractionForce'] = os.path.join(self.dir,results_dir,'DiffractionForce.tec')
         self.files['FKForce'] = os.path.join(self.dir,results_dir,'FKForce.tec')
-        
+
         # Initialize data ovject
-        self.data = {}
+        self.body = {}
 
         # Object to store raw data
         self.cal = bem.Raw()
@@ -59,11 +81,11 @@ class NemohOutput(object):
         self._read_cal()
 
         # Read tec plot output files
-        self.am, self.rd, self.w, raw_rad = _read_tec(self.files['RadiationCoefficients'],data_type=0)
+        self.am, self.rd, self.w, raw_rad = _read_tec(self.files['RadiationCoefficients'])
 
-        self.ex_mag, self.ex_phase, temp, raw_ex = _read_tec(self.files['ExcitationForce'],data_type=1)
-        self.dfr_mag, self.dfr_phase, temp, raw_diff = _read_tec(self.files['DiffractionForce'],data_type=1)
-        self.fk_mag, self.fk_phase, temp, raw_fk = _read_tec(self.files['FKForce'],data_type=1)
+        self.ex_mag, self.ex_phase, temp, raw_ex = _read_tec(self.files['ExcitationForce'])
+        self.dfr_mag, self.dfr_phase, temp, raw_diff = _read_tec(self.files['DiffractionForce'])
+        self.fk_mag, self.fk_phase, temp, raw_fk = _read_tec(self.files['FKForce'])
 
         self.ex_im = self.ex_mag*np.sin(self.ex_phase)
         self.ex_re = self.ex_mag*np.cos(self.ex_phase)
@@ -72,70 +94,39 @@ class NemohOutput(object):
         self.raw_output = f_break + raw_rad + f_break + raw_diff + f_break + raw_ex + f_break + raw_fk + f_break
 
         self._create_and_load_hydro_data_obj()
-        
+
     def _create_and_load_hydro_data_obj(self):
         '''
         Function to load hydrodynamic data into HydrodynamicData object
         '''
         for i in xrange(self.cal.n_bods):
-            self.data[i] = bem.HydrodynamicData()
-            self.data[i].am.all = self.am[0+6*i:6+6*i,:]
-            self.data[i].rd.all = self.rd[0+6*i:6+6*i,:]
+            self.body[i] = bem.HydrodynamicData()
+            self.body[i].am.all = self.am[0+6*i:6+6*i,:]
+            self.body[i].rd.all = self.rd[0+6*i:6+6*i,:]
 
-            self.data[i].ex.mag = self.ex_mag[:,0+6*i:6+6*i]
-            self.data[i].ex.phase = self.ex_phase[:,0+6*i:6+6*i]
-            self.data[i].ex.im = self.ex_im[:,0+6*i:6+6*i]
-            self.data[i].ex.re = self.ex_re[:,0+6*i:6+6*i]
+            self.body[i].ex.mag = self.ex_mag[:,0+6*i:6+6*i]
+            self.body[i].ex.phase = self.ex_phase[:,0+6*i:6+6*i]
+            self.body[i].ex.im = self.ex_im[:,0+6*i:6+6*i]
+            self.body[i].ex.re = self.ex_re[:,0+6*i:6+6*i]
 
-            self.data[i].am.inf = self.data[i].am.all[:,:,-1]
+            self.body[i].am.inf = self.body[i].am.all[:,:,-1]
 
-            self.data[i].w = self.w
-            self.data[i].T = 2.*np.pi/self.w
+            self.body[i].w = self.w
+            self.body[i].T = 2.*np.pi/self.w
 
-            self.data[i].water_depth = self.cal.water_depth
-            self.data[i].g = self.cal.g
-            self.data[i].rho = self.cal.rho
+            self.body[i].water_depth = self.cal.water_depth
+            self.body[i].g = self.cal.g
+            self.body[i].rho = self.cal.rho
 
-            self.data[i].bem_code = 'NEMOH'
-            self.data[i].bem_raw_data = self.raw_output
+            self.body[i].bem_code = 'NEMOH'
+            self.body[i].bem_raw_data = self.raw_output
 
-            self.data[i].body_num = i
-            self.data[i].name = self.cal.name[i]
-            self.data[i].num_bodies = self.cal.n_bods
+            self.body[i].body_num = i
+            self.body[i].name = self.cal.name[i]
+            self.body[i].num_bodies = self.cal.n_bods
+            self.body[i].scaled = self.scaled
 
-            self.data[i].nondimensionalize_hydro_coeffs()
-
-    def read_kh(self,body_num,file):
-        '''
-        Function to read HK.dat
-
-        This function is not necessary for such a simple function, but we may
-        need to make it more complicated in the future, so i'm leaving it as
-        a function - mjl 25March2015
-        '''
-        self.data[body_num].k = np.loadtxt(file)
-
-    def read_hydrostatics(self,body_num,file):
-        '''
-        Function to read hydrostatics.dat nemoh file
-        '''
-        with open(file) as fid:
-
-            hydrostatics = fid.readlines()
-
-        self.data[body_num].disp_vol = np.float(hydrostatics[3].split()[-1])
-        self.data[body_num].wp_area = np.float(hydrostatics[4].split()[-1])
-
-        xf = np.float(hydrostatics[0].split()[2])
-        # xg = np.float(hydrostatics[0].split()[-1])
-
-        yf = np.float(hydrostatics[1].split()[2])
-        # yg = np.float(hydrostatics[1].split()[-1])
-
-        zf = np.float(hydrostatics[2].split()[2])
-        # zg = np.float(hydrostatics[2].split()[-1])      
-
-        self.data[body_num].cg  = np.array([xf, yf, zf])
+            self.body[i].scale(self.scaled_at_read) # Note... this is missing the KH nondimensionalization because of where it is called
 
     def _read_cal(self):
         '''
@@ -169,12 +160,75 @@ class NemohOutput(object):
             self.cal.name[i] = cal[8+i*18+add_lines].split()[0]
             add_lines += int(cal[24+18*i+add_lines].split()[0])
 
+    def read_kh(self, file, body_num):
+        '''
+        Function to read NEMOH linear spring stiffness data
 
-            
+        Parameters:
+            file : str
+                Name of the file containing the linear spring stifness data
+            body_num : int
+                Number of the body corresponding to the Nemoh.cal input file
 
+        Returns:
+            The function does not directily return any variables, but calculates
+            self.body[body_num].k (linear spring stiffness)
+
+        Examples:
+            This example assumes there is a file called `KH_1.dat`
+            that contains linear spring stiffness data for body 1 in the
+            `Nemoh.cal` file and that there is a NemohOutput object called
+            `nemoh_data` already created.
+
+            >>> nemoh_data.read_kh(body_num=1, file='KH_1.dat')
+
+        .. Note:
+            This function is not necessary for such a simple function, but we may
+            need to make it more complicated in the future, so i'm leaving it as
+            a function - mjl 25March2015
+        '''
+        self.body[body_num].k = np.loadtxt(file)
+
+    def read_hydrostatics(self, file, body_num):
+        '''
+        Function to read NEMOH hydrostatic data
+
+        Parameters:
+            file : str
+                Name of the file containing the hydrostatic data
+            body_num : int
+                Number of the body corresponding to the Nemoh.cal input file
+
+        Returns:
+            The function does not directily return any variables, but calculates
+            self.body[body_num].disp_vol (displace volume),
+            self.body[body_num].wp_area (water plane area), and
+            self.body[body_num].cg (center of gravity)
+
+        Examples:
+            This example assumes there is a file called `Hydrostatics_1.dat`
+            that contains hydrodynamic data for body 1 in the `Nemoh.cal` file
+            and that there is a NemohOutput object called `nemoh_data` already
+            created.
+
+            >>> nemoh_data.read_hydrostatics(body_num=1,file='./Hydrostatics_1.dat')
+        '''
+        with open(file) as fid:
+
+            hydrostatics = fid.readlines()
+
+        self.body[body_num].disp_vol = np.float(hydrostatics[3].split()[-1])
+        self.body[body_num].wp_area = np.float(hydrostatics[4].split()[-1])
+
+        xf = np.float(hydrostatics[0].split()[2])
+        yf = np.float(hydrostatics[1].split()[2])
+        zf = np.float(hydrostatics[2].split()[2])
+
+        self.body[body_num].cg  = np.array([xf, yf, zf])
 
 def _reshape_tec(data):
-
+    '''Internal function to reshape .tec data
+    '''
     len = np.shape(data)[2]
 
     out = []
@@ -186,16 +240,12 @@ def _reshape_tec(data):
 
     return out
 
-def _read_tec(file,data_type=0):
+def _read_tec(file):
     '''
-    Function to read read am and rd coefficients
-
-    Internal function called during at __init__
-
-    Need to describe data_type
+    Internal function to read read am and rd coefficients
     '''
 
-    # Read added mass and damping 
+    # Read added mass and damping
     with open(file) as fid:
 
         raw = fid.readlines()
@@ -214,8 +264,8 @@ def _read_tec(file,data_type=0):
             zone_length = int(line.split(',')[-2].split()[-1])
             proc[i] = ascii.read(raw[i+1:i+zone_length+1])
 
-    
-    # Sort the zones from the .tec file        
+
+    # Sort the zones from the .tec file
     zones = proc.keys()
     zones.sort()
 
@@ -231,12 +281,40 @@ def _read_tec(file,data_type=0):
     for i, zone in enumerate(zones):
 
         for j in xrange(n_vars):
-            a[i,j,:] = proc[zone].field(1+j*2)     
+            a[i,j,:] = proc[zone].field(1+j*2)
             b[i,j,:] = proc[zone].field(2+j*2)
-
-    if data_type == 1:
-        a = _reshape_tec(a)
-        b = _reshape_tec(b)
 
     return (a, b, w, raw)
 
+def read(sim_dir='./', cal_file='Nemoh.cal', results_dir = 'Results', mesh_dir='Mesh', scale=False):
+    '''
+    Function to read NEMOH data into a data object of type(NemohOutput)
+
+    Parameters:
+        sim_dir : str, optional
+            Directory where NEMOH simulation results are located
+        cal_file : str, optional
+            Name of NEMOH .cal file
+        results_dir : float, optional
+            Name of the directory that contains the NEMOH results files
+        mesh_dir : str, optional
+            Name of the directory that contains the NEMOH mesh files
+        scale : bool, optional
+            Boolean value to determine if the hydrodynamic data is scaled.
+            See the bemio.data_structures.bem.scale function for more
+            information
+
+    Returns:
+        nemoh_data
+            A NemohOutput object that contains the hydrodynamic data
+
+    Examples
+        The following example assumes that a NEMOH simulation was run and that
+        there is data ./Results and ./Mesh directories. The Nemoh.cal file is
+        assumed to be located at ./Nemoh.cal
+
+        >>> nemoh_data = NemohOtuput()
+    '''
+    nemoh_data = NemohOutput(sim_dir, cal_file, results_dir, mesh_dir, scale)
+
+    return nemoh_data
