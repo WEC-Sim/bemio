@@ -21,19 +21,28 @@ from math import ceil
 class AqwaOutput(object):
     '''
     Class to read and interact with AQWA simulation data
-    **Inputs:**
 
-    * out_file: name of the AQWA output file
-    
-    **Outputs:**
-    
-    * None
-    
+    Parameters:
+        hydro_file : str
+            Name of the AQWA .AH1 output file
+        list_file : str
+            Name of the AQWA .LIS output file
+        scale : bool, optional
+            Boolean value to determine if the hydrodynamic data is scaled.
+            See the bemio.data_structures.bem.scale function for more
+            information
+
+    Examples:
+        The following example assumes there are AQWA output files named aqwa.LIS
+        and aqwa.LS1
+
+        >>> aqwa_data = AqwaOutput(hydro_file=aqwa.LS1, list_file=aqwa.LIS)
     '''
-    def __init__(self, hydro_file, list_file):
+    def __init__(self, hydro_file, list_file, scale=False):
         self.files = bem.generate_file_names(hydro_file)
-
-        self.data = {}        
+        self.scaled_at_read = scale
+        self.scaled = True
+        self.body = {}
 
         self._read(list_file)
 
@@ -49,7 +58,7 @@ class AqwaOutput(object):
 
             if (first_line == 0) and (line[0] == "*"):
                 continue
-            else: 
+            else:
                 first_line += 1
             if first_line == 1:
                 tmp = np.array(raw[i].split()).astype(np.float)
@@ -128,7 +137,7 @@ class AqwaOutput(object):
                                     added_mass[tmp2[0]][:,iBod2*6+iRow,iFreq] = tmp[3:]
                                 elif iRow == 0:
                                     tmp2 = tmp[0:3].astype(np.float).astype(np.int)
-                                    added_mass[tmp2[0]][:,iBod2*6+iRow,iFreq] = tmp[3:] 
+                                    added_mass[tmp2[0]][:,iBod2*6+iRow,iFreq] = tmp[3:]
                                 else:
                                     added_mass[tmp2[0]][:,iBod2*6+iRow,iFreq] = tmp
 
@@ -145,7 +154,7 @@ class AqwaOutput(object):
                                     radiation_damping[tmp2[0]][:,iBod2*6+iRow,iFreq] = tmp[3:]
                                 elif iRow == 0:
                                     tmp2 = tmp[0:3].astype(np.float).astype(np.int)
-                                    radiation_damping[tmp2[0]][:,iBod2*6+iRow,iFreq] = tmp[3:] 
+                                    radiation_damping[tmp2[0]][:,iBod2*6+iRow,iFreq] = tmp[3:]
                                 else:
                                     radiation_damping[tmp2[0]][:,iBod2*6+iRow,iFreq] = tmp
 
@@ -180,47 +189,76 @@ class AqwaOutput(object):
             if 'MESH BASED DISPLACEMENT' in line:
                 disp_vol[bod_count] = np.array(line.split())[-1].astype(float)
                 bod_count += 1
-        
+
 
         for i in xrange(num_bodies):
 
 
-            print 'body' + str(i+1) + ':' 
-            self.data[i] = bem.HydrodynamicData() 
+            print 'body' + str(i+1) + ':'
 
-            self.data[i].rho = density
-            self.data[i].g = gravity
-            self.data[i].wave_dir = wave_directions
-            self.data[i].num_bodies = num_bodies
-            
-            self.data[i].cg = cg[i+1]
-            self.data[i].cb = 'not_defined'
-            self.data[i].k = stiffness_matrix[i+1] / (self.data[i].rho*self.data[i].g)
-            self.data[i].T = 2*np.pi/frequencies
-            self.data[i].w = frequencies 
-            
-            self.data[i].wp_area = 'not_defined' 
-            self.data[i].buoy_force = 'not_defined'
-            self.data[i].disp_vol = disp_vol[i+1]
-            self.data[i].water_depth = water_depth
-            self.data[i].body_num = i
-            
-            self.data[i].name = 'body' + str(i+1)
-            self.data[i].bem_code = code
-            self.data[i].bem_raw_data = raw
+            self.body[i] = bem.HydrodynamicData()
+            self.body[i].scaled = self.scaled
 
-            self.data[i].am.all = added_mass[i+1]
+            self.body[i].rho = density
+            self.body[i].g = gravity
+            self.body[i].wave_dir = wave_directions
+            self.body[i].num_bodies = num_bodies
+
+            self.body[i].cg = cg[i+1]
+            self.body[i].cb = 'not_defined'
+            self.body[i].k = stiffness_matrix[i+1]
+            self.body[i].T = 2*np.pi/frequencies
+            self.body[i].w = frequencies
+
+            self.body[i].wp_area = 'not_defined'
+            self.body[i].buoy_force = 'not_defined'
+            self.body[i].disp_vol = disp_vol[i+1]
+            self.body[i].water_depth = water_depth
+            self.body[i].body_num = i
+
+            self.body[i].name = 'body' + str(i+1)
+            self.body[i].bem_code = code
+            self.body[i].bem_raw_data = raw
+
+            self.body[i].am.all = added_mass[i+1]
             print '   * Setting added mass at infinite frequency to added mass at omega = ' + str(frequencies[-1])
-            self.data[i].am.inf = added_mass[i+1][:,:,-1]
+            self.body[i].am.inf = added_mass[i+1][:,:,-1]
             print '   * Setting added mass at zero frequency to added mass at omega = ' + str(frequencies[0])
-            self.data[i].am.zero = added_mass[i+1][:,:,0]
-            self.data[i].rd.all = radiation_damping[i+1]
-            self.data[i].ex.mag = excitation_magnitude[i+1]
-            self.data[i].ex.phase = excitation_phase[i+1]
+            self.body[i].am.zero = added_mass[i+1][:,:,0]
+            self.body[i].rd.all = radiation_damping[i+1]
+            self.body[i].ex.mag = excitation_magnitude[i+1]
+            self.body[i].ex.phase = excitation_phase[i+1]
             print '   * Calculating real and imaginary excitation  components.'
-            self.data[i].ex.re = self.data[i].ex.mag * np.cos(self.data[i].ex.phase)
-            self.data[i].ex.im = self.data[i].ex.mag * np.sin(self.data[i].ex.phase)
+            self.body[i].ex.re = self.body[i].ex.mag * np.cos(self.body[i].ex.phase)
+            self.body[i].ex.im = self.body[i].ex.mag * np.sin(self.body[i].ex.phase)
 
-            self.data[i].nondimensionalize_hydro_coeffs()
+            self.body[i].scale(self.scaled_at_read)
 
-    
+
+def read(hydro_file, list_file, scale=False):
+    '''
+    Function to read AQWA data into a data object of type(AqwaOutput)
+
+    Parameters:
+        hydro_file : str
+            Name of the AQWA .AH1 output file
+        list_file : str
+            Name of the AQWA .LIS output file
+        scale : bool, optional
+            Boolean value to determine if the hydrodynamic data is scaled.
+            See the bemio.data_structures.bem.scale function for more
+            information
+
+    Returns:
+        aqwa_data
+            A AqwaOutput object that contains hydrodynamic data
+
+    Examples:
+        The following example assumes there are AQWA output files named aqwa.LIS
+        and aqwa.LS1
+
+        >>> aqwa_data = read(hydro_file=aqwa.LS1, list_file=aqwa.LIS)
+    '''
+    aqwa_data = AqwaOutput(hydro_file, list_file, scale)
+
+    return aqwa_data
