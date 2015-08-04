@@ -4,13 +4,13 @@
 # Always prefer setuptools over distutils
 from setuptools import setup, find_packages
 
-exec(open('bemio/__version__.py').read())
+from bemio.__version__ import base
 
 setup(
 
     name='bemio',
 
-    version=__version__,
+    version=base(),
 
     description='bemio',
 
@@ -35,7 +35,7 @@ setup(
 
     packages=find_packages(exclude=['doc', 'tutorials']),
 
-    install_requires=['progressbar2'],
+    install_requires=['progressbar2','astropy'],
 
     extras_require={
         'dev': [],
