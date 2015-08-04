@@ -1,6 +1,7 @@
 import h5py
 import numpy as np
-from bemio.__version__ import __version__
+from bemio.__version__ import base
+
 def write_hdf5(bemio_obj,out_file=None):
     '''
     Function that writes NEMOH, WAMIT, or NEMOH data to a standard human
@@ -286,7 +287,7 @@ def write_hdf5(bemio_obj,out_file=None):
         scaled = f.create_dataset('simulation_parameters/scaled',data=bemio_obj.body[key].scaled)
         scaled.attrs['description'] = 'True: The data is scaled by rho*g, False: The data is not scaled by rho*g'
 
-        bemio_version = f.create_dataset('bemio_information/version',data=__version__)
+        bemio_version = f.create_dataset('bemio_information/version',data=base())
 
         rawOut = f.create_dataset('bem_data/output',data=bemio_obj.body[key].bem_raw_data)
         rawOut.attrs['description'] = 'Raw output from BEM code'
