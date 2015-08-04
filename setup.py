@@ -4,11 +4,13 @@
 # Always prefer setuptools over distutils
 from setuptools import setup, find_packages
 
+exec(open('bemio/__version__.py').read())
+
 setup(
 
     name='bemio',
 
-    version='1.1',
+    version=__version__,
 
     description='bemio',
 
@@ -16,7 +18,7 @@ setup(
 
     url='https://github.com/WEC-Sim/bemio',
 
-    author='Michael Lawson',
+    author='Michael Lawson, Yi-Hsiang Yu, Carlos Michelen',
 
     author_email='michael.lawson@nrel.gov',
 
