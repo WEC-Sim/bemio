@@ -3,8 +3,8 @@ from bemio.io.wamit import read
 from bemio.io.output import write_hdf5
 
 # Load plotting functions
-import matplotlib.pyplot as plt
-plt.interactive(True)
+#import matplotlib.pyplot as plt
+#plt.interactive(True)
 
 # Load the data using the wamit module.
 wamit_data = read(out_file='wamit_data/rm3.out',scale=False)
