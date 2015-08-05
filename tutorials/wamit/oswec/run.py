@@ -1,10 +1,10 @@
 # Load the needed modules from bemio
-from bemio.io.wamit import WamitOutput
+from bemio.io.wamit import read
 from bemio.io.output import write_hdf5
 
 
 # Load the data using the wamit module.
-wamit_data = WamitOutput(out_file='wamit_data/oswec.out')
+wamit_data = read(out_file='wamit_data/oswec.out')
 
 
 # Calculate IRF and plot using the wamit module
