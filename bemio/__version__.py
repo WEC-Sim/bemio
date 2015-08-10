@@ -1,14 +1,12 @@
-import subprocess
+# import subprocess
 import os
 
 class Version(object):
 
     def __init__(self):
-        self._base = None
-        self._full = None
-        self.default = '1.1'
+        self._base = '1.1'
+        self._full = '1.1-mjl-10Aug2015'
 
-    # Get the code version from .git
     @ property
     def full(self, ):
 
@@ -21,14 +19,12 @@ class Version(object):
         #     print 'Setting the version to the default: ' + self.default
         #     self._full = self.default
 
-        self._full = self.default # hack
         return self._full
 
     @ property
     def base(self, ):
 
         self._base = self.full.split('-')[0]
-
         return self._base
 
 def base():

@@ -35,7 +35,7 @@ setup(
 
     packages=find_packages(exclude=['doc', 'tutorials']),
 
-    install_requires=['progressbar2','astropy'],
+    install_requires=['numpy', 'scipy', 'h5py', 'progressbar2', 'astropy'],
 
     extras_require={
         'dev': [],
