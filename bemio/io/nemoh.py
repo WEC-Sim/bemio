@@ -83,9 +83,9 @@ class NemohOutput(object):
         # Read tec plot output files
         self.am, self.rd, self.w, raw_rad = _read_tec(self.files['RadiationCoefficients'])
 
-        self.ex_mag, self.ex_phase, temp, raw_ex = _read_tec(self.files['ExcitationForce'])
-        self.dfr_mag, self.dfr_phase, temp, raw_diff = _read_tec(self.files['DiffractionForce'])
-        self.fk_mag, self.fk_phase, temp, raw_fk = _read_tec(self.files['FKForce'])
+        self.ex_mag, self.ex_phase, temp, raw_ex = _read_tec(self.files['ExcitationForce'], data_type=1)
+        self.dfr_mag, self.dfr_phase, temp, raw_diff = _read_tec(self.files['DiffractionForce'], data_type=1)
+        self.fk_mag, self.fk_phase, temp, raw_fk = _read_tec(self.files['FKForce'], data_type=1)
 
         self.ex_im = self.ex_mag*np.sin(self.ex_phase)
         self.ex_re = self.ex_mag*np.cos(self.ex_phase)
@@ -104,10 +104,10 @@ class NemohOutput(object):
             self.body[i].am.all = self.am[0+6*i:6+6*i,:]
             self.body[i].rd.all = self.rd[0+6*i:6+6*i,:]
 
-            self.body[i].ex.mag = self.ex_mag[:,0+6*i:6+6*i]
-            self.body[i].ex.phase = self.ex_phase[:,0+6*i:6+6*i]
-            self.body[i].ex.im = self.ex_im[:,0+6*i:6+6*i]
-            self.body[i].ex.re = self.ex_re[:,0+6*i:6+6*i]
+            self.body[i].ex.mag = self.ex_mag[0+6*i:6+6*i,:,:]
+            self.body[i].ex.phase = self.ex_phase[0+6*i:6+6*i,:,:]
+            self.body[i].ex.im = self.ex_im[0+6*i:6+6*i,:,:]
+            self.body[i].ex.re = self.ex_re[0+6*i:6+6*i,:,:]
 
             self.body[i].am.inf = self.body[i].am.all[:,:,-1]
 
@@ -240,7 +240,7 @@ def _reshape_tec(data):
 
     return out
 
-def _read_tec(file):
+def _read_tec(file, data_type=0):
     '''
     Internal function to read read am and rd coefficients
     '''
@@ -274,15 +274,25 @@ def _read_tec(file):
     n_w = np.size(w)
 
     # Create and fill coefficient matrices
-    a = np.zeros([n_vars,n_vars,n_w])
-    b = a.copy()
+    if data_type == 0:
+        a = np.zeros([n_vars,n_vars,n_w])
+        b = a.copy()
+
+    if data_type == 1:
+        a = np.zeros([n_vars,1,n_w])
+        b = a.copy()
 
     # Populate matrices
-    for i, zone in enumerate(zones):
+    if data_type == 0:
+        for i, zone in enumerate(zones):
+            for j in xrange(n_vars):
+                a[i,j,:] = proc[zone].field(1+j*2)
+                b[i,j,:] = proc[zone].field(2+j*2)
 
+    if data_type == 1:
         for j in xrange(n_vars):
-            a[i,j,:] = proc[zone].field(1+j*2)
-            b[i,j,:] = proc[zone].field(2+j*2)
+            a[j,0,:] = proc[13].field(1+j*2)
+            b[j,0,:] = proc[13].field(2+j*2)
 
     return (a, b, w, raw)
 
@@ -318,3 +328,9 @@ def read(sim_dir='./', cal_file='Nemoh.cal', results_dir = 'Results', mesh_dir='
     nemoh_data = NemohOutput(sim_dir, cal_file, results_dir, mesh_dir, scale)
 
     return nemoh_data
+
+def _reshape_tec(data):
+
+    data = data.reshape(data.shape[1],1,data.shape[0])
+
+    return out
