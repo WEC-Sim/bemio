@@ -70,6 +70,7 @@ class NemohOutput(object):
         self.files['ExcitationForce'] = os.path.join(self.dir,results_dir,'ExcitationForce.tec')
         self.files['DiffractionForce'] = os.path.join(self.dir,results_dir,'DiffractionForce.tec')
         self.files['FKForce'] = os.path.join(self.dir,results_dir,'FKForce.tec')
+        self.files['IRF'] = os.path.join(self.dir,results_dir,'IRF.tec')
 
         # Initialize data ovject
         self.body = {}
@@ -86,6 +87,7 @@ class NemohOutput(object):
         self.ex_mag, self.ex_phase, temp, raw_ex = _read_tec(self.files['ExcitationForce'], data_type=1)
         self.dfr_mag, self.dfr_phase, temp, raw_diff = _read_tec(self.files['DiffractionForce'], data_type=1)
         self.fk_mag, self.fk_phase, temp, raw_fk = _read_tec(self.files['FKForce'], data_type=1)
+        self.am_inf, temp1, temp2, raw_am_inf = _read_tec(self.files['IRF'], data_type=2)
 
         self.ex_im = self.ex_mag*np.sin(self.ex_phase)
         self.ex_re = self.ex_mag*np.cos(self.ex_phase)
@@ -109,7 +111,7 @@ class NemohOutput(object):
             self.body[i].ex.im = self.ex_im[0+6*i:6+6*i,:,:]
             self.body[i].ex.re = self.ex_re[0+6*i:6+6*i,:,:]
 
-            self.body[i].am.inf = self.body[i].am.all[:,:,-1]
+            self.body[i].am.inf = self.am_inf[0+6*i:6+6*i, :]
 
             self.body[i].w = self.w
             self.body[i].T = 2.*np.pi/self.w
@@ -282,6 +284,10 @@ def _read_tec(file, data_type=0):
         a = np.zeros([n_vars,1,n_w])
         b = a.copy()
 
+    if data_type == 2:
+        a = np.zeros([n_vars,n_vars])
+        b = []
+
     # Populate matrices
     if data_type == 0:
         for i, zone in enumerate(zones):
@@ -293,6 +299,11 @@ def _read_tec(file, data_type=0):
         for j in xrange(n_vars):
             a[j,0,:] = proc[13].field(1+j*2)
             b[j,0,:] = proc[13].field(2+j*2)
+
+    if data_type == 2:
+        for i, zone in enumerate(zones):
+            for j in xrange(n_vars):
+                a[i,j] = proc[zone].field(1+j*2)[0]
 
     return (a, b, w, raw)
 
