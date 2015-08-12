@@ -297,8 +297,8 @@ def _read_tec(file, data_type=0):
 
     if data_type == 1:
         for j in xrange(n_vars):
-            a[j,0,:] = proc[13].field(1+j*2)
-            b[j,0,:] = proc[13].field(2+j*2)
+            a[j,0,:] = proc[zones[-1]].field(1+j*2)
+            b[j,0,:] = proc[zones[-1]].field(2+j*2)
 
     if data_type == 2:
         for i, zone in enumerate(zones):
