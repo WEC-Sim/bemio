@@ -67,7 +67,9 @@ class HydrodynamicData(object):
         num_bodies : int
             Number of bodies in the BEM simulation
         cg : np.array, shape = [3,1]
-            Center of bouyancy
+            Center of gravity
+        cg : np.array, shape = [3,1]
+            Center of buoyancy
         k : np.array, shape = [6,6]
             Linear hydrostatic restoring stiffness
         T : np.array
