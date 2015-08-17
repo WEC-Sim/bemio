@@ -10,8 +10,8 @@ nemoh_data.read_hydrostatics(body_num=1,file='./data/two_body/Mesh/Hydrostatics_
 nemoh_data.read_kh(body_num=1, file='./data/two_body/Mesh/KH_1.dat')
 
 for i in xrange(nemoh_data.body[0].num_bodies):
-	nemoh_data.body[i].calc_irf_radiation()
-	nemoh_data.body[i].calc_irf_excitation()
+	nemoh_data.body[i].calc_irf_radiation(t_end=20., n_t=1001, n_w=501)
+	nemoh_data.body[i].calc_irf_excitation(t_end=20., n_t=1001, n_w=501)
 	# nemoh_data.body[i].calc_ss_radiation()
 
 write_hdf5(nemoh_data)

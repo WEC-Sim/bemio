@@ -92,7 +92,7 @@ class NemohOutput(object):
         self.ex_im = self.ex_mag*np.sin(self.ex_phase)
         self.ex_re = self.ex_mag*np.cos(self.ex_phase)
 
-        f_break = ['#'*100]*10
+        f_break = ['#'*100]*5
         self.raw_output = f_break + raw_rad + f_break + raw_diff + f_break + raw_ex + f_break + raw_fk + f_break
 
         self._create_and_load_hydro_data_obj()
@@ -119,6 +119,7 @@ class NemohOutput(object):
             self.body[i].water_depth = self.cal.water_depth
             self.body[i].g = self.cal.g
             self.body[i].rho = self.cal.rho
+            self.body[i].cg = self.cal.cg[i]
 
             self.body[i].bem_code = 'NEMOH'
             self.body[i].bem_raw_data = self.raw_output
@@ -141,8 +142,9 @@ class NemohOutput(object):
         self.cal.raw = cal
         self.cal.rho    = np.float(cal[1].split()[0])
         self.cal.g      = np.float(cal[2].split()[0])
-        self.cal.n_bods =   int(cal[6].split()[0])
         self.cal.water_depth = np.float(cal[3].split()[0])
+        self.cal.wave_point = cal[4].split()[0:2]
+        self.cal.n_bods =   int(cal[6].split()[0])
 
         # Read wave directions
         temp = cal[-6]
@@ -156,11 +158,41 @@ class NemohOutput(object):
         self.cal.w_start = temp.split()[1]
         self.cal.w_end = temp.split()[2]
 
-        add_lines = 0
         self.cal.name = {}
+        self.cal.points_panels = {}
+        self.cal.n_dof = {}
+        self.cal.n_forces = {}
+        self.cal.n_add_lines = {}
+        self.cal.dof = {}
+        self.cal.forces = {}
+        self.cal.add_lines = {}
+        self.cal.cg = {}
+        line_count = 0
         for i in xrange(self.cal.n_bods):
-            self.cal.name[i] = cal[8+i*18+add_lines].split()[0]
-            add_lines += int(cal[24+18*i+add_lines].split()[0])
+            self.cal.name[i] = cal[8+line_count].split()[0]
+            self.cal.points_panels[i] = cal[9+line_count].split()[0:2]
+            self.cal.n_dof[i] = int(cal[10+line_count].split()[0])
+            self.cal.dof[i] = []
+            self.cal.forces[i] = []
+            self.cal.add_lines[i] = []
+            for j in xrange(self.cal.n_dof[i]):
+                self.cal.dof[i].append(cal[11+line_count+j])
+
+                if int(self.cal.dof[i][-1].split()[0]) == 2:
+                    self.cal.cg[i] = np.array(self.cal.dof[i][-1].split()[4:7],dtype=float)
+
+            self.cal.n_forces[i] = int(cal[10+line_count+self.cal.n_dof[i]+1].split()[0])
+
+            for j in xrange(self.cal.n_forces[i]):
+                    self.cal.forces[i].append(cal[11+line_count+j+self.cal.n_dof[i]+1])
+
+            self.cal.n_add_lines[i] = int(cal[10 + line_count + self.cal.n_dof[i] + self.cal.n_forces[i] + 2].split()[0])
+
+            for j in xrange(self.cal.n_add_lines[i]):
+                    self.cal.add_lines[i].append(cal[11+line_count+j+self.cal.n_dof[i]+self.cal.n_forces[i]+1])
+
+            line_count += self.cal.n_dof[i] + self.cal.n_forces[i] + self.cal.n_add_lines[i] + 6
+
 
     def read_kh(self, file, body_num):
         '''
@@ -205,7 +237,7 @@ class NemohOutput(object):
             The function does not directily return any variables, but calculates
             self.body[body_num].disp_vol (displace volume),
             self.body[body_num].wp_area (water plane area), and
-            self.body[body_num].cg (center of gravity)
+            self.body[body_num].cb (center of gravity)
 
         Examples:
             This example assumes there is a file called `Hydrostatics_1.dat`
@@ -226,7 +258,7 @@ class NemohOutput(object):
         yf = np.float(hydrostatics[1].split()[2])
         zf = np.float(hydrostatics[2].split()[2])
 
-        self.body[body_num].cg  = np.array([xf, yf, zf])
+        self.body[body_num].cb  = np.array([xf, yf, zf])
 
 def _reshape_tec(data):
     '''Internal function to reshape .tec data
