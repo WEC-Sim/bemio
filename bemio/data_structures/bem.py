@@ -262,7 +262,7 @@ class HydrodynamicData(object):
         ex_im_interp = _interpolate_for_irf(self.w, self.ex.irf.w, self.ex.im)
 
         pbar_maxval = self.ex.irf.t.size * self.ex.mag.shape[0] * self.ex.mag.shape[1]
-        pbar = ProgressBar(widgets=['Calculating the excitation force impulse response function for ' + self.name + ':', Percentage(), Bar()], maxval=pbar_maxval).start()
+        pbar = ProgressBar(widgets=['Excitation force IRF for ' + self.name + ':', Percentage(), Bar()], maxval=pbar_maxval).start()
         count = 1
         for t_ind, t in enumerate(self.ex.irf.t):
 
@@ -349,7 +349,7 @@ class HydrodynamicData(object):
 
         # Calculate the IRF
         pbar_max_val = self.rd.irf.t.size * self.rd.all.shape[0] * self.rd.all.shape[1]
-        pbar = ProgressBar(widgets=['Calculating the radiation damping impulse response function for ' + self.name + ':', Percentage(), Bar()], maxval=pbar_max_val).start()
+        pbar = ProgressBar(widgets=['Radiation damping IRF for ' + self.name + ':', Percentage(), Bar()], maxval=pbar_max_val).start()
         count = 1
         for t_ind, t in enumerate(self.rd.irf.t):
 
@@ -424,7 +424,7 @@ class HydrodynamicData(object):
         self.rd.ss.it = np.zeros([6, self.am.inf.shape[1]])
         self.rd.ss.r2t = np.zeros([6, self.am.inf.shape[1]])
 
-        pbar = ProgressBar(widgets=['Calculating radiation damping state space coefficients for ' + self.name + ':', Percentage(), Bar()], maxval=self.am.inf.shape[0] * self.am.inf.shape[1]).start()
+        pbar = ProgressBar(widgets=['Radiation damping state space realization for ' + self.name + ':', Percentage(), Bar()], maxval=self.am.inf.shape[0] * self.am.inf.shape[1]).start()
         count = 0
         for i in xrange(self.am.inf.shape[0]):
 
@@ -549,30 +549,30 @@ class HydrodynamicData(object):
             self.scale = scale
 
         if self.scale is True and self.scaled is False:
-          print '\tScaling hydro coefficients by rho, g, and w (e.g. am = am*rho*g)...'
+          print '\tScaling hydro coefficients for body ' + self.name + ' by rho, g, and w...'
           try:
-              self.k = self.k * self.rho * self.g
+              self.k *= self.rho * self.g
           except:
-              print '\tSpring stiffness not dimensionalized'
+              print '\t\tSpring stiffness not scaled'
 
-          self.am.all = self.am.all * self.rho
-          self.am.inf = self.am.inf * self.rho
+          self.am.all *= self.rho
+          self.am.inf *= self.rho
           if hasattr(self.am,'zero') is True:
-              self.am.zero = self.am.zero * self.rho
+              self.am.zero *= self.rho
 
-          self.ex.mag = self.ex.mag * self.rho * self.g
-          self.ex.re = self.ex.re * self.rho * self.g
-          self.ex.im = self.ex.im * self.rho * self.g
+          self.ex.mag *= self.rho * self.g
+          self.ex.re *= self.rho * self.g
+          self.ex.im *= self.rho * self.g
 
           if hasattr(self.ex.sc,'mag') is True:
-              self.ex.sc.mag = self.ex.sc.mag * self.rho * self.g
-              self.ex.sc.re = self.ex.sc.re * self.rho * self.g
-              self.ex.sc.im = self.ex.sc.im * self.rho * self.g
+              self.ex.sc.mag *= self.rho * self.g
+              self.ex.sc.re *= self.rho * self.g
+              self.ex.sc.im *= self.rho * self.g
 
           if hasattr(self.ex.fk,'mag') is True:
-              self.ex.fk.mag = self.ex.fk.mag * self.rho * self.g
-              self.ex.fk.re = self.ex.fk.re * self.rho * self.g
-              self.ex.fk.im = self.ex.fk.im * self.rho * self.g
+              self.ex.fk.mag *= self.rho * self.g
+              self.ex.fk.re *= self.rho * self.g
+              self.ex.fk.im *= self.rho * self.g
 
 
           for j in xrange(self.rd.all.shape[2]):
@@ -582,29 +582,29 @@ class HydrodynamicData(object):
           self.scaled = True
 
         elif self.scale is False and self.scaled is True:
-          print '\tNormalizing hydro coefficients by rho, g, and w...'
+          print '\tUn-scaling hydro coefficients for body ' + self.name + ' by rho, g, and w...'
           try:
-              self.k = self.k / (self.rho * self.g)
+              self.k /= (self.rho * self.g)
           except:
-              print '\tSpring stiffness not nondimensionalized'
-          self.am.all = self.am.all / self.rho
-          self.am.inf = self.am.inf / self.rho
+              print '\t\tSpring stiffness not un-scaled'
+          self.am.all /= self.rho
+          self.am.inf /= self.rho
           if hasattr(self.am,'zero') is True:
-              self.am.zero = self.am.zero / self.rho
+              self.am.zero /= self.rho
 
-          self.ex.mag = self.ex.mag / (self.rho * self.g)
-          self.ex.re = self.ex.re / (self.rho * self.g)
-          self.ex.im = self.ex.im / (self.rho * self.g)
+          self.ex.mag /= (self.rho * self.g)
+          self.ex.re /= (self.rho * self.g)
+          self.ex.im /= (self.rho * self.g)
 
           if hasattr(self.ex.sc,'mag') is True:
-              self.ex.sc.mag = self.ex.sc.mag / (self.rho * self.g)
-              self.ex.sc.re = self.ex.sc.re / (self.rho * self.g)
-              self.ex.sc.im = self.ex.sc.im / (self.rho * self.g)
+              self.ex.sc.mag /= (self.rho * self.g)
+              self.ex.sc.re /= (self.rho * self.g)
+              self.ex.sc.im /= (self.rho * self.g)
 
           if hasattr(self.ex.fk,'mag') is True:
-              self.ex.fk.mag = self.ex.fk.mag / (self.rho * self.g)
-              self.ex.fk.re = self.ex.fk.re / (self.rho * self.g)
-              self.ex.fk.im = self.ex.fk.im / (self.rho * self.g)
+              self.ex.fk.mag /= (self.rho * self.g)
+              self.ex.fk.re /= (self.rho * self.g)
+              self.ex.fk.im /= (self.rho * self.g)
 
           for j in xrange(self.rd.all.shape[2]):
 

@@ -226,6 +226,10 @@ class NemohOutput(object):
         '''
         self.body[body_num].k = np.loadtxt(file)
 
+        if self.body[body_num].scaled is False:
+            self.body[body_num].k /= (self.body[body_num].rho * self.body[body_num].g)
+            print '\tSpring stiffness for body ' + self.body[body_num].name + ' scaled by read_kh method'
+
     def read_hydrostatics(self, file, body_num):
         '''
         Function to read NEMOH hydrostatic data
