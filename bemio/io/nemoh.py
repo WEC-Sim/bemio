@@ -143,6 +143,9 @@ class NemohOutput(object):
         self.cal.rho    = np.float(cal[1].split()[0])
         self.cal.g      = np.float(cal[2].split()[0])
         self.cal.water_depth = np.float(cal[3].split()[0])
+        if self.cal.water_depth == 0:
+            self.cal.water_depth = 'infinite'
+
         self.cal.wave_point = cal[4].split()[0:2]
         self.cal.n_bods =   int(cal[6].split()[0])
 
