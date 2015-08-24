@@ -65,7 +65,7 @@ class WamitOutput(object):
         '''Internal function to read WAMIT output file into the class. that is called during __init__
         '''
 
-        print 'Reading ' + self.files['out']
+        print '\nReading the WAMIT results in the ' + self.files['out'] + ' file'
 
         with open(self.files['out'],'rU') as fid:
 

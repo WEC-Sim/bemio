@@ -5,7 +5,7 @@ import sys
 
 def run_test_case(test_case):
 
-	print '****Running the ' + str(test_case) + ' case****'
+	print '\n****Running the ' + str(test_case) + ' case****'
 	starting_dir = os.path.abspath(os.curdir)
 
 	try:

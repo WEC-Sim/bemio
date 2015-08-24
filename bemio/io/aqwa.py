@@ -39,6 +39,9 @@ class AqwaOutput(object):
         >>> aqwa_data = AqwaOutput(hydro_file=aqwa.LS1, list_file=aqwa.LIS)
     '''
     def __init__(self, hydro_file, list_file, scale=False):
+
+        print '\nReading the AQWA results in the ' + hydro_file + ' file'
+
         self.files = bem.generate_file_names(hydro_file)
         self.scaled_at_read = scale
         self.scaled = True
