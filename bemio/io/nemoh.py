@@ -59,10 +59,14 @@ class NemohOutput(object):
     '''
     def __init__(self, sim_dir='./', cal_file='Nemoh.cal', results_dir = 'Results', mesh_dir='Mesh', scale=False):
 
+
         # Set files
         self.scaled_at_read = scale
         self.scaled = True
         self.dir = os.path.abspath(sim_dir)
+
+        print '\nReading NEMOH output in the ' + self.dir + ' directory'
+
         self.files = bem.generate_file_names(os.path.join(self.dir,cal_file))
         self.files['Nemoh']     = os.path.join(self.dir,cal_file)
         self.files['RadiationCoefficients'] = os.path.join(self.dir,results_dir,'RadiationCoefficients.tec')
@@ -82,9 +86,9 @@ class NemohOutput(object):
         self._read_cal()
 
         # Read tec plot output files
-        self.am, self.rd, self.w, raw_rad = _read_tec(self.files['RadiationCoefficients'])
+        self.am, self.rd, self.w, raw_rad = _read_radiation(self.files['RadiationCoefficients'])
 
-        self.ex_mag, self.ex_phase, temp, raw_ex = _read_tec(self.files['ExcitationForce'], data_type=1)
+        self.ex_mag, self.ex_phase, temp, self.ex_mag_raw = _read_excitation(self.files['ExcitationForce'])
         self.dfr_mag, self.dfr_phase, temp, raw_diff = _read_tec(self.files['DiffractionForce'], data_type=1)
         self.fk_mag, self.fk_phase, temp, raw_fk = _read_tec(self.files['FKForce'], data_type=1)
         self.am_inf, temp1, temp2, raw_am_inf = _read_tec(self.files['IRF'], data_type=2)
@@ -93,7 +97,7 @@ class NemohOutput(object):
         self.ex_re = self.ex_mag*np.cos(self.ex_phase)
 
         f_break = ['#'*100]*5
-        self.raw_output = f_break + raw_rad + f_break + raw_diff + f_break + raw_ex + f_break + raw_fk + f_break
+        self.raw_output = f_break + raw_rad + f_break + raw_diff + f_break + self.ex_mag_raw + f_break + raw_fk + f_break
 
         self._create_and_load_hydro_data_obj()
 
@@ -128,8 +132,11 @@ class NemohOutput(object):
             self.body[i].name = self.cal.name[i]
             self.body[i].num_bodies = self.cal.n_bods
             self.body[i].scaled = self.scaled
+            self.body[i].wave_dir = self.cal.wave_dir
 
             self.body[i].scale(self.scaled_at_read) # Note... this is missing the KH nondimensionalization because of where it is called
+
+
 
     def _read_cal(self):
         '''
@@ -151,9 +158,10 @@ class NemohOutput(object):
 
         # Read wave directions
         temp = cal[-6]
-        self.cal.wave_dir_n = temp.split()[0]
-        self.cal.wave_dir_start = temp.split()[1]
-        self.cal.wave_dir_end = temp.split()[2]
+        self.cal.wave_dir_n = np.float(temp.split()[0])
+        self.cal.wave_dir_start = np.float(temp.split()[1])
+        self.cal.wave_dir_end = np.float(temp.split()[2])
+        self.cal.wave_dir = np.linspace(self.cal.wave_dir_start,self.cal.wave_dir_end,self.cal.wave_dir_n)
 
         # Read frequencies
         temp = cal[-7]
@@ -267,21 +275,74 @@ class NemohOutput(object):
 
         self.body[body_num].cb  = np.array([xf, yf, zf])
 
-def _reshape_tec(data):
-    '''Internal function to reshape .tec data
+# def _reshape_tec(data):
+#     '''Internal function to reshape .tec data
+#     '''
+#     len = np.shape(data)[2]
+#
+#     out = []
+#
+#     for i in xrange(len):
+#         out.append(data[0,:,i])
+#
+#     out = np.array(out)
+#
+#     return out
+
+def _read_tec(file, data_type):
     '''
-    len = np.shape(data)[2]
+    Internal function to read read am and rd coefficients
+    '''
 
-    out = []
+    # Read added mass and damping
+    with open(file) as fid:
 
-    for i in xrange(len):
-        out.append(data[0,:,i])
+        raw = fid.readlines()
 
-    out = np.array(out)
+    # Get the raw data
+    proc = {}
+    first = True
+    for i, line in enumerate(raw):
 
-    return out
+        if 'Zone' in line:
 
-def _read_tec(file, data_type=0):
+            if first is True:
+                first = False
+                n_vars = i-1
+
+            zone_length = int(line.split(',')[-2].split()[-1])
+            proc[i] = ascii.read(raw[i+1:i+zone_length+1])
+
+
+    # Sort the zones from the .tec file
+    zones = proc.keys()
+    zones.sort()
+
+    # Set the frequencies and calculate number of freqs
+    w = np.array(proc[zones[0]].field(0))
+    n_w = np.size(w)
+
+    if data_type == 1:
+        a = np.zeros([n_vars,1,n_w])
+        b = a.copy()
+
+    if data_type == 2:
+        a = np.zeros([n_vars,n_vars])
+        b = []
+
+    if data_type == 1:
+        for j in xrange(n_vars):
+            a[j,0,:] = proc[zones[-1]].field(1+j*2)
+            b[j,0,:] = proc[zones[-1]].field(2+j*2)
+
+    if data_type == 2:
+        for i, zone in enumerate(zones):
+            for j in xrange(n_vars):
+                a[i,j] = proc[zone].field(1+j*2)[0]
+
+    return (a, b, w, raw)
+
+def _read_radiation(file, ):
     '''
     Internal function to read read am and rd coefficients
     '''
@@ -315,34 +376,59 @@ def _read_tec(file, data_type=0):
     n_w = np.size(w)
 
     # Create and fill coefficient matrices
-    if data_type == 0:
-        a = np.zeros([n_vars,n_vars,n_w])
-        b = a.copy()
-
-    if data_type == 1:
-        a = np.zeros([n_vars,1,n_w])
-        b = a.copy()
-
-    if data_type == 2:
-        a = np.zeros([n_vars,n_vars])
-        b = []
+    a = np.zeros([n_vars,n_vars,n_w])
+    b = a.copy()
 
     # Populate matrices
-    if data_type == 0:
-        for i, zone in enumerate(zones):
-            for j in xrange(n_vars):
-                a[i,j,:] = proc[zone].field(1+j*2)
-                b[i,j,:] = proc[zone].field(2+j*2)
-
-    if data_type == 1:
+    for i, zone in enumerate(zones):
         for j in xrange(n_vars):
-            a[j,0,:] = proc[zones[-1]].field(1+j*2)
-            b[j,0,:] = proc[zones[-1]].field(2+j*2)
+            a[i,j,:] = proc[zone].field(1+j*2)
+            b[i,j,:] = proc[zone].field(2+j*2)
 
-    if data_type == 2:
-        for i, zone in enumerate(zones):
-            for j in xrange(n_vars):
-                a[i,j] = proc[zone].field(1+j*2)[0]
+    return (a, b, w, raw)
+
+def _read_excitation(file, ):
+    '''
+    Internal function to read read am and rd coefficients
+    '''
+
+    # Read added mass and damping
+    with open(file) as fid:
+
+        raw = fid.readlines()
+
+    # Get the raw data
+    proc = {}
+    first = True
+    for i, line in enumerate(raw):
+
+        if 'Zone' in line:
+
+            if first is True:
+                first = False
+                n_vars = i-1
+
+            zone_length = int(line.split(',')[-2].split()[-1])
+            proc[i] = ascii.read(raw[i+1:i+zone_length+1])
+
+
+    # Sort the zones from the .tec file
+    zones = proc.keys()
+    zones.sort()
+
+    # Set the frequencies and calculate number of freqs
+    w = np.array(proc[zones[0]].field(0))
+    n_w = np.size(w)
+
+    # Create and fill coefficient matrices
+    a = np.zeros([n_vars,np.size(zones),n_w])
+    b = a.copy()
+
+    # Populate matrices
+    for i, zone in enumerate(zones):
+        for j in xrange(n_vars):
+            a[j,i,:] = proc[zone].field(1+j*2)
+            b[j,i,:] = proc[zone].field(2+j*2)
 
     return (a, b, w, raw)
 
@@ -379,8 +465,8 @@ def read(sim_dir='./', cal_file='Nemoh.cal', results_dir = 'Results', mesh_dir='
 
     return nemoh_data
 
-def _reshape_tec(data):
-
-    data = data.reshape(data.shape[1],1,data.shape[0])
-
-    return out
+# def _reshape_tec(data):
+#
+#     data = data.reshape(data.shape[1],1,data.shape[0])
+#
+#     return out
