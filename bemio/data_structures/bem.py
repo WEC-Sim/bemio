@@ -278,7 +278,7 @@ class HydrodynamicData(object):
         pbar.finish()
 
 
-    def calc_irf_radiation(self, t_end=20, n_t=1001, n_w=1001, w_min=None, w_max=None):
+    def calc_irf_radiation(self, t_end=100., n_t=1001, n_w=1001, w_min=None, w_max=None):
         '''Function to calculate the wave radiation impulse response function.
         For more information please see Section 2.4.2 in:
 
