@@ -73,8 +73,14 @@ class NemohOutput(object):
 
         self.files['ExcitationForce'] = os.path.join(self.dir,results_dir,'ExcitationForce.tec')
         self.files['DiffractionForce'] = os.path.join(self.dir,results_dir,'DiffractionForce.tec')
+
+
         self.files['FKForce'] = os.path.join(self.dir,results_dir,'FKForce.tec')
-        self.files['IRF'] = os.path.join(self.dir,results_dir,'IRF.tec')
+
+        try:
+            self.files['IRF'] = os.path.join(self.dir,results_dir,'IRF.tec')
+        except:
+            print '\tNo IRF forces or infinite frequency added mass forces read because the ' + self.files['IRF'] + ' was not found'
 
         # Initialize data ovject
         self.body = {}
@@ -91,7 +97,11 @@ class NemohOutput(object):
         self.ex_mag, self.ex_phase, temp, self.ex_mag_raw = _read_excitation(self.files['ExcitationForce'])
         self.dfr_mag, self.dfr_phase, temp, raw_diff = _read_tec(self.files['DiffractionForce'], data_type=1)
         self.fk_mag, self.fk_phase, temp, raw_fk = _read_tec(self.files['FKForce'], data_type=1)
-        self.am_inf, temp1, temp2, raw_am_inf = _read_tec(self.files['IRF'], data_type=2)
+
+        try:
+            self.am_inf, temp1, temp2, raw_am_inf = _read_tec(self.files['IRF'], data_type=2)
+        except:
+            raise Exception('The file ' + self.files['IRF'] + ' was not found. Please make sure the IRF output option is set to 1 in the Nemoh.cal file')
 
         self.ex_im = self.ex_mag*np.sin(self.ex_phase)
         self.ex_re = self.ex_mag*np.cos(self.ex_phase)
