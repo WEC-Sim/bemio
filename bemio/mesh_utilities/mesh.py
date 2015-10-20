@@ -461,7 +461,7 @@ class PanelMesh(object):
 
         # Create a mapper and load VTP data into the mapper
         mapper=vtk.vtkPolyDataMapper()
-        mapper.SetInputData(self.vtp_mesh)
+        mapper.SetInput(self.vtp_mesh)
 
         # Create an actor that contains the data in the mapper
         actor=vtk.vtkActor()
