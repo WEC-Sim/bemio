@@ -636,7 +636,7 @@ class PanelMesh(object):
 
         writer = vtk.vtkXMLPolyDataWriter()
         writer.SetFileName(self.files['vtp'])
-        writer.SetInputData(self.vtp_mesh)
+        writer.SetInput(self.vtp_mesh)
         writer.SetDataModeToAscii()
         writer.Write()
 
