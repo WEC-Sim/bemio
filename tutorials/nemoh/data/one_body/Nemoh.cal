@@ -1,4 +1,4 @@
---- Environment ------------------------------------------------------------------------------------------------------------------
+  --- Environment ------------------------------------------------------------------------------------------------------------------
 1000.0				! RHO 			! KG/M**3 	! Fluid specific volume
 9.81				! G			! M/S**2	! Gravity
 0.				! DEPTH			! M		! Water depth
@@ -31,3 +31,4 @@ NonSymmetrical.dat		! Name of mesh file
 0				! Show pressure
 0	0.	180.		! Kochin function 		! Number of directions of calculation (0 for no calculations), Min and Max (degrees)
 0	2	1000.	2.	! Free surface elevation 	! Number of points in x direction (0 for no calcutions) and y direction and dimensions of domain in x and y direction
+--

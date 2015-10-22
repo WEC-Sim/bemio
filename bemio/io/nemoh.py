@@ -156,6 +156,11 @@ class NemohOutput(object):
 
             cal = fid.readlines()
 
+        try:
+            np.float(cal[-1].split()[0])
+        except:
+            cal.pop()
+
         self.cal.raw = cal
         self.cal.rho    = np.float(cal[1].split()[0])
         self.cal.g      = np.float(cal[2].split()[0])
