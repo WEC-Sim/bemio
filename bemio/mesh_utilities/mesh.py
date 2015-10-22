@@ -755,8 +755,6 @@ def _read_stl(file_name):
 def _read_vtp(file_name):
     '''Internal function to read vtp mesh files
     '''
-    if self.VTK_installed is False:
-        raise VTK_Exception('VTK must be installed to reade VTK/VTP meshes')
 
     reader = vtk.vtkXMLPolyDataReader()
     reader.SetFileName(file_name)
@@ -779,7 +777,7 @@ def _read_vtp(file_name):
         for i in xrange(numCellPoints):
             idsTemp.append(int(c.GetPointId(i)))
         mesh_data.faces.append(np.array(idsTemp))
-        mesh_data.faces = np.array(mesh_data.faces)
+    mesh_data.faces = np.array(mesh_data.faces)
 
 
     return mesh_data
