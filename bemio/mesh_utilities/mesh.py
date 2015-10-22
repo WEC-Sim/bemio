@@ -48,6 +48,8 @@ except:
 
     print 'The VTK Python module is required for a significant amnount of functionality in this module. Many functions will not be available for use.'
 
+
+
 class VTK_Exception(Exception):
     pass
 
@@ -397,7 +399,10 @@ class PanelMesh(object):
             raise VTK_Exception('VTK must be installed to access the calculate_center_of_gravity_vtk function')
 
         com = vtk.vtkCenterOfMass()
-        com.SetInputData(self.vtp_mesh)
+        if vtk.VTK_MAJOR_VERSION >= 6:
+            com.SetInputData(self.vtp_mesh)
+        else:
+            com.SetInput(self.vtp_mesh)
         com.Update()
         self.center_of_gravity = com.GetCenter()
 
@@ -461,7 +466,10 @@ class PanelMesh(object):
 
         # Create a mapper and load VTP data into the mapper
         mapper=vtk.vtkPolyDataMapper()
-        mapper.SetInputData(self.vtp_mesh)
+        if vtk.VTK_MAJOR_VERSION >= 6:
+            mapper.SetInputData(self.vtp_mesh)
+        else:
+            mapper.SetInput(self.vtp_mesh)
 
         # Create an actor that contains the data in the mapper
         actor=vtk.vtkActor()
@@ -636,7 +644,10 @@ class PanelMesh(object):
 
         writer = vtk.vtkXMLPolyDataWriter()
         writer.SetFileName(self.files['vtp'])
-        writer.SetInputData(self.vtp_mesh)
+        if vtk.VTK_MAJOR_VERSION >= 6:
+            writer.SetInputData(self.vtp_mesh)
+        else:
+            writer.SetInput(self.vtp_mesh)
         writer.SetDataModeToAscii()
         writer.Write()
 
