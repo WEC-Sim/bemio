@@ -162,15 +162,20 @@ class WamitOutput(object):
                         temp[2,2] = np.float(temp2[1])
                         temp[2,3] = np.float(temp2[2])
                         temp[2,4] = np.float(temp2[3])
+                        temp[3,2] = temp[2,3]
+                        temp[4,2] = temp[2,4]
 
                         temp2 = raw[i+j+1].split()
                         temp[3,3] = np.float(temp2[1])
                         temp[3,4] = np.float(temp2[2])
                         temp[3,5] = np.float(temp2[3])
+                        temp[4,3] = temp[3,4]
+                        temp[5,3] = temp[3,5]
 
                         temp2 = raw[i+j+2].split()
                         temp[4,4] = np.float(temp2[1])
                         temp[4,5] = np.float(temp2[2])
+                        temp[5,4] = temp[4,5]
 
                         k[bod_count] = temp
 
@@ -381,7 +386,7 @@ class WamitOutput(object):
                         line_count += 1
 
         else:
-            print '\tThe file ' + self.files['3sc'] + ' does not exist... not reading scattering coeffcients.'
+            print '\tThe file ' + self.files['3sc'] + ' does not exist... not reading scattering coefficients.'
 
         if os.path.exists(self.files['3fk']):
             fk_re = np.zeros([6*num_bodies,wave_dir.size,T.size])
@@ -405,7 +410,7 @@ class WamitOutput(object):
                         line_count += 1
 
         else:
-            print '\tThe file ' + self.files['3fk'] + ' does not exist... not reading froud krylof coeffcients.'
+            print '\tThe file ' + self.files['3fk'] + ' does not exist... not reading froud krylof coefficients.'
 
         # Load data into the hydrodata structure
         for i in xrange(num_bodies):
