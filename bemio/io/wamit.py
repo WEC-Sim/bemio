@@ -133,8 +133,7 @@ class WamitOutput(object):
 
 
             # Read the body positions
-            if "Total panels:" in line:
-
+            if "Total panels:" in line or "NPATCH:" in line:
                 for j in xrange(15): # look for position within the next 15 lines - will only work for wamit files of about 5 bodies
 
                     if 'XBODY =' in raw[i+j]:
