@@ -31,6 +31,7 @@
 
   
     <link rel="top" title="bemio v1.0a0 documentation" href="index.html"/>
+        <link rel="next" title="License" href="license.html"/>
         <link rel="prev" title="AQWA" href="aqwa.html"/> 
 
   
@@ -71,37 +72,29 @@
           
           
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installing.html">Downloading and Installing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="installing.html#downloading-bemio">Downloading bemio</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing.html#dependencies">Dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing.html#installing-quick-start-for-python-beginners">Installing: Quick Start for Python Beginners</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing.html#installing-for-experienced-python-users">Installing: For Experienced Python Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#installing-vtk-with-python-bindings">Installing VTK with Python Bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installing.html#osx">OSX</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="installing.html#method-1-simple">Method 1: Simple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installing.html#method-2-complex">Method 2: Complex</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installing.html#pre-installation-tasks">Pre-Installation Tasks</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="vtk.html">Installing VTK with Python Bindings</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="vtk.html#osx">OSX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="vtk.html#method-1-simple">Method 1: Simple</a></li>
-<li class="toctree-l3"><a class="reference internal" href="vtk.html#method-2-complex">Method 2: Complex</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="vtk.html#pre-installation-tasks">Pre-Installation Tasks</a></li>
-<li class="toctree-l4"><a class="reference internal" href="vtk.html#instillation">Instillation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installing.html#linux">Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installing.html#windows">Windows</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="vtk.html#linux">Linux</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api_io.html">Using <cite>bemio&#8217;s</cite> Data Readers</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="api_io.html">Using the bemio.io Module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api_io.html#loading-data">Loading Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_io.html#data-objects">Data Objects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api_io.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_io.html#writing-the-data-to-the-shdf">Writing the Data to the SHDF</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api_mesh.html">Using <cite>bemio&#8217;s</cite> Mesh Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api_mesh.html#loading-data">Loading Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_mesh.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_mesh.html#writing-the-data-to-the-shdf">Writing the Data to the SHDF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_io.html#writing-the-data-to-the-standard-bemio-format">Writing the Data to the Standard bemio Format</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a><ul>
@@ -128,18 +121,25 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">bemio Module Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#data-structures">data_structures</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#module-bemio.data_structures.bem">HydrodynamicData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bemio-io">bemio.io</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#wamit">wamit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aqwa">aqwa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nemoh">nemoh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#output">output</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#io-input-output">io (Input/Output)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#module-bemio.io.wamit">WamitOutput</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-bemio.io.nemoh">NemohOutput</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-bemio.io.aqwa">AqwaOutput</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bemio-data-structures">bemio.data_structures</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#bem">bem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#wave-excitation">wave_excitation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#bemio-mesh-utilities">bemio.mesh_utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#mesh">mesh</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 </ul>
 
           
@@ -178,165 +178,36 @@
           <div role="main" class="document">
             
   <div class="section" id="bemio-module-documentation">
-<span id="module-doc"></span><h1>bemio Module Documentation<a class="headerlink" href="#bemio-module-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="data-structures">
-<span id="id1"></span><h2>data_structures<a class="headerlink" href="#data-structures" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="module-bemio.data_structures.bem">
-<span id="hydrodynamicdata"></span><span id="bem-hydrodynamic-data"></span><h3>HydrodynamicData<a class="headerlink" href="#module-bemio.data_structures.bem" title="Permalink to this headline">¶</a></h3>
-<dl class="class">
-<dt id="bemio.data_structures.bem.HydrodynamicData">
-<em class="property">class </em><code class="descclassname">bemio.data_structures.bem.</code><code class="descname">HydrodynamicData</code><a class="reference internal" href="_modules/bemio/data_structures/bem.html#HydrodynamicData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bemio.data_structures.bem.HydrodynamicData" title="Permalink to this definition">¶</a></dt>
-<dd><p>&#8216;
-Sturcuture for storing data from WAMIT, AQWA and Nemoh.</p>
-<p>Variables:
-rho &#8211; density
-g &#8211; gravity
-files &#8211; Python dictionary of files associated with the
-simulation
-num_bodies &#8211; Total number of bodies in simulation
-body_num &#8211; Body number of the rigid body in the simulation
-cg &#8211; Center of gravity
-cb &#8211; Center of buoyancy
-disp_vol &#8211; Volume displacement
-T &#8211; Wave periods of simulations (e.g. [1, 2, 3, 4, 5,])
-w &#8211; Wave freqencies of simulations 
-am &#8211; Added mass coefficients of HydrodynamicCoefficients type
-rd &#8211; Radiation damping coefficients of HydrodynamicCoefficients
-type
-wp_area &#8211; Water plane area          
-buoy_force &#8211; Buoyancy force at equilibrium
-k &#8211; Hydrostatic stiffness matrix
-ex &#8211; Excitation coeffs of HydrodynamicExcitation type
-water_depth &#8211; Water depth
-wave_dir &#8211; Wave direction 
-name &#8211; Name of the body in the simulation</p>
-<dl class="method">
-<dt id="bemio.data_structures.bem.HydrodynamicData.calc_irf">
-<code class="descname">calc_irf</code><span class="sig-paren">(</span><em>t_end=100</em>, <em>n_t=1001</em>, <em>n_w=1001</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bemio/data_structures/bem.html#HydrodynamicData.calc_irf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bemio.data_structures.bem.HydrodynamicData.calc_irf" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the impulse response functions. See WAMITv7 manual section 13-8</p>
-<p>Inputs:</p>
-<p>Outputs:
-This function populates the irf variable</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="bemio.data_structures.bem.HydrodynamicData.calc_ss">
-<code class="descname">calc_ss</code><span class="sig-paren">(</span><em>max_order=10</em>, <em>r2_thresh=0.95</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bemio/data_structures/bem.html#HydrodynamicData.calc_ss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bemio.data_structures.bem.HydrodynamicData.calc_ss" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to calculate state space coefficients</p>
-<p>Inputs:
-Kr       - impulse response function
-ss_max    - maximum order of the state space realization
-R2Thresh - R2 threshold that must be met either by the R2 value for K_{r}
-dt       - time step used for the sampling frequency of the impulse response function</p>
-<p>Outputs:
-Ass - time-invariant state matrix
-Bss - time-invariant input matrix
-Css - time-invariant output matrix
-Dss - time-invariant feedthrough matrix
-k_ss_est - Impusle response function as cacluated from state space approximation
-status - status of the realization, 0 - zero hydrodynamic coefficients
-1 - state space realization meets R2 threshold
-2 - state space realization does not
-meet R2 threshold and at ss_max limit</p>
-<p>[Ass,Bss,Css,Dss,Krest,status]       
-SS_TD(bodyTemp.hydroForce.irkb(:,ii,jj),simu.ss_max,simu.R2Thresh,simu.dt)</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="bemio.data_structures.bem.HydrodynamicData.plot_am_rd">
-<code class="descname">plot_am_rd</code><span class="sig-paren">(</span><em>components</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bemio/data_structures/bem.html#HydrodynamicData.plot_am_rd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bemio.data_structures.bem.HydrodynamicData.plot_am_rd" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to plot the added mass and raditation damping coefficinets</p>
-<p>Inputs:
-components &#8211; A list of components to plot. E.g [[0,0],[1,1],[2,2]]</p>
-<p>Outputs:
-None &#8211; A plot is displayed. The plt.show() command may need to be used
-depending on your python env settings</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="bemio.data_structures.bem.HydrodynamicData.plot_excitation">
-<code class="descname">plot_excitation</code><span class="sig-paren">(</span><em>components</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bemio/data_structures/bem.html#HydrodynamicData.plot_excitation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bemio.data_structures.bem.HydrodynamicData.plot_excitation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to plot wave excitation coefficients</p>
-<p>Inputs:
-components &#8211; A list of components to plot. E.g [0,1,2,5]</p>
-<p>Outputs:
-None &#8211; A plot is displayed. The plt.show() command may need to be used
-depending on your python env settings</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="bemio.data_structures.bem.HydrodynamicData.plot_irf">
-<code class="descname">plot_irf</code><span class="sig-paren">(</span><em>components</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bemio/data_structures/bem.html#HydrodynamicData.plot_irf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bemio.data_structures.bem.HydrodynamicData.plot_irf" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to plot the IRF</p>
-<p>Inputs:
-components &#8211; A list of components to plot. E.g [[0,0],[1,1],[2,2]]</p>
-<p>Outputs:
-None &#8211; A plot is displayed. The plt.show() command may need to be used
-depending on your python env settings</p>
-</dd></dl>
-
-</dd></dl>
-
+<h1>bemio Module Documentation<a class="headerlink" href="#bemio-module-documentation" title="Permalink to this headline">¶</a></h1>
+<p>The following sections contain autogenerated documentation from the docstrings within the bemio code and provide useful information for bemio users and developers alike. Examples describing how to use the various modules, classes, and functions are provided where possible.</p>
+<div class="section" id="bemio-io">
+<h2>bemio.io<a class="headerlink" href="#bemio-io" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="wamit">
+<h3>wamit<a class="headerlink" href="#wamit" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="aqwa">
+<h3>aqwa<a class="headerlink" href="#aqwa" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="nemoh">
+<h3>nemoh<a class="headerlink" href="#nemoh" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="output">
+<h3>output<a class="headerlink" href="#output" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
-<div class="section" id="io-input-output">
-<span id="io"></span><h2>io (Input/Output)<a class="headerlink" href="#io-input-output" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="module-bemio.io.wamit">
-<span id="wamitoutput"></span><span id="wamit-output"></span><h3>WamitOutput<a class="headerlink" href="#module-bemio.io.wamit" title="Permalink to this headline">¶</a></h3>
-<dl class="class">
-<dt id="bemio.io.wamit.WamitOutput">
-<em class="property">class </em><code class="descclassname">bemio.io.wamit.</code><code class="descname">WamitOutput</code><span class="sig-paren">(</span><em>out_file</em>, <em>density=1000.0</em>, <em>gravity=9.81</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bemio/io/wamit.html#WamitOutput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bemio.io.wamit.WamitOutput" title="Permalink to this definition">¶</a></dt>
-<dd><p>Class to read and interact with WAMIT simulation data</p>
-<p><strong>Inputs:</strong></p>
-<ul class="simple">
-<li>out_file: Absolute or relative loaction and name of the WAMIT .out file</li>
-<li>density: fluid denisty (default:1000.)</li>
-</ul>
-</dd></dl>
-
+<div class="section" id="bemio-data-structures">
+<h2>bemio.data_structures<a class="headerlink" href="#bemio-data-structures" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="bem">
+<h3>bem<a class="headerlink" href="#bem" title="Permalink to this headline">¶</a></h3>
 </div>
-<div class="section" id="module-bemio.io.nemoh">
-<span id="nemohoutput"></span><span id="nemoh-output"></span><h3>NemohOutput<a class="headerlink" href="#module-bemio.io.nemoh" title="Permalink to this headline">¶</a></h3>
-<dl class="class">
-<dt id="bemio.io.nemoh.NemohOutput">
-<em class="property">class </em><code class="descclassname">bemio.io.nemoh.</code><code class="descname">NemohOutput</code><span class="sig-paren">(</span><em>sim_dir='./'</em>, <em>cal_file='Nemoh.cal'</em>, <em>results_dir='Results'</em>, <em>mesh_dir='Mesh'</em>, <em>out_name='nemoh_bemio.out'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bemio/io/nemoh.html#NemohOutput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bemio.io.nemoh.NemohOutput" title="Permalink to this definition">¶</a></dt>
-<dd><p>Class that is used to read Nemoh results.</p>
-<p>Inputs:
-results_dir &#8211; the directory with the Nemoh results files (e.g. CA.dat)</p>
-<dl class="method">
-<dt id="bemio.io.nemoh.NemohOutput.read_hydrostatics">
-<code class="descname">read_hydrostatics</code><span class="sig-paren">(</span><em>body_num</em>, <em>file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bemio/io/nemoh.html#NemohOutput.read_hydrostatics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bemio.io.nemoh.NemohOutput.read_hydrostatics" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to read hydrostatics.dat nemoh file</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="bemio.io.nemoh.NemohOutput.read_kh">
-<code class="descname">read_kh</code><span class="sig-paren">(</span><em>body_num</em>, <em>file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bemio/io/nemoh.html#NemohOutput.read_kh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bemio.io.nemoh.NemohOutput.read_kh" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to read HK.dat</p>
-<p>This function is not necessary for such a simple function, but we may
-need to make it more complicated in the future, so i&#8217;m leaving it as
-a function - mjl 25March2015</p>
-</dd></dl>
-
-</dd></dl>
-
+<div class="section" id="wave-excitation">
+<h3>wave_excitation<a class="headerlink" href="#wave-excitation" title="Permalink to this headline">¶</a></h3>
 </div>
-<div class="section" id="module-bemio.io.aqwa">
-<span id="aqwaoutput"></span><span id="aqwa-output"></span><h3>AqwaOutput<a class="headerlink" href="#module-bemio.io.aqwa" title="Permalink to this headline">¶</a></h3>
-<dl class="class">
-<dt id="bemio.io.aqwa.AqwaOutput">
-<em class="property">class </em><code class="descclassname">bemio.io.aqwa.</code><code class="descname">AqwaOutput</code><span class="sig-paren">(</span><em>hydro_file</em>, <em>list_file</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/bemio/io/aqwa.html#AqwaOutput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#bemio.io.aqwa.AqwaOutput" title="Permalink to this definition">¶</a></dt>
-<dd><p>Class to read and interact with AQWA simulation data
-<strong>Inputs:</strong></p>
-<ul class="simple">
-<li>out_file: name of the AQWA output file</li>
-</ul>
-<p><strong>Outputs:</strong></p>
-<ul class="simple">
-<li>None</li>
-</ul>
-</dd></dl>
-
+</div>
+<div class="section" id="bemio-mesh-utilities">
+<h2>bemio.mesh_utilities<a class="headerlink" href="#bemio-mesh-utilities" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="mesh">
+<h3>mesh<a class="headerlink" href="#mesh" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
 </div>
@@ -346,6 +217,8 @@ a function - mjl 25March2015</p>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="license.html" class="btn btn-neutral float-right" title="License" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="aqwa.html" class="btn btn-neutral" title="AQWA" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

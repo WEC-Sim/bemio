@@ -73,37 +73,29 @@
           
           
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installing.html">Downloading and Installing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="installing.html#downloading-bemio">Downloading bemio</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing.html#dependencies">Dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing.html#installing-quick-start-for-python-beginners">Installing: Quick Start for Python Beginners</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing.html#installing-for-experienced-python-users">Installing: For Experienced Python Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#installing-vtk-with-python-bindings">Installing VTK with Python Bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installing.html#osx">OSX</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="installing.html#method-1-simple">Method 1: Simple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installing.html#method-2-complex">Method 2: Complex</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installing.html#pre-installation-tasks">Pre-Installation Tasks</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="vtk.html">Installing VTK with Python Bindings</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="vtk.html#osx">OSX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="vtk.html#method-1-simple">Method 1: Simple</a></li>
-<li class="toctree-l3"><a class="reference internal" href="vtk.html#method-2-complex">Method 2: Complex</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="vtk.html#pre-installation-tasks">Pre-Installation Tasks</a></li>
-<li class="toctree-l4"><a class="reference internal" href="vtk.html#instillation">Instillation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installing.html#linux">Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installing.html#windows">Windows</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="vtk.html#linux">Linux</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api_io.html">Using <cite>bemio&#8217;s</cite> Data Readers</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="api_io.html">Using the bemio.io Module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api_io.html#loading-data">Loading Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_io.html#data-objects">Data Objects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api_io.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_io.html#writing-the-data-to-the-shdf">Writing the Data to the SHDF</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api_mesh.html">Using <cite>bemio&#8217;s</cite> Mesh Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api_mesh.html#loading-data">Loading Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_mesh.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_mesh.html#writing-the-data-to-the-shdf">Writing the Data to the SHDF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_io.html#writing-the-data-to-the-standard-bemio-format">Writing the Data to the Standard bemio Format</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
@@ -130,18 +122,25 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="module_doc.html">bemio Module Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_doc.html#data-structures">data_structures</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.data_structures.bem">HydrodynamicData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_doc.html#bemio-io">bemio.io</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#wamit">wamit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#aqwa">aqwa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#nemoh">nemoh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#output">output</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="module_doc.html#io-input-output">io (Input/Output)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.wamit">WamitOutput</a></li>
-<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.nemoh">NemohOutput</a></li>
-<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.aqwa">AqwaOutput</a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_doc.html#bemio-data-structures">bemio.data_structures</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#bem">bem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#wave-excitation">wave_excitation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="module_doc.html#bemio-mesh-utilities">bemio.mesh_utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#mesh">mesh</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 </ul>
 
           
@@ -185,62 +184,11 @@
 <h1>WAMIT<a class="headerlink" href="#wamit" title="Permalink to this headline">¶</a></h1>
 <p>WAMIT tutorial files can be found in the <code class="docutils literal"><span class="pre">$BEMIO_TUTORIALS/wamit</span></code> folder.</p>
 <p>The <code class="docutils literal"><span class="pre">$BEMIO_TUTORIALS/wamit/data</span></code> folder contains several example WAMIT output files. In this tutorial we will use the <code class="docutils literal"><span class="pre">wec3.out</span></code> example data. This file contains WAMIT simulation from a floating three-body oscillating flap device shown below. This device geometry is described thoroughly by Babarit et al. <a href="#id1"><span class="problematic" id="id2">:cite:`babarit2012`</span></a>.</p>
-<div class="figure align-center">
+<div class="figure align-center" id="id5">
 <a class="reference internal image-reference" href="_images/wec3_device.png"><img alt="_images/wec3_device.png" src="_images/wec3_device.png" style="width: 400pt;" /></a>
+<p class="caption"><span class="caption-text">and another caption</span></p>
 </div>
 <p>The <code class="docutils literal"><span class="pre">$BEMIO_TUTORIALS/wamit/run.py</span></code> file contains a custom written script that uses the <cite>bemio</cite> <span class="xref std std-ref">API</span> to read the <code class="docutils literal"><span class="pre">wec3.out</span></code> file, plot hydrodynamic coefficients, and save the data in the SHDF.</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c">#! /usr/bin/python</span>
-
-<span class="c"># bemio WAMIT tutorial</span>
-
-<span class="c"># Import matplotlib - non required</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-
-<span class="c"># Load the wamit module from bemio.io</span>
-<span class="c"># This module provides functionality to read, dimensionalize, visualizes the data.</span>
-<span class="kn">from</span> <span class="nn">bemio.io</span> <span class="kn">import</span> <span class="n">wamit</span>
-
-
-<span class="c"># Load the bem data object from bemio.data_structures</span>
-<span class="c"># This module provides the functionality to save the data in the SHDF</span>
-<span class="kn">from</span> <span class="nn">bemio.data_structures</span> <span class="kn">import</span> <span class="n">bem</span>
-
-
-<span class="c"># Load the data using the wamit module.</span>
-<span class="c"># After running this line,  a object wamit_data of &lt;type &#39;WamitOutput&#39;&gt; is created containing</span>
-<span class="c"># the data read from the wec3.out file. The data for each of the three bodies of the floating </span>
-<span class="c"># three-body oscillating flap is loaded into wamit_data.data[0], wamit_data.data[1],</span>
-<span class="c"># and wamit_data.data[2]</span>
-<span class="n">wamit_data</span> <span class="o">=</span> <span class="n">wamit</span><span class="o">.</span><span class="n">WamitOutput</span><span class="p">(</span><span class="n">out_file</span><span class="o">=</span><span class="s">&#39;./data/rm3.out&#39;</span><span class="p">)</span>
-
-
-<span class="c"># Plot the added hydrodynamic coefficients for visualization using the wamit module #</span>
-<span class="c"># Specifically, the surge (0,0 component) and heave (2,2 component) for body0 in the WAMTI</span>
-<span class="c"># simulation are plotted using matplotlib. Note that Python uses zero indexing.</span>
-<span class="c"># components_to_plot = [[0,0],[2,2]]</span>
-<span class="c"># wamit_data.data[0].plot_am_rd(components_to_plot)</span>
-
-
-<span class="c"># Calculate IRF and plot using the wamit module</span>
-<span class="c"># The loop below loops through each of the bodies and calculates the impulse response function</span>
-<span class="c"># and state space coefficients. In this case, the impulse response function is calculated from</span>
-<span class="c"># 0 to 50 seconds by setting t_end=50, using 101 timesteps n_t=101, and using 201 frequency steps</span>
-<span class="c"># n_w = 201</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">wamit_data</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">num_bodies</span><span class="p">):</span>
-	<span class="n">wamit_data</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">calc_irf</span><span class="p">(</span><span class="n">t_end</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">n_t</span> <span class="o">=</span> <span class="mi">101</span><span class="p">,</span> <span class="n">n_w</span><span class="o">=</span><span class="mi">201</span><span class="p">)</span>
-	<span class="n">wamit_data</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">calc_ss</span><span class="p">()</span>
-
-<span class="c"># Save the data in SHDF format using the bem module</span>
-<span class="c"># The data is written to the file name specified by the out_file string. The wamit_data</span>
-<span class="c"># contains a dictionary named &#39;files&#39; with an entry &#39;hdf5&#39; which contains the default file name</span>
-<span class="c"># wec3.h5</span>
-<span class="n">bem</span><span class="o">.</span><span class="n">write_hdf5</span><span class="p">(</span><span class="n">wamit_data</span><span class="p">)</span>
-
-
-<span class="c"># Close all plots</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="s">&#39;all&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
 <p>Running the script above produces the following output:</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/wamit_tut_run.png"><img alt="_images/wamit_tut_run.png" src="_images/wamit_tut_run.png" style="width: 500pt;" /></a>

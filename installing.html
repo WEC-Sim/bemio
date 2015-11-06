@@ -31,8 +31,7 @@
 
   
     <link rel="top" title="bemio v1.0a0 documentation" href="index.html"/>
-        <link rel="next" title="Installing VTK with Python Bindings" href="vtk.html"/>
-        <link rel="prev" title="License" href="license.html"/> 
+        <link rel="prev" title="bemio Documentation and Users Guide" href="index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -72,37 +71,29 @@
           
           
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Downloading and Installing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#downloading-bemio">Downloading bemio</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installing-quick-start-for-python-beginners">Installing: Quick Start for Python Beginners</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installing-for-experienced-python-users">Installing: For Experienced Python Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installing-vtk-with-python-bindings">Installing VTK with Python Bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#osx">OSX</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#method-1-simple">Method 1: Simple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#method-2-complex">Method 2: Complex</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pre-installation-tasks">Pre-Installation Tasks</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="vtk.html">Installing VTK with Python Bindings</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="vtk.html#osx">OSX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="vtk.html#method-1-simple">Method 1: Simple</a></li>
-<li class="toctree-l3"><a class="reference internal" href="vtk.html#method-2-complex">Method 2: Complex</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="vtk.html#pre-installation-tasks">Pre-Installation Tasks</a></li>
-<li class="toctree-l4"><a class="reference internal" href="vtk.html#instillation">Instillation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#linux">Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#windows">Windows</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="vtk.html#linux">Linux</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api_io.html">Using <cite>bemio&#8217;s</cite> Data Readers</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="api_io.html">Using the bemio.io Module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api_io.html#loading-data">Loading Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_io.html#data-objects">Data Objects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api_io.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_io.html#writing-the-data-to-the-shdf">Writing the Data to the SHDF</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api_mesh.html">Using <cite>bemio&#8217;s</cite> Mesh Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api_mesh.html#loading-data">Loading Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_mesh.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_mesh.html#writing-the-data-to-the-shdf">Writing the Data to the SHDF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_io.html#writing-the-data-to-the-standard-bemio-format">Writing the Data to the Standard bemio Format</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a><ul>
@@ -129,18 +120,25 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="module_doc.html">bemio Module Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_doc.html#data-structures">data_structures</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.data_structures.bem">HydrodynamicData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_doc.html#bemio-io">bemio.io</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#wamit">wamit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#aqwa">aqwa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#nemoh">nemoh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#output">output</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="module_doc.html#io-input-output">io (Input/Output)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.wamit">WamitOutput</a></li>
-<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.nemoh">NemohOutput</a></li>
-<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.aqwa">AqwaOutput</a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_doc.html#bemio-data-structures">bemio.data_structures</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#bem">bem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#wave-excitation">wave_excitation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="module_doc.html#bemio-mesh-utilities">bemio.mesh_utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#mesh">mesh</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 </ul>
 
           
@@ -182,34 +180,27 @@
 <h1>Downloading and Installing<a class="headerlink" href="#downloading-and-installing" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="downloading-bemio">
 <h2>Downloading bemio<a class="headerlink" href="#downloading-bemio" title="Permalink to this headline">¶</a></h2>
-<p>bemio is distbuited through the <a class="reference external" href="https://github.com/WEC-Sim/bemio/">bemio GitHub web page</a> and can be downloaded using one of the following methods.</p>
-<p><strong>Clone with Git (recommended):</strong> bemio can obtained by cloning the repository using the GitHub GUI (<a class="reference external" href="https://mac.github.com/">Mac</a> and <a class="reference external" href="https://windows.github.com/">Windows</a> ) or from the command line using the command:</p>
-<div class="highlight-python"><div class="highlight"><pre>git clone https://github.com/WEC-Sim/bemio.git
-</pre></div>
-</div>
-<p>This method is recommended because it makes it easy to update your local version of bemio to the latest version using the <code class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></code> command.</p>
-<p><strong>Download code archive:</strong> The code archive can be downloaded from <a class="reference external" href="https://github.com/WEC-Sim/bemio/archive/master.zip">bemio-1.0</a>.</p>
+<p>bemio is distributed through the <a class="reference external" href="https://github.com/WEC-Sim/bemio/">bemio GitHub repositiory</a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The folder that contains the bemio source code will be referred to as the <code class="docutils literal"><span class="pre">$BEMIO_SOURE</span></code> folder.</p>
+<p class="last">The folder that contains the bemio source code will be referred to as <code class="docutils literal"><span class="pre">$BEMIO_SOURE</span></code>.</p>
 </div>
 </div>
 <div class="section" id="dependencies">
 <h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
-<p>Bemio requires the following software and packages.</p>
-<p><strong>Python:</strong> <a class="reference external" href="https://www.python.org/downloads/">Python 2.7.x</a> and the following Python packages are required to run WEC-Sim. These packages can easily be installed using using <a class="reference external" href="https://pypi.python.org/pypi/pip">pip</a>  or your favorite package instillation method:</p>
+<p><strong>Python:</strong> <a class="reference external" href="https://www.python.org/downloads/">Python 2.7.x</a> and the following Python packages are required to run bemio. These packages can easily be installed using using <a class="reference external" href="https://pypi.python.org/pypi/pip">pip</a>  or your preferred package instillation method:</p>
 <blockquote>
 <div><ul class="simple">
-<li>matplotlib</li>
 <li>numpy</li>
 <li>scipy</li>
+<li>matplotlib</li>
 <li>progressbar2</li>
 <li>astropy</li>
 <li>h5py</li>
 </ul>
 </div></blockquote>
-<p><strong>Visualization Toolkit (VTK):</strong> If you would like to use the <code class="docutils literal"><span class="pre">bemio.mesh_utilities</span></code> you will also have to install VTK and the Python 2.7.x bindings. Instructions for how to install VTK are provided in the <a class="reference internal" href="vtk.html#installing-vtk-with-python-bindings"><span>Installing VTK with Python Bindings</span></a> section.</p>
-<p><strong>HDFVIEW:</strong> Although not required, bemio users will benefit from installing <a class="reference external" href="http://www.hdfgroup.org/products/java/hdfview/">HDFVIEW</a>. <cite>HDFVIEW</cite>  allows bemio users to view and interact with the bemio output files.</p>
+<p><strong>Visualization Toolkit (VTK):</strong> If you would like to use the <code class="docutils literal"><span class="pre">bemio.mesh_utilities</span></code> you will also have to install VTK and the Python 2.7.x bindings. Instructions for how to install VTK are provided in the <a class="reference internal" href="#installing-vtk-with-python-bindings"><span>Installing VTK with Python Bindings</span></a> section.</p>
+<p><strong>HDFVIEW:</strong> Although not required, bemio users will benefit from installing <a class="reference external" href="http://www.hdfgroup.org/products/java/hdfview/">HDFVIEW</a>. HDFVIEW allows bemio users to view and interact with the bemio output files.</p>
 </div>
 <div class="section" id="installing-quick-start-for-python-beginners">
 <h2>Installing: Quick Start for Python Beginners<a class="headerlink" href="#installing-quick-start-for-python-beginners" title="Permalink to this headline">¶</a></h2>
@@ -224,31 +215,135 @@
 <p class="first admonition-title">Note</p>
 <p class="last">If you are using Anaconda, PythonXY or another non-Python.org distribution, you may need to install one of the packages identified in the <a class="reference internal" href="#dependencies">Dependencies</a> section. If you need to do so, you should install any needed modules via your distribution&#8217;s package manager.</p>
 </div>
-<p><strong>Step 2 - Download bemio:</strong> Download bemio as described in the <a class="reference internal" href="#downloading-bemio">Downloading bemio</a> section</p>
-<p><strong>Step 3 - Install bemio:</strong> Open a command window (Windows) or shell (OSX and LInux) and navigate to <code class="docutils literal"><span class="pre">$BEMIO_SOURCE</span></code>. Once inside the <code class="docutils literal"><span class="pre">$BEMIO_SOURCE</span></code> folder execute the following command:</p>
+<p><strong>Step 2 - Download bemio:</strong> Download bemio from the <a class="reference external" href="https://github.com/WEC-Sim/bemio/">GitHub repositiory</a></p>
+<p><strong>Step 3 - Install bemio:</strong> Open a command window (Windows) or terminal window (OSX and Linux) and navigate to <code class="docutils literal"><span class="pre">$BEMIO_SOURCE</span></code>. Once inside the <code class="docutils literal"><span class="pre">$BEMIO_SOURCE</span></code> folder execute the following command to install bemio:</p>
 <div class="highlight-python"><div class="highlight"><pre>python setup.py install --user
 </pre></div>
 </div>
 <p><strong>Step 4 - Test the instillation:</strong> Test the bemio by running the following command from a command prompt inside the <code class="docutils literal"><span class="pre">$BEMIO_SOURCE</span></code> folder:</p>
-<div class="highlight-python"><div class="highlight"><pre>python test.py
+<div class="highlight-python"><div class="highlight"><pre>python install_test.py
 </pre></div>
 </div>
-<p>If the  WAMIT, AQWA, and NEMOH tutorial cases (located in <code class="docutils literal"><span class="pre">$BEMIO_SOURCE/tutorials</span></code>)  run successfully, you will receive get a success messages for each case.</p>
+<p>If the tutorial cases (located in <code class="docutils literal"><span class="pre">$BEMIO_SOURCE/tutorials</span></code>) run successfully you will receive a success messages.</p>
 </div>
 <div class="section" id="installing-for-experienced-python-users">
 <h2>Installing: For Experienced Python Users<a class="headerlink" href="#installing-for-experienced-python-users" title="Permalink to this headline">¶</a></h2>
 <p>These instructions assume the user has an advanced level of Python knowledge.</p>
-<p><strong>Step 1 - Install Python 2.7.x:</strong> Install Python 2.7.x and the Python modules identified in the <a class="reference internal" href="#dependencies">Dependencies</a> section.</p>
-<p><strong>Step 2 - Download bemio:</strong> Clone or fork bemio from the <a class="reference external" href="https://github.com/WEC-Sim/bemio/">bemio GitHub page</a> using git:</p>
-<div class="highlight-python"><div class="highlight"><pre>git clone https://github.com/WEC-Sim/bemio.git
+<p><strong>Step 1 - Install Python:</strong> Install Python 2.7.x and the Python modules identified in the <a class="reference internal" href="#dependencies">Dependencies</a> section.</p>
+<p><strong>Step 2 - Download bemio:</strong> Download bemio from the <a class="reference external" href="https://github.com/WEC-Sim/bemio/">GitHub repositiory</a></p>
+<p><strong>Step 3 - Install bemio:</strong> Add the <code class="docutils literal"><span class="pre">$BEMIO_SOURCE</span></code> folder to your <a class="reference external" href="https://docs.python.org/2/using/cmdline.html#environment-variables">PYTHONPATH</a>.</p>
+<p><strong>Step 4 - Test the instillation:</strong> Test bemio by running the following command from a command prompt inside the <code class="docutils literal"><span class="pre">$BEMIO_SOURCE</span></code> folder:</p>
+<div class="highlight-python"><div class="highlight"><pre>python install_test.py
 </pre></div>
 </div>
-<p><strong>Step 3 - Install bemio:</strong> Add the <code class="docutils literal"><span class="pre">$BEMIO_SOURCE</span></code> folder to your <a class="reference external" href="https://docs.python.org/2/using/cmdline.html#environment-variables">PYTHONPATH</a> environment variable.</p>
-<p><strong>Step 4 - Test the instillation:</strong> Test the bemio by running the following command from a command prompt inside the <code class="docutils literal"><span class="pre">$BEMIO_SOURCE</span></code> folder:</p>
-<div class="highlight-python"><div class="highlight"><pre>python test.py
+<p>If the tutorial cases (located in <code class="docutils literal"><span class="pre">$BEMIO_SOURCE/tutorials</span></code>) run successfully you will receive a success messages.</p>
+</div>
+<div class="section" id="installing-vtk-with-python-bindings">
+<span id="id2"></span><h2>Installing VTK with Python Bindings<a class="headerlink" href="#installing-vtk-with-python-bindings" title="Permalink to this headline">¶</a></h2>
+<p>In order to use <code class="docutils literal"><span class="pre">bemio.mesh_utilities</span></code> packaged with bemio you must have the Visualization Toolkit (VTK)  and the VTK Python 2.7.x bindings installed on your system.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Installing the VTK Python bindings is only required if you would like to use bemio&#8217;s <code class="xref py py-mod docutils literal"><span class="pre">bemio.mesh_utilities</span></code> features.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Some Python distributions, such as Anaconda and PythonXY, may include VTK bindings, however, it is recommended that bemio users install VTK using the instructions in this section because the VTK versions distributed with Anaconda and PythonXY are not kept current.</p>
+</div>
+<div class="section" id="osx">
+<h3>OSX<a class="headerlink" href="#osx" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="method-1-simple">
+<h4>Method 1: Simple<a class="headerlink" href="#method-1-simple" title="Permalink to this headline">¶</a></h4>
+<p>Install VTK using <a class="reference external" href="https://www.macports.org/">MacPorts</a>, <a class="reference external" href="http://www.finkproject.org/">Fink</a>, or <a class="reference external" href="http://brew.sh/">HomeBrew</a>. If you would like to install VTK using this method you should also install Python and other bemio dependencies using this method.</p>
+</div>
+<div class="section" id="method-2-complex">
+<h4>Method 2: Complex<a class="headerlink" href="#method-2-complex" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="pre-installation-tasks">
+<h4>Pre-Installation Tasks<a class="headerlink" href="#pre-installation-tasks" title="Permalink to this headline">¶</a></h4>
+<p><strong>Step 1:</strong> Insure the following software is installed on your system:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://www.python.org/downloads/">Python-2.7.x</a></li>
+<li><a class="reference external" href="https://developer.apple.com/xcode/downloads/">Apple Xcode</a></li>
+<li><a class="reference external" href="http://www.cmake.org/">cmake</a></li>
+<li><a class="reference external" href="http://www.tcl.tk/">tcl</a></li>
+<li><a class="reference external" href="http://www.tcl.tk/">tk</a></li>
+</ul>
+<p>Python is preloaded on OSX systems and XCode can be installed through the <a class="reference external" href="https://itunes.apple.com/us/app/xcode/id497799835;jsessionid=wnox0jq0k0vj2wbtcl3kohuf?mt=12#">OSX App Store</a> . The other packages can easily be installed using <a class="reference external" href="https://www.macports.org/">MacPorts</a>, <a class="reference external" href="http://www.finkproject.org/">Fink</a>, or <a class="reference external" href="http://brew.sh/">HomeBrew</a>. Here is an example of how to install cmake, tck, and tk using MacPorts:</p>
+<div class="highlight-shell"><div class="highlight"><pre>sudo port install cmake
+sudo port install tcl
+sudo port install tk
 </pre></div>
 </div>
-<p>If the  WAMIT, AQWA, and NEMOH tutorial cases (located in <code class="docutils literal"><span class="pre">$BEMIO_SOURCE/tutorials</span></code>)  run successfully, you will receive get a success messages for each case.</p>
+<p><strong>Step 2</strong>: Download and unzip the latest version of VTK from here - <a class="reference external" href="http://www.vtk.org/download/">http://www.vtk.org/download</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The folder that contains the VTK source code will be referred to as <code class="docutils literal"><span class="pre">$VTK_SOURCE</span></code></p>
+</div>
+<div class="section" id="install">
+<h5>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h5>
+<p>Open a terminal window and use the following procedure to compile VTK and the Python bindings.</p>
+<div class="highlight-shell"><div class="highlight"><pre><span class="c"># Move to the VTK source directory</span>
+mlawson@mbp:~<span class="nv">$ </span><span class="nb">cd</span> <span class="nv">$VTK_SOURCE</span>
+
+<span class="c"># Make a directory for the build and move into the build directory</span>
+mlawson@mbp:VTK-6.2.0<span class="nv">$ </span>mkdir build
+mlawson@mbp:VTK-6.2.0<span class="nv">$ </span><span class="nb">cd </span>build
+
+<span class="c"># Run cmake in interactive mode. Insure that the ``PYTHON_VERSION`` is set to ``2``, the</span>
+<span class="c"># ``VTK_WRAP_PYTHON`` is set to ``ON, and ``BUILD_SHARED_LIBS`` is set to ON. ``BUILD_SHARED_LIBS``</span>
+<span class="c"># is not always visable and you may need to enter the &quot;advnacec mode&quot; by pressing ``t`` to confirm this option is</span>
+<span class="c"># correctly set. After the options are properly set, press ``c`` to configure and then ``g``</span>
+<span class="c"># to generate the required make files.</span>
+mlawson@mbp:VTK-6.2.0<span class="nv">$ </span>sudo ccmake ..
+
+    BUILD_DOCUMENTATION              OFF
+    BUILD_EXAMPLES                   OFF
+<span class="hll">    BUILD_SHARED_LIBS                ON       <span class="c"># May need to toggle advanced mode to view this option</span>
+</span>    BUILD_TESTING                    OFF
+    BUILD_USER_DEFINED_LIBS          OFF
+    CMAKE_BUILD_TYPE                 Release
+    CMAKE_FRAMEWORK_INSTALL_PREFIX   /usr/local/frameworks
+    IOS_DEVICE_ARCHITECTURES         arm64<span class="p">;</span>armv7<span class="p">;</span>armv7s
+    IOS_SIMULATOR_ARCHITECTURES      i386<span class="p">;</span>x86_64
+    OPENGL_ES_VERSION                2.0
+    VTK_ANDROID_BUILD                OFF
+    VTK_Group_Imaging                OFF
+    VTK_Group_MPI                    OFF
+    VTK_Group_Qt                     OFF
+    VTK_Group_Rendering              ON
+    VTK_Group_StandAlone             ON
+    VTK_Group_Tk                     OFF
+    VTK_Group_Views                  OFF
+    VTK_Group_Web                    OFF
+    VTK_IOS_BUILD                    OFF
+<span class="hll">    VTK_PYTHON_VERSION               2
+</span>    VTK_SMP_IMPLEMENTATION_TYPE      Sequential
+    VTK_USE_LARGE_DATA               OFF
+    VTK_WRAP_JAVA                    OFF
+<span class="hll">    VTK_WRAP_PYTHON                  ON
+</span>    VTK_WRAP_TCL                     OFF
+
+    BUILD_DOCUMENTATION: Build the VTK documentation
+    Press <span class="o">[</span>enter<span class="o">]</span> to edit option                                                 CMake Version 3.2.2
+    Press <span class="o">[</span>c<span class="o">]</span> to configure
+    Press <span class="o">[</span>h<span class="o">]</span> <span class="k">for</span> <span class="nb">help           </span>Press <span class="o">[</span>q<span class="o">]</span> to quit without generating
+<span class="hll">    Press <span class="o">[</span>t<span class="o">]</span> to toggle advanced mode <span class="o">(</span>Currently Off<span class="o">)</span>
+</span>
+<span class="c"># Build VTK using make - this will take a while :(</span>
+mlawson@mbp:VTK-6.2.0<span class="nv">$ </span>sudo make
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="linux">
+<h3>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h3>
+<p>Install VTK and the VTK Python bindings using your system&#8217;s package manager or adapt the <a class="reference internal" href="#osx">OSX</a> instructions described above.</p>
+</div>
+<div class="section" id="windows">
+<h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
+<p>No instructions available at this time.</p>
+</div>
 </div>
 </div>
 
@@ -258,10 +353,8 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="vtk.html" class="btn btn-neutral float-right" title="Installing VTK with Python Bindings" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-      
-        <a href="license.html" class="btn btn-neutral" title="License" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="bemio Documentation and Users Guide" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

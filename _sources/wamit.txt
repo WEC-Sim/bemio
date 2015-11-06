@@ -8,6 +8,9 @@ The ``$BEMIO_TUTORIALS/wamit/data`` folder contains several example WAMIT output
    :align: center
    :width: 400pt
 
+
+   and another caption
+
 The ``$BEMIO_TUTORIALS/wamit/run.py`` file contains a custom written script that uses the `bemio` :ref:`API` to read the ``wec3.out`` file, plot hydrodynamic coefficients, and save the data in the SHDF.
 
 .. literalinclude:: ../../tutorials/wamit/run.py

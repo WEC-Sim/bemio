@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Using bemio’s Data Readers &mdash; bemio v1.0a0 documentation</title>
+  <title>Using the bemio.io Module &mdash; bemio v1.0a0 documentation</title>
   
 
   
@@ -31,8 +31,7 @@
 
   
     <link rel="top" title="bemio v1.0a0 documentation" href="index.html"/>
-        <link rel="next" title="Using bemio’s Mesh Utilities" href="api_mesh.html"/>
-        <link rel="prev" title="Installing VTK with Python Bindings" href="vtk.html"/> 
+        <link rel="next" title="Tutorials" href="tutorials.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -72,37 +71,29 @@
           
           
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installing.html">Downloading and Installing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="installing.html#downloading-bemio">Downloading bemio</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing.html#dependencies">Dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing.html#installing-quick-start-for-python-beginners">Installing: Quick Start for Python Beginners</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing.html#installing-for-experienced-python-users">Installing: For Experienced Python Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#installing-vtk-with-python-bindings">Installing VTK with Python Bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installing.html#osx">OSX</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="installing.html#method-1-simple">Method 1: Simple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installing.html#method-2-complex">Method 2: Complex</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installing.html#pre-installation-tasks">Pre-Installation Tasks</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="vtk.html">Installing VTK with Python Bindings</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="vtk.html#osx">OSX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="vtk.html#method-1-simple">Method 1: Simple</a></li>
-<li class="toctree-l3"><a class="reference internal" href="vtk.html#method-2-complex">Method 2: Complex</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="vtk.html#pre-installation-tasks">Pre-Installation Tasks</a></li>
-<li class="toctree-l4"><a class="reference internal" href="vtk.html#instillation">Instillation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installing.html#linux">Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installing.html#windows">Windows</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="vtk.html#linux">Linux</a></li>
-</ul>
-</li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Using <cite>bemio&#8217;s</cite> Data Readers</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Using the bemio.io Module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#loading-data">Loading Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-objects">Data Objects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#writing-the-data-to-the-shdf">Writing the Data to the SHDF</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api_mesh.html">Using <cite>bemio&#8217;s</cite> Mesh Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api_mesh.html#loading-data">Loading Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_mesh.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_mesh.html#writing-the-data-to-the-shdf">Writing the Data to the SHDF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#writing-the-data-to-the-standard-bemio-format">Writing the Data to the Standard bemio Format</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a><ul>
@@ -129,18 +120,25 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="module_doc.html">bemio Module Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_doc.html#data-structures">data_structures</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.data_structures.bem">HydrodynamicData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_doc.html#bemio-io">bemio.io</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#wamit">wamit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#aqwa">aqwa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#nemoh">nemoh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#output">output</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="module_doc.html#io-input-output">io (Input/Output)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.wamit">WamitOutput</a></li>
-<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.nemoh">NemohOutput</a></li>
-<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.aqwa">AqwaOutput</a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_doc.html#bemio-data-structures">bemio.data_structures</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#bem">bem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#wave-excitation">wave_excitation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="module_doc.html#bemio-mesh-utilities">bemio.mesh_utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#mesh">mesh</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 </ul>
 
           
@@ -165,7 +163,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Using <cite>bemio&#8217;s</cite> Data Readers</li>
+    <li>Using the bemio.io Module</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -178,59 +176,65 @@
 </div>
           <div role="main" class="document">
             
-  <div class="section" id="using-bemio-s-data-readers">
-<h1>Using <cite>bemio&#8217;s</cite> Data Readers<a class="headerlink" href="#using-bemio-s-data-readers" title="Permalink to this headline">¶</a></h1>
-<p>In this section the application program interface (API) that allows users how to build custom BEM data readers is first described. Next, the <cite>bemio</cite> standardized hydrodynamic data format (SHDF) is described. Finally a set of tutorials are presented that provide examples of how to use <cite>bemio</cite> to read simulation results from NEMOH, WAMIT, and AQWA and how save the data in the standardized hydrodynamic data format.</p>
+  <div class="section" id="using-the-bemio-io-module">
+<h1>Using the bemio.io Module<a class="headerlink" href="#using-the-bemio-io-module" title="Permalink to this headline">¶</a></h1>
+<p>This section describes how to build custom data readers for NEMOH, WAMIT, and AQWA output data using the bemio.io module.</p>
 <div class="section" id="loading-data">
-<span id="id1"></span><h2>Loading Data<a class="headerlink" href="#loading-data" title="Permalink to this headline">¶</a></h2>
-<p>Users can load data by interacting with the following with the following <cite>bemio</cite> modules</p>
+<h2>Loading Data<a class="headerlink" href="#loading-data" title="Permalink to this headline">¶</a></h2>
+<p>Users can load data by interacting with the following with the following bemio modules</p>
 <blockquote>
 <div><ul class="simple">
-<li><a class="reference internal" href="module_doc.html#module-bemio.io.nemoh" title="bemio.io.nemoh"><code class="xref py py-mod docutils literal"><span class="pre">bemio.io.nemoh</span></code></a></li>
-<li><a class="reference internal" href="module_doc.html#module-bemio.io.wamit" title="bemio.io.wamit"><code class="xref py py-mod docutils literal"><span class="pre">bemio.io.wamit</span></code></a></li>
-<li><a class="reference internal" href="module_doc.html#module-bemio.io.aqwa" title="bemio.io.aqwa"><code class="xref py py-mod docutils literal"><span class="pre">bemio.io.aqwa</span></code></a></li>
+<li><code class="xref py py-mod docutils literal"><span class="pre">bemio.io.nemoh</span></code></li>
+<li><code class="xref py py-mod docutils literal"><span class="pre">bemio.io.wamit</span></code></li>
+<li><code class="xref py py-mod docutils literal"><span class="pre">bemio.io.aqwa</span></code></li>
 </ul>
 </div></blockquote>
-<p>The python code below shows how a user would interact with the modules in the Python 2.7 environment in order to read NEMOH, WAMIT, and AQWA data. Notice that the <code class="xref py py-mod docutils literal"><span class="pre">bemio.io</span></code> objects are used to create data objects that contain the hydrodynamic data from the data files produced by the hydrodynamic simulation codes:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">bemio.io</span> <span class="kn">import</span> <span class="n">nemoh</span>  <span class="c"># Import NEMOH module</span>
-<span class="kn">from</span> <span class="nn">bemio.io</span> <span class="kn">import</span> <span class="n">wanit</span>  <span class="c"># Import WAMIT module</span>
-<span class="kn">from</span> <span class="nn">bemio.io</span> <span class="kn">import</span> <span class="n">aqwa</span>   <span class="c"># Import AQWA module</span>
+<p>The Python code below shows how a user would use bemio to read NEMOH, WAMIT, and AQWA data. Notice that the <code class="xref py py-mod docutils literal"><span class="pre">bemio.io</span></code> objects are used to create data objects that contain the hydrodynamic data from the data files produced by the hydrodynamic simulation codes.:</p>
+<div class="highlight-python"><div class="highlight"><pre>from bemio.io.nemoh import read as read_nemoh  # Import NEMOH module
+from bemio.io.wamit import read as read_wamit  # Import WAMIT module
+from bemio.io.aqwa import read as read_aqwa   # Import AQWA module
 
-<span class="c"># Read  NEMOH data into the nemoh_data object</span>
-<span class="n">nemoh_data_obj</span> <span class="o">=</span> <span class="n">nemoh</span><span class="o">.</span><span class="n">NemohOutput</span><span class="p">(</span><span class="n">out_file</span><span class="o">=</span><span class="s">&#39;./tutorials/nemoh/data/FIX_ME&#39;</span><span class="p">)</span>
+# Read  NEMOH data into the nemoh_data object
+nemoh_data_obj = read_nemoh(sim_dir=&#39;$BEMIO_SOURCE/tutorials/nemoh/data/&#39;)
 
-<span class="c"># Read data from a WAMIT .out file into the wamit_data object</span>
-<span class="n">wamit_data_obj</span> <span class="o">=</span> <span class="n">wamit</span><span class="o">.</span><span class="n">WamitOutput</span><span class="p">(</span><span class="n">out_file</span><span class="o">=</span><span class="s">&#39;./tutorials/wamit/data/rm3.out&#39;</span><span class="p">)</span>
+# Read data from a WAMIT .out file into the wamit_data object
+wamit_data_obj = read_wamit(out_file=&#39;$BEMIO_SOURCE/tutorials/wamit/rm3/wamit_data/rm3.out&#39;)
 
-<span class="c"># Read data from a AQWA .lis file into the aqwa_data object</span>
-<span class="n">wamit_data_obj</span> <span class="o">=</span> <span class="n">aqwa</span><span class="o">.</span><span class="n">AqwaOutput</span><span class="p">(</span><span class="n">out_file</span><span class="o">=</span><span class="s">&#39;./tutorials/aqwa/data/aqwa_example_data.lis&#39;</span><span class="p">)</span>
+# Read data from a AQWA .lis file into the aqwa_data object
+aqwa_data_obj = read_aqwa(hydro_file=&#39;$BEMIO_SOURCE/tutorials/aqwa/aqwa_example_data.AH1&#39;, list_file=&#39;&#39;$BEMIO_SOURCE/tutorials/aqwa/aqwa_example_data.LIS&#39;)
 </pre></div>
 </div>
+</div>
+<div class="section" id="data-objects">
+<span id="irf-and-ss"></span><h2>Data Objects<a class="headerlink" href="#data-objects" title="Permalink to this headline">¶</a></h2>
+<p>The bemio data objects described in the previous contain BEM simulation data stored in a standard format. Details on the bem data forma can be found here <code class="xref py py-mod docutils literal"><span class="pre">bemio.data_structures.bem</span></code></p>
 </div>
 <div class="section" id="calculating-impulse-response-functions-and-sate-space-coefficients">
-<span id="irf-and-ss"></span><h2>Calculating Impulse Response Functions and Sate Space Coefficients<a class="headerlink" href="#calculating-impulse-response-functions-and-sate-space-coefficients" title="Permalink to this headline">¶</a></h2>
-<p>Once the data is loaded into the data objects, functions in the <code class="xref py py-mod docutils literal"><span class="pre">bemio.io</span></code>  modules can be used to calculate the impulse response function and state space hydrodynamic coefficients from the hydrodynamic data. The code below demonstrates how to use the <code class="xref py py-meth docutils literal"><span class="pre">calc_irf()</span></code> and <code class="xref py py-meth docutils literal"><span class="pre">calc_ss()</span></code> functions to calculate and store the impulse response functions for the NEMOH data object. The calculation procedure would be the same for the <code class="docutils literal"><span class="pre">wamit_data_obj</span></code> and <code class="docutils literal"><span class="pre">aqwa_data_obj</span></code> data objects:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c"># Calculate the impulse response functions</span>
-<span class="n">nemoh_data_obj</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">calc_irf</span><span class="p">(</span><span class="n">t_end</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">n_t</span> <span class="o">=</span> <span class="mi">1001</span><span class="p">,</span> <span class="n">n_w</span><span class="o">=</span><span class="mi">1001</span><span class="p">)</span>
+<h2>Calculating Impulse Response Functions and Sate Space Coefficients<a class="headerlink" href="#calculating-impulse-response-functions-and-sate-space-coefficients" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># Calculate the radiation damping impulse response functions</span>
+<span class="n">nemoh_data_obj</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">calc_irf_radiation</span><span class="p">()</span>
 
-<span class="c"># Calculate the state space coefficients corresponding to the impulse response functions</span>
-<span class="n">nemoh_data_obj</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">calc_ss</span><span class="p">()</span>
+<span class="c"># Calculate the state space coefficients corresponding to the radiation damping IRFs</span>
+<span class="n">nemoh_data_obj</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">calc_ss_radiation</span><span class="p">()</span>
+
+<span class="c"># Calculate the excitation force impulse response function</span>
+<span class="n">nemoh_data_obj</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">calc_ss_excitation</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="writing-the-data-to-the-shdf">
-<span id="standard-data-format"></span><h2>Writing the Data to the SHDF<a class="headerlink" href="#writing-the-data-to-the-shdf" title="Permalink to this headline">¶</a></h2>
-<p>As previously discussed, the SHDF provides a consistent format to store BEM simulation data from NEMOH, WAMT, AQWA, and user defined hydrodynamic data. The SHDF uses the <a class="reference external" href="http://www.hdfgroup.org/HDF5/">Hierarchical Data Format 5 (HDF5)</a>, a data structure that is similar to a computers file system, to store complex data in a robust and clear fashion. HDF5 files can be easily viewed and modified with <a class="reference external" href="http://www.hdfgroup.org/products/java/hdfview/">HDF5VIEW</a>.</p>
-<p><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim">WEC-Sim</a> uses the SHDF as an input file for hydrodynamic data used in wave energy converter simulations.</p>
-<p>Once data is loaded read into a data object, the <code class="xref py py-meth docutils literal"><span class="pre">write_hdf5()</span></code> function can be used to write the data to a SHDF file:</p>
+<div class="section" id="writing-the-data-to-the-standard-bemio-format">
+<h2>Writing the Data to the Standard bemio Format<a class="headerlink" href="#writing-the-data-to-the-standard-bemio-format" title="Permalink to this headline">¶</a></h2>
+<p>bemio provides a consistent format to store BEM simulation data from NEMOH, WAMT, AQWA. The bemio format uses the <a class="reference external" href="http://www.hdfgroup.org/HDF5/">Hierarchical Data Format 5 (HDF5)</a>, a data structure that is similar to a computers file system, to store complex data in a simple format. HDF5 files can be easily viewed and modified with <a class="reference external" href="http://www.hdfgroup.org/products/java/hdfview/">HDF5VIEW</a>.</p>
+<p><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim">WEC-Sim</a> uses the bemio format as an input file for hydrodynamic data used in wave energy converter simulations.</p>
+<p>The bemio <code class="xref py py-meth docutils literal"><span class="pre">bemio.io.output.write_hdf5()</span></code> function can be used to write the data to a SHDF file:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># Import the bem module</span>
-<span class="kn">import</span> <span class="nn">bemio.data_structures.bem</span> <span class="kn">as</span> <span class="nn">bem</span>
+<span class="kn">from</span> <span class="nn">bemio.io.output</span> <span class="kn">import</span> <span class="n">write_hdf5</span>
 
 <span class="c"># Write the data to a SHDF file named shdf_example.h5</span>
-<span class="n">bem</span><span class="o">.</span><span class="n">write_hdf5</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">nemoh_data_obj</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">out_file</span><span class="o">=</span><span class="s">&#39;shdf_example.h5&#39;</span><span class="p">)</span>
+<span class="n">write_hdf5</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">nemoh_data_obj</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Once the data is written to the HDF5 file, it can be viewed using <a href="#id2"><span class="problematic" id="id3">`HDFVIEW`_</span></a>. The figure below shows the structure of the SHDF produced by <cite>bemio</cite> from the NEMOH data. Note that the NEMOH simulation was of a two-body point absorber.</p>
+<p>Once the data is written to the HDF5 file, it can be viewed using <a href="#id1"><span class="problematic" id="id2">`HDFVIEW`_</span></a>. The figure below shows the structure of the SHDF produced by bemio from the NEMOH data. Note that the NEMOH simulation was of a two-body point absorber.</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/rm3_hdf5.png"><img alt="_images/rm3_hdf5.png" src="_images/rm3_hdf5.png" style="width: 600pt;" /></a>
 </div>
@@ -245,7 +249,6 @@
 <dd>This data structure contains simulation parameters from the BEM simulation that are independent of the body number. For example, the <code class="docutils literal"><span class="pre">water_depth</span></code> variable contains the water depth used during the BEM simulation</dd>
 </dl>
 </div></blockquote>
-<p>It goes without saying the the SHDF only contains information that is contained within the BEM simulation output files and SHDF files are generated by the <cite>bemio</cite>. It is also possible to manually create SHDF files for use as input to the WEC-Sim code, although this procedure is not described in this Users Guide.</p>
 </div>
 </div>
 
@@ -255,10 +258,8 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="api_mesh.html" class="btn btn-neutral float-right" title="Using bemio’s Mesh Utilities" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="tutorials.html" class="btn btn-neutral float-right" title="Tutorials" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-      
-        <a href="vtk.html" class="btn btn-neutral" title="Installing VTK with Python Bindings" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

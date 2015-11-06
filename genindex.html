@@ -71,37 +71,29 @@
           
           
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installing.html">Downloading and Installing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="installing.html#downloading-bemio">Downloading bemio</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing.html#dependencies">Dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing.html#installing-quick-start-for-python-beginners">Installing: Quick Start for Python Beginners</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installing.html#installing-for-experienced-python-users">Installing: For Experienced Python Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing.html#installing-vtk-with-python-bindings">Installing VTK with Python Bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="installing.html#osx">OSX</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="installing.html#method-1-simple">Method 1: Simple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installing.html#method-2-complex">Method 2: Complex</a></li>
+<li class="toctree-l4"><a class="reference internal" href="installing.html#pre-installation-tasks">Pre-Installation Tasks</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="vtk.html">Installing VTK with Python Bindings</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="vtk.html#osx">OSX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="vtk.html#method-1-simple">Method 1: Simple</a></li>
-<li class="toctree-l3"><a class="reference internal" href="vtk.html#method-2-complex">Method 2: Complex</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="vtk.html#pre-installation-tasks">Pre-Installation Tasks</a></li>
-<li class="toctree-l4"><a class="reference internal" href="vtk.html#instillation">Instillation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installing.html#linux">Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="installing.html#windows">Windows</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="vtk.html#linux">Linux</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api_io.html">Using <cite>bemio&#8217;s</cite> Data Readers</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="api_io.html">Using the bemio.io Module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="api_io.html#loading-data">Loading Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_io.html#data-objects">Data Objects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api_io.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_io.html#writing-the-data-to-the-shdf">Writing the Data to the SHDF</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api_mesh.html">Using <cite>bemio&#8217;s</cite> Mesh Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api_mesh.html#loading-data">Loading Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_mesh.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_mesh.html#writing-the-data-to-the-shdf">Writing the Data to the SHDF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_io.html#writing-the-data-to-the-standard-bemio-format">Writing the Data to the Standard bemio Format</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a><ul>
@@ -128,18 +120,25 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="module_doc.html">bemio Module Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="module_doc.html#data-structures">data_structures</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.data_structures.bem">HydrodynamicData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_doc.html#bemio-io">bemio.io</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#wamit">wamit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#aqwa">aqwa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#nemoh">nemoh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#output">output</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="module_doc.html#io-input-output">io (Input/Output)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.wamit">WamitOutput</a></li>
-<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.nemoh">NemohOutput</a></li>
-<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.aqwa">AqwaOutput</a></li>
+<li class="toctree-l2"><a class="reference internal" href="module_doc.html#bemio-data-structures">bemio.data_structures</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#bem">bem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#wave-excitation">wave_excitation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="module_doc.html#bemio-mesh-utilities">bemio.mesh_utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#mesh">mesh</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
 </ul>
 
           
@@ -179,132 +178,8 @@
 <h1 id="index">Index</h1>
 
 <div class="genindex-jumpbox">
- <a href="#A"><strong>A</strong></a>
- | <a href="#B"><strong>B</strong></a>
- | <a href="#C"><strong>C</strong></a>
- | <a href="#H"><strong>H</strong></a>
- | <a href="#N"><strong>N</strong></a>
- | <a href="#P"><strong>P</strong></a>
- | <a href="#R"><strong>R</strong></a>
- | <a href="#W"><strong>W</strong></a>
  
 </div>
-<h2 id="A">A</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="module_doc.html#bemio.io.aqwa.AqwaOutput">AqwaOutput (class in bemio.io.aqwa)</a>
-  </dt>
-
-  </dl></td>
-</tr></table>
-
-<h2 id="B">B</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="module_doc.html#module-bemio.data_structures.bem">bemio.data_structures.bem (module)</a>
-  </dt>
-
-      
-  <dt><a href="module_doc.html#module-bemio.io.aqwa">bemio.io.aqwa (module)</a>
-  </dt>
-
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="module_doc.html#module-bemio.io.nemoh">bemio.io.nemoh (module)</a>
-  </dt>
-
-      
-  <dt><a href="module_doc.html#module-bemio.io.wamit">bemio.io.wamit (module)</a>
-  </dt>
-
-  </dl></td>
-</tr></table>
-
-<h2 id="C">C</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="module_doc.html#bemio.data_structures.bem.HydrodynamicData.calc_irf">calc_irf() (bemio.data_structures.bem.HydrodynamicData method)</a>
-  </dt>
-
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="module_doc.html#bemio.data_structures.bem.HydrodynamicData.calc_ss">calc_ss() (bemio.data_structures.bem.HydrodynamicData method)</a>
-  </dt>
-
-  </dl></td>
-</tr></table>
-
-<h2 id="H">H</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="module_doc.html#bemio.data_structures.bem.HydrodynamicData">HydrodynamicData (class in bemio.data_structures.bem)</a>
-  </dt>
-
-  </dl></td>
-</tr></table>
-
-<h2 id="N">N</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="module_doc.html#bemio.io.nemoh.NemohOutput">NemohOutput (class in bemio.io.nemoh)</a>
-  </dt>
-
-  </dl></td>
-</tr></table>
-
-<h2 id="P">P</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="module_doc.html#bemio.data_structures.bem.HydrodynamicData.plot_am_rd">plot_am_rd() (bemio.data_structures.bem.HydrodynamicData method)</a>
-  </dt>
-
-      
-  <dt><a href="module_doc.html#bemio.data_structures.bem.HydrodynamicData.plot_excitation">plot_excitation() (bemio.data_structures.bem.HydrodynamicData method)</a>
-  </dt>
-
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="module_doc.html#bemio.data_structures.bem.HydrodynamicData.plot_irf">plot_irf() (bemio.data_structures.bem.HydrodynamicData method)</a>
-  </dt>
-
-  </dl></td>
-</tr></table>
-
-<h2 id="R">R</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="module_doc.html#bemio.io.nemoh.NemohOutput.read_hydrostatics">read_hydrostatics() (bemio.io.nemoh.NemohOutput method)</a>
-  </dt>
-
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="module_doc.html#bemio.io.nemoh.NemohOutput.read_kh">read_kh() (bemio.io.nemoh.NemohOutput method)</a>
-  </dt>
-
-  </dl></td>
-</tr></table>
-
-<h2 id="W">W</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="module_doc.html#bemio.io.wamit.WamitOutput">WamitOutput (class in bemio.io.wamit)</a>
-  </dt>
-
-  </dl></td>
-</tr></table>
-
 
 
           </div>

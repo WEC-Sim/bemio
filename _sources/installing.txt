@@ -3,75 +3,172 @@ Downloading and Installing
 
 Downloading bemio
 -----------------
-bemio is distbuited through the `bemio GitHub web page <https://github.com/WEC-Sim/bemio/>`_ and can be downloaded using one of the following methods.
-
-**Clone with Git (recommended):** bemio can obtained by cloning the repository using the GitHub GUI (`Mac <https://mac.github.com/>`_ and `Windows <https://windows.github.com/>`_ ) or from the command line using the command::
-
- 	git clone https://github.com/WEC-Sim/bemio.git
-
-This method is recommended because it makes it easy to update your local version of bemio to the latest version using the ``git pull`` command.
-
-**Download code archive:** The code archive can be downloaded from `bemio-1.0 <https://github.com/WEC-Sim/bemio/archive/master.zip>`_.
+bemio is distributed through the `bemio GitHub repositiory <https://github.com/WEC-Sim/bemio/>`_.
 
 .. note::
-	
-	The folder that contains the bemio source code will be referred to as the ``$BEMIO_SOURE`` folder.
+
+	The folder that contains the bemio source code will be referred to as ``$BEMIO_SOURE``.
 
 Dependencies
 -------------
-Bemio requires the following software and packages.
+**Python:** `Python 2.7.x <https://www.python.org/downloads/>`_ and the following Python packages are required to run bemio. These packages can easily be installed using using `pip <https://pypi.python.org/pypi/pip>`_  or your preferred package instillation method:
 
-**Python:** `Python 2.7.x <https://www.python.org/downloads/>`_ and the following Python packages are required to run WEC-Sim. These packages can easily be installed using using `pip <https://pypi.python.org/pypi/pip>`_  or your favorite package instillation method:
-
-	* matplotlib
 	* numpy
 	* scipy
+	* matplotlib
 	* progressbar2
 	* astropy
 	* h5py
 
 **Visualization Toolkit (VTK):** If you would like to use the ``bemio.mesh_utilities`` you will also have to install VTK and the Python 2.7.x bindings. Instructions for how to install VTK are provided in the :ref:`Installing VTK with Python Bindings` section.
 
-**HDFVIEW:** Although not required, bemio users will benefit from installing `HDFVIEW <http://www.hdfgroup.org/products/java/hdfview/>`_. `HDFVIEW`  allows bemio users to view and interact with the bemio output files.
+**HDFVIEW:** Although not required, bemio users will benefit from installing `HDFVIEW <http://www.hdfgroup.org/products/java/hdfview/>`_. HDFVIEW allows bemio users to view and interact with the bemio output files.
 
-Installing: Quick Start for Python Beginners 
+Installing: Quick Start for Python Beginners
 --------------------------------------------
 **Step 1 - Install Python:** It can be a pain to install Python, NumPy, SciPy, Matplotlib, h5py and other dependencies that are needed to run bemio. If you're new to Python, the easiest approach is to start by installing one of the science and engineering oriented Python distributions:
-	
+
 	* `Anaconda <http://continuum.io/downloads>`_ (Linux, Mac, Windows)
 	* `PythonXY <https://code.google.com/p/pythonxy/>`_ (Windows)
-	
+
 .. Note::
 
 	If you are using Anaconda, PythonXY or another non-Python.org distribution, you may need to install one of the packages identified in the `Dependencies`_ section. If you need to do so, you should install any needed modules via your distribution's package manager.
 
-**Step 2 - Download bemio:** Download bemio as described in the `Downloading bemio`_ section
+**Step 2 - Download bemio:** Download bemio from the `GitHub repositiory <https://github.com/WEC-Sim/bemio/>`_
 
-**Step 3 - Install bemio:** Open a command window (Windows) or shell (OSX and LInux) and navigate to ``$BEMIO_SOURCE``. Once inside the ``$BEMIO_SOURCE`` folder execute the following command::
+**Step 3 - Install bemio:** Open a command window (Windows) or terminal window (OSX and Linux) and navigate to ``$BEMIO_SOURCE``. Once inside the ``$BEMIO_SOURCE`` folder execute the following command to install bemio::
 
 	python setup.py install --user
 
 **Step 4 - Test the instillation:** Test the bemio by running the following command from a command prompt inside the ``$BEMIO_SOURCE`` folder::
 
-	python test.py
+	python install_test.py
 
-If the  WAMIT, AQWA, and NEMOH tutorial cases (located in ``$BEMIO_SOURCE/tutorials``)  run successfully, you will receive get a success messages for each case.
+If the tutorial cases (located in ``$BEMIO_SOURCE/tutorials``) run successfully you will receive a success messages.
 
 
 Installing: For Experienced Python Users
 -----------------------------------------
 These instructions assume the user has an advanced level of Python knowledge.
 
-**Step 1 - Install Python 2.7.x:** Install Python 2.7.x and the Python modules identified in the `Dependencies`_ section.
+**Step 1 - Install Python:** Install Python 2.7.x and the Python modules identified in the `Dependencies`_ section.
 
-**Step 2 - Download bemio:** Clone or fork bemio from the `bemio GitHub page <https://github.com/WEC-Sim/bemio/>`_ using git::
+**Step 2 - Download bemio:** Download bemio from the `GitHub repositiory <https://github.com/WEC-Sim/bemio/>`_
 
-	git clone https://github.com/WEC-Sim/bemio.git
+**Step 3 - Install bemio:** Add the ``$BEMIO_SOURCE`` folder to your `PYTHONPATH <https://docs.python.org/2/using/cmdline.html#environment-variables>`_.
 
-**Step 3 - Install bemio:** Add the ``$BEMIO_SOURCE`` folder to your `PYTHONPATH <https://docs.python.org/2/using/cmdline.html#environment-variables>`_ environment variable.
+**Step 4 - Test the instillation:** Test bemio by running the following command from a command prompt inside the ``$BEMIO_SOURCE`` folder::
 
-**Step 4 - Test the instillation:** Test the bemio by running the following command from a command prompt inside the ``$BEMIO_SOURCE`` folder::
+	python install_test.py
 
-	python test.py
+If the tutorial cases (located in ``$BEMIO_SOURCE/tutorials``) run successfully you will receive a success messages.
 
-If the  WAMIT, AQWA, and NEMOH tutorial cases (located in ``$BEMIO_SOURCE/tutorials``)  run successfully, you will receive get a success messages for each case.
+.. _Installing VTK with Python Bindings:
+
+Installing VTK with Python Bindings
+-----------------------------------
+In order to use ``bemio.mesh_utilities`` packaged with bemio you must have the Visualization Toolkit (VTK)  and the VTK Python 2.7.x bindings installed on your system.
+
+.. Note::
+    Installing the VTK Python bindings is only required if you would like to use bemio's :mod:`bemio.mesh_utilities` features.
+
+.. Note::
+	Some Python distributions, such as Anaconda and PythonXY, may include VTK bindings, however, it is recommended that bemio users install VTK using the instructions in this section because the VTK versions distributed with Anaconda and PythonXY are not kept current.
+
+OSX
+~~~
+Method 1: Simple
+................
+Install VTK using `MacPorts <https://www.macports.org/>`_, `Fink <http://www.finkproject.org/>`_, or `HomeBrew <http://brew.sh/>`_. If you would like to install VTK using this method you should also install Python and other bemio dependencies using this method.
+
+Method 2: Complex
+.................
+Pre-Installation Tasks
+.......................
+**Step 1:** Insure the following software is installed on your system:
+
+* `Python-2.7.x <https://www.python.org/downloads/>`_
+* `Apple Xcode <https://developer.apple.com/xcode/downloads/>`_
+* `cmake <http://www.cmake.org/>`_
+* `tcl <http://www.tcl.tk/>`_
+* `tk <http://www.tcl.tk/>`_
+
+Python is preloaded on OSX systems and XCode can be installed through the `OSX App Store <https://itunes.apple.com/us/app/xcode/id497799835;jsessionid=wnox0jq0k0vj2wbtcl3kohuf?mt=12#>`_ . The other packages can easily be installed using `MacPorts <https://www.macports.org/>`_, `Fink <http://www.finkproject.org/>`_, or `HomeBrew <http://brew.sh/>`_. Here is an example of how to install cmake, tck, and tk using MacPorts:
+
+.. code-block:: shell
+
+    sudo port install cmake
+    sudo port install tcl
+    sudo port install tk
+
+**Step 2**: Download and unzip the latest version of VTK from here - `http://www.vtk.org/download <http://www.vtk.org/download/>`_.
+
+.. Note::
+
+    The folder that contains the VTK source code will be referred to as ``$VTK_SOURCE``
+
+Install
+,,,,,,,,
+Open a terminal window and use the following procedure to compile VTK and the Python bindings.
+
+.. code-block:: shell
+    :emphasize-lines: 17, 35, 39, 46
+
+    # Move to the VTK source directory
+    mlawson@mbp:~$ cd $VTK_SOURCE
+
+    # Make a directory for the build and move into the build directory
+    mlawson@mbp:VTK-6.2.0$ mkdir build
+    mlawson@mbp:VTK-6.2.0$ cd build
+
+    # Run cmake in interactive mode. Insure that the ``PYTHON_VERSION`` is set to ``2``, the
+    # ``VTK_WRAP_PYTHON`` is set to ``ON, and ``BUILD_SHARED_LIBS`` is set to ON. ``BUILD_SHARED_LIBS``
+    # is not always visable and you may need to enter the "advnacec mode" by pressing ``t`` to confirm this option is
+    # correctly set. After the options are properly set, press ``c`` to configure and then ``g``
+    # to generate the required make files.
+    mlawson@mbp:VTK-6.2.0$ sudo ccmake ..
+
+        BUILD_DOCUMENTATION              OFF
+        BUILD_EXAMPLES                   OFF
+        BUILD_SHARED_LIBS                ON       # May need to toggle advanced mode to view this option
+        BUILD_TESTING                    OFF
+        BUILD_USER_DEFINED_LIBS          OFF
+        CMAKE_BUILD_TYPE                 Release
+        CMAKE_FRAMEWORK_INSTALL_PREFIX   /usr/local/frameworks
+        IOS_DEVICE_ARCHITECTURES         arm64;armv7;armv7s
+        IOS_SIMULATOR_ARCHITECTURES      i386;x86_64
+        OPENGL_ES_VERSION                2.0
+        VTK_ANDROID_BUILD                OFF
+        VTK_Group_Imaging                OFF
+        VTK_Group_MPI                    OFF
+        VTK_Group_Qt                     OFF
+        VTK_Group_Rendering              ON
+        VTK_Group_StandAlone             ON
+        VTK_Group_Tk                     OFF
+        VTK_Group_Views                  OFF
+        VTK_Group_Web                    OFF
+        VTK_IOS_BUILD                    OFF
+        VTK_PYTHON_VERSION               2
+        VTK_SMP_IMPLEMENTATION_TYPE      Sequential
+        VTK_USE_LARGE_DATA               OFF
+        VTK_WRAP_JAVA                    OFF
+        VTK_WRAP_PYTHON                  ON
+        VTK_WRAP_TCL                     OFF
+
+        BUILD_DOCUMENTATION: Build the VTK documentation
+        Press [enter] to edit option                                                 CMake Version 3.2.2
+        Press [c] to configure
+        Press [h] for help           Press [q] to quit without generating
+        Press [t] to toggle advanced mode (Currently Off)
+
+    # Build VTK using make - this will take a while :(
+    mlawson@mbp:VTK-6.2.0$ sudo make
+
+Linux
+~~~~~
+Install VTK and the VTK Python bindings using your system\'s package manager or adapt the `OSX`_ instructions described above.
+
+Windows
+~~~~~~~
+No instructions available at this time.

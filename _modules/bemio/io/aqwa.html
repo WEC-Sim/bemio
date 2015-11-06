@@ -71,37 +71,29 @@
           
           
               <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Downloading and Installing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../installing.html#downloading-bemio">Downloading bemio</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../installing.html#dependencies">Dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../installing.html#installing-quick-start-for-python-beginners">Installing: Quick Start for Python Beginners</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../installing.html#installing-for-experienced-python-users">Installing: For Experienced Python Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#installing-vtk-with-python-bindings">Installing VTK with Python Bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../installing.html#osx">OSX</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../installing.html#method-1-simple">Method 1: Simple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../installing.html#method-2-complex">Method 2: Complex</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../installing.html#pre-installation-tasks">Pre-Installation Tasks</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../../vtk.html">Installing VTK with Python Bindings</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../vtk.html#osx">OSX</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../vtk.html#method-1-simple">Method 1: Simple</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../vtk.html#method-2-complex">Method 2: Complex</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../vtk.html#pre-installation-tasks">Pre-Installation Tasks</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../vtk.html#instillation">Instillation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../installing.html#linux">Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../installing.html#windows">Windows</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../vtk.html#linux">Linux</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../api_io.html">Using <cite>bemio&#8217;s</cite> Data Readers</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_io.html">Using the bemio.io Module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../api_io.html#loading-data">Loading Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api_io.html#data-objects">Data Objects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api_io.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../api_io.html#writing-the-data-to-the-shdf">Writing the Data to the SHDF</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../../api_mesh.html">Using <cite>bemio&#8217;s</cite> Mesh Utilities</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../api_mesh.html#loading-data">Loading Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../api_mesh.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../api_mesh.html#writing-the-data-to-the-shdf">Writing the Data to the SHDF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api_io.html#writing-the-data-to-the-standard-bemio-format">Writing the Data to the Standard bemio Format</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Tutorials</a><ul>
@@ -128,18 +120,25 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_doc.html">bemio Module Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../module_doc.html#data-structures">data_structures</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#module-bemio.data_structures.bem">HydrodynamicData</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../module_doc.html#bemio-io">bemio.io</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#wamit">wamit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#aqwa">aqwa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#nemoh">nemoh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#output">output</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../module_doc.html#io-input-output">io (Input/Output)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#module-bemio.io.wamit">WamitOutput</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#module-bemio.io.nemoh">NemohOutput</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#module-bemio.io.aqwa">AqwaOutput</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../module_doc.html#bemio-data-structures">bemio.data_structures</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#bem">bem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#wave-excitation">wave_excitation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../module_doc.html#bemio-mesh-utilities">bemio.mesh_utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#mesh">mesh</a></li>
 </ul>
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
 </ul>
 
           
@@ -201,19 +200,28 @@
 <div class="viewcode-block" id="AqwaOutput"><a class="viewcode-back" href="../../../module_doc.html#bemio.io.aqwa.AqwaOutput">[docs]</a><span class="k">class</span> <span class="nc">AqwaOutput</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Class to read and interact with AQWA simulation data</span>
-<span class="sd">    **Inputs:**</span>
 
-<span class="sd">    * out_file: name of the AQWA output file</span>
-<span class="sd">    </span>
-<span class="sd">    **Outputs:**</span>
-<span class="sd">    </span>
-<span class="sd">    * None</span>
-<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">        hydro_file : str</span>
+<span class="sd">            Name of the AQWA .AH1 output file</span>
+<span class="sd">        list_file : str</span>
+<span class="sd">            Name of the AQWA .LIS output file</span>
+<span class="sd">        scale : bool, optional</span>
+<span class="sd">            Boolean value to determine if the hydrodynamic data is scaled.</span>
+<span class="sd">            See the bemio.data_structures.bem.scale function for more</span>
+<span class="sd">            information</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        The following example assumes there are AQWA output files named aqwa.LIS</span>
+<span class="sd">        and aqwa.LS1</span>
+
+<span class="sd">        &gt;&gt;&gt; aqwa_data = AqwaOutput(hydro_file=aqwa.LS1, list_file=aqwa.LIS)</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hydro_file</span><span class="p">,</span> <span class="n">list_file</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hydro_file</span><span class="p">,</span> <span class="n">list_file</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">files</span> <span class="o">=</span> <span class="n">bem</span><span class="o">.</span><span class="n">generate_file_names</span><span class="p">(</span><span class="n">hydro_file</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>        
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaled_at_read</span> <span class="o">=</span> <span class="n">scale</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaled</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="p">(</span><span class="n">list_file</span><span class="p">)</span>
 
@@ -229,7 +237,7 @@
 
             <span class="k">if</span> <span class="p">(</span><span class="n">first_line</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;*&quot;</span><span class="p">):</span>
                 <span class="k">continue</span>
-            <span class="k">else</span><span class="p">:</span> 
+            <span class="k">else</span><span class="p">:</span>
                 <span class="n">first_line</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="k">if</span> <span class="n">first_line</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">())</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
@@ -257,7 +265,7 @@
                 <span class="n">water_depth</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="n">density</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
                 <span class="n">gravity</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-                <span class="n">symmetry</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+                <span class="c"># symmetry = tmp[3]</span>
 
             <span class="k">if</span> <span class="s">&#39;DRAFT&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
                 <span class="n">draft</span> <span class="o">=</span> <span class="p">{}</span>
@@ -308,7 +316,7 @@
                                     <span class="n">added_mass</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:,</span><span class="n">iBod2</span><span class="o">*</span><span class="mi">6</span><span class="o">+</span><span class="n">iRow</span><span class="p">,</span><span class="n">iFreq</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
                                 <span class="k">elif</span> <span class="n">iRow</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                                     <span class="n">tmp2</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
-                                    <span class="n">added_mass</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:,</span><span class="n">iBod2</span><span class="o">*</span><span class="mi">6</span><span class="o">+</span><span class="n">iRow</span><span class="p">,</span><span class="n">iFreq</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span> 
+                                    <span class="n">added_mass</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:,</span><span class="n">iBod2</span><span class="o">*</span><span class="mi">6</span><span class="o">+</span><span class="n">iRow</span><span class="p">,</span><span class="n">iFreq</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
                                 <span class="k">else</span><span class="p">:</span>
                                     <span class="n">added_mass</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:,</span><span class="n">iBod2</span><span class="o">*</span><span class="mi">6</span><span class="o">+</span><span class="n">iRow</span><span class="p">,</span><span class="n">iFreq</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span>
 
@@ -325,7 +333,7 @@
                                     <span class="n">radiation_damping</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:,</span><span class="n">iBod2</span><span class="o">*</span><span class="mi">6</span><span class="o">+</span><span class="n">iRow</span><span class="p">,</span><span class="n">iFreq</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
                                 <span class="k">elif</span> <span class="n">iRow</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                                     <span class="n">tmp2</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
-                                    <span class="n">radiation_damping</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:,</span><span class="n">iBod2</span><span class="o">*</span><span class="mi">6</span><span class="o">+</span><span class="n">iRow</span><span class="p">,</span><span class="n">iFreq</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span> 
+                                    <span class="n">radiation_damping</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:,</span><span class="n">iBod2</span><span class="o">*</span><span class="mi">6</span><span class="o">+</span><span class="n">iRow</span><span class="p">,</span><span class="n">iFreq</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
                                 <span class="k">else</span><span class="p">:</span>
                                     <span class="n">radiation_damping</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:,</span><span class="n">iBod2</span><span class="o">*</span><span class="mi">6</span><span class="o">+</span><span class="n">iRow</span><span class="p">,</span><span class="n">iFreq</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span>
 
@@ -346,10 +354,10 @@
                             <span class="n">tmp1_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">iBod</span><span class="o">*</span><span class="p">(</span><span class="n">num_wave_directions</span><span class="o">*</span><span class="n">num_frequencies</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">iDir</span><span class="o">*</span><span class="n">num_frequencies</span><span class="o">*</span><span class="mi">2</span> <span class="o">+</span> <span class="n">iFreq</span><span class="o">*</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">())</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
                             <span class="n">tmp2</span> <span class="o">=</span> <span class="n">tmp1_1</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
                             <span class="k">if</span> <span class="p">(</span><span class="n">iDir</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">iFreq</span><span class="o">==</span><span class="mi">0</span><span class="p">):</span>
-                                <span class="n">excitation_magnitude</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">num_frequencies</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="n">num_wave_directions</span><span class="p">])</span>
-                                <span class="n">excitation_phase</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">num_frequencies</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="n">num_wave_directions</span><span class="p">])</span>
-                            <span class="n">excitation_magnitude</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,:,</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp1_1</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
-                            <span class="n">excitation_phase</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,:,</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp1_2</span>
+                                <span class="n">excitation_magnitude</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span><span class="n">num_wave_directions</span><span class="p">,</span><span class="n">num_frequencies</span><span class="p">])</span>
+                                <span class="n">excitation_phase</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span><span class="n">num_wave_directions</span><span class="p">,</span><span class="n">num_frequencies</span><span class="p">])</span>
+                            <span class="n">excitation_magnitude</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:,</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp1_1</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+                            <span class="n">excitation_phase</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:,</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp1_2</span>
 
 
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">list_file</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
@@ -360,29 +368,33 @@
             <span class="k">if</span> <span class="s">&#39;MESH BASED DISPLACEMENT&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
                 <span class="n">disp_vol</span><span class="p">[</span><span class="n">bod_count</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">())[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
                 <span class="n">bod_count</span> <span class="o">+=</span> <span class="mi">1</span>
-        
+
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">num_bodies</span><span class="p">):</span>
-            <span class="k">print</span> <span class="s">&#39;body&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;:&#39;</span> 
-            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">bem</span><span class="o">.</span><span class="n">HydrodynamicData</span><span class="p">()</span> 
+
+
+            <span class="k">print</span> <span class="s">&#39;body&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;:&#39;</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">bem</span><span class="o">.</span><span class="n">HydrodynamicData</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">scaled</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaled</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">rho</span> <span class="o">=</span> <span class="n">density</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">gravity</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">wave_dir</span> <span class="o">=</span> <span class="n">wave_directions</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mf">180.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">wave_dir</span> <span class="o">=</span> <span class="n">wave_directions</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">num_bodies</span> <span class="o">=</span> <span class="n">num_bodies</span>
-            
+
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">cg</span> <span class="o">=</span> <span class="n">cg</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">cb</span> <span class="o">=</span> <span class="s">&#39;not_defined&#39;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">stiffness_matrix</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">frequencies</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">frequencies</span> 
-            
-            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">wp_area</span> <span class="o">=</span> <span class="s">&#39;not_defined&#39;</span> 
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">frequencies</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">wp_area</span> <span class="o">=</span> <span class="s">&#39;not_defined&#39;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">buoy_force</span> <span class="o">=</span> <span class="s">&#39;not_defined&#39;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">disp_vol</span> <span class="o">=</span> <span class="n">disp_vol</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">water_depth</span> <span class="o">=</span> <span class="n">water_depth</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">body_num</span> <span class="o">=</span> <span class="n">i</span>
-            
+
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#39;body&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">bem_code</span> <span class="o">=</span> <span class="n">code</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">bem_raw_data</span> <span class="o">=</span> <span class="n">raw</span>
@@ -398,7 +410,38 @@
             <span class="k">print</span> <span class="s">&#39;   * Calculating real and imaginary excitation  components.&#39;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">re</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">mag</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">phase</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">im</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">mag</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">phase</span><span class="p">)</span>
-</pre></div></div>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scaled_at_read</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="read"><a class="viewcode-back" href="../../../module_doc.html#bemio.io.aqwa.read">[docs]</a><span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">hydro_file</span><span class="p">,</span> <span class="n">list_file</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to read AQWA data into a data object of type(AqwaOutput)</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        hydro_file : str</span>
+<span class="sd">            Name of the AQWA .AH1 output file</span>
+<span class="sd">        list_file : str</span>
+<span class="sd">            Name of the AQWA .LIS output file</span>
+<span class="sd">        scale : bool, optional</span>
+<span class="sd">            Boolean value to determine if the hydrodynamic data is scaled.</span>
+<span class="sd">            See the bemio.data_structures.bem.scale function for more</span>
+<span class="sd">            information</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        aqwa_data</span>
+<span class="sd">            A AqwaOutput object that contains hydrodynamic data</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        The following example assumes there are AQWA output files named aqwa.LIS</span>
+<span class="sd">        and aqwa.LS1</span>
+
+<span class="sd">        &gt;&gt;&gt; aqwa_data = read(hydro_file=aqwa.LS1, list_file=aqwa.LIS)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">aqwa_data</span> <span class="o">=</span> <span class="n">AqwaOutput</span><span class="p">(</span><span class="n">hydro_file</span><span class="p">,</span> <span class="n">list_file</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">aqwa_data</span></div>
+</pre></div>
 
           </div>
           <footer>

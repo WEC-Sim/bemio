@@ -1,0 +1,361 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>bemio.data_structures.wave_excitation &mdash; bemio v1.0a0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="bemio v1.0a0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../../../index.html" class="icon icon-home"> bemio
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Downloading and Installing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#downloading-bemio">Downloading bemio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#installing-quick-start-for-python-beginners">Installing: Quick Start for Python Beginners</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#installing-for-experienced-python-users">Installing: For Experienced Python Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#installing-vtk-with-python-bindings">Installing VTK with Python Bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../installing.html#osx">OSX</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../installing.html#method-1-simple">Method 1: Simple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../installing.html#method-2-complex">Method 2: Complex</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../installing.html#pre-installation-tasks">Pre-Installation Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../installing.html#linux">Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../installing.html#windows">Windows</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_io.html">Using the bemio.io Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api_io.html#loading-data">Loading Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api_io.html#data-objects">Data Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api_io.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api_io.html#writing-the-data-to-the-standard-bemio-format">Writing the Data to the Standard bemio Format</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials.html#tutorial-data-files">Tutorial Data Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials.html#available-tutorials">Available Tutorials</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../wamit.html">WAMIT</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../wamit.html#viewing-the-shdf-file">Viewing the SHDF File</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../wamit.html#references">References</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../nemoh.html">NEMOH</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../nemoh.html#load-the-nemoh-module-from-bemio-io">Load the nemoh module from bemio.io</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nemoh.html#load-the-bem-data-object-from-bemio-data-structures">Load the bem data object from bemio.data_structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nemoh.html#read-the-nemoh-simulation-data-from-the">Read the Nemoh simulation data from the</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nemoh.html#read-the-hydrostatic-and-ih-files">Read the hydrostatic and IH files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nemoh.html#calculate-the-irf-and-state-space-coefficients">Calculate the IRF and state space coefficients</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nemoh.html#plot-the-surge-and-heave-components-of-added-mass-and-radiation-damping-for-body-0">Plot the surge and heave components of added mass and radiation damping for body 0</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nemoh.html#write-the-data-to-the-bemio-data-file-format-for-use-with-wec-sim">Write the data to the bemio data file format for use with WEC-Sim</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../aqwa.html">AQWA</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_doc.html">bemio Module Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../module_doc.html#bemio-io">bemio.io</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#wamit">wamit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#aqwa">aqwa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#nemoh">nemoh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#output">output</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../module_doc.html#bemio-data-structures">bemio.data_structures</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#bem">bem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#wave-excitation">wave_excitation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../module_doc.html#bemio-mesh-utilities">bemio.mesh_utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#mesh">mesh</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">bemio</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>bemio.data_structures.wave_excitation</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <h1>Source code for bemio.data_structures.wave_excitation</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">interpolate</span>
+<span class="kn">from</span> <span class="nn">progressbar</span> <span class="kn">import</span> <span class="n">ProgressBar</span><span class="p">,</span> <span class="n">Bar</span><span class="p">,</span> <span class="n">Percentage</span>
+
+<div class="viewcode-block" id="ImpulseResponseFunction"><a class="viewcode-back" href="../../../module_doc.html#bemio.data_structures.wave_excitation.ImpulseResponseFunction">[docs]</a><span class="k">class</span> <span class="nc">ImpulseResponseFunction</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Internal bemio object to contain impulse response function (IRF) data</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="WaveElevationTimeSeries"><a class="viewcode-back" href="../../../module_doc.html#bemio.data_structures.wave_excitation.WaveElevationTimeSeries">[docs]</a><span class="k">class</span> <span class="nc">WaveElevationTimeSeries</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Internal bemio object to contain wave elevation time series data</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="WaveExcitationForce"><a class="viewcode-back" href="../../../module_doc.html#bemio.data_structures.wave_excitation.WaveExcitationForce">[docs]</a><span class="k">class</span> <span class="nc">WaveExcitationForce</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Internal bemio object to contain wave excitation force data</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="WaveExcitationConvolution"><a class="viewcode-back" href="../../../module_doc.html#bemio.data_structures.wave_excitation.WaveExcitationConvolution">[docs]</a><span class="k">class</span> <span class="nc">WaveExcitationConvolution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Object for calculating wave excitation force time history using the</span>
+<span class="sd">    convolution method</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        irf : np.array</span>
+<span class="sd">            Wave excitation force impulse response function.</span>
+<span class="sd">        irf_t : np.array</span>
+<span class="sd">            Time series corresponding to `irf`</span>
+<span class="sd">        eta : np.array</span>
+<span class="sd">            Wave elevation time series</span>
+<span class="sd">        eta_t : np.array</span>
+<span class="sd">            Time series corresponding to `eta`</span>
+
+<span class="sd">    Attribuites:</span>
+<span class="sd">        self.irf : ImpulseResponseFunction</span>
+<span class="sd">            Object containing excitation force IRF information</span>
+<span class="sd">        self.wave_elevation : WaveElevationTimeSeries</span>
+<span class="sd">            Object containing wave elevation time series data</span>
+<span class="sd">        self.excitation_force : WaveExcitationForce</span>
+<span class="sd">            Object containing wave excitation force data</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">irf</span><span class="p">,</span> <span class="n">irf_t</span><span class="p">,</span> <span class="n">eta</span><span class="p">,</span> <span class="n">eta_t</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">irf</span> <span class="o">=</span> <span class="n">ImpulseResponseFunction</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wave_elevation</span> <span class="o">=</span> <span class="n">WaveElevationTimeSeries</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">excitation_force</span> <span class="o">=</span> <span class="n">WaveExcitationForce</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">irf</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">irf</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">irf</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">irf_t</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">wave_elevation</span><span class="o">.</span><span class="n">eta</span> <span class="o">=</span> <span class="n">eta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wave_elevation</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">eta_t</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wave_elevation</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wave_elevation</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">wave_elevation</span><span class="o">.</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_excitation_convolution</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_excitation_convolution</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Internal function to perform the wave excitation convolution</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">eta_interp</span> <span class="o">=</span> <span class="n">interpolate</span><span class="o">.</span><span class="n">interp1d</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">wave_elevation</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">wave_elevation</span><span class="o">.</span><span class="n">eta</span><span class="p">,</span> <span class="n">bounds_error</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+        <span class="n">irf_interp</span> <span class="o">=</span> <span class="n">interpolate</span><span class="o">.</span><span class="n">interp1d</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">irf</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">irf</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="n">bounds_error</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+
+        <span class="c"># Interpolate the IRF to the dt as the wave elevation data</span>
+        <span class="n">irf</span> <span class="o">=</span> <span class="n">irf_interp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">irf</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span><span class="bp">self</span><span class="o">.</span><span class="n">irf</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">max</span><span class="p">(),(</span><span class="bp">self</span><span class="o">.</span><span class="n">irf</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">irf</span><span class="o">.</span><span class="n">t</span><span class="o">.</span><span class="n">min</span><span class="p">())</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">wave_elevation</span><span class="o">.</span><span class="n">dt</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="c"># Assume that the IRF dt is used unless specified by the user</span>
+        <span class="c"># if self.excitation_force.dt is None:</span>
+        <span class="c">#     self.excitation_force.dt = self.irf.t[1] - self.irf.t[0]</span>
+        <span class="c"># This code caluclates the wave excitation force manually - the below method that uses the convolve function is much more efficient</span>
+        <span class="c"># self.excitation_force.t = np.linspace(self.wave_elevation.t.min(), self.wave_elevation.t.max(), (self.wave_elevation.t.max()-self.wave_elevation.t.min())/self.excitation_force.dt+1)</span>
+        <span class="c"># pbar_max_val = self.excitation_force.t.max()</span>
+        <span class="c"># pbar = ProgressBar(widgets=[&#39;Calculating the excitation force time history:&#39;, Percentage(), Bar()], maxval=pbar_max_val).start()</span>
+        <span class="c"># f_ex = []</span>
+        <span class="c"># for t in self.excitation_force.t:</span>
+        <span class="c">#     f_ex.append(np.trapz(y=irf_interp(self.irf.t)*eta_interp(t-self.irf.t),x=self.irf.t))</span>
+        <span class="c">#</span>
+        <span class="c">#     pbar.update(t)</span>
+        <span class="c"># pbar.finish()</span>
+
+        <span class="n">f_ex_conv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wave_elevation</span><span class="o">.</span><span class="n">eta</span><span class="p">,</span> <span class="n">irf</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">&#39;same&#39;</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">wave_elevation</span><span class="o">.</span><span class="n">dt</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">excitation_force</span><span class="o">.</span><span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">f_ex_conv</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">excitation_force</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wave_elevation</span><span class="o">.</span><span class="n">t</span>
+
+</div>
+<div class="viewcode-block" id="convolution"><a class="viewcode-back" href="../../../module_doc.html#bemio.data_structures.wave_excitation.convolution">[docs]</a><span class="k">def</span> <span class="nf">convolution</span><span class="p">(</span><span class="n">irf</span><span class="p">,</span> <span class="n">irf_t</span><span class="p">,</span> <span class="n">eta</span><span class="p">,</span> <span class="n">eta_t</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to calculate wave excitation force using the convolution method</span>
+
+<span class="sd">    Patrameters:</span>
+<span class="sd">        irf : np.array</span>
+<span class="sd">            Wave excitation force impulse response function.</span>
+<span class="sd">        irf_t : np.array</span>
+<span class="sd">            Time series corresponding to `irf`</span>
+<span class="sd">        eta : np.array</span>
+<span class="sd">            Wave elevation time series</span>
+<span class="sd">        eta_t : np.array</span>
+<span class="sd">            Time series corresponding to `eta`</span>
+<span class="sd">        dt : float, optional</span>
+<span class="sd">            Time step for calculating the</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        excitation_force : WaveExcitationConvolution</span>
+<span class="sd">            This function returns a `WaveExcitationConvolution` object with</span>
+<span class="sd">            the wave exciting force and other information. See the</span>
+<span class="sd">            `WaveExcitationConvolution` for more information.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        The following example assumes that variables `irf`, `irf_t`, `eta`, and</span>
+<span class="sd">        `eta_t` of type type(np.array) exist in the workspace. The contents of</span>
+<span class="sd">        these variables are described above.</span>
+
+<span class="sd">        Calculate excitation force using the convolution method</span>
+
+<span class="sd">        &gt;&gt;&gt; ex = convolution(irf=irf, irf_t=irf_t, eta=eta, eta_t=eta_t)</span>
+
+<span class="sd">        Plot the data</span>
+
+<span class="sd">        &gt;&gt;&gt; plt.figure()</span>
+<span class="sd">        &gt;&gt;&gt; plt.plot(ex.excitation_force.t,ex.excitation_force.f)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">excitation_force</span> <span class="o">=</span> <span class="n">WaveExcitationConvolution</span><span class="p">(</span><span class="n">irf</span><span class="p">,</span> <span class="n">irf_t</span><span class="p">,</span> <span class="n">eta</span><span class="p">,</span> <span class="n">eta_t</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">excitation_force</span></div>
+</pre></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, National Renewable Energy Laboratory and Sandia National Laboratories.
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'v1.0a0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
