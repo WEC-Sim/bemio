@@ -133,8 +133,9 @@ class WamitOutput(object):
 
 
             # Read the body positions
-            if "Total panels:" in line or "NPATCH:" in line:
-                for j in xrange(15): # look for position within the next 15 lines - will only work for wamit files of about 5 bodies
+#            if "Total panels:" in line or "NPATCH:" in line:
+            if "XBODY" in line:
+                for j in xrange(12): # look for position within the next 15 lines - will only work for wamit files of about 5 bodies
 
                     if 'XBODY =' in raw[i+j]:
                         '''
@@ -236,6 +237,8 @@ class WamitOutput(object):
 
             # Read freq dependent added mass and rad damping
             if "Wave period (sec) =" in line:
+                temp = raw[i].split()
+                T[count_freq]=temp[4]
 
                 count = 7
                 temp_line = raw[count+i]
