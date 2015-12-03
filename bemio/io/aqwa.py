@@ -75,7 +75,7 @@ class AqwaOutput(object):
                         wave_directions = tmp[3:]
                     else:
                         tmp = np.array(raw[i+j].split()).astype(np.float)
-                        np.append(wave_directions,tmp)
+                        wave_directions = np.append(wave_directions,tmp)
                 for j in range(num_lines_frequencies):
                     tmp = np.array(raw[i + num_lines_wave_directions + j].split()).astype(np.float)
                     if j == 0:
