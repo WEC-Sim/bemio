@@ -521,6 +521,100 @@ class PanelMesh(object):
         if interact is True:
             iren.Start()
 
+    def view_normals(self, point_size=5, point_color=[1, 0, 0], normal_length=0.3, normal_tip_radius=0.1, normal_color=[0.5,1,0.5], reverseNormals=False, mesh_opacity=1, camera_pos=[50,50,50], interact=True):
+        if self.VTK_installed is False:
+            raise VTK_Exception('VTK must be installed to use the view function')
+        # Centroid
+        centroidMapper=vtk.vtkPolyDataMapper()
+        centroid_points = vtk.vtkPoints()
+        vertices = vtk.vtkCellArray()
+        for ip in range(len(self.centroid)):
+            id = centroid_points.InsertNextPoint(list(self.centroid[ip]))
+            vertices.InsertNextCell(1)
+            vertices.InsertCellPoint(id)
+        centroid = vtk.vtkPolyData()
+        centroid.SetPoints(centroid_points)
+        centroid.SetVerts(vertices)
+        n=np.array(self.normals.values())
+        nv = vtk.util.numpy_support.numpy_to_vtk(n)
+        pv =centroid.GetPointData()
+        _ = pv.SetNormals(nv)
+        if vtk.VTK_MAJOR_VERSION >= 6:
+            centroidMapper.SetInputData(centroid)
+        else:
+            centroidMapper.SetInput(centroid)
+        centroidActor = vtk.vtkActor()
+        centroidActor.SetMapper(centroidMapper)
+        centroidActor.GetProperty().SetColor(point_color)
+        centroidActor.GetProperty().SetPointSize(point_size)
+        # Normals
+        def MakeGlyphs(src, reverseNormals):
+            reverse = vtk.vtkReverseSense()
+            maskPts = vtk.vtkMaskPoints()
+            maskPts.SetOnRatio(1)
+            if reverseNormals:
+                reverse.SetInputData(src)
+                reverse.ReverseCellsOn()
+                reverse.ReverseNormalsOn()
+                maskPts.SetInputConnection(reverse.GetOutputPort())
+            else:
+                maskPts.SetInputData(src)
+            arrow = vtk.vtkArrowSource()
+            arrow.SetTipResolution(16)
+            arrow.SetTipLength(normal_length)
+            arrow.SetTipRadius(normal_tip_radius)
+            glyph = vtk.vtkGlyph3D()
+            glyph.SetSourceConnection(arrow.GetOutputPort())
+            glyph.SetInputConnection(maskPts.GetOutputPort())
+            glyph.SetVectorModeToUseNormal()
+            glyph.SetScaleFactor(1)
+            glyph.SetColorModeToColorByVector()
+            glyph.SetScaleModeToScaleByVector()
+            glyph.OrientOn()
+            glyph.Update()
+            return glyph
+        glyph = MakeGlyphs(centroid,reverseNormals)
+        glyphMapper = vtk.vtkPolyDataMapper()
+        glyphMapper.SetInputConnection(glyph.GetOutputPort())
+        glyphActor = vtk.vtkActor()
+        glyphActor.SetMapper(glyphMapper)
+        glyphActor.GetProperty().SetColor(normal_color)
+        # Mesh
+        meshMapper=vtk.vtkPolyDataMapper()
+        if vtk.VTK_MAJOR_VERSION >= 6:
+            meshMapper.SetInputData(self.vtp_mesh)
+        else:
+            meshMapper.SetInput(self.vtp_mesh)
+        meshActor=vtk.vtkActor()
+        meshActor.SetMapper(meshMapper)
+        meshActor.GetProperty().EdgeVisibilityOn()
+        meshActor.GetProperty().SetOpacity(mesh_opacity)
+        # Camera
+        camera = vtk.vtkCamera();
+        camera.SetPosition(camera_pos)
+        camera.SetFocalPoint(0, 0, 0)
+        # Add axes
+        axes = vtk.vtkAxesActor()
+        # Render the data
+        ren = vtk.vtkRenderer()
+        ren.AddActor(meshActor)
+        ren.AddActor(centroidActor)
+        ren.AddActor(glyphActor)
+        ren.AddActor(axes)
+        ren.SetActiveCamera(camera)
+        # Create a render window
+        renWin = vtk.vtkRenderWindow()
+        renWin.AddRenderer(ren)
+        renWin.SetSize(800, 800)
+        # Start the visiuilization
+        iren = vtk.vtkRenderWindowInteractor()
+        iren.SetRenderWindow(renWin)
+        ren.SetBackground(0,0,0)
+        renWin.Render()
+        #vtk.vtkPolyDataMapper().SetResolveCoincidentTopologyToPolygonOffset()
+        if interact is True:
+            iren.Start()
+
     def scale(self, scale_vect):
         '''Function used to scale mesh objects in the x, y, and z directions.
 
@@ -712,6 +806,65 @@ class PanelMesh(object):
         self._volume_z = volume[2]
 
         print 'Calculated x y and z mesh volumes'
+
+    def xzmirror(self,):
+        npoint = np.shape(self.points)[0]
+        # create symmetry points
+        psym = np.copy(self.points)
+        psym[:,1] = psym[:,1]*-1.
+        mask = np.where(psym[:,1]==0.)
+        psym = np.delete(psym,mask,0)
+        # create symmetry point map
+        ptmap = np.zeros([npoint,2])
+        ptmap[:,0] = np.arange(0,npoint)
+        count = 0
+        for ipoint in range(npoint):
+            if self.points[ipoint][1] == 0.:
+                ptmap[ipoint,1] = ptmap[ipoint,0]
+            else:
+                ptmap[ipoint,1] = npoint + count
+                count += 1
+        # append points
+        self.points = np.concatenate(([np.array(self.points)],[psym]),axis=1)[0]
+        # create symmetry faces
+        nface = np.shape(self.faces)[0]
+        fsym = [[0,0,0,0]]
+        fsym_row = [0,0,0,0]
+        for iface in range(nface):
+            ftmp = self.faces[iface]
+            fsym_row[0] = int(ptmap[ np.where(ptmap[:,0]==ftmp[3])[0] , 1])
+            fsym_row[1] = int(ptmap[ np.where(ptmap[:,0]==ftmp[2])[0] , 1])
+            fsym_row[2] = int(ptmap[ np.where(ptmap[:,0]==ftmp[1])[0] , 1])
+            fsym_row[3] = int(ptmap[ np.where(ptmap[:,0]==ftmp[0])[0] , 1])
+            fsym.append(list(fsym_row))
+        fsym = np.array(fsym)[1:,:]
+        self.faces = np.concatenate(([self.faces],[fsym]),axis=1)[0]
+        self.sym = 0
+        self.num_points = len(self.points)
+        self.num_faces = len(self.faces)
+        self._create_vtp_mesh()
+
+    def remove_duplicate_points(self, ):
+        '''Function to remove duplicate points.
+        '''
+        def unique_rows(a):
+            a = np.ascontiguousarray(a)
+            unique_a,inverse_a = np.unique(a.view([('', a.dtype)]*a.shape[1]), return_inverse=True)
+            unique_a =  unique_a.view(a.dtype).reshape((unique_a.shape[0], a.shape[1]))
+            return unique_a,inverse_a
+        unique_points,inverse_points = unique_rows(self.points)
+        map = np.zeros([len(inverse_points),2])
+        map[:,0] = np.array(range(len(self.points)))
+        map[:,1] = inverse_points
+        faces_org = self.faces.flatten()
+        faces_new = np.zeros(np.shape(faces_org))
+        for ip in range(len(faces_new)):
+            faces_new[ip]=map[faces_org[ip],1]
+        faces_new = faces_new.reshape((len(faces_new)/4,4))
+        self.points = unique_points
+        self.faces = faces_new
+        self.num_points = len(self.points)
+        self._create_vtp_mesh()
 
 def _read_gdf(file_name):
     '''Internal function to read gdf wamit meshes
