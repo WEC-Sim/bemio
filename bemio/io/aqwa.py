@@ -232,8 +232,8 @@ class AqwaOutput(object):
             self.body[i].ex.mag = excitation_magnitude[i+1]
             self.body[i].ex.phase = excitation_phase[i+1]
             print '   * Calculating real and imaginary excitation  components.'
-            self.body[i].ex.re = self.body[i].ex.mag * np.cos(self.body[i].ex.phase)
-            self.body[i].ex.im = self.body[i].ex.mag * np.sin(self.body[i].ex.phase)
+            self.body[i].ex.re = self.body[i].ex.mag * np.cos(self.body[i].ex.phase*np.pi/180.)
+            self.body[i].ex.im = self.body[i].ex.mag * np.sin(self.body[i].ex.phase*np.pi/180.)
 
             self.body[i].scale(self.scaled_at_read)
 
