@@ -228,7 +228,6 @@ class PanelMesh(object):
 
         return self._center_of_buoyancy
 
-
     @property
     def normals(self, ):
         if self._normals is None:
@@ -253,7 +252,6 @@ class PanelMesh(object):
             print 'Calculated mesh cell normals'
 
         return self._normals
-
 
     @property
     def cell_surface_area(self):
@@ -319,13 +317,11 @@ class PanelMesh(object):
 
         return self._centroid
 
-
     @property
     def volume_x(self):
         if self._volume_x is None:
             self._calc_component_vol()
         return self._volume_x
-
 
     @property
     def volume_y(self):
@@ -333,13 +329,11 @@ class PanelMesh(object):
             self._calc_component_vol()
         return self._volume_y
 
-
     @property
     def volume_z(self):
         if self._volume_z is None:
             self._calc_component_vol()
         return self._volume_z
-
 
     @property
     def surface_area_vtk(self):
@@ -357,7 +351,6 @@ class PanelMesh(object):
             print 'Calculated mesh surface area using VTK Python bindings'
 
         return self._surface_area_vtk
-
 
     def write(self,mesh_format='VTP'):
         '''Function to write NEMOH, WAMIT, or VTK PolyData formats.
@@ -382,6 +375,30 @@ class PanelMesh(object):
         if mesh_format == 'NEMOH':
             self._write_nemoh()
 
+    def open(self):
+        '''Function to open a VTK PolyData object in the default viewer of your
+        operating system.
+
+        .. Note::
+            This function is only available for OSX and Linux systems and
+            and requires you have a program installed that has the ability to
+            open VTK PolyData (.vtp) files.
+
+        Example:
+            This example assumes that a mesh has been read by bemio and mesh
+            data is contained in a `PanelMesh` object called `mesh`
+
+            >>> mesh.open()
+        '''
+        self.write(mesh_format='VTP')
+        if _system() == 'Darwin':
+            os.system('open ' + self.files['vtp'])
+
+        elif _system() == 'Linux':
+            os.system('xdg ' + self.files['vtp'])
+
+        else:
+            raise Exception('The open function is only supported for OSX')
 
     def calculate_center_of_gravity_vtk(self, ):
         '''Function to calculate the center of gravity
@@ -407,34 +424,6 @@ class PanelMesh(object):
         self.center_of_gravity = com.GetCenter()
 
         print 'Calculated center of gravity assuming uniform material density'
-
-    # def cut(self,plane=2,value=0.0,direction=1):
-    '''This function is not currently working 100%
-    '''
-    #     self.collapse(plane,value,direction)
-    #
-    #     tempFaces = []
-    #     count = 0
-    #
-    #     for i in xrange(self.faces.shape[0]):
-    #
-    #        delete_face = 0
-    #
-    #        for j in xrange(4):
-    #
-    #            p = self.faces[i][j]
-    #            z = float(self.cords[int(p)][2])
-    #
-    #            if z == 0.:
-    #                delete_face += 1
-    #
-    #        if delete_face != 4:
-    #            tempFaces.append(self.faces[i])
-    #            count  += 1
-    #
-    #     print 'removed ' + str(count) + ' surface faces'
-    #     self.faces = tempFaces
-    #     self.faces.shape[0] = self.faces.shape[0]
 
     def view(self, color=[0.5,1,0.5], opacity=1.0, save_png=False, camera_pos=[50,50,50], interact=True):
         '''Function to view the mesh using the VTK library
@@ -512,14 +501,317 @@ class PanelMesh(object):
             w2if.Update()
 
             writer = vtk.vtkPNGWriter()
-            writer.SetFileName(self.files['png_image'])
+            writer.SetFileName(self.files['png'])
             writer.SetInputDataObject(w2if.GetOutput())
             writer.Write()
 
-            print 'Wrote mesh image to: ' + self.files['png_image']
+            print 'Wrote mesh image to: ' + self.files['png']
 
         if interact is True:
             iren.Start()
+
+    def view_points_and_vectors(self, point_show=True, point_size=7.5, point_color=[1., 0., 0.], point_opacity=1., point_colorByScalar=False, point_scalar=[], normal_show=True, normal_length=0.3, normal_tip_radius=0.1, normal_scaleByPointScalar=False, normal_scale=1, normal_color=[0., 0., 1.], normal_opacity=1., normal_reverse=False, normal_arrowAtPoint=False, normal_colorByPointScalar=False, mesh_show=True, mesh_color=[1., 1., 1.], mesh_opacity=1, mesh_colorByScalar=False, mesh_scalar=[], camera_pos=[50,50,50], save_png=False, interact=True):
+        '''Function to view the mesh using the VTK library. Allows for 
+        visualization of mesh, points (centroids), and normal vectors, as well
+        as scalar fields. prior to scaling
+
+        Parameters:
+            point_show : bool
+                Boolean operator that determines if the points are shown.
+            point_size : float
+                Size of points
+            point_color : list, float
+                VTK color specification for points [r,g,b].
+            point_opacity : float
+                VTK opacity for the points. Must be between 0. and 1.
+            point_colorByScalar : bool
+                Boolean operator that determines if the points are colored by a
+                scalar field 'point_scalar' rather than by constant 
+                'point_color'
+            point_scalar : np.array
+                scalar value at each point.
+            normal_show : bool
+                Boolean operator that determines if the normals are shown.
+            normal_length : float
+                length of the arrows (glyphs) prior to scaling
+            normal_tip_radius: float 
+                Tip radius of the arrows (glyphs) prior to scaling
+            normal_scaleByPointScalar : bool
+                Boolean operator that determines if the normal vectors are
+                scaled by the scalar field 'point_scalar'
+            normal_scale : float
+                Value to scale the size of the normal glyphs by
+            normal_color : list, float
+                VTK color specification for the normals [r,g,b].
+            normal_opacity : float
+                VTK opacity for the normals. Must be between 0. and 1.
+            normal_reverse : bool
+                Boolean operator that determines if the direction of the normal
+                vectors is reversed 
+            normal_arrowAtPoint: bool
+                Boolean operator that determines if the arrow is at the point 
+                or at the opposite edge of the glyph
+            normal_colorByPointScalar : bool
+                Boolean operator that determines if the normals are colored by a
+                scalar field 'point_scalar' rather than by constant 
+                'normal_color'
+            mesh_show : bool
+                Boolean operator that determines if the points are shown.
+            mesh_color : list, float
+                VTK color specification for the mesh [r,g,b].
+            mesh_opacity : float
+                VTK opacity for the mesh. Must be between 0. and 1.
+            mesh_colorByScalar : bool
+                Boolean operator that determines if the mesh is colored by a
+                scalar field 'mesh_scalar' rather than by a constant 
+                'mesh_color'
+            mesh_scalar : np.array
+                scalar value at each mesh cell.
+            camera_pos : list, floats
+                Position of camera [X Y Z].
+            save_png : bool
+                Boolean operater that determines if a .png image of the mesh is
+                saved.
+            interact : bool, optional
+                Boolean operater that determines if the user can interact with
+                the geometry (e.g. zoom and rotate) after it is displayed
+
+        Examples:
+            This example assumes that a mesh has been read by bemio and mesh
+            data is contained in a `PanelMesh` object called `mesh`
+
+            >>> mesh.view_points_and_vectors()
+
+            The mesh view window must be closed in order to return command to
+            the Python shell
+        '''
+        if self.VTK_installed is False:
+            raise VTK_Exception('VTK must be installed to use the view function')
+        # Centroid
+        centroid_points = vtk.vtkPoints()
+        vertices = vtk.vtkCellArray()
+        for ip in range(len(self.centroid)):
+            id = centroid_points.InsertNextPoint(list(self.centroid[ip]))
+            vertices.InsertNextCell(1)
+            vertices.InsertCellPoint(id)
+        centroid = vtk.vtkPolyData()
+        centroid.SetPoints(centroid_points)
+        centroid.SetVerts(vertices)
+        n=np.array(self.normals.values())
+        nv = vtk.util.numpy_support.numpy_to_vtk(n)
+        pv =centroid.GetPointData()
+        _ = pv.SetNormals(nv)
+        if point_colorByScalar or normal_colorByPointScalar:
+            point_scalar = point_scalar.astype('double')
+            vpoint_scalar =  vtk.util.numpy_support.numpy_to_vtk(np.ascontiguousarray(point_scalar))
+            _ = pv.SetScalars(vpoint_scalar)
+            point_scalarRange = centroid.GetScalarRange()
+        centroid.Modified()
+        centroidMapper=vtk.vtkPolyDataMapper()
+        if vtk.VTK_MAJOR_VERSION >= 6:
+            centroidMapper.SetInputData(centroid)
+        else:
+            centroidMapper.SetInput(centroid)
+        if point_colorByScalar:
+            centroidMapper.SetScalarModeToUsePointData
+            centroidMapper.SetColorModeToMapScalars()
+            centroidMapper.SetScalarRange(point_scalarRange)
+        else:
+            centroidMapper.SetColorModeToDefault()
+            centroidMapper.SetScalarVisibility(0)
+        centroidActor = vtk.vtkActor()
+        centroidActor.SetMapper(centroidMapper)
+        centroidActor.GetProperty().SetPointSize(point_size)
+        centroidActor.GetProperty().SetOpacity(point_opacity)
+        if not point_colorByScalar:
+            centroidActor.GetProperty().SetColor(point_color)
+        # Normals
+        def MakeGlyphs(src, normal_reverse, normal_arrowAtPoint):
+            reverse = vtk.vtkReverseSense()
+            maskPts = vtk.vtkMaskPoints()
+            maskPts.SetOnRatio(1)
+            if normal_reverse:
+                reverse.SetInputData(src)
+                reverse.ReverseCellsOn()
+                reverse.ReverseNormalsOn()
+                maskPts.SetInputConnection(reverse.GetOutputPort())
+            else:
+                maskPts.SetInputData(src)
+            arrow = vtk.vtkArrowSource()
+            if normal_arrowAtPoint:
+                arrow.SetInvert(1)
+            else: 
+                arrow.SetInvert(0)
+            arrow.SetTipResolution(16)
+            arrow.SetTipLength(normal_length)
+            arrow.SetTipRadius(normal_tip_radius)
+            glyph = vtk.vtkGlyph3D()
+            glyph.SetSourceConnection(arrow.GetOutputPort())
+            glyph.SetInputConnection(maskPts.GetOutputPort())
+            glyph.SetVectorModeToUseNormal()
+            glyph.SetScaleFactor(normal_scale)
+            if normal_scaleByPointScalar:
+                glyph.SetScaleModeToScaleByScalar()
+            else:
+                glyph.SetScaleModeToScaleByVector()
+            glyph.SetColorModeToColorByScalar()
+            glyph.OrientOn()
+            return glyph
+        glyph = MakeGlyphs(centroid,normal_reverse,normal_arrowAtPoint)
+        glyphMapper = vtk.vtkPolyDataMapper()
+        glyphMapper.SetInputConnection(glyph.GetOutputPort())
+        glyphActor = vtk.vtkActor()
+        glyphActor.SetMapper(glyphMapper)
+        glyphActor.GetProperty().SetOpacity(normal_opacity)
+        if not normal_colorByPointScalar:
+            glyphActor.GetProperty().SetColor(normal_color)
+        if normal_colorByPointScalar:
+            glyphMapper.SetScalarModeToUsePointData()
+            glyphMapper.SetScalarVisibility(1)
+            glyphMapper.SetColorModeToMapScalars()
+            normal_scalarRange = centroid.GetScalarRange()
+            glyphMapper.SetScalarRange(normal_scalarRange)
+        else:
+            glyphMapper.SetScalarVisibility(0)
+            glyphMapper.SetColorModeToDefault()
+        # Mesh
+        if mesh_colorByScalar:
+            cv = self.vtp_mesh.GetCellData()
+            mesh_scalar = mesh_scalar.astype('double')
+            vmesh_scalar =  vtk.util.numpy_support.numpy_to_vtk(np.ascontiguousarray(mesh_scalar))
+            _ = cv.SetScalars(vmesh_scalar)
+        meshMapper=vtk.vtkPolyDataMapper()
+        if vtk.VTK_MAJOR_VERSION >= 6:
+            meshMapper.SetInputData(self.vtp_mesh)
+        else:
+            meshMapper.SetInput(self.vtp_mesh)
+        if mesh_colorByScalar:
+            meshMapper.SetScalarModeToUseCellData
+            meshMapper.SetColorModeToMapScalars()
+            mesh_scalarRange = self.vtp_mesh.GetScalarRange()
+            meshMapper.SetScalarRange(mesh_scalarRange)
+        else:
+            meshMapper.SetScalarVisibility(0)
+        meshActor=vtk.vtkActor()
+        meshActor.SetMapper(meshMapper)
+        meshActor.GetProperty().EdgeVisibilityOn()
+        meshActor.GetProperty().SetOpacity(mesh_opacity)
+        if not mesh_colorByScalar:
+            meshActor.GetProperty().SetColor(mesh_color)
+        # bars
+        if point_colorByScalar or normal_colorByPointScalar:
+            lut = centroidMapper.GetLookupTable()
+            lut.SetNumberOfTableValues(256)
+            colorTransferFunction = vtk.vtkColorTransferFunction()
+            colorTransferFunction.SetColorSpaceToDiverging()
+            colorTransferFunction.AddRGBPoint(0,0.231373,0.298039,0.752941)
+            colorTransferFunction.AddRGBPoint(0.5,0.865003,0.865003,0.865003)
+            colorTransferFunction.AddRGBPoint(1.0,0.705882,0.0156863,0.14902)
+            for ii,ss in enumerate([float(xx)/float(256) for xx in range(256)]):
+                cc = colorTransferFunction.GetColor(ss)
+                lut.SetTableValue(ii,cc[0],cc[1],cc[2],1.0)
+            lut.Build()
+            centroidMapper.SetLookupTable(lut)
+            glyphMapper.SetLookupTable(lut)
+            point_bar = vtk.vtkScalarBarActor()
+            point_bar.SetLookupTable(lut)
+            point_bar.SetTitle('Point Scalar')
+        if mesh_colorByScalar:
+            mesh_lut = meshMapper.GetLookupTable()
+            mesh_lut.SetNumberOfTableValues(256)
+            mesh_colorTransferFunction = vtk.vtkColorTransferFunction()
+            mesh_colorTransferFunction.SetColorSpaceToDiverging()
+            mesh_colorTransferFunction.AddRGBPoint(0,0.231373,0.298039,0.752941)
+            mesh_colorTransferFunction.AddRGBPoint(0.5,0.865003,0.865003,0.865003)
+            mesh_colorTransferFunction.AddRGBPoint(1.0,0.705882,0.0156863,0.14902)
+            for ii,ss in enumerate([float(xx)/float(256) for xx in range(256)]):
+                mesh_cc = mesh_colorTransferFunction.GetColor(ss)
+                mesh_lut.SetTableValue(ii,mesh_cc[0],mesh_cc[1],mesh_cc[2],1.0)
+            mesh_lut.Build()
+            meshMapper.SetLookupTable(mesh_lut)
+            mesh_bar = vtk.vtkScalarBarActor()
+            mesh_bar.SetLookupTable(mesh_lut)
+            mesh_bar.SetTitle('Mesh Scalar')
+        # Camera
+        camera = vtk.vtkCamera();
+        camera.SetPosition(camera_pos)
+        camera.SetFocalPoint(0, 0, 0)
+        # Add axes
+        axes = vtk.vtkAxesActor()
+        # Render the data
+        ren = vtk.vtkRenderer()
+        if mesh_show:
+            ren.AddActor(meshActor)
+        if point_show:
+            ren.AddActor(centroidActor)
+        if normal_show:
+            ren.AddActor(glyphActor)
+        ren.AddActor(axes)
+        ren.SetActiveCamera(camera)
+        ren.SetBackground(0,0,0)
+        # Create a render window
+        renWin = vtk.vtkRenderWindow()
+        renWin.AddRenderer(ren)
+        renWin.SetSize(800, 800)
+        # Create interactive renderer
+        iren = vtk.vtkRenderWindowInteractor()
+        iren.SetRenderWindow(renWin)
+        # Start the bar widgets
+        if point_colorByScalar or normal_colorByPointScalar:
+            point_bar_widget = vtk.vtkScalarBarWidget()
+            point_bar_widget.SetInteractor(iren)
+            point_bar_widget.SetScalarBarActor(point_bar)
+            point_bar_widget.On()
+        if mesh_colorByScalar:
+            mesh_bar_widget = vtk.vtkScalarBarWidget()
+            mesh_bar_widget.SetInteractor(iren)
+            mesh_bar_widget.SetScalarBarActor(mesh_bar)
+            mesh_bar_widget.On()
+        # Render
+        renWin.Render()
+        vtk.vtkPolyDataMapper().SetResolveCoincidentTopologyToPolygonOffset()
+        # Save image
+        if save_png is True:
+            w2if = vtk.vtkWindowToImageFilter()
+            w2if.SetInput(renWin)
+            w2if.Update()
+            writer = vtk.vtkPNGWriter()
+            writer.SetFileName(self.files['png'])
+            writer.SetInputDataObject(w2if.GetOutput())
+            writer.Write()
+            print 'Wrote mesh image to: ' + self.files['png']
+        # Set interaction mode
+        if interact is True:
+            iren.Start()
+
+    def cut(self,plane=2,value=0.0,direction=1): #NOT IMPLEMENTED 
+        '''This function is not currently working 100%
+        '''
+        raise NotImplementedError()
+        #self.collapse(plane,value,direction)
+        #
+        #tempFaces = []
+        #count = 0
+        #
+        #for i in xrange(self.faces.shape[0]):
+        #
+        #   delete_face = 0
+        #
+        #   for j in xrange(4):
+        #
+        #       p = self.faces[i][j]
+        #       z = float(self.cords[int(p)][2])
+        #
+        #       if z == 0.:
+        #           delete_face += 1
+        #
+        #   if delete_face != 4:
+        #       tempFaces.append(self.faces[i])
+        #       count  += 1
+        #
+        #print 'removed ' + str(count) + ' surface faces'
+        #self.faces = tempFaces
+        #self.faces.shape[0] = self.faces.shape[0]
 
     def scale(self, scale_vect):
         '''Function used to scale mesh objects in the x, y, and z directions.
@@ -573,31 +865,64 @@ class PanelMesh(object):
 
         print 'Translated mesh by: ' + str(translation_vect) + '\nCenter of gravity is: ' + str(self.center_of_gravity)
 
-    def open(self):
-        '''Function to open a VTK PolyData object in the default viewer of your
-        operating system.
+    def xzmirror(self,):
+        npoint = np.shape(self.points)[0]
+        # create symmetry points
+        psym = np.copy(self.points)
+        psym[:,1] = psym[:,1]*-1.
+        mask = np.where(psym[:,1]==0.)
+        psym = np.delete(psym,mask,0)
+        # create symmetry point map
+        ptmap = np.zeros([npoint,2])
+        ptmap[:,0] = np.arange(0,npoint)
+        count = 0
+        for ipoint in range(npoint):
+            if self.points[ipoint][1] == 0.:
+                ptmap[ipoint,1] = ptmap[ipoint,0]
+            else:
+                ptmap[ipoint,1] = npoint + count
+                count += 1
+        # append points
+        self.points = np.concatenate(([np.array(self.points)],[psym]),axis=1)[0]
+        # create symmetry faces
+        nface = np.shape(self.faces)[0]
+        fsym = [[0,0,0,0]]
+        fsym_row = [0,0,0,0]
+        for iface in range(nface):
+            ftmp = self.faces[iface]
+            fsym_row[0] = int(ptmap[ np.where(ptmap[:,0]==ftmp[3])[0] , 1])
+            fsym_row[1] = int(ptmap[ np.where(ptmap[:,0]==ftmp[2])[0] , 1])
+            fsym_row[2] = int(ptmap[ np.where(ptmap[:,0]==ftmp[1])[0] , 1])
+            fsym_row[3] = int(ptmap[ np.where(ptmap[:,0]==ftmp[0])[0] , 1])
+            fsym.append(list(fsym_row))
+        fsym = np.array(fsym)[1:,:]
+        self.faces = np.concatenate(([self.faces],[fsym]),axis=1)[0]
+        self.sym = 0
+        self.num_points = len(self.points)
+        self.num_faces = len(self.faces)
+        self._create_vtp_mesh()
 
-        .. Note::
-            This function is only available for OSX and Linux systems and
-            and requires you have a program installed that has the ability to
-            open VTK PolyData (.vtp) files.
-
-        Example:
-            This example assumes that a mesh has been read by bemio and mesh
-            data is contained in a `PanelMesh` object called `mesh`
-
-            >>> mesh.open()
+    def remove_duplicate_points(self, ):
+        '''Function to remove duplicate points.
         '''
-        self.write(mesh_format='VTP')
-        if _system() == 'Darwin':
-            os.system('open ' + self.files['vtp'])
-
-        elif _system() == 'Linux':
-            os.system('xdg ' + self.files['vtp'])
-
-        else:
-            raise Exception('The open function is only supported for OSX')
-
+        def unique_rows(a):
+            a = np.ascontiguousarray(a)
+            unique_a,inverse_a = np.unique(a.view([('', a.dtype)]*a.shape[1]), return_inverse=True)
+            unique_a =  unique_a.view(a.dtype).reshape((unique_a.shape[0], a.shape[1]))
+            return unique_a,inverse_a
+        unique_points,inverse_points = unique_rows(self.points)
+        map = np.zeros([len(inverse_points),2])
+        map[:,0] = np.array(range(len(self.points)))
+        map[:,1] = inverse_points
+        faces_org = self.faces.flatten()
+        faces_new = np.zeros(np.shape(faces_org))
+        for ip in range(len(faces_new)):
+            faces_new[ip]=map[faces_org[ip],1]
+        faces_new = faces_new.reshape((len(faces_new)/4,4))
+        self.points = unique_points
+        self.faces = faces_new
+        self.num_points = len(self.points)
+        self._create_vtp_mesh()
 
     def _create_vtp_mesh(self):
         '''Internal function to creat a VTP mesh from the imported mesh data
@@ -620,20 +945,20 @@ class PanelMesh(object):
             self.vtp_mesh.SetPoints(points)
             self.vtp_mesh.SetPolys(polys)
 
-    # def _collapse(self,plane=2,value=0.0,direction=1):
-    #This function is not yet working 100%
-
-    #     '''Collapse points
-    #     '''
-    #     for face,face_n in xrange(self.faces.shape[0]):
-    #
-    #         for j in xrange(self.faces[i].size):
-    #
-    #             p = int(self.faces[i][j])
-    #
-    #             if self.points[p][plane] > value*direction:
-    #
-    #                 self.points[p][plane] = value
+    def _collapse(self,plane=2,value=0.0,direction=1): #NOT IMPLEMENTED
+        #This function is not yet working 100%
+        raise NotImplementedError()
+        #'''Collapse points
+        #'''
+        #for face,face_n in xrange(self.faces.shape[0]):
+        #
+        #    for j in xrange(self.faces[i].size):
+        #
+        #        p = int(self.faces[i][j])
+        #
+        #        if self.points[p][plane] > value*direction:
+        #
+        #            self.points[p][plane] = value
 
     def _write_vtp(self):
         '''Internal function to write VTK PolyData mesh files
@@ -670,7 +995,6 @@ class PanelMesh(object):
             fid.write('0 0 0 0')
 
         print 'Wrote NEMOH mesh to: ' + str(self.files['nemoh'])
-
 
     def _write_gdf(self):
         '''Internal function to write WAMIT mesh files
@@ -800,11 +1124,13 @@ def _read_nemoh(file_name):
     with open(file_name,'r') as fid:
 
         lines = fid.readlines()
+    sym = np.array(str(lines[0]).split()).astype(int)[1]
     temp = np.array([np.array(str(lines[i]).split()).astype(float) for i in range(1,np.size(lines))])
     count = 0
 
     mesh_data = PanelMesh(file_name)
     mesh_data.orig_type = 'NEMOH (.dat)'
+    mesh_data.sym = sym
 
     while temp[count,0] != 0.:
 
@@ -813,15 +1139,14 @@ def _read_nemoh(file_name):
     count += 1
     while sum(temp[count,:]) != 0.:
 
-        mesh_data.faces.append(temp[count,:])
+        mesh_data.faces.append(temp[count,:]-1)
         count += 1
     mesh_data.points = np.array(mesh_data.points)
-    mesh_data.faces = np.array(mesh_data.faces)-1
+    mesh_data.faces = np.array(mesh_data.faces)
     mesh_data.num_points = np.shape(mesh_data.points)[0]
     mesh_data.num_faces = np.shape(mesh_data.faces)[0]
 
     return mesh_data
-
 
 def read(file_name):
     '''Function to read surface mesh files. Currently VTK PolyData (.vtk),
@@ -909,14 +1234,13 @@ def _mk_vtk_id_list(it):
 
     return vil
 
-def collapse_to_plane(mesh_obj, plane_ind=2, plane_loc=-1e-5, cut_dir=1.):
+def collapse_to_plane(mesh_obj, plane_ind=2, plane_loc=-1e-5, cut_dir=1.): #NOT IMPLEMENTED
     '''Function to collapse points to a given plane
 
     .. Note::
         This function is not yet implemented
     '''
-    pass
-
+    raise NotImplementedError()
 
 def cut_mesh(mesh_obj, plane_ind=2, plane_loc=-1e-5, cut_dir=1.):
     '''Function to remove cells on one side of plane
