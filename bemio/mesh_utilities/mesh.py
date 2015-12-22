@@ -866,6 +866,8 @@ class PanelMesh(object):
         print 'Translated mesh by: ' + str(translation_vect) + '\nCenter of gravity is: ' + str(self.center_of_gravity)
 
     def xzmirror(self,):
+        '''Function used to mirror the mesh object about the xz plane.
+        '''
         npoint = np.shape(self.points)[0]
         # create symmetry points
         psym = np.copy(self.points)
