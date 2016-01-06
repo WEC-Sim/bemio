@@ -190,7 +190,8 @@ class NemohOutput(object):
         self.cal.cg = {}
         line_count = 0
         for i in xrange(self.cal.n_bods):
-            self.cal.name[i] = cal[8+line_count].split()[0]
+            name_with_path = cal[8+line_count].split()[0]
+            self.cal.name[i] = os.path.splitext(os.path.basename(name_with_path))[0]
             self.cal.points_panels[i] = cal[9+line_count].split()[0:2]
             self.cal.n_dof[i] = int(cal[10+line_count].split()[0])
             self.cal.dof[i] = []
