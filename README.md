@@ -1,5 +1,5 @@
 
-# How to update the [bemio](wec-sim.github.io/bemio/) website
+# How to update the [bemio](http://wec-sim.github.io/bemio/) website 
 
 ## Download and install required packages
 1. Download and Install [Python27](https://www.python.org/downloads/)
@@ -20,12 +20,12 @@
  
  **NOTE:** You may have to manually move it to the ``sphinx/themes/`` directory.
 
-## Modify the [bemio](wec-sim.github.io/bemio/) website
+## Modify the [bemio](http://wec-sim.github.io/bemio/) website
 The bemio documentation is located on the bemio/gh-pages branch, https://github.com/WEC-Sim/bemio/tree/gh-pages, which will be referred to as the ``$USERS_GUIDE``.
 
 The users guide is developed using [Sphinx](http://sphinx-doc.org/) and rendered in html. To edit  the users guide, modify the source files located in the ``$USERS_GUIDE/source`` folder using syntax and methods described in the [Sphinx Documentation](http://sphinx-doc.org/contents.html). Once you are done editing, move to the ``$USERS_GUIDE`` folder type ``make html`` from the command line to build the documentation. This builds a html formatted copy of the documentation in the ``$USERS_GUIDE/`` folder. After building the HTML users guide, you can view the local copy of the documentation by opening the ``$USERS_GUIDE/index.html`` file in a web browser
 
-## Push Documentation to the [bemio](wec-sim.github.io/bemio/) website
+## Push Documentation to the [bemio](http://wec-sim.github.io/bemio/) website
 The github.io website renders the documentation in the bemio/gh-pages branch as a website located at http://wec-sim.github.io/bemio/index.html. The user then pushes changes in the html documentation directly to the bemio/gh-pages branch. Here are the steps to do this:
 
   ```Shell
