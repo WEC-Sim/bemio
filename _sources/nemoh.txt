@@ -8,6 +8,7 @@ read, process, and save NEMOH coefficients. This code can be viewed in
 code is also provided in ``$BEMIO_SOURCE/tutorials/nemon/run.ipynb``.
 
     %matplotlib inline
+
 Load the nemoh module from bemio.io
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -17,6 +18,7 @@ the data.
 .. code:: python
 
     from bemio.io import nemoh
+
 Load the bem data object from bemio.data\_structures
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -25,12 +27,14 @@ This module provides the functionality to save the data in the SHDF
 .. code:: python
 
     from bemio.data_structures import bem
+
 Read the Nemoh simulation data from the
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
     nemoh_data = nemoh.NemohOutput(sim_dir='./data/two_body', cal_file='Nemoh.cal', results_dir='Results', mesh_dir='Mesh', out_name='./data/two_body.out')
+
 Read the hydrostatic and IH files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -42,6 +46,7 @@ These files must be read individually for each body as shown below
     nemoh_data.read_kh(body_num=0, file='./data/two_body/Mesh/KH_0.dat')
     nemoh_data.read_hydrostatics(body_num=1,file='./data/two_body/Mesh/Hydrostatics_1.dat')
     nemoh_data.read_kh(body_num=1, file='./data/two_body/Mesh/KH_1.dat')
+
 Calculate the IRF and state space coefficients
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -55,6 +60,7 @@ coefficients.
     for i in xrange(nemoh_data.data[0].num_bodies):
     	nemoh_data.data[i].calc_irf(t_end=50, n_t=101, n_w=201)
     	nemoh_data.data[i].calc_ss()
+
 Plot the surge and heave components of added mass and radiation damping for body 0
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -62,6 +68,7 @@ Plot the surge and heave components of added mass and radiation damping for body
 
     comps_to_plot = [[0,0],[2,2]]
     nemoh_data.data[0].plot_am_rd(comps_to_plot)
+    
 Write the data to the bemio data file format for use with WEC-Sim
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

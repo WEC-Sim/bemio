@@ -30,7 +30,6 @@ Contents
    :maxdepth: 2
 
    installing.rst
-   vtk.rst
    api_io.rst
    tutorials.rst
    module_doc.rst
