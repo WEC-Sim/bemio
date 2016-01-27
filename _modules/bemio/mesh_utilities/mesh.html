@@ -121,19 +121,19 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../../module_doc.html">bemio Module Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../module_doc.html#bemio-io">bemio.io</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#wamit">wamit</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#aqwa">aqwa</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#nemoh">nemoh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#output">output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#module-bemio.io.wamit">wamit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#module-bemio.io.aqwa">aqwa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#module-bemio.io.nemoh">nemoh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#module-bemio.io.output">output</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../module_doc.html#bemio-data-structures">bemio.data_structures</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#bem">bem</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#wave-excitation">wave_excitation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#module-bemio.data_structures.bem">bem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#module-bemio.data_structures.wave_excitation">wave_excitation</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../module_doc.html#bemio-mesh-utilities">bemio.mesh_utilities</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#mesh">mesh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#module-bemio.mesh_utilities.mesh">mesh</a></li>
 </ul>
 </li>
 </ul>
@@ -226,6 +226,8 @@ try:
 except:
 
     print &#39;The VTK Python module is required for a significant amnount of functionality in this module. Many functions will not be available for use.&#39;
+
+
 
 class VTK_Exception(Exception):
     pass
@@ -576,7 +578,10 @@ class VTK_Exception(Exception):
             raise VTK_Exception(&#39;VTK must be installed to access the calculate_center_of_gravity_vtk function&#39;)
 
         com = vtk.vtkCenterOfMass()
-        com.SetInputData(self.vtp_mesh)
+        if vtk.VTK_MAJOR_VERSION &gt;= 6:
+            com.SetInputData(self.vtp_mesh)
+        else:
+            com.SetInput(self.vtp_mesh)
         com.Update()
         self.center_of_gravity = com.GetCenter()
 
@@ -640,7 +645,10 @@ class VTK_Exception(Exception):
 
         # Create a mapper and load VTP data into the mapper
         mapper=vtk.vtkPolyDataMapper()
-        mapper.SetInputData(self.vtp_mesh)
+        if vtk.VTK_MAJOR_VERSION &gt;= 6:
+            mapper.SetInputData(self.vtp_mesh)
+        else:
+            mapper.SetInput(self.vtp_mesh)
 
         # Create an actor that contains the data in the mapper
         actor=vtk.vtkActor()
@@ -815,7 +823,10 @@ class VTK_Exception(Exception):
 
         writer = vtk.vtkXMLPolyDataWriter()
         writer.SetFileName(self.files[&#39;vtp&#39;])
-        writer.SetInputData(self.vtp_mesh)
+        if vtk.VTK_MAJOR_VERSION &gt;= 6:
+            writer.SetInputData(self.vtp_mesh)
+        else:
+            writer.SetInput(self.vtp_mesh)
         writer.SetDataModeToAscii()
         writer.Write()
 
@@ -934,8 +945,6 @@ def _read_stl(file_name):
 def _read_vtp(file_name):
     &#39;&#39;&#39;Internal function to read vtp mesh files
     &#39;&#39;&#39;
-    if self.VTK_installed is False:
-        raise VTK_Exception(&#39;VTK must be installed to reade VTK/VTP meshes&#39;)
 
     reader = vtk.vtkXMLPolyDataReader()
     reader.SetFileName(file_name)
@@ -958,7 +967,7 @@ def _read_vtp(file_name):
         for i in xrange(numCellPoints):
             idsTemp.append(int(c.GetPointId(i)))
         mesh_data.faces.append(np.array(idsTemp))
-        mesh_data.faces = np.array(mesh_data.faces)
+    mesh_data.faces = np.array(mesh_data.faces)
 
 
     return mesh_data
