@@ -1,7 +1,7 @@
 .. _bemio_doc:
 
 Boundary Element Method Input/Output (bemio) Documentation and Users Guide
-=====================================
+==========================================================================
 
 .. _introduction:
 

@@ -1,0 +1,795 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>bemio.io.wamit &mdash; bemio v1.0a0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="bemio v1.0a0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../../../index.html" class="icon icon-home"> bemio
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Downloading and Installing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#downloading-bemio">Downloading bemio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#installing-quick-start-for-python-beginners">Installing: Quick Start for Python Beginners</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#installing-for-experienced-python-users">Installing: For Experienced Python Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#installing-vtk-with-python-bindings">Installing VTK with Python Bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../installing.html#osx">OSX</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../installing.html#method-1-simple">Method 1: Simple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../installing.html#method-2-complex">Method 2: Complex</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../installing.html#pre-installation-tasks">Pre-Installation Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../installing.html#linux">Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../installing.html#windows">Windows</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">Using the bemio API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#loading-data">Loading Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#data-objects">Data Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#writing-the-data-to-the-standard-bemio-format">Writing the Data to the Standard bemio Format</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials.html#tutorial-data-files">Tutorial Data Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials.html#available-tutorials">Available Tutorials</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../wamit.html">WAMIT</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../wamit.html#viewing-the-shdf-file">Viewing the SHDF File</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../wamit.html#references">References</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../nemoh.html">NEMOH</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../nemoh.html#load-the-nemoh-module-from-bemio-io">Load the nemoh module from bemio.io</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nemoh.html#load-the-bem-data-object-from-bemio-data-structures">Load the bem data object from bemio.data_structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nemoh.html#read-the-nemoh-simulation-data-from-the">Read the Nemoh simulation data from the</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nemoh.html#read-the-hydrostatic-and-ih-files">Read the hydrostatic and IH files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nemoh.html#calculate-the-irf-and-state-space-coefficients">Calculate the IRF and state space coefficients</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nemoh.html#plot-the-surge-and-heave-components-of-added-mass-and-radiation-damping-for-body-0">Plot the surge and heave components of added mass and radiation damping for body 0</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nemoh.html#write-the-data-to-the-bemio-data-file-format-for-use-with-wec-sim">Write the data to the bemio data file format for use with WEC-Sim</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../aqwa.html">AQWA</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_doc.html">bemio module documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../module_doc.html#bemio-io">bemio.io</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#module-bemio.io.wamit">wamit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#module-bemio.io.aqwa">aqwa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#module-bemio.io.nemoh">nemoh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#module-bemio.io.output">output</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../module_doc.html#bemio-data-structures">bemio.data_structures</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#module-bemio.data_structures.bem">bem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#module-bemio.data_structures.wave_excitation">wave_excitation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../module_doc.html#bemio-mesh-utilities">bemio.mesh_utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#module-bemio.mesh_utilities.mesh">mesh</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">bemio</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>bemio.io.wamit</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <h1>Source code for bemio.io.wamit</h1><div class="highlight"><pre>
+<span class="c"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c"># you may not use this file except in compliance with the License.</span>
+<span class="c"># You may obtain a copy of the License at</span>
+<span class="c">#</span>
+<span class="c">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c">#</span>
+<span class="c"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c"># See the License for the specific language governing permissions and</span>
+<span class="c"># limitations under the License.</span>
+<span class="sd">&#39;&#39;&#39;This moduel provides functionality to read and interact with WAMIT simulation output data</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">bemio.data_structures</span> <span class="kn">import</span> <span class="n">bem</span>
+
+<div class="viewcode-block" id="WamitOutput"><a class="viewcode-back" href="../../../module_doc.html#bemio.io.wamit.WamitOutput">[docs]</a><span class="k">class</span> <span class="nc">WamitOutput</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Class to read and interact with WAMIT simulation data</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        out_file : str</span>
+<span class="sd">            Name of the wamit .out output file. In order to read scattering</span>
+<span class="sd">            and Froud-Krylof forces the .3sc (scatterin) and .3fk</span>
+<span class="sd">            (Froud-Krylof) coefficinet files must have the same base name</span>
+<span class="sd">            as the .out file.</span>
+<span class="sd">        density : float, optional</span>
+<span class="sd">            Water density used to scale the hydrodynamic coefficient data</span>
+<span class="sd">        gravity : float, optional</span>
+<span class="sd">            Acceleration due to gravity used to scale the hydrodynamic</span>
+<span class="sd">            coefficient dataaaa</span>
+<span class="sd">        scale : bool, optional</span>
+<span class="sd">            Boolean value to determine if the hydrodynamic data is scaled.</span>
+<span class="sd">            See the bemio.data_structures.bem.scale function for more</span>
+<span class="sd">            information</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">        The user can create a WamitOutput data object directily as show below,</span>
+<span class="sd">        or the bemio.io.wamit.read function can be used. The following example</span>
+<span class="sd">        assumes there is a WAMIT output file named `wamit.out`.</span>
+
+<span class="sd">        &gt;&gt;&gt; wamit_data = WamitOtuput(out_file=wamit.out)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">out_file</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="mf">1000.</span><span class="p">,</span> <span class="n">gravity</span><span class="o">=</span><span class="mf">9.81</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">files</span> <span class="o">=</span> <span class="n">bem</span><span class="o">.</span><span class="n">generate_file_names</span><span class="p">(</span><span class="n">out_file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">[</span><span class="s">&#39;3sc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">[</span><span class="s">&#39;base_name&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;.3sc&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">[</span><span class="s">&#39;3fk&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">[</span><span class="s">&#39;base_name&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39;.3fk&#39;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">rho</span> <span class="o">=</span> <span class="n">density</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">gravity</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">body</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaled_at_read</span> <span class="o">=</span> <span class="n">scale</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaled</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_read</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Internal function to read WAMIT output file into the class. that is called during __init__</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">Reading the WAMIT results in the &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">[</span><span class="s">&#39;out&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39; file&#39;</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">[</span><span class="s">&#39;out&#39;</span><span class="p">],</span><span class="s">&#39;rU&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
+
+            <span class="n">raw</span> <span class="o">=</span> <span class="n">fid</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+        <span class="n">code</span> <span class="o">=</span> <span class="s">&#39;WAMIT&#39;</span>
+        <span class="n">num_bodies</span> <span class="o">=</span> <span class="mi">0</span> <span class="c"># Total number of bodies</span>
+        <span class="n">bod_count</span> <span class="o">=</span> <span class="mi">0</span> <span class="c"># Counter for bodies</span>
+        <span class="n">T</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">cg</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">cb</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">disp_vol</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">wave_dir</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">empty_line</span> <span class="o">=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">raw</span><span class="p">):</span>
+
+
+            <span class="k">if</span> <span class="s">&quot;POTEN run date and starting time:&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+
+                <span class="n">skip</span> <span class="o">=</span> <span class="mi">2</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">skip</span><span class="p">]</span>
+                <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+                <span class="k">while</span> <span class="n">data</span> <span class="o">!=</span> <span class="n">empty_line</span><span class="p">:</span>
+
+                    <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mf">0.</span> <span class="ow">or</span> <span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="o">-</span><span class="mf">1.</span><span class="p">:</span>
+                        <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">data</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">count</span><span class="o">+</span><span class="n">skip</span><span class="p">]</span>
+
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">T</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]))</span>
+                        <span class="n">data</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">count</span><span class="o">+</span><span class="n">skip</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="s">&quot;Wave Heading (deg)&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">wave_dir</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+
+            <span class="k">if</span> <span class="s">&#39;Water depth:&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">water_depth</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">water_depth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="n">water_depth</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">pass</span>
+
+            <span class="c"># If there is one body in the WAMIT run</span>
+            <span class="k">if</span> <span class="s">&quot;Input from Geometric Data File:&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+
+                <span class="n">num_bodies</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="n">name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+
+            <span class="c"># If there are two bodies in the WAMIT run</span>
+            <span class="k">if</span> <span class="s">&quot;Input from Geometric Data Files:&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span> <span class="c"># look for bodies within the next 20 lines</span>
+
+                    <span class="k">if</span> <span class="s">&quot;N=&quot;</span> <span class="ow">in</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">]:</span>
+
+                        <span class="n">num_bodies</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">name</span><span class="p">[</span><span class="n">num_bodies</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+
+            <span class="c"># Read the body positions</span>
+            <span class="k">if</span> <span class="s">&quot;Total panels:&quot;</span> <span class="ow">in</span> <span class="n">line</span> <span class="ow">or</span> <span class="s">&quot;NPATCH:&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">15</span><span class="p">):</span> <span class="c"># look for position within the next 15 lines - will only work for wamit files of about 5 bodies</span>
+
+                    <span class="k">if</span> <span class="s">&#39;XBODY =&#39;</span> <span class="ow">in</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">]:</span>
+                        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">                        Note that this is the XBOD YBOD ZBOD defined in the wamit .out file, not the cg as defined in the wamit file</span>
+<span class="sd">                        &#39;&#39;&#39;</span>
+
+                        <span class="n">temp</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                        <span class="n">cg</span><span class="p">[</span><span class="n">bod_count</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">temp</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">temp</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span><span class="n">temp</span><span class="p">[</span><span class="mi">8</span><span class="p">]])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="s">&#39;Volumes (VOLX,VOLY,VOLZ):&#39;</span> <span class="ow">in</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">]:</span>
+
+                        <span class="n">temp</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                        <span class="n">disp_vol</span><span class="p">[</span><span class="n">bod_count</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">temp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+                    <span class="k">if</span> <span class="s">&#39;Center of Buoyancy (Xb,Yb,Zb):&#39;</span> <span class="ow">in</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">]:</span>
+
+                        <span class="n">temp</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                        <span class="n">cb</span><span class="p">[</span><span class="n">bod_count</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">temp</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">],</span><span class="n">temp</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span><span class="n">temp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="s">&#39;C(3,3),C(3,4),C(3,5):&#39;</span> <span class="ow">in</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">]:</span>
+
+                        <span class="n">temp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">])</span>
+                        <span class="n">temp2</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                        <span class="n">temp</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="n">temp2</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                        <span class="n">temp</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="n">temp2</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                        <span class="n">temp</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="n">temp2</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+                        <span class="n">temp</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+                        <span class="n">temp</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+
+                        <span class="n">temp2</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                        <span class="n">temp</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="n">temp2</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                        <span class="n">temp</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="n">temp2</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                        <span class="n">temp</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="n">temp2</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+                        <span class="n">temp</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+                        <span class="n">temp</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+
+                        <span class="n">temp2</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+                        <span class="n">temp</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="n">temp2</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                        <span class="n">temp</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="n">temp2</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                        <span class="n">temp</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+
+                        <span class="n">k</span><span class="p">[</span><span class="n">bod_count</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span>
+
+
+                <span class="n">bod_count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c"># Put things into numpy arrays</span>
+        <span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+        <span class="n">wave_dir</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">wave_dir</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+        <span class="c"># Only select the wave headings once</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="mi">999999</span>
+        <span class="n">temp_wave_dir</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">while</span> <span class="n">temp</span> <span class="o">!=</span> <span class="n">wave_dir</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">temp_wave_dir</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wave_dir</span><span class="p">[</span><span class="n">count</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">wave_dir</span><span class="p">[</span><span class="n">count</span><span class="p">]</span>
+
+
+        <span class="n">wave_dir</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">temp_wave_dir</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+        <span class="c"># Read added mass and rad damping</span>
+        <span class="n">count_freq</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">am_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">6</span><span class="o">*</span><span class="n">num_bodies</span><span class="p">,</span><span class="mi">6</span><span class="o">*</span><span class="n">num_bodies</span><span class="p">,</span><span class="n">T</span><span class="o">.</span><span class="n">size</span><span class="p">])</span>
+        <span class="n">rd_all</span> <span class="o">=</span> <span class="n">am_all</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">am_inf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">6</span><span class="o">*</span><span class="n">num_bodies</span><span class="p">,</span><span class="mi">6</span><span class="o">*</span><span class="n">num_bodies</span><span class="p">])</span>
+        <span class="n">am_zero</span> <span class="o">=</span> <span class="n">am_inf</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">raw</span><span class="p">):</span>
+
+            <span class="c"># Read inf freq added mass</span>
+            <span class="k">if</span> <span class="s">&quot;Wave period = zero&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+
+                <span class="n">count</span> <span class="o">=</span> <span class="mi">7</span>
+                <span class="n">temp_line</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">count</span><span class="o">+</span><span class="n">i</span><span class="p">]</span>
+
+                <span class="k">while</span> <span class="n">temp_line</span> <span class="o">!=</span> <span class="n">empty_line</span><span class="p">:</span>
+
+                    <span class="n">am_inf</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span>
+                    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">temp_line</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">count</span><span class="o">+</span><span class="n">i</span><span class="p">]</span>
+
+
+            <span class="c"># Read zero freq added mass</span>
+            <span class="k">if</span> <span class="s">&quot;Wave period = infinite&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+
+                <span class="n">count</span> <span class="o">=</span> <span class="mi">7</span>
+                <span class="n">temp_line</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">count</span><span class="o">+</span><span class="n">i</span><span class="p">]</span>
+
+                <span class="k">while</span> <span class="n">temp_line</span> <span class="o">!=</span> <span class="n">empty_line</span><span class="p">:</span>
+
+                    <span class="n">am_zero</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span>
+                    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">temp_line</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">count</span><span class="o">+</span><span class="n">i</span><span class="p">]</span>
+
+
+            <span class="c"># Read freq dependent added mass and rad damping</span>
+            <span class="k">if</span> <span class="s">&quot;Wave period (sec) =&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+
+                <span class="n">count</span> <span class="o">=</span> <span class="mi">7</span>
+                <span class="n">temp_line</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">count</span><span class="o">+</span><span class="n">i</span><span class="p">]</span>
+
+                <span class="k">while</span> <span class="n">temp_line</span> <span class="o">!=</span> <span class="n">empty_line</span><span class="p">:</span>
+
+                    <span class="n">am_all</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">count_freq</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span>
+                    <span class="n">rd_all</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">count_freq</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">3</span><span class="p">]</span>
+                    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">temp_line</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">count</span><span class="o">+</span><span class="n">i</span><span class="p">]</span>
+
+                <span class="n">count_freq</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+        <span class="c"># Terribly complicated code to read excitation forces and phases, RAOs, etc</span>
+        <span class="n">ex_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">6</span><span class="o">*</span><span class="n">num_bodies</span><span class="p">,</span><span class="n">wave_dir</span><span class="o">.</span><span class="n">size</span><span class="p">,</span><span class="n">T</span><span class="o">.</span><span class="n">size</span><span class="p">])</span>
+        <span class="n">phase_all</span> <span class="o">=</span> <span class="n">ex_all</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">rao_all</span> <span class="o">=</span> <span class="n">ex_all</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">rao_phase_all</span> <span class="o">=</span> <span class="n">ex_all</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">ssy_all</span> <span class="o">=</span> <span class="n">ex_all</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">ssy_phase_all</span> <span class="o">=</span> <span class="n">ex_all</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">haskind_all</span> <span class="o">=</span> <span class="n">ex_all</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">haskind_phase_all</span> <span class="o">=</span> <span class="n">ex_all</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">count_diff2</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">count_rao2</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">count_ssy2</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">count_haskind2</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">raw</span><span class="p">):</span>
+
+            <span class="n">count_diff</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">count_rao</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">count_ssy</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">count_haskind</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="k">if</span> <span class="s">&quot;DIFFRACTION EXCITING FORCES AND MOMENTS&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+
+                <span class="n">count_diff</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">count_diff2</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">count_wave_dir</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+                <span class="k">while</span> <span class="n">count_wave_dir</span> <span class="o">&lt;</span> <span class="n">wave_dir</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+
+                    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                    <span class="k">if</span> <span class="s">&quot;Wave Heading (deg) :&quot;</span> <span class="ow">in</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">count_diff</span> <span class="o">+</span> <span class="n">count</span><span class="p">]:</span>
+
+                        <span class="n">count_wave_dir</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">temp_line</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">count_diff</span><span class="o">+</span><span class="n">count</span><span class="o">+</span><span class="mi">4</span><span class="p">]</span>
+                        <span class="n">count2</span> <span class="o">=</span> <span class="mi">0</span>
+
+                        <span class="k">while</span> <span class="n">temp_line</span> <span class="o">!=</span> <span class="n">empty_line</span><span class="p">:</span>
+                            <span class="n">count2</span> <span class="o">+=</span> <span class="mi">1</span>
+                            <span class="n">ex_all</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">count_wave_dir</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">count_diff2</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span>
+                            <span class="n">phase_all</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">count_wave_dir</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">count_diff2</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">2</span><span class="p">])</span>
+                            <span class="n">temp_line</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">count_diff</span><span class="o">+</span><span class="n">count</span><span class="o">+</span><span class="mi">4</span><span class="o">+</span><span class="n">count2</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="s">&quot;RESPONSE AMPLITUDE OPERATORS&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+
+                <span class="n">count_rao</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">count_rao2</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">count_wave_dir</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+                <span class="k">while</span> <span class="n">count_wave_dir</span> <span class="o">&lt;</span> <span class="n">wave_dir</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+
+                    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                    <span class="k">if</span> <span class="s">&quot;Wave Heading (deg) :&quot;</span> <span class="ow">in</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">count_rao</span> <span class="o">+</span> <span class="n">count</span><span class="p">]:</span>
+
+                        <span class="n">count_wave_dir</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">temp_line</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">count_rao</span><span class="o">+</span><span class="n">count</span><span class="o">+</span><span class="mi">4</span><span class="p">]</span>
+                        <span class="n">count2</span> <span class="o">=</span> <span class="mi">0</span>
+
+                        <span class="k">while</span> <span class="n">temp_line</span> <span class="o">!=</span> <span class="n">empty_line</span><span class="p">:</span>
+                            <span class="n">count2</span> <span class="o">+=</span> <span class="mi">1</span>
+                            <span class="n">rao_all</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">count_wave_dir</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">count_rao2</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span>
+                            <span class="n">rao_phase_all</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">count_wave_dir</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">count_rao2</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">2</span><span class="p">])</span>
+                            <span class="n">temp_line</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">count_rao</span><span class="o">+</span><span class="n">count</span><span class="o">+</span><span class="mi">4</span><span class="o">+</span><span class="n">count2</span><span class="p">]</span>
+
+
+            <span class="k">if</span> <span class="s">&quot;HASKIND EXCITING FORCES AND MOMENTS&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+
+                <span class="n">count_haskind</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">count_haskind2</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">count_wave_dir</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+                <span class="k">while</span> <span class="n">count_wave_dir</span> <span class="o">&lt;</span> <span class="n">wave_dir</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+
+                    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                    <span class="k">if</span> <span class="s">&quot;Wave Heading (deg) :&quot;</span> <span class="ow">in</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">count_haskind</span> <span class="o">+</span> <span class="n">count</span><span class="p">]:</span>
+
+                        <span class="n">count_wave_dir</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">temp_line</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">count_ssy</span><span class="o">+</span><span class="n">count</span><span class="o">+</span><span class="mi">4</span><span class="p">]</span>
+                        <span class="n">count2</span> <span class="o">=</span> <span class="mi">0</span>
+
+                        <span class="k">while</span> <span class="n">temp_line</span> <span class="o">!=</span> <span class="n">empty_line</span><span class="p">:</span>
+                            <span class="n">count2</span> <span class="o">+=</span> <span class="mi">1</span>
+                            <span class="n">haskind_all</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">count_wave_dir</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">count_haskind2</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span>
+                            <span class="n">haskind_phase_all</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">count_wave_dir</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">count_haskind2</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">2</span><span class="p">])</span>
+                            <span class="n">temp_line</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">count_ssy</span><span class="o">+</span><span class="n">count</span><span class="o">+</span><span class="mi">4</span><span class="o">+</span><span class="n">count2</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="s">&quot;SURGE, SWAY &amp; YAW DRIFT FORCES (Momentum Conservation)&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+
+                <span class="n">count_ssy</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">count_ssy2</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">count_wave_dir</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+                <span class="k">while</span> <span class="n">count_wave_dir</span> <span class="o">&lt;</span> <span class="n">wave_dir</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+
+                    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+                    <span class="k">if</span> <span class="s">&quot;Wave Heading (deg) :&quot;</span> <span class="ow">in</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">count_ssy</span> <span class="o">+</span> <span class="n">count</span><span class="p">]:</span>
+
+                        <span class="n">count_wave_dir</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="n">temp_line</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">count_ssy</span><span class="o">+</span><span class="n">count</span><span class="o">+</span><span class="mi">4</span><span class="p">]</span>
+                        <span class="n">count2</span> <span class="o">=</span> <span class="mi">0</span>
+
+                        <span class="k">while</span> <span class="n">temp_line</span> <span class="o">!=</span> <span class="n">empty_line</span><span class="p">:</span>
+                            <span class="n">count2</span> <span class="o">+=</span> <span class="mi">1</span>
+                            <span class="n">ssy_all</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">count_wave_dir</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">count_ssy2</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span>
+                            <span class="n">ssy_phase_all</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">count_wave_dir</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">count_ssy2</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">temp_line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">2</span><span class="p">])</span>
+                            <span class="n">temp_line</span> <span class="o">=</span> <span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">count_ssy</span><span class="o">+</span><span class="n">count</span><span class="o">+</span><span class="mi">4</span><span class="o">+</span><span class="n">count2</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">[</span><span class="s">&#39;3sc&#39;</span><span class="p">]):</span>
+            <span class="n">sc_re</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">6</span><span class="o">*</span><span class="n">num_bodies</span><span class="p">,</span><span class="n">wave_dir</span><span class="o">.</span><span class="n">size</span><span class="p">,</span><span class="n">T</span><span class="o">.</span><span class="n">size</span><span class="p">])</span>
+            <span class="n">sc_im</span> <span class="o">=</span> <span class="n">sc_re</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">sc_phase</span> <span class="o">=</span> <span class="n">sc_re</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">sc_mag</span> <span class="o">=</span> <span class="n">sc_re</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+            <span class="n">scattering</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">[</span><span class="s">&#39;3sc&#39;</span><span class="p">],</span><span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">line_count</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="k">for</span> <span class="n">freq_n</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">beta_n</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">wave_dir</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+                    <span class="n">wave_dir_hold</span> <span class="o">=</span>  <span class="n">scattering</span><span class="p">[</span><span class="n">line_count</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="k">while</span> <span class="n">line_count</span> <span class="o">&lt;</span> <span class="n">scattering</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">scattering</span><span class="p">[</span><span class="n">line_count</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">wave_dir_hold</span><span class="p">:</span>
+                        <span class="n">comp</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">scattering</span><span class="p">[</span><span class="n">line_count</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span>
+                        <span class="n">sc_mag</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span><span class="n">beta_n</span><span class="p">,</span><span class="n">freq_n</span><span class="p">]</span> <span class="o">=</span> <span class="n">scattering</span><span class="p">[</span><span class="n">line_count</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
+                        <span class="n">sc_phase</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span><span class="n">beta_n</span><span class="p">,</span><span class="n">freq_n</span><span class="p">]</span> <span class="o">=</span> <span class="n">scattering</span><span class="p">[</span><span class="n">line_count</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span>
+                        <span class="n">sc_re</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span><span class="n">beta_n</span><span class="p">,</span><span class="n">freq_n</span><span class="p">]</span> <span class="o">=</span> <span class="n">scattering</span><span class="p">[</span><span class="n">line_count</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span>
+                        <span class="n">sc_im</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span><span class="n">beta_n</span><span class="p">,</span><span class="n">freq_n</span><span class="p">]</span> <span class="o">=</span> <span class="n">scattering</span><span class="p">[</span><span class="n">line_count</span><span class="p">][</span><span class="mi">6</span><span class="p">]</span>
+                        <span class="n">wave_dir_hold</span> <span class="o">=</span>  <span class="n">scattering</span><span class="p">[</span><span class="n">line_count</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="n">line_count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">The file &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">[</span><span class="s">&#39;3sc&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39; does not exist... not reading scattering coefficients.&#39;</span>
+
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">[</span><span class="s">&#39;3fk&#39;</span><span class="p">]):</span>
+            <span class="n">fk_re</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">6</span><span class="o">*</span><span class="n">num_bodies</span><span class="p">,</span><span class="n">wave_dir</span><span class="o">.</span><span class="n">size</span><span class="p">,</span><span class="n">T</span><span class="o">.</span><span class="n">size</span><span class="p">])</span>
+            <span class="n">fk_im</span> <span class="o">=</span> <span class="n">fk_re</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">fk_phase</span> <span class="o">=</span> <span class="n">fk_re</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">fk_mag</span> <span class="o">=</span> <span class="n">fk_re</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+            <span class="n">fk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">[</span><span class="s">&#39;3fk&#39;</span><span class="p">],</span><span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">line_count</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="k">for</span> <span class="n">freq_n</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">beta_n</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">wave_dir</span><span class="o">.</span><span class="n">size</span><span class="p">):</span>
+                    <span class="n">wave_dir_hold</span> <span class="o">=</span>  <span class="n">fk</span><span class="p">[</span><span class="n">line_count</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="k">while</span> <span class="n">line_count</span> <span class="o">&lt;</span> <span class="n">fk</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">fk</span><span class="p">[</span><span class="n">line_count</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">wave_dir_hold</span><span class="p">:</span>
+                        <span class="n">comp</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">fk</span><span class="p">[</span><span class="n">line_count</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span>
+                        <span class="n">fk_mag</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span><span class="n">beta_n</span><span class="p">,</span><span class="n">freq_n</span><span class="p">]</span> <span class="o">=</span> <span class="n">fk</span><span class="p">[</span><span class="n">line_count</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span>
+                        <span class="n">fk_phase</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span><span class="n">beta_n</span><span class="p">,</span><span class="n">freq_n</span><span class="p">]</span> <span class="o">=</span> <span class="n">fk</span><span class="p">[</span><span class="n">line_count</span><span class="p">][</span><span class="mi">4</span><span class="p">]</span>
+                        <span class="n">fk_re</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span><span class="n">beta_n</span><span class="p">,</span><span class="n">freq_n</span><span class="p">]</span> <span class="o">=</span> <span class="n">fk</span><span class="p">[</span><span class="n">line_count</span><span class="p">][</span><span class="mi">5</span><span class="p">]</span>
+                        <span class="n">fk_im</span><span class="p">[</span><span class="n">comp</span><span class="p">,</span><span class="n">beta_n</span><span class="p">,</span><span class="n">freq_n</span><span class="p">]</span> <span class="o">=</span> <span class="n">fk</span><span class="p">[</span><span class="n">line_count</span><span class="p">][</span><span class="mi">6</span><span class="p">]</span>
+                        <span class="n">wave_dir_hold</span> <span class="o">=</span>  <span class="n">scattering</span><span class="p">[</span><span class="n">line_count</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="n">line_count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">The file &#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">[</span><span class="s">&#39;3fk&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s">&#39; does not exist... not reading froud krylof coefficients.&#39;</span>
+
+        <span class="c"># Load data into the hydrodata structure</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">num_bodies</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">bem</span><span class="o">.</span><span class="n">HydrodynamicData</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">scaled</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaled</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">rho</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rho</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">body_num</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">water_depth</span> <span class="o">=</span> <span class="n">water_depth</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">num_bodies</span> <span class="o">=</span> <span class="n">num_bodies</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">cg</span> <span class="o">=</span> <span class="n">cg</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">cb</span> <span class="o">=</span> <span class="n">cb</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">disp_vol</span> <span class="o">=</span> <span class="n">disp_vol</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">wave_dir</span> <span class="o">=</span> <span class="n">wave_dir</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="n">T</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>
+
+            <span class="k">if</span> <span class="s">&#39;am_inf&#39;</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">():</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">am</span><span class="o">.</span><span class="n">inf</span> <span class="o">=</span> <span class="n">am_inf</span><span class="p">[</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">:</span><span class="mi">6</span><span class="o">+</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">,:]</span>
+
+            <span class="k">else</span><span class="p">:</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">am</span><span class="o">.</span><span class="n">inf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">6</span><span class="o">*</span><span class="n">num_bodies</span><span class="p">,</span><span class="mi">6</span><span class="o">*</span><span class="n">num_bodies</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">size</span><span class="p">])</span>
+                <span class="k">print</span> <span class="s">&#39;Warning: body &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; - The WAMTI .out file specified does not contain infinite frequency added mass coefficients&#39;</span>
+
+
+            <span class="k">if</span> <span class="s">&#39;am_zero&#39;</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">():</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">am</span><span class="o">.</span><span class="n">zero</span> <span class="o">=</span> <span class="n">am_zero</span><span class="p">[</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">:</span><span class="mi">6</span><span class="o">+</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">,:]</span>
+
+            <span class="k">else</span><span class="p">:</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">am</span><span class="o">.</span><span class="n">zero</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">6</span><span class="o">*</span><span class="n">num_bodies</span><span class="p">,</span><span class="mi">6</span><span class="o">*</span><span class="n">num_bodies</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">size</span><span class="p">])</span>
+                <span class="k">print</span> <span class="s">&#39;Warning: body &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; - The WAMTI .out file specified does not contain zero frequency added mass coefficients&#39;</span>
+
+
+            <span class="k">if</span> <span class="s">&#39;am_all&#39;</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">():</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">am</span><span class="o">.</span><span class="n">all</span> <span class="o">=</span> <span class="n">am_all</span><span class="p">[</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">:</span><span class="mi">6</span><span class="o">+</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">,:,:]</span>
+            <span class="k">else</span><span class="p">:</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">am</span><span class="o">.</span><span class="n">all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">6</span><span class="o">*</span><span class="n">num_bodies</span><span class="p">,</span><span class="mi">6</span><span class="o">*</span><span class="n">num_bodies</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">size</span><span class="p">])</span>
+                <span class="k">print</span> <span class="s">&#39;Warning: body &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; - The WAMTI .out file specified does not contain any frequency dependent added mass coefficients&#39;</span>
+
+
+            <span class="k">if</span> <span class="s">&#39;rd_all&#39;</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">():</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">rd</span><span class="o">.</span><span class="n">all</span> <span class="o">=</span> <span class="n">rd_all</span><span class="p">[</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">:</span><span class="mi">6</span><span class="o">+</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">,:,:]</span>
+
+            <span class="k">else</span><span class="p">:</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">rd</span><span class="o">.</span><span class="n">all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">6</span><span class="o">*</span><span class="n">num_bodies</span><span class="p">,</span><span class="mi">6</span><span class="o">*</span><span class="n">num_bodies</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">size</span><span class="p">])</span>
+                <span class="k">print</span> <span class="s">&#39;Warning: body &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; - The WAMTI .out file specified does not contain any frequency dependent radiation damping coefficients&#39;</span>
+
+            <span class="k">if</span> <span class="s">&#39;ex_all&#39;</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">():</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">mag</span> <span class="o">=</span> <span class="n">ex_all</span><span class="p">[</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">:</span><span class="mi">6</span><span class="o">+</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">,:,:]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">phase_all</span><span class="p">[</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">:</span><span class="mi">6</span><span class="o">+</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">,:,:])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">re</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">mag</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">phase</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">im</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">mag</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">phase</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+
+                <span class="k">print</span> <span class="s">&#39;Warning: body &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; - The WAMTI .out file specified does not contain any excitation coefficients&#39;</span>
+
+            <span class="k">if</span> <span class="s">&#39;sc_mag&#39;</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">sc</span><span class="o">.</span><span class="n">mag</span> <span class="o">=</span> <span class="n">sc_mag</span><span class="p">[</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">:</span><span class="mi">6</span><span class="o">+</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">,:,:]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">sc</span><span class="o">.</span><span class="n">phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">sc_phase</span><span class="p">[</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">:</span><span class="mi">6</span><span class="o">+</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">,:,:])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">sc</span><span class="o">.</span><span class="n">re</span> <span class="o">=</span> <span class="n">sc_re</span><span class="p">[</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">:</span><span class="mi">6</span><span class="o">+</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">,:,:]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">sc</span><span class="o">.</span><span class="n">im</span> <span class="o">=</span> <span class="n">sc_im</span><span class="p">[</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">:</span><span class="mi">6</span><span class="o">+</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">,:,:]</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">pass</span>
+                <span class="c"># print &#39;Warning: body &#39; + str(i) + &#39; - The WAMTI .3sc file specified does not contain any scattering coefficients&#39;</span>
+
+            <span class="k">if</span> <span class="s">&#39;fk_mag&#39;</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">fk</span><span class="o">.</span><span class="n">mag</span> <span class="o">=</span> <span class="n">fk_mag</span><span class="p">[</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">:</span><span class="mi">6</span><span class="o">+</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">,:,:]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">fk</span><span class="o">.</span><span class="n">phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">fk_phase</span><span class="p">[</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">:</span><span class="mi">6</span><span class="o">+</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">,:,:])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">fk</span><span class="o">.</span><span class="n">re</span> <span class="o">=</span> <span class="n">fk_re</span><span class="p">[</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">:</span><span class="mi">6</span><span class="o">+</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">,:,:]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">fk</span><span class="o">.</span><span class="n">im</span> <span class="o">=</span> <span class="n">fk_im</span><span class="p">[</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">:</span><span class="mi">6</span><span class="o">+</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">,:,:]</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">pass</span>
+                <span class="c"># print &#39;Warning: body &#39; + str(i) + &#39; - The WAMTI .3fk file specified does not contain any froude krylof coefficients&#39;</span>
+
+            <span class="k">if</span> <span class="s">&#39;rao_all&#39;</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">():</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">rao</span><span class="o">.</span><span class="n">mag</span> <span class="o">=</span> <span class="n">rao_all</span><span class="p">[</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">:</span><span class="mi">6</span><span class="o">+</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">,:,:]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">rao</span><span class="o">.</span><span class="n">phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">phase_all</span><span class="p">[</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">:</span><span class="mi">6</span><span class="o">+</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">,:,:])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">rao</span><span class="o">.</span><span class="n">re</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">rao</span><span class="o">.</span><span class="n">mag</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">rao</span><span class="o">.</span><span class="n">phase</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">rao</span><span class="o">.</span><span class="n">im</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">rao</span><span class="o">.</span><span class="n">mag</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">rao</span><span class="o">.</span><span class="n">phase</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+
+                <span class="k">print</span> <span class="s">&#39;Warning: body &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; - The WAMTI .out file specified does not contain any rao data&#39;</span>
+
+            <span class="k">if</span> <span class="s">&#39;ssy_all&#39;</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">():</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ssy</span><span class="o">.</span><span class="n">mag</span> <span class="o">=</span> <span class="n">ssy_all</span><span class="p">[</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">:</span><span class="mi">6</span><span class="o">+</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">,:,:]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ssy</span><span class="o">.</span><span class="n">phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">phase_all</span><span class="p">[</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">:</span><span class="mi">6</span><span class="o">+</span><span class="mi">6</span><span class="o">*</span><span class="n">i</span><span class="p">,:,:])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ssy</span><span class="o">.</span><span class="n">re</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ssy</span><span class="o">.</span><span class="n">mag</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ssy</span><span class="o">.</span><span class="n">phase</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ssy</span><span class="o">.</span><span class="n">im</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ssy</span><span class="o">.</span><span class="n">mag</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ssy</span><span class="o">.</span><span class="n">phase</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+
+                <span class="k">print</span> <span class="s">&#39;Warning: body &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; - The WAMTI .out file specified does not contain any rao data&#39;</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">bem_raw_data</span> <span class="o">=</span> <span class="n">raw</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">bem_code</span> <span class="o">=</span> <span class="n">code</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scaled_at_read</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="read"><a class="viewcode-back" href="../../../module_doc.html#bemio.io.wamit.read">[docs]</a><span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">out_file</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="mf">1000.</span><span class="p">,</span> <span class="n">gravity</span><span class="o">=</span><span class="mf">9.81</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to read WAMIT data into a data object of type(WamitOutput)</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        out_file : str</span>
+<span class="sd">            Name of the wamit .out output file. In order to read scattering</span>
+<span class="sd">            and Froud-Krylof forces the .3sc (scatterin) and .3fk</span>
+<span class="sd">            (Froud-Krylof) coefficinet files must have the same base name</span>
+<span class="sd">            as the .out file.</span>
+<span class="sd">        density : float, optional</span>
+<span class="sd">            Water density used to scale the hydrodynamic coefficient data</span>
+<span class="sd">        gravity : float, optional</span>
+<span class="sd">            Acceleration due to gravity used to scale the hydrodynamic</span>
+<span class="sd">            coefficient data</span>
+<span class="sd">        scale : bool, optional</span>
+<span class="sd">            Boolean value to determine if the hydrodynamic data is scaled.</span>
+<span class="sd">            See the bemio.data_structures.bem.scale function for more</span>
+<span class="sd">            information</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        wamit_data</span>
+<span class="sd">            A WamitData object that contains the data from the WAMIT .out</span>
+<span class="sd">            file specified</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        The following example assumes there is a WAMIT output file named</span>
+<span class="sd">        `wamit.out`</span>
+
+<span class="sd">        &gt;&gt;&gt; wamit_data = read(out_file=wamit.out)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">wamit_data</span> <span class="o">=</span> <span class="n">WamitOutput</span><span class="p">(</span><span class="n">out_file</span><span class="p">,</span> <span class="n">density</span><span class="p">,</span> <span class="n">gravity</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">wamit_data</span></div>
+</pre></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, National Renewable Energy Laboratory and Sandia National Laboratories.
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'v1.0a0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,505 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>bemio.io.aqwa &mdash; bemio v1.0a0 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="bemio v1.0a0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../../../index.html" class="icon icon-home"> bemio
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installing.html">Downloading and Installing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#downloading-bemio">Downloading bemio</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#installing-quick-start-for-python-beginners">Installing: Quick Start for Python Beginners</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#installing-for-experienced-python-users">Installing: For Experienced Python Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installing.html#installing-vtk-with-python-bindings">Installing VTK with Python Bindings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../installing.html#osx">OSX</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../installing.html#method-1-simple">Method 1: Simple</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../installing.html#method-2-complex">Method 2: Complex</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../installing.html#pre-installation-tasks">Pre-Installation Tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../installing.html#linux">Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../installing.html#windows">Windows</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">Using the bemio API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#loading-data">Loading Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#data-objects">Data Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#writing-the-data-to-the-standard-bemio-format">Writing the Data to the Standard bemio Format</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials.html#tutorial-data-files">Tutorial Data Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials.html#available-tutorials">Available Tutorials</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../wamit.html">WAMIT</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../wamit.html#viewing-the-shdf-file">Viewing the SHDF File</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../wamit.html#references">References</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../nemoh.html">NEMOH</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../nemoh.html#load-the-nemoh-module-from-bemio-io">Load the nemoh module from bemio.io</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nemoh.html#load-the-bem-data-object-from-bemio-data-structures">Load the bem data object from bemio.data_structures</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nemoh.html#read-the-nemoh-simulation-data-from-the">Read the Nemoh simulation data from the</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nemoh.html#read-the-hydrostatic-and-ih-files">Read the hydrostatic and IH files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nemoh.html#calculate-the-irf-and-state-space-coefficients">Calculate the IRF and state space coefficients</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nemoh.html#plot-the-surge-and-heave-components-of-added-mass-and-radiation-damping-for-body-0">Plot the surge and heave components of added mass and radiation damping for body 0</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../nemoh.html#write-the-data-to-the-bemio-data-file-format-for-use-with-wec-sim">Write the data to the bemio data file format for use with WEC-Sim</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../aqwa.html">AQWA</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../module_doc.html">bemio module documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../module_doc.html#bemio-io">bemio.io</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#module-bemio.io.wamit">wamit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#module-bemio.io.aqwa">aqwa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#module-bemio.io.nemoh">nemoh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#module-bemio.io.output">output</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../module_doc.html#bemio-data-structures">bemio.data_structures</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#module-bemio.data_structures.bem">bem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#module-bemio.data_structures.wave_excitation">wave_excitation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../module_doc.html#bemio-mesh-utilities">bemio.mesh_utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../module_doc.html#module-bemio.mesh_utilities.mesh">mesh</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../license.html">License</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">bemio</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>bemio.io.aqwa</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <h1>Source code for bemio.io.aqwa</h1><div class="highlight"><pre>
+<span class="c"># Copyright 2014 the National Renewable Energy Laboratory</span>
+
+<span class="c"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c"># you may not use this file except in compliance with the License.</span>
+<span class="c"># You may obtain a copy of the License at</span>
+
+<span class="c">#     http://www.apache.org/licenses/LICENSE-2.0</span>
+
+<span class="c"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c"># See the License for the specific language governing permissions and</span>
+<span class="c"># limitations under the License.</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">bemio.data_structures</span> <span class="kn">import</span> <span class="n">bem</span>
+
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">ceil</span>
+
+<div class="viewcode-block" id="AqwaOutput"><a class="viewcode-back" href="../../../module_doc.html#bemio.io.aqwa.AqwaOutput">[docs]</a><span class="k">class</span> <span class="nc">AqwaOutput</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Class to read and interact with AQWA simulation data</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        hydro_file : str</span>
+<span class="sd">            Name of the AQWA .AH1 output file</span>
+<span class="sd">        list_file : str</span>
+<span class="sd">            Name of the AQWA .LIS output file</span>
+<span class="sd">        scale : bool, optional</span>
+<span class="sd">            Boolean value to determine if the hydrodynamic data is scaled.</span>
+<span class="sd">            See the bemio.data_structures.bem.scale function for more</span>
+<span class="sd">            information</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        The following example assumes there are AQWA output files named aqwa.LIS</span>
+<span class="sd">        and aqwa.LS1</span>
+
+<span class="sd">        &gt;&gt;&gt; aqwa_data = AqwaOutput(hydro_file=aqwa.LS1, list_file=aqwa.LIS)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hydro_file</span><span class="p">,</span> <span class="n">list_file</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+
+        <span class="k">print</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">Reading the AQWA results in the &#39;</span> <span class="o">+</span> <span class="n">hydro_file</span> <span class="o">+</span> <span class="s">&#39; file&#39;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">files</span> <span class="o">=</span> <span class="n">bem</span><span class="o">.</span><span class="n">generate_file_names</span><span class="p">(</span><span class="n">hydro_file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaled_at_read</span> <span class="o">=</span> <span class="n">scale</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scaled</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">body</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_read</span><span class="p">(</span><span class="n">list_file</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">list_file</span><span class="p">):</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="s">&#39;AQWA&#39;</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">[</span><span class="s">&#39;out&#39;</span><span class="p">],</span><span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
+            <span class="n">raw</span> <span class="o">=</span> <span class="n">fid</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+        <span class="n">first_line</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">raw</span><span class="p">):</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">first_line</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;*&quot;</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">first_line</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">first_line</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">())</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+                <span class="n">num_bodies</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">num_wave_directions</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">num_frequencies</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                <span class="n">num_lines_wave_directions</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ceil</span><span class="p">(</span><span class="n">num_wave_directions</span><span class="o">/</span><span class="mf">6.</span><span class="p">))</span>
+                <span class="n">num_lines_frequencies</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">ceil</span><span class="p">(</span><span class="n">num_frequencies</span><span class="o">/</span><span class="mf">6.</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_lines_wave_directions</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">wave_directions</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">())</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+                        <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wave_directions</span><span class="p">,</span><span class="n">tmp</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_lines_frequencies</span><span class="p">):</span>
+                    <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">num_lines_wave_directions</span> <span class="o">+</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">())</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">frequencies</span> <span class="o">=</span> <span class="n">tmp</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">frequencies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">frequencies</span><span class="p">,</span><span class="n">tmp</span><span class="p">)</span>
+
+
+            <span class="k">if</span> <span class="s">&#39;GENERAL&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">())</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+                <span class="n">water_depth</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">density</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">gravity</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="c"># symmetry = tmp[3]</span>
+
+            <span class="k">if</span> <span class="s">&#39;DRAFT&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">draft</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">for</span> <span class="n">iBod</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_bodies</span><span class="p">):</span>
+                    <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">iBod</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">())</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+                    <span class="n">tmp2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="n">draft</span><span class="p">[</span><span class="n">tmp2</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="s">&#39;COG&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">cg</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">for</span> <span class="n">iBod</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_bodies</span><span class="p">):</span>
+                    <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">iBod</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">())</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+                    <span class="n">tmp2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="n">cg</span><span class="p">[</span><span class="n">tmp2</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;MASS&#39;</span><span class="p">:</span>
+                <span class="n">mass_matrix</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">for</span> <span class="n">iBod</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_bodies</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">iRow</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+                        <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">iBod</span><span class="o">*</span><span class="mi">6</span> <span class="o">+</span> <span class="n">iRow</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">())</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">iRow</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">tmp2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                            <span class="n">mass_matrix</span><span class="p">[</span><span class="n">tmp2</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">mass_matrix</span><span class="p">[</span><span class="n">tmp2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">mass_matrix</span><span class="p">[</span><span class="n">tmp2</span><span class="p">],</span><span class="n">tmp</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="s">&#39;HYDSTIFFNESS&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">stiffness_matrix</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">for</span> <span class="n">iBod</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_bodies</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">iRow</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+                        <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">iBod</span><span class="o">*</span><span class="mi">6</span> <span class="o">+</span> <span class="n">iRow</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">())</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">iRow</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">tmp2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                            <span class="n">stiffness_matrix</span><span class="p">[</span><span class="n">tmp2</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">stiffness_matrix</span><span class="p">[</span><span class="n">tmp2</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">stiffness_matrix</span><span class="p">[</span><span class="n">tmp2</span><span class="p">],</span><span class="n">tmp</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="s">&#39;ADDEDMASS&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">added_mass</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">for</span> <span class="n">iBod1</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_bodies</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">iBod2</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_bodies</span><span class="p">):</span>
+                        <span class="k">for</span> <span class="n">iFreq</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_frequencies</span><span class="p">):</span>
+                            <span class="k">for</span> <span class="n">iRow</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+                                <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">iBod1</span><span class="o">*</span><span class="p">(</span><span class="n">num_bodies</span><span class="o">*</span><span class="n">num_frequencies</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span> <span class="o">+</span> <span class="n">iBod2</span><span class="o">*</span><span class="n">num_frequencies</span><span class="o">*</span><span class="mi">6</span> <span class="o">+</span> <span class="n">iFreq</span><span class="o">*</span><span class="mi">6</span> <span class="o">+</span> <span class="n">iRow</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">())</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+                                <span class="k">if</span> <span class="p">(</span><span class="n">iBod2</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">iFreq</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">iRow</span><span class="o">==</span><span class="mi">0</span><span class="p">):</span>
+                                    <span class="n">tmp2</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+                                    <span class="n">added_mass</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="o">*</span><span class="n">num_bodies</span><span class="p">,</span><span class="n">num_frequencies</span><span class="p">])</span>
+                                    <span class="n">added_mass</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:,</span><span class="n">iBod2</span><span class="o">*</span><span class="mi">6</span><span class="o">+</span><span class="n">iRow</span><span class="p">,</span><span class="n">iFreq</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+                                <span class="k">elif</span> <span class="n">iRow</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                                    <span class="n">tmp2</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+                                    <span class="n">added_mass</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:,</span><span class="n">iBod2</span><span class="o">*</span><span class="mi">6</span><span class="o">+</span><span class="n">iRow</span><span class="p">,</span><span class="n">iFreq</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+                                <span class="k">else</span><span class="p">:</span>
+                                    <span class="n">added_mass</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:,</span><span class="n">iBod2</span><span class="o">*</span><span class="mi">6</span><span class="o">+</span><span class="n">iRow</span><span class="p">,</span><span class="n">iFreq</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span>
+
+            <span class="k">if</span> <span class="s">&#39;DAMPING&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">radiation_damping</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">for</span> <span class="n">iBod1</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_bodies</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">iBod2</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_bodies</span><span class="p">):</span>
+                        <span class="k">for</span> <span class="n">iFreq</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_frequencies</span><span class="p">):</span>
+                            <span class="k">for</span> <span class="n">iRow</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+                                <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">iBod1</span><span class="o">*</span><span class="p">(</span><span class="n">num_bodies</span><span class="o">*</span><span class="n">num_frequencies</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span> <span class="o">+</span> <span class="n">iBod2</span><span class="o">*</span><span class="n">num_frequencies</span><span class="o">*</span><span class="mi">6</span> <span class="o">+</span> <span class="n">iFreq</span><span class="o">*</span><span class="mi">6</span> <span class="o">+</span> <span class="n">iRow</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">())</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+                                <span class="k">if</span> <span class="p">(</span><span class="n">iBod2</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">iFreq</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">iRow</span><span class="o">==</span><span class="mi">0</span><span class="p">):</span>
+                                    <span class="n">tmp2</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+                                    <span class="n">radiation_damping</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="o">*</span><span class="n">num_bodies</span><span class="p">,</span><span class="n">num_frequencies</span><span class="p">])</span>
+                                    <span class="n">radiation_damping</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:,</span><span class="n">iBod2</span><span class="o">*</span><span class="mi">6</span><span class="o">+</span><span class="n">iRow</span><span class="p">,</span><span class="n">iFreq</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+                                <span class="k">elif</span> <span class="n">iRow</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                                    <span class="n">tmp2</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+                                    <span class="n">radiation_damping</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:,</span><span class="n">iBod2</span><span class="o">*</span><span class="mi">6</span><span class="o">+</span><span class="n">iRow</span><span class="p">,</span><span class="n">iFreq</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+                                <span class="k">else</span><span class="p">:</span>
+                                    <span class="n">radiation_damping</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:,</span><span class="n">iBod2</span><span class="o">*</span><span class="mi">6</span><span class="o">+</span><span class="n">iRow</span><span class="p">,</span><span class="n">iFreq</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span>
+
+            <span class="k">if</span> <span class="s">&#39;FIDD&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">fidd</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">for</span> <span class="n">iBod</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_bodies</span><span class="p">):</span>
+                    <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">iBod</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">())</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+                    <span class="n">tmp2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="n">fidd</span><span class="p">[</span><span class="n">tmp2</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+            <span class="k">if</span> <span class="s">&#39;FORCERAO&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">excitation_magnitude</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="n">excitation_phase</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="k">for</span> <span class="n">iBod</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_bodies</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">iDir</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_wave_directions</span><span class="p">):</span>
+                        <span class="k">for</span> <span class="n">iFreq</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_frequencies</span><span class="p">):</span>
+                            <span class="n">tmp1_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">iBod</span><span class="o">*</span><span class="p">(</span><span class="n">num_wave_directions</span><span class="o">*</span><span class="n">num_frequencies</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">iDir</span><span class="o">*</span><span class="n">num_frequencies</span><span class="o">*</span><span class="mi">2</span> <span class="o">+</span> <span class="n">iFreq</span><span class="o">*</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">())</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+                            <span class="n">tmp1_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">raw</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">iBod</span><span class="o">*</span><span class="p">(</span><span class="n">num_wave_directions</span><span class="o">*</span><span class="n">num_frequencies</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">iDir</span><span class="o">*</span><span class="n">num_frequencies</span><span class="o">*</span><span class="mi">2</span> <span class="o">+</span> <span class="n">iFreq</span><span class="o">*</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">())</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+                            <span class="n">tmp2</span> <span class="o">=</span> <span class="n">tmp1_1</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="p">(</span><span class="n">iDir</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">iFreq</span><span class="o">==</span><span class="mi">0</span><span class="p">):</span>
+                                <span class="n">excitation_magnitude</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span><span class="n">num_wave_directions</span><span class="p">,</span><span class="n">num_frequencies</span><span class="p">])</span>
+                                <span class="n">excitation_phase</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span><span class="n">num_wave_directions</span><span class="p">,</span><span class="n">num_frequencies</span><span class="p">])</span>
+                            <span class="n">excitation_magnitude</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:,</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp1_1</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+                            <span class="n">excitation_phase</span><span class="p">[</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:,</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">tmp2</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp1_2</span>
+
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">list_file</span><span class="p">,</span><span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
+            <span class="n">raw_list</span> <span class="o">=</span> <span class="n">fid</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+        <span class="n">bod_count</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">disp_vol</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">raw_list</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s">&#39;MESH BASED DISPLACEMENT&#39;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">disp_vol</span><span class="p">[</span><span class="n">bod_count</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">())[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+                <span class="n">bod_count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">num_bodies</span><span class="p">):</span>
+
+
+            <span class="k">print</span> <span class="s">&#39;body&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;:&#39;</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">bem</span><span class="o">.</span><span class="n">HydrodynamicData</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">scaled</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaled</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">rho</span> <span class="o">=</span> <span class="n">density</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">gravity</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">wave_dir</span> <span class="o">=</span> <span class="n">wave_directions</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">num_bodies</span> <span class="o">=</span> <span class="n">num_bodies</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">cg</span> <span class="o">=</span> <span class="n">cg</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">cb</span> <span class="o">=</span> <span class="s">&#39;not_defined&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">stiffness_matrix</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">frequencies</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">frequencies</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">wp_area</span> <span class="o">=</span> <span class="s">&#39;not_defined&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">buoy_force</span> <span class="o">=</span> <span class="s">&#39;not_defined&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">disp_vol</span> <span class="o">=</span> <span class="n">disp_vol</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">water_depth</span> <span class="o">=</span> <span class="n">water_depth</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">body_num</span> <span class="o">=</span> <span class="n">i</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">&#39;body&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">bem_code</span> <span class="o">=</span> <span class="n">code</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">bem_raw_data</span> <span class="o">=</span> <span class="n">raw</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">am</span><span class="o">.</span><span class="n">all</span> <span class="o">=</span> <span class="n">added_mass</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">print</span> <span class="s">&#39;   * Setting added mass at infinite frequency to added mass at omega = &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">frequencies</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">am</span><span class="o">.</span><span class="n">inf</span> <span class="o">=</span> <span class="n">added_mass</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][:,:,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">print</span> <span class="s">&#39;   * Setting added mass at zero frequency to added mass at omega = &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">frequencies</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">am</span><span class="o">.</span><span class="n">zero</span> <span class="o">=</span> <span class="n">added_mass</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][:,:,</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">rd</span><span class="o">.</span><span class="n">all</span> <span class="o">=</span> <span class="n">radiation_damping</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">mag</span> <span class="o">=</span> <span class="n">excitation_magnitude</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">phase</span> <span class="o">=</span> <span class="n">excitation_phase</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">print</span> <span class="s">&#39;   * Calculating real and imaginary excitation  components.&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">re</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">mag</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">phase</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">im</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">mag</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ex</span><span class="o">.</span><span class="n">phase</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scaled_at_read</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="read"><a class="viewcode-back" href="../../../module_doc.html#bemio.io.aqwa.read">[docs]</a><span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">hydro_file</span><span class="p">,</span> <span class="n">list_file</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to read AQWA data into a data object of type(AqwaOutput)</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        hydro_file : str</span>
+<span class="sd">            Name of the AQWA .AH1 output file</span>
+<span class="sd">        list_file : str</span>
+<span class="sd">            Name of the AQWA .LIS output file</span>
+<span class="sd">        scale : bool, optional</span>
+<span class="sd">            Boolean value to determine if the hydrodynamic data is scaled.</span>
+<span class="sd">            See the bemio.data_structures.bem.scale function for more</span>
+<span class="sd">            information</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        aqwa_data</span>
+<span class="sd">            A AqwaOutput object that contains hydrodynamic data</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        The following example assumes there are AQWA output files named aqwa.LIS</span>
+<span class="sd">        and aqwa.LS1</span>
+
+<span class="sd">        &gt;&gt;&gt; aqwa_data = read(hydro_file=aqwa.LS1, list_file=aqwa.LIS)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">aqwa_data</span> <span class="o">=</span> <span class="n">AqwaOutput</span><span class="p">(</span><span class="n">hydro_file</span><span class="p">,</span> <span class="n">list_file</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">aqwa_data</span></div>
+</pre></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, National Renewable Energy Laboratory and Sandia National Laboratories.
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'v1.0a0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

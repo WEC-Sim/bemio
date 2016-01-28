@@ -125,7 +125,7 @@
 <li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.wamit">wamit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.aqwa">aqwa</a></li>
 <li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.nemoh">nemoh</a></li>
-<li class="toctree-l3"><a class="reference internal" href="module_doc.html#module-bemio.io.output">output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="module_doc.html#output">output</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="module_doc.html#bemio-data-structures">bemio.data_structures</a><ul>
@@ -227,7 +227,7 @@ aqwa_data_obj = read_aqwa(hydro_file=&#39;$BEMIO_SOURCE/tutorials/aqwa/aqwa_exam
 <h2>Writing the Data to the Standard bemio Format<a class="headerlink" href="#writing-the-data-to-the-standard-bemio-format" title="Permalink to this headline">¶</a></h2>
 <p>bemio provides a consistent format to store BEM simulation data from NEMOH, WAMT, AQWA. The bemio format uses the <a class="reference external" href="http://www.hdfgroup.org/HDF5/">Hierarchical Data Format 5 (HDF5)</a>, a data structure that is similar to a computers file system, to store complex data in a simple format. HDF5 files can be easily viewed and modified with <a class="reference external" href="http://www.hdfgroup.org/products/java/hdfview/">HDF5VIEW</a>.</p>
 <p><a class="reference external" href="https://github.com/WEC-Sim/WEC-Sim">WEC-Sim</a> uses the bemio format as an input file for hydrodynamic data used in wave energy converter simulations.</p>
-<p>The bemio <a class="reference internal" href="module_doc.html#bemio.io.output.write_hdf5" title="bemio.io.output.write_hdf5"><code class="xref py py-meth docutils literal"><span class="pre">bemio.io.output.write_hdf5()</span></code></a> function can be used to write the data to a SHDF file:</p>
+<p>The bemio <code class="xref py py-meth docutils literal"><span class="pre">bemio.io.output.write_hdf5()</span></code> function can be used to write the data to a SHDF file:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c"># Import the bem module</span>
 <span class="kn">from</span> <span class="nn">bemio.io.output</span> <span class="kn">import</span> <span class="n">write_hdf5</span>
 
