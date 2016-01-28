@@ -68,12 +68,10 @@ Plot the surge and heave components of added mass and radiation damping for body
 
     comps_to_plot = [[0,0],[2,2]]
     nemoh_data.data[0].plot_am_rd(comps_to_plot)
-    
+
 Write the data to the bemio data file format for use with WEC-Sim
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code:: python
 
     bem.write_hdf5(data=nemoh_data.data, out_file=nemoh_data.files['hdf5'])
-
-.. include:: nemoh.html

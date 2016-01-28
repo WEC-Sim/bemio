@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>bemio Documentation and Users Guide &mdash; bemio v1.0a0 documentation</title>
+  <title>Boundary Element Method Input/Output (bemio) Documentation and Users Guide &mdash; bemio v1.0a0 documentation</title>
   
 
   
@@ -89,11 +89,11 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="api_io.html">Using the bemio.io Module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api_io.html#loading-data">Loading Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_io.html#data-objects">Data Objects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_io.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_io.html#writing-the-data-to-the-standard-bemio-format">Writing the Data to the Standard bemio Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">Using the bemio API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#loading-data">Loading Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#data-objects">Data Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#writing-the-data-to-the-standard-bemio-format">Writing the Data to the Standard bemio Format</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a><ul>
@@ -163,7 +163,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="#">Docs</a> &raquo;</li>
       
-    <li><cite>bemio</cite> Documentation and Users Guide</li>
+    <li>Boundary Element Method Input/Output (bemio) Documentation and Users Guide</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -176,20 +176,20 @@
 </div>
           <div role="main" class="document">
             
-  <div class="section" id="bemio-documentation-and-users-guide">
-<span id="bemio-doc"></span><h1><cite>bemio</cite> Documentation and Users Guide<a class="headerlink" href="#bemio-documentation-and-users-guide" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="boundary-element-method-input-output-bemio-documentation-and-users-guide">
+<span id="bemio-doc"></span><h1>Boundary Element Method Input/Output (bemio) Documentation and Users Guide<a class="headerlink" href="#boundary-element-method-input-output-bemio-documentation-and-users-guide" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <span id="id1"></span><h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
-<p>The hydrodynamic coefficients (or data) that describe the radiation damping, added mass, wave diffraction force, and wave excitation force on floating bodies are widely used in multi body dynamics simulations of wave energy converters, ships, offshore platforms, and other floating structures to model hydrodynamic forces. These hydrodynamics coefficients are typically determined using frequency domain boundary element method (BEM) hydrodynamics codes such as <a class="reference external" href="http://lheea.ec-nantes.fr/doku.php/emo/nemoh/start">NEMOH</a>, <a class="reference external" href="http://www.wamit.com/">WAMIT</a>, and <a class="reference external" href="http://www.ansys.com/Products/Other+Products/ANSYS+AQWA">AQWA</a>. bemio is a pre- and post-processing tool that works with these three codes.</p>
+<p>The hydrodynamic coefficients that describe the radiation damping, added mass, wave diffraction force, and wave excitation force on floating bodies are widely used in multi body dynamics simulations of wave energy converters, ships, offshore platforms, and other floating structures to model hydrodynamic forces. These hydrodynamics coefficients are typically determined using frequency domain boundary element method (BEM) hydrodynamics codes such as <a class="reference external" href="http://lheea.ec-nantes.fr/doku.php/emo/nemoh/start">NEMOH</a>, <a class="reference external" href="http://www.wamit.com/">WAMIT</a>, and <a class="reference external" href="http://www.ansys.com/Products/Other+Products/ANSYS+AQWA">AQWA</a>. bemio is a pre- and post-processing tool that works with these three codes.</p>
 </div>
 <div class="section" id="what-can-bemio-do">
 <h2>What can bemio do?<a class="headerlink" href="#what-can-bemio-do" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
 <dt>bemio provides the following functionality:</dt>
 <dd><ul class="first last simple">
-<li><strong>Mesh I/O:</strong> Read, view, and convert between mesh formats used by BEM codes. Specifically, bemio can read STL, VTK, WAMIT, and NEMOH mesh formats and convert between them.</li>
-<li><strong>BEM code results I/O:</strong> Read NEMOH, WAMIT, and AQWA simulation output files and save the data in a standardized human readable bemio format that uses the <a class="reference external" href="http://www.hdfgroup.org/HDF5/">Hierarchical Data Format 5 (HDF5)</a>.</li>
-<li><strong>Calculation of impulse response function</strong> Calculate the wave excitation and radiation dampinf impulse response functions (IRFs).</li>
+<li><strong>Mesh input/output:</strong> Read, view, and convert between mesh formats used by BEM codes. Specifically, bemio can read STL, VTK, WAMIT, and NEMOH mesh formats and convert between them.</li>
+<li><strong>BEM code results input/output:</strong> Read NEMOH, WAMIT, and AQWA simulation output files and save the data in a standardized human readable bemio format that uses the <a class="reference external" href="http://www.hdfgroup.org/HDF5/">Hierarchical Data Format 5 (HDF5)</a>.</li>
+<li><strong>Calculation of impulse response function</strong> Calculate the wave excitation and radiation damping impulse response functions (IRFs).</li>
 <li><strong>Calculation of state space realization coefficients:</strong> Calculation of state space realization coefficients that represent the IRFs.</li>
 </ul>
 </dd>
@@ -201,6 +201,7 @@
 <li>Michael Lawson, National Renewable Energy Laboratory</li>
 <li>Carlos Michelen, Sandia National Laboratories</li>
 <li>Yi-Hsiang Yu, National Renewable Energy Laboratory</li>
+<li>Kelley Ruehl, Sandia National Laboratories</li>
 </ul>
 </div>
 <div class="section" id="contents">
@@ -215,11 +216,11 @@
 <li class="toctree-l2"><a class="reference internal" href="installing.html#installing-vtk-with-python-bindings">Installing VTK with Python Bindings</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="api_io.html">Using the bemio.io Module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api_io.html#loading-data">Loading Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_io.html#data-objects">Data Objects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_io.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_io.html#writing-the-data-to-the-standard-bemio-format">Writing the Data to the Standard bemio Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">Using the bemio API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#loading-data">Loading Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#data-objects">Data Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#writing-the-data-to-the-standard-bemio-format">Writing the Data to the Standard bemio Format</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a><ul>

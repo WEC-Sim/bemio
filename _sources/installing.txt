@@ -20,7 +20,7 @@ Dependencies
 	* astropy
 	* h5py
 
-**Visualization Toolkit (VTK):** If you would like to use the ``bemio.mesh_utilities`` you will also have to install VTK and the Python 2.7.x bindings. Instructions for how to install VTK are provided in the :ref:`Installing VTK with Python Bindings` section.
+**Visualization Toolkit (VTK):** If you would like to use the ``bemio.mesh_utilities``, that allow you to manipulate simple mesh files, you will also have to install VTK and the Python 2.7.x bindings. Instructions for how to install VTK are provided in the :ref:`Installing VTK with Python Bindings` section.
 
 **HDFVIEW:** Although not required, bemio users will benefit from installing `HDFVIEW <http://www.hdfgroup.org/products/java/hdfview/>`_. HDFVIEW allows bemio users to view and interact with the bemio output files.
 
@@ -33,11 +33,11 @@ Installing: Quick Start for Python Beginners
 
 .. Note::
 
-	If you are using Anaconda, PythonXY or another non-Python.org distribution, you may need to install one of the packages identified in the `Dependencies`_ section. If you need to do so, you should install any needed modules via your distribution's package manager.
+	If you are using Anaconda, PythonXY or another non-Python.org distribution, you may need to install one of the packages identified in the `Dependencies`_ section. If you need to do so, you should install any needed packages via your distribution's package manager.
 
 **Step 2 - Download bemio:** Download bemio from the `GitHub repositiory <https://github.com/WEC-Sim/bemio/>`_
 
-**Step 3 - Install bemio:** Open a command window (Windows) or terminal window (OSX and Linux) and navigate to ``$BEMIO_SOURCE``. Once inside the ``$BEMIO_SOURCE`` folder execute the following command to install bemio::
+**Step 3 - Install bemio:** Open a command window (Windows) or terminal window (OSX and Linux) and navigate to ``$BEMIO_SOURCE``. Once inside the ``$BEMIO_SOURCE`` folder, execute the following command to install bemio::
 
 	python setup.py install --user
 
@@ -68,7 +68,7 @@ If the tutorial cases (located in ``$BEMIO_SOURCE/tutorials``) run successfully 
 
 Installing VTK with Python Bindings
 -----------------------------------
-In order to use ``bemio.mesh_utilities`` packaged with bemio you must have the Visualization Toolkit (VTK)  and the VTK Python 2.7.x bindings installed on your system.
+In order to use ``bemio.mesh_utilities`` packaged with bemio you must have the Visualization Toolkit (VTK)  and the VTK Python 2.7.x bindings installed on your system. Installing VTK with the Python bindings is optional and is only required to use the ``bemio.mesh_utilities``.
 
 .. Note::
     Installing the VTK Python bindings is only required if you would like to use bemio's :mod:`bemio.mesh_utilities` features.

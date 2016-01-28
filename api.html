@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Using the bemio.io Module &mdash; bemio v1.0a0 documentation</title>
+  <title>Using the bemio API &mdash; bemio v1.0a0 documentation</title>
   
 
   
@@ -31,7 +31,8 @@
 
   
     <link rel="top" title="bemio v1.0a0 documentation" href="index.html"/>
-        <link rel="next" title="Tutorials" href="tutorials.html"/> 
+        <link rel="next" title="Tutorials" href="tutorials.html"/>
+        <link rel="prev" title="Downloading and Installing" href="installing.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -89,7 +90,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Using the bemio.io Module</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Using the bemio API</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#loading-data">Loading Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#data-objects">Data Objects</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
@@ -163,11 +164,11 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Using the bemio.io Module</li>
+    <li>Using the bemio API</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/api_io.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/api.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -176,9 +177,9 @@
 </div>
           <div role="main" class="document">
             
-  <div class="section" id="using-the-bemio-io-module">
-<h1>Using the bemio.io Module<a class="headerlink" href="#using-the-bemio-io-module" title="Permalink to this headline">¶</a></h1>
-<p>This section describes how to build custom data readers for NEMOH, WAMIT, and AQWA output data using the bemio.io module.</p>
+  <div class="section" id="using-the-bemio-api">
+<span id="api"></span><h1>Using the bemio API<a class="headerlink" href="#using-the-bemio-api" title="Permalink to this headline">¶</a></h1>
+<p>This section describes how to use bemio to interact BEM data. Currently this section describes how to build custom data readers for NEMOH, WAMIT, and AQWA output data using the bemio.io module.</p>
 <div class="section" id="loading-data">
 <h2>Loading Data<a class="headerlink" href="#loading-data" title="Permalink to this headline">¶</a></h2>
 <p>Users can load data by interacting with the following with the following bemio modules</p>
@@ -260,6 +261,8 @@ aqwa_data_obj = read_aqwa(hydro_file=&#39;$BEMIO_SOURCE/tutorials/aqwa/aqwa_exam
       
         <a href="tutorials.html" class="btn btn-neutral float-right" title="Tutorials" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
+      
+        <a href="installing.html" class="btn btn-neutral" title="Downloading and Installing" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

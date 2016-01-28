@@ -1,6 +1,8 @@
-Using the bemio.io Module
-=========================
-This section describes how to build custom data readers for NEMOH, WAMIT, and AQWA output data using the bemio.io module.
+.. _API:
+
+Using the bemio API
+===================
+This section describes how to use bemio to interact BEM data. Currently this section describes how to build custom data readers for NEMOH, WAMIT, and AQWA output data using the bemio.io module.
 
 Loading Data
 ~~~~~~~~~~~~

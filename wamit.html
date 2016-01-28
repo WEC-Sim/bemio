@@ -91,11 +91,11 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="api_io.html">Using the bemio.io Module</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api_io.html#loading-data">Loading Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_io.html#data-objects">Data Objects</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_io.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api_io.html#writing-the-data-to-the-standard-bemio-format">Writing the Data to the Standard bemio Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">Using the bemio API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#loading-data">Loading Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#data-objects">Data Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#calculating-impulse-response-functions-and-sate-space-coefficients">Calculating Impulse Response Functions and Sate Space Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#writing-the-data-to-the-standard-bemio-format">Writing the Data to the Standard bemio Format</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
@@ -183,12 +183,12 @@
   <div class="section" id="wamit">
 <h1>WAMIT<a class="headerlink" href="#wamit" title="Permalink to this headline">¶</a></h1>
 <p>WAMIT tutorial files can be found in the <code class="docutils literal"><span class="pre">$BEMIO_TUTORIALS/wamit</span></code> folder.</p>
-<p>The <code class="docutils literal"><span class="pre">$BEMIO_TUTORIALS/wamit/data</span></code> folder contains several example WAMIT output files. In this tutorial we will use the <code class="docutils literal"><span class="pre">wec3.out</span></code> example data. This file contains WAMIT simulation from a floating three-body oscillating flap device shown below. This device geometry is described thoroughly by Babarit et al. <a href="#id1"><span class="problematic" id="id2">:cite:`babarit2012`</span></a>.</p>
-<div class="figure align-center" id="id5">
+<p>The <code class="docutils literal"><span class="pre">$BEMIO_TUTORIALS/wamit/data</span></code> folder contains several example WAMIT output files. In this tutorial we will use the <code class="docutils literal"><span class="pre">wec3.out</span></code> example data. This file contains WAMIT simulation from a floating three-body oscillating flap device shown below. This device geometry is described thoroughly by Babarit et al. <a class="reference internal" href="#babarit2012" id="id1">[1]</a>.</p>
+<div class="figure align-center" id="id4">
 <a class="reference internal image-reference" href="_images/wec3_device.png"><img alt="_images/wec3_device.png" src="_images/wec3_device.png" style="width: 400pt;" /></a>
-<p class="caption"><span class="caption-text">and another caption</span></p>
+<p class="caption"><span class="caption-text">Geometry for the wec3 WAMIT tutorial case</span></p>
 </div>
-<p>The <code class="docutils literal"><span class="pre">$BEMIO_TUTORIALS/wamit/run.py</span></code> file contains a custom written script that uses the <cite>bemio</cite> <span class="xref std std-ref">API</span> to read the <code class="docutils literal"><span class="pre">wec3.out</span></code> file, plot hydrodynamic coefficients, and save the data in the SHDF.</p>
+<p>The <code class="docutils literal"><span class="pre">$BEMIO_TUTORIALS/wamit/run.py</span></code> file contains a custom written script that uses the <cite>bemio</cite> <a class="reference internal" href="api.html#api"><span>Using the bemio API</span></a> to read the <code class="docutils literal"><span class="pre">wec3.out</span></code> file, plot hydrodynamic coefficients, and save the data in the SHDF.</p>
 <p>Running the script above produces the following output:</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/wamit_tut_run.png"><img alt="_images/wamit_tut_run.png" src="_images/wamit_tut_run.png" style="width: 500pt;" /></a>
@@ -206,6 +206,13 @@
 </div>
 <div class="section" id="references">
 <h1>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h1>
+<p id="bibtex-bibliography-wamit-0"><table class="docutils citation" frame="void" id="babarit2012" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Aurélien Babarit, Jorgen Hals, MJ&nbsp;Muliawan, A&nbsp;Kurniawan, Torgeir Moan, and Jorgen Krokstad. Numerical benchmarking study of a selection of wave energy converters. <em>Renewable Energy</em>, 41:44–63, 2012.</td></tr>
+</tbody>
+</table>
+</p>
 </div>
 
 
