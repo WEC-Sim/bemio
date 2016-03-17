@@ -40,6 +40,8 @@ class WamitOutput(object):
             Boolean value to determine if the hydrodynamic data is scaled.
             See the bemio.data_structures.bem.scale function for more
             information
+        ex_calc : str
+            Excitation coefficients to be used, 'diffraction' or 'haskind'.
 
     Examples
         The user can create a WamitOutput data object directily as show below,
@@ -48,7 +50,7 @@ class WamitOutput(object):
 
         >>> wamit_data = WamitOtuput(out_file=wamit.out)
     '''
-    def __init__(self, out_file, density=1000., gravity=9.81, scale=False):
+    def __init__(self, out_file, density=1000., gravity=9.81, scale=False, ex_calc='diffraction'):
 
         self.files = bem.generate_file_names(out_file)
         self.files['3sc'] = self.files['base_name'] + '.3sc'
@@ -60,6 +62,7 @@ class WamitOutput(object):
         self.body = {}
         self.scaled_at_read = scale
         self.scaled = False
+        self.ex_calc = ex_calc
         self._read()
 
     def _read(self):
@@ -134,7 +137,7 @@ class WamitOutput(object):
 
 
             # Read the body positions
-#            if "Total panels:" in line or "NPATCH:" in line:
+            # if "Total panels:" in line or "NPATCH:" in line:
             if "XBODY" in line:
                 for j in xrange(12): # look for position within the next 15 lines - will only work for wamit files of about 5 bodies
 
@@ -335,14 +338,14 @@ class WamitOutput(object):
                     if "Wave Heading (deg) :" in raw[i+count_haskind + count]:
 
                         count_wave_dir += 1
-                        temp_line = raw[i+count_ssy+count+4]
+                        temp_line = raw[i+count_haskind+count+4]
                         count2 = 0
 
                         while temp_line != empty_line:
                             count2 += 1
                             haskind_all[int(temp_line.split()[0])-1,count_wave_dir-1,count_haskind2-1] = float(temp_line.split()[1])
                             haskind_phase_all[int(temp_line.split()[0])-1,count_wave_dir-1,count_haskind2-1] = float(temp_line.split()[2])
-                            temp_line = raw[i+count_ssy+count+4+count2]
+                            temp_line = raw[i+count_haskind+count+4+count2]
 
             if "SURGE, SWAY & YAW DRIFT FORCES (Momentum Conservation)" in line:
 
@@ -471,10 +474,17 @@ class WamitOutput(object):
                 self.body[i].rd.all = np.nan*np.zeros([6*num_bodies,6*num_bodies,self.body[i].T.size])
                 print 'Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain any frequency dependent radiation damping coefficients'
 
-            if 'ex_all' in locals():
-
+            if 'ex_all' in locals() and self.ex_calc == 'diffraction' :
+                
                 self.body[i].ex.mag = ex_all[6*i:6+6*i,:,:]
                 self.body[i].ex.phase = np.deg2rad(phase_all[6*i:6+6*i,:,:])
+                self.body[i].ex.re = self.body[i].ex.mag*np.cos(self.body[i].ex.phase)
+                self.body[i].ex.im = self.body[i].ex.mag*np.sin(self.body[i].ex.phase)
+            
+            elif 'haskind_all' in locals() and self.ex_calc == 'haskind' :
+                
+                self.body[i].ex.mag = haskind_all[6*i:6+6*i,:,:]
+                self.body[i].ex.phase = np.deg2rad(haskind_phase_all[6*i:6+6*i,:,:])
                 self.body[i].ex.re = self.body[i].ex.mag*np.cos(self.body[i].ex.phase)
                 self.body[i].ex.im = self.body[i].ex.mag*np.sin(self.body[i].ex.phase)
 
@@ -529,7 +539,7 @@ class WamitOutput(object):
 
             self.body[i].scale(scale=self.scaled_at_read)
 
-def read(out_file, density=1000., gravity=9.81, scale=False):
+def read(out_file, density=1000., gravity=9.81, scale=False, ex_calc='diffraction'):
     '''
     Function to read WAMIT data into a data object of type(WamitOutput)
 
@@ -548,6 +558,8 @@ def read(out_file, density=1000., gravity=9.81, scale=False):
             Boolean value to determine if the hydrodynamic data is scaled.
             See the bemio.data_structures.bem.scale function for more
             information
+        ex_calc : str
+            Excitation coefficients to be used, 'diffraction' or 'haskind'.
 
     Returns:
         wamit_data
@@ -560,6 +572,6 @@ def read(out_file, density=1000., gravity=9.81, scale=False):
 
         >>> wamit_data = read(out_file=wamit.out)
     '''
-    wamit_data = WamitOutput(out_file, density, gravity, scale)
+    wamit_data = WamitOutput(out_file, density, gravity, scale, ex_calc)
 
     return wamit_data
