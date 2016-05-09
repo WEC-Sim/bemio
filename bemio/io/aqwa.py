@@ -223,11 +223,14 @@ class AqwaOutput(object):
             self.body[i].bem_code = code
             self.body[i].bem_raw_data = raw
 
-            self.body[i].am.all = added_mass[i+1]
+            self.body[i].am.all = np.copy(added_mass[i+1])
+            #self.body[i].am.all = added_mass[i+1]
             print '   * Setting added mass at infinite frequency to added mass at omega = ' + str(frequencies[-1])
-            self.body[i].am.inf = added_mass[i+1][:,:,-1]
+            self.body[i].am.inf = np.copy(added_mass[i+1][:,:,-1])
+            #self.body[i].am.inf = added_mass[i+1][:,:,-1]
             print '   * Setting added mass at zero frequency to added mass at omega = ' + str(frequencies[0])
-            self.body[i].am.zero = added_mass[i+1][:,:,0]
+            self.body[i].am.zero = np.copy(added_mass[i+1][:,:,0])
+            #self.body[i].am.zero = added_mass[i+1][:,:,0]
             self.body[i].rd.all = radiation_damping[i+1]
             self.body[i].ex.mag = excitation_magnitude[i+1]
             self.body[i].ex.phase = excitation_phase[i+1]
