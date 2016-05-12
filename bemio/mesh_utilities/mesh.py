@@ -935,12 +935,12 @@ class PanelMesh(object):
             points  = vtk.vtkPoints()
             polys   = vtk.vtkCellArray()
 
-            for i in range(self.points.shape[0]):
+            for i in range(np.array(self.points).shape[0]):
 
                 points.InsertPoint(i, self.points[i])
 
 
-            for i in range(self.faces.shape[0]):
+            for i in range(np.array(self.faces).shape[0]):
 
                 polys.InsertNextCell(_mk_vtk_id_list(self.faces[i]))
 
