@@ -418,8 +418,15 @@ def _read_excitation(file, ):
             if first is True:
                 first = False
                 n_vars = i-1
+            try:
+                zone_length = int(line.split(',')[-2].split()[-1])
+            try:
+                zone_length = int(line.split(',')[-2].split('=')[-1])
+            raise:
+                Exception('Tecplot format not recognized')
 
-            zone_length = int(line.split(',')[-2].split()[-1])
+
+
             proc[i] = ascii.read(raw[i+1:i+zone_length+1])
 
 
