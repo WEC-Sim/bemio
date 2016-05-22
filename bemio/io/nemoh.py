@@ -420,9 +420,11 @@ def _read_excitation(file, ):
                 n_vars = i-1
             try:
                 zone_length = int(line.split(',')[-2].split()[-1])
+            except:
+                pass
             try:
                 zone_length = int(line.split(',')[-2].split('=')[-1])
-            raise:
+            except:
                 Exception('Tecplot format not recognized')
 
 
