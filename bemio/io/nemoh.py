@@ -92,7 +92,7 @@ class NemohOutput(object):
         self.ex_mag, self.ex_phase, temp, self.ex_mag_raw = _read_excitation(self.files['ExcitationForce'])
         self.dfr_mag, self.dfr_phase, temp, raw_diff = _read_tec(self.files['DiffractionForce'], data_type=1)
         self.fk_mag, self.fk_phase, temp, raw_fk = _read_tec(self.files['FKForce'], data_type=1)
-
+        self.ex_phase = -1*self.ex_phase
         try:
             self.am_inf, temp1, temp2, raw_am_inf = _read_tec(self.files['IRF'], data_type=2)
         except:
