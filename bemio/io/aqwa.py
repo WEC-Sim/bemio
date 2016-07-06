@@ -137,12 +137,12 @@ class AqwaOutput(object):
                                 if (iBod2==0) and (iFreq==0) and (iRow==0):
                                     tmp2 = tmp[0:3].astype(np.float).astype(np.int)
                                     added_mass[tmp2[0]] = np.zeros([6,6*num_bodies,num_frequencies])
-                                    added_mass[tmp2[0]][:,iBod2*6+iRow,iFreq] = tmp[3:]
+                                    added_mass[tmp2[0]][iRow,iBod2*6:(iBod2+1)*6,iFreq] = tmp[3:]
                                 elif iRow == 0:
                                     tmp2 = tmp[0:3].astype(np.float).astype(np.int)
-                                    added_mass[tmp2[0]][:,iBod2*6+iRow,iFreq] = tmp[3:]
+                                    added_mass[tmp2[0]][iRow,iBod2*6:(iBod2+1)*6,iFreq] = tmp[3:]
                                 else:
-                                    added_mass[tmp2[0]][:,iBod2*6+iRow,iFreq] = tmp
+                                    added_mass[tmp2[0]][iRow,iBod2*6:(iBod2+1)*6,iFreq] = tmp
 
             if 'DAMPING' in line:
                 radiation_damping = {}
@@ -154,12 +154,12 @@ class AqwaOutput(object):
                                 if (iBod2==0) and (iFreq==0) and (iRow==0):
                                     tmp2 = tmp[0:3].astype(np.float).astype(np.int)
                                     radiation_damping[tmp2[0]] = np.zeros([6,6*num_bodies,num_frequencies])
-                                    radiation_damping[tmp2[0]][:,iBod2*6+iRow,iFreq] = tmp[3:]
+                                    radiation_damping[tmp2[0]][iRow,iBod2*6:(iBod2+1)*6,iFreq] = tmp[3:]
                                 elif iRow == 0:
                                     tmp2 = tmp[0:3].astype(np.float).astype(np.int)
-                                    radiation_damping[tmp2[0]][:,iBod2*6+iRow,iFreq] = tmp[3:]
+                                    radiation_damping[tmp2[0]][iRow,iBod2*6:(iBod2+1)*6,iFreq] = tmp[3:]
                                 else:
-                                    radiation_damping[tmp2[0]][:,iBod2*6+iRow,iFreq] = tmp
+                                    radiation_damping[tmp2[0]][iRow,iBod2*6:(iBod2+1)*6,iFreq] = tmp
 
             if 'FIDD' in line:
                 fidd = {}
@@ -224,13 +224,10 @@ class AqwaOutput(object):
             self.body[i].bem_raw_data = raw
 
             self.body[i].am.all = np.copy(added_mass[i+1])
-            #self.body[i].am.all = added_mass[i+1]
             print '   * Setting added mass at infinite frequency to added mass at omega = ' + str(frequencies[-1])
             self.body[i].am.inf = np.copy(added_mass[i+1][:,:,-1])
-            #self.body[i].am.inf = added_mass[i+1][:,:,-1]
             print '   * Setting added mass at zero frequency to added mass at omega = ' + str(frequencies[0])
             self.body[i].am.zero = np.copy(added_mass[i+1][:,:,0])
-            #self.body[i].am.zero = added_mass[i+1][:,:,0]
             self.body[i].rd.all = radiation_damping[i+1]
             self.body[i].ex.mag = excitation_magnitude[i+1]
             self.body[i].ex.phase = excitation_phase[i+1]
