@@ -13,7 +13,7 @@
 # limitations under the License.
 """
 This module serves provides utilities to work with the following mesh types:
-    * WAMTI
+    * WAMIT
     * Nemoh
     * VTK Polydata (*.vtp)
     * STL files
