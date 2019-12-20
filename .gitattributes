@@ -1,2 +1,4 @@
+$ cat .gitattributes
+*.* linguist-language=python
 # Auto detect text files and perform LF normalization
 * text=auto
