@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from __future__ import division
+
 
 import numpy as np
 
@@ -266,9 +266,9 @@ class HydrodynamicData(object):
         count = 1
         for t_ind, t in enumerate(self.ex.irf.t):
 
-          for i in xrange(self.ex.mag.shape[0]):
+          for i in range(self.ex.mag.shape[0]):
 
-            for j in xrange(self.ex.mag.shape[1]):
+            for j in range(self.ex.mag.shape[1]):
               tmp = ex_re_interp[i, j, :] * np.cos(self.ex.irf.w * t) - ex_im_interp[i, j, :] * np.sin(self.ex.irf.w * t)
               tmp *= 1. / np.pi
               self.ex.irf.f[i, j, t_ind] = np.trapz(y=tmp, x=self.ex.irf.w)
@@ -353,9 +353,9 @@ class HydrodynamicData(object):
         count = 1
         for t_ind, t in enumerate(self.rd.irf.t):
 
-            for i in xrange(self.rd.all.shape[0]):
+            for i in range(self.rd.all.shape[0]):
 
-                for j in xrange(self.rd.all.shape[1]):
+                for j in range(self.rd.all.shape[1]):
               # Radiation damping calculation method
                     tmpL = 2. / np.pi * rd_interp[i, j, :] * np.sin(self.rd.irf.w * t)
                     tmpK = 2. / np.pi * rd_interp[i, j, :] * np.cos(self.rd.irf.w * t)
@@ -426,9 +426,9 @@ class HydrodynamicData(object):
 
         pbar = ProgressBar(widgets=['Radiation damping state space realization for ' + self.name + ':', Percentage(), Bar()], maxval=self.am.inf.shape[0] * self.am.inf.shape[1]).start()
         count = 0
-        for i in xrange(self.am.inf.shape[0]):
+        for i in range(self.am.inf.shape[0]):
 
-          for j in xrange(self.am.inf.shape[1]):
+          for j in range(self.am.inf.shape[1]):
 
             r2bt = np.linalg.norm(
                 self.rd.irf.K[i, j, :] - self.rd.irf.K.mean(axis=2)[i, j])
@@ -472,7 +472,7 @@ class HydrodynamicData(object):
                 # D - T/2C (2/T(I + A)^{-1})B  = D - C(I + A)^{-1})B
                 dc = d + CoeC * np.dot(np.dot(c, iidd), b)
 
-                for jj in xrange(self.rd.irf.t.size):
+                for jj in range(self.rd.irf.t.size):
 
                   # Calculate impulse response function from state space
                   # approximation
@@ -549,11 +549,11 @@ class HydrodynamicData(object):
             self.scale = scale
 
         if self.scale is True and self.scaled is False:
-          print '\tScaling hydro coefficients for body ' + self.name + ' by rho, g, and w...'
+          print('\tScaling hydro coefficients for body ' + self.name + ' by rho, g, and w...')
           try:
               self.k *= self.rho * self.g
           except:
-              print '\t\tSpring stiffness not scaled'
+              print('\t\tSpring stiffness not scaled')
 
           self.am.all *= self.rho
           self.am.inf *= self.rho
@@ -575,18 +575,18 @@ class HydrodynamicData(object):
               self.ex.fk.im *= self.rho * self.g
 
 
-          for j in xrange(self.rd.all.shape[2]):
+          for j in range(self.rd.all.shape[2]):
 
             self.rd.all[:, :, j] = self.rd.all[:, :, j] * self.rho * self.w[j]
 
           self.scaled = True
 
         elif self.scale is False and self.scaled is True:
-          print '\tUn-scaling hydro coefficients for body ' + self.name + ' by rho, g, and w...'
+          print('\tUn-scaling hydro coefficients for body ' + self.name + ' by rho, g, and w...')
           try:
               self.k /= (self.rho * self.g)
           except:
-              print '\t\tSpring stiffness not un-scaled'
+              print('\t\tSpring stiffness not un-scaled')
           self.am.all /= self.rho
           self.am.inf /= self.rho
           if hasattr(self.am,'zero') is True:
@@ -606,7 +606,7 @@ class HydrodynamicData(object):
               self.ex.fk.re /= (self.rho * self.g)
               self.ex.fk.im /= (self.rho * self.g)
 
-          for j in xrange(self.rd.all.shape[2]):
+          for j in range(self.rd.all.shape[2]):
 
             self.rd.all[:, :, j] = self.rd.all[:, :, j] / (self.rho * self.w[j])
 
@@ -630,9 +630,9 @@ def _interpolate_for_irf(w_orig, w_interp, mat_in):
 
     w_tmp = w_orig
 
-  for i in xrange(mat_in.shape[0]):
+  for i in range(mat_in.shape[0]):
 
-    for j in xrange(mat_in.shape[1]):
+    for j in range(mat_in.shape[1]):
 
       if flip is True:
 

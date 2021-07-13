@@ -40,7 +40,7 @@ class AqwaOutput(object):
     '''
     def __init__(self, hydro_file, list_file, scale=False):
 
-        print '\nReading the AQWA results in the ' + hydro_file + ' file'
+        print('\nReading the AQWA results in the ' + hydro_file + ' file')
 
         self.files = bem.generate_file_names(hydro_file)
         self.scaled_at_read = scale
@@ -194,10 +194,10 @@ class AqwaOutput(object):
                 bod_count += 1
 
 
-        for i in xrange(num_bodies):
+        for i in range(num_bodies):
 
 
-            print 'body' + str(i+1) + ':'
+            print('body' + str(i+1) + ':')
 
             self.body[i] = bem.HydrodynamicData()
             self.body[i].scaled = self.scaled
@@ -224,14 +224,14 @@ class AqwaOutput(object):
             self.body[i].bem_raw_data = raw
 
             self.body[i].am.all = np.copy(added_mass[i+1])
-            print '   * Setting added mass at infinite frequency to added mass at omega = ' + str(frequencies[-1])
+            print('   * Setting added mass at infinite frequency to added mass at omega = ' + str(frequencies[-1]))
             self.body[i].am.inf = np.copy(added_mass[i+1][:,:,-1])
-            print '   * Setting added mass at zero frequency to added mass at omega = ' + str(frequencies[0])
+            print('   * Setting added mass at zero frequency to added mass at omega = ' + str(frequencies[0]))
             self.body[i].am.zero = np.copy(added_mass[i+1][:,:,0])
             self.body[i].rd.all = radiation_damping[i+1]
             self.body[i].ex.mag = excitation_magnitude[i+1]
             self.body[i].ex.phase = excitation_phase[i+1]
-            print '   * Calculating real and imaginary excitation  components.'
+            print('   * Calculating real and imaginary excitation  components.')
             self.body[i].ex.re = self.body[i].ex.mag * np.cos(self.body[i].ex.phase*np.pi/180.)
             self.body[i].ex.im = self.body[i].ex.mag * np.sin(self.body[i].ex.phase*np.pi/180.)
 

@@ -18,8 +18,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'bemio'
-copyright = u'2015, National Renewable Energy Laboratory and Sandia National Laboratories'
+project = 'bemio'
+copyright = '2015, National Renewable Energy Laboratory and Sandia National Laboratories'
 version = 'v1.0'
 
 # The full version, including alpha/beta/rc tags.
@@ -48,8 +48,8 @@ html_theme_options = {}
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('bemio_doc', 'bemio', u'bemio Documentation',
-     [u'Michael Lawson, National Renewable Energy Laboratory'], 1)
+    ('bemio_doc', 'bemio', 'bemio Documentation',
+     ['Michael Lawson, National Renewable Energy Laboratory'], 1)
 ]
 
 # Custom paths

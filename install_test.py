@@ -5,20 +5,20 @@ import sys
 
 def run_test_case(test_case):
 
-	print '\n****Running the ' + str(test_case) + ' case****'
+	print('\n****Running the ' + str(test_case) + ' case****')
 	starting_dir = os.path.abspath(os.curdir)
 
 	try:
 
 		os.chdir(test_case)
-		execfile('run.py')
+		exec(compile(open('run.py', "rb").read(), 'run.py', 'exec'))
 		os.chdir(starting_dir)
-		print '****The ' +  str(test_case) + ' test case ran successfully****\n'
+		print('****The ' +  str(test_case) + ' test case ran successfully****\n')
 		status = str(test_case) + ': SUCCESS'
 
 	except:
 
-		print '****The ' +  str(test_case) + ' test case failed. For the specific information on the error run the ' + str(test_case) + ' test case manually****\n'
+		print('****The ' +  str(test_case) + ' test case failed. For the specific information on the error run the ' + str(test_case) + ' test case manually****\n')
 		status = str(test_case) + ': FAILED'
 		os.chdir(starting_dir)
 
@@ -32,7 +32,7 @@ if __name__ == "__main__":
 
 	if len(sys.argv) == 2 and sys.argv[1] == 'all':
 
-		print 'Running all test cases:\n'
+		print('Running all test cases:\n')
 		status.append(run_test_case('tutorials/wamit/ecm_ellipsoid'))
 		status.append(run_test_case('tutorials/wamit/sphere'))
 		status.append(run_test_case('tutorials/wamit/oswec'))
@@ -43,7 +43,7 @@ if __name__ == "__main__":
 
 	else:
 
-		print 'Running standard test cases:\n'
+		print('Running standard test cases:\n')
 
 	status.append(run_test_case('tutorials/wamit/COER_hydrodynamic_modeling_comp'))
 	status.append(run_test_case('tutorials/wamit/wec3'))
@@ -51,6 +51,6 @@ if __name__ == "__main__":
 	status.append(run_test_case('tutorials/aqwa'))
 
 
-	print 'Test cases runs completed:'
+	print('Test cases runs completed:')
 	for i, status_i in enumerate(status):
-		print '\t' + status_i
+		print('\t' + status_i)

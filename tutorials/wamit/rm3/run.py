@@ -11,7 +11,7 @@ wamit_data = read(out_file='wamit_data/rm3.out',scale=False)
 
 
 # Calculate IRF and plot using the wamit module
-for i in xrange(wamit_data.body[0].num_bodies): #wamit_data.body[0].num_bodies
+for i in range(wamit_data.body[0].num_bodies): #wamit_data.body[0].num_bodies
  	wamit_data.body[i].calc_irf_radiation(t_end=20., n_t=1001, n_w=501)
 	#wamit_data.body[i].calc_ss_radiation()
 	wamit_data.body[i].calc_irf_excitation(t_end=100., n_t=1001, n_w=501, w_max=1.25)

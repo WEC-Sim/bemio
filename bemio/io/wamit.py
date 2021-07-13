@@ -69,7 +69,7 @@ class WamitOutput(object):
         '''Internal function to read WAMIT output file into the class. that is called during __init__
         '''
 
-        print '\nReading the WAMIT results in the ' + self.files['out'] + ' file'
+        print('\nReading the WAMIT results in the ' + self.files['out'] + ' file')
 
         with open(self.files['out'],'rU') as fid:
 
@@ -128,7 +128,7 @@ class WamitOutput(object):
             # If there are two bodies in the WAMIT run
             if "Input from Geometric Data Files:" in line:
 
-                for j in xrange(20): # look for bodies within the next 20 lines
+                for j in range(20): # look for bodies within the next 20 lines
 
                     if "N=" in raw[i+j]:
 
@@ -139,7 +139,7 @@ class WamitOutput(object):
             # Read the body positions
             # if "Total panels:" in line or "NPATCH:" in line:
             if "XBODY" in line:
-                for j in xrange(12): # look for position within the next 15 lines - will only work for wamit files of about 5 bodies
+                for j in range(12): # look for position within the next 15 lines - will only work for wamit files of about 5 bodies
 
                     if 'XBODY =' in raw[i+j]:
                         '''
@@ -379,8 +379,8 @@ class WamitOutput(object):
             scattering = np.loadtxt(self.files['3sc'],skiprows=1)
             line_count = 0
 
-            for freq_n in xrange(T.size):
-                for beta_n in xrange(wave_dir.size):
+            for freq_n in range(T.size):
+                for beta_n in range(wave_dir.size):
                     wave_dir_hold =  scattering[line_count][1]
                     while line_count < scattering.shape[0] and scattering[line_count][1] == wave_dir_hold:
                         comp = int(scattering[line_count][2])-1
@@ -392,7 +392,7 @@ class WamitOutput(object):
                         line_count += 1
 
         else:
-            print '\tThe file ' + self.files['3sc'] + ' does not exist... not reading scattering coefficients.'
+            print('\tThe file ' + self.files['3sc'] + ' does not exist... not reading scattering coefficients.')
 
         if os.path.exists(self.files['3fk']):
             fk_re = np.zeros([6*num_bodies,wave_dir.size,T.size])
@@ -403,8 +403,8 @@ class WamitOutput(object):
             fk = np.loadtxt(self.files['3fk'],skiprows=1)
             line_count = 0
 
-            for freq_n in xrange(T.size):
-                for beta_n in xrange(wave_dir.size):
+            for freq_n in range(T.size):
+                for beta_n in range(wave_dir.size):
                     wave_dir_hold =  fk[line_count][1]
                     while line_count < fk.shape[0] and fk[line_count][1] == wave_dir_hold:
                         comp = int(fk[line_count][2])-1
@@ -416,10 +416,10 @@ class WamitOutput(object):
                         line_count += 1
 
         else:
-            print '\tThe file ' + self.files['3fk'] + ' does not exist... not reading froud krylof coefficients.'
+            print('\tThe file ' + self.files['3fk'] + ' does not exist... not reading froud krylof coefficients.')
 
         # Load data into the hydrodata structure
-        for i in xrange(num_bodies):
+        for i in range(num_bodies):
             self.body[i] = bem.HydrodynamicData()
             self.body[i].scaled = self.scaled
             self.body[i].g = self.g
@@ -443,7 +443,7 @@ class WamitOutput(object):
             else:
 
                 self.body[i].am.inf = np.nan*np.zeros([6*num_bodies,6*num_bodies,self.body[i].T.size])
-                print 'Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain infinite frequency added mass coefficients'
+                print('Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain infinite frequency added mass coefficients')
 
 
             if 'am_zero' in locals():
@@ -453,7 +453,7 @@ class WamitOutput(object):
             else:
 
                 self.body[i].am.zero = np.nan*np.zeros([6*num_bodies,6*num_bodies,self.body[i].T.size])
-                print 'Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain zero frequency added mass coefficients'
+                print('Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain zero frequency added mass coefficients')
 
 
             if 'am_all' in locals():
@@ -462,7 +462,7 @@ class WamitOutput(object):
             else:
 
                 self.body[i].am.all = np.nan*np.zeros([6*num_bodies,6*num_bodies,self.body[i].T.size])
-                print 'Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain any frequency dependent added mass coefficients'
+                print('Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain any frequency dependent added mass coefficients')
 
 
             if 'rd_all' in locals():
@@ -472,7 +472,7 @@ class WamitOutput(object):
             else:
 
                 self.body[i].rd.all = np.nan*np.zeros([6*num_bodies,6*num_bodies,self.body[i].T.size])
-                print 'Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain any frequency dependent radiation damping coefficients'
+                print('Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain any frequency dependent radiation damping coefficients')
 
             if 'ex_all' in locals() and self.ex_calc == 'diffraction' :
                 
@@ -490,7 +490,7 @@ class WamitOutput(object):
 
             else:
 
-                print 'Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain any excitation coefficients'
+                print('Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain any excitation coefficients')
 
             if 'sc_mag' in locals():
                 self.body[i].ex.sc.mag = sc_mag[6*i:6+6*i,:,:]
@@ -521,7 +521,7 @@ class WamitOutput(object):
 
             else:
 
-                print 'Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain any rao data'
+                print('Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain any rao data')
 
             if 'ssy_all' in locals():
 
@@ -532,7 +532,7 @@ class WamitOutput(object):
 
             else:
 
-                print 'Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain any rao data'
+                print('Warning: body ' + str(i) + ' - The WAMTI .out file specified does not contain any rao data')
 
             self.body[i].bem_raw_data = raw
             self.body[i].bem_code = code

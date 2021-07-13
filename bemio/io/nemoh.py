@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from __future__ import division
+
 
 import os
 
@@ -60,7 +60,7 @@ class NemohOutput(object):
         self.scaled = True
         self.dir = os.path.abspath(sim_dir)
 
-        print '\nReading NEMOH output in the ' + self.dir + ' directory'
+        print('\nReading NEMOH output in the ' + self.dir + ' directory')
 
         self.files = bem.generate_file_names(os.path.join(self.dir,cal_file))
         self.files['Nemoh']     = os.path.join(self.dir,cal_file)
@@ -75,7 +75,7 @@ class NemohOutput(object):
         try:
             self.files['IRF'] = os.path.join(self.dir,results_dir,'IRF.tec')
         except:
-            print '\tNo IRF forces or infinite frequency added mass forces read because the ' + self.files['IRF'] + ' was not found'
+            print('\tNo IRF forces or infinite frequency added mass forces read because the ' + self.files['IRF'] + ' was not found')
 
         # Initialize data ovject
         self.body = {}
@@ -110,7 +110,7 @@ class NemohOutput(object):
         '''
         Function to load hydrodynamic data into HydrodynamicData object
         '''
-        for i in xrange(self.cal.n_bods):
+        for i in range(self.cal.n_bods):
             self.body[i] = bem.HydrodynamicData()
             self.body[i].am.all = self.am[0+6*i:6+6*i,:]
             self.body[i].rd.all = self.rd[0+6*i:6+6*i,:]
@@ -189,7 +189,7 @@ class NemohOutput(object):
         self.cal.add_lines = {}
         self.cal.cg = {}
         line_count = 0
-        for i in xrange(self.cal.n_bods):
+        for i in range(self.cal.n_bods):
             name_with_path = cal[8+line_count].split()[0]
             self.cal.name[i] = os.path.splitext(os.path.basename(name_with_path))[0]
             self.cal.points_panels[i] = cal[9+line_count].split()[0:2]
@@ -197,7 +197,7 @@ class NemohOutput(object):
             self.cal.dof[i] = []
             self.cal.forces[i] = []
             self.cal.add_lines[i] = []
-            for j in xrange(self.cal.n_dof[i]):
+            for j in range(self.cal.n_dof[i]):
                 self.cal.dof[i].append(cal[11+line_count+j])
 
                 if int(self.cal.dof[i][-1].split()[0]) == 2:
@@ -205,12 +205,12 @@ class NemohOutput(object):
 
             self.cal.n_forces[i] = int(cal[10+line_count+self.cal.n_dof[i]+1].split()[0])
 
-            for j in xrange(self.cal.n_forces[i]):
+            for j in range(self.cal.n_forces[i]):
                     self.cal.forces[i].append(cal[11+line_count+j+self.cal.n_dof[i]+1])
 
             self.cal.n_add_lines[i] = int(cal[10 + line_count + self.cal.n_dof[i] + self.cal.n_forces[i] + 2].split()[0])
 
-            for j in xrange(self.cal.n_add_lines[i]):
+            for j in range(self.cal.n_add_lines[i]):
                     self.cal.add_lines[i].append(cal[11+line_count+j+self.cal.n_dof[i]+self.cal.n_forces[i]+1])
 
             line_count += self.cal.n_dof[i] + self.cal.n_forces[i] + self.cal.n_add_lines[i] + 6
@@ -247,7 +247,7 @@ class NemohOutput(object):
 
         if self.body[body_num].scaled is False:
             self.body[body_num].k /= (self.body[body_num].rho * self.body[body_num].g)
-            print '\tSpring stiffness for body ' + self.body[body_num].name + ' scaled by read_kh method'
+            print('\tSpring stiffness for body ' + self.body[body_num].name + ' scaled by read_kh method')
 
     def read_hydrostatics(self, file, body_num):
         '''
@@ -326,7 +326,7 @@ def _read_tec(file, data_type):
 
 
     # Sort the zones from the .tec file
-    zones = proc.keys()
+    zones = list(proc.keys())
     zones.sort()
 
     # Set the frequencies and calculate number of freqs
@@ -342,13 +342,13 @@ def _read_tec(file, data_type):
         b = []
 
     if data_type == 1:
-        for j in xrange(n_vars):
+        for j in range(n_vars):
             a[j,0,:] = proc[zones[-1]].field(1+j*2)
             b[j,0,:] = proc[zones[-1]].field(2+j*2)
 
     if data_type == 2:
         for i, zone in enumerate(zones):
-            for j in xrange(n_vars):
+            for j in range(n_vars):
                 a[i,j] = proc[zone].field(1+j*2)[0]
 
     return (a, b, w, raw)
@@ -379,7 +379,7 @@ def _read_radiation(file, ):
 
 
     # Sort the zones from the .tec file
-    zones = proc.keys()
+    zones = list(proc.keys())
     zones.sort()
 
     # Set the frequencies and calculate number of freqs
@@ -392,7 +392,7 @@ def _read_radiation(file, ):
 
     # Populate matrices
     for i, zone in enumerate(zones):
-        for j in xrange(n_vars):
+        for j in range(n_vars):
             a[i,j,:] = proc[zone].field(1+j*2)
             b[i,j,:] = proc[zone].field(2+j*2)
 
@@ -433,7 +433,7 @@ def _read_excitation(file, ):
 
 
     # Sort the zones from the .tec file
-    zones = proc.keys()
+    zones = list(proc.keys())
     zones.sort()
 
     # Set the frequencies and calculate number of freqs
@@ -446,7 +446,7 @@ def _read_excitation(file, ):
 
     # Populate matrices
     for i, zone in enumerate(zones):
-        for j in xrange(n_vars):
+        for j in range(n_vars):
             a[j,i,:] = proc[zone].field(1+j*2)
             b[j,i,:] = proc[zone].field(2+j*2)
 

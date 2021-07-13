@@ -1,1 +1,1 @@
-from __version__ import base, full
+from .__version__ import base, full
