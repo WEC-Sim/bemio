@@ -27,7 +27,6 @@ The functionality provided includes:
 .. Note::
 """
 from __future__ import print_function
-from builtins import map
 
 import numpy as np
 
