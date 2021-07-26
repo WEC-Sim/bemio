@@ -15,6 +15,8 @@
 This moduel provides functionality to read and interact with WAMIT simulation
 output data
 '''
+from __future__ import print_function
+
 import os
 
 import numpy as np

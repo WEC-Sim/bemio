@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import print_function
+from __future__ import division
 
 import os
 
@@ -168,7 +170,7 @@ class NemohOutput(object):
 
         # Read wave directions
         temp = cal[-6]
-        self.cal.wave_dir_n = np.float(temp.split()[0])
+        self.cal.wave_dir_n = np.int32(temp.split()[0])
         self.cal.wave_dir_start = np.float(temp.split()[1])
         self.cal.wave_dir_end = np.float(temp.split()[2])
         self.cal.wave_dir = np.linspace(self.cal.wave_dir_start,self.cal.wave_dir_end,self.cal.wave_dir_n)
@@ -326,7 +328,7 @@ def _read_tec(file, data_type):
 
 
     # Sort the zones from the .tec file
-    zones = list(proc.keys())
+    zones = list(proc)
     zones.sort()
 
     # Set the frequencies and calculate number of freqs
