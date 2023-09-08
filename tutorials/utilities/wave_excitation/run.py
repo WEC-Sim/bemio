@@ -28,5 +28,6 @@ try:
     plt.plot(ex_f.excitation_force.t, ex_f.excitation_force.f, 'r--',label='bemio')
     plt.plot(fast[:,0],fast[:,56],label='FAST')
     plt.legend()
+    print('Done.')
 except:
     pass

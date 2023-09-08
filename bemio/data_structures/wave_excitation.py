@@ -74,7 +74,7 @@ class WaveExcitationConvolution(object):
         irf_interp = interpolate.interp1d(x=self.irf.t, y=self.irf.f, bounds_error=False, fill_value=0.)
 
         # Interpolate the IRF to the dt as the wave elevation data
-        irf = irf_interp(np.linspace(self.irf.t.min(),self.irf.t.max(),(self.irf.t.max()-self.irf.t.min())/self.wave_elevation.dt+1))
+        irf = irf_interp(np.arange(self.irf.t.min(),self.irf.t.max(),(self.irf.t.max()-self.irf.t.min())/self.wave_elevation.dt+1))
 
         # Assume that the IRF dt is used unless specified by the user
         # if self.excitation_force.dt is None:
